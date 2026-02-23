@@ -1,0 +1,61 @@
+<nav id="navbar" class="fixed top-0 w-full z-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+
+            <!-- LOGO AREA -->
+            <div class="flex-shrink-0 flex items-center">
+                <a href="/" class="flex items-center focus-ring" aria-label="Vylex home">
+                    <!-- SVG Logo -->
+                    <svg width="155" height="40" viewBox="0 0 155 40" xmlns="http://www.w3.org/2000/svg" class="h-9 md:h-10 w-auto">
+                        <g transform="translate(0, 2) scale(0.36)">
+                            <path d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" fill="#fba919" />
+                            <rect x="42" y="10" width="16" height="30" fill="#fba919" />
+                        </g>
+                        <text x="44" y="30" font-family="Inter, sans-serif" font-weight="800" font-size="28" letter-spacing="-0.04em" fill="#051b38">
+                            vylex<tspan fill="#fba919">.</tspan>
+                        </text>
+                    </svg>
+
+                    <span class="logo-separator" aria-hidden="true"></span>
+
+                    <!-- DYNAMIC SUBTITLE -->
+                    <div class="flex flex-col justify-center">
+                        <span id="brand-subtitle" class="text-[10px] sm:text-[11px] font-bold text-gray-500 tracking-[0.2em] uppercase leading-none mt-1">
+                            Technology Group
+                        </span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- DESKTOP NAV -->
+            <div class="hidden lg:flex space-x-8 items-center">
+                <a href="/" class="nav-link focus-ring">Overview</a>
+                <a href="/services/" class="nav-link focus-ring">Services</a>
+                <a href="/products/" class="nav-link focus-ring">Products</a>
+                <a href="/services/web/" class="nav-link focus-ring">Web</a>
+                <a href="/games/" class="nav-link focus-ring">Game Lab</a>
+                <a href="/contact/" class="px-6 py-2.5 rounded-lg bg-[#051b38] text-white font-bold hover:bg-[#fba919] hover:text-[#051b38] transition-all duration-200 shadow-sm focus-ring text-sm">
+                    Contact
+                </a>
+            </div>
+
+            <!-- MOBILE TOGGLE -->
+            <div class="lg:hidden flex items-center">
+                <button id="mobile-menu-btn" class="p-2 rounded-lg text-[#051b38] hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#fba919]" aria-expanded="false">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE MENU DROPDOWN -->
+    <div id="mobile-menu" class="lg:hidden bg-white shadow-lg">
+        <div class="px-4 pt-4 pb-6 space-y-2">
+            <a href="/" class="block px-3 py-3 rounded-lg text-base font-semibold text-[#051b38] hover:bg-gray-50">Corporate</a>
+            <a href="/services/web/" class="block px-3 py-3 rounded-lg text-base font-semibold text-[#051b38] hover:bg-gray-50">Web Division</a>
+            <a href="/games/" class="block px-3 py-3 rounded-lg text-base font-semibold text-[#051b38] hover:bg-gray-50">Game Lab</a>
+            <a href="/services/cybersecurity/" class="block px-3 py-3 rounded-lg text-base font-semibold text-[#051b38] hover:bg-gray-50">Security</a>
+            <a href="/contact/" class="block px-3 py-3 mt-4 text-center rounded-lg bg-[#fba919] text-[#051b38] font-bold">Contact Us</a>
+        </div>
+    </div>
+</nav>

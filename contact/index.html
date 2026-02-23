@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Contact — Vylex Technology Group</title>
+  <meta name="description" content="Get in touch with Vylex. We build custom digital solutions for businesses and develop public utility tools for everyone." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://vylexnexys.co.za/contact.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="/css/global.css" />
+
+  <style>
+    /* ── HERO ── */
+    .hero-section {
+      background: linear-gradient(135deg, #051b38 0%, #0a2e5c 100%);
+    }
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hero-dots {
+      background-image: radial-gradient(#fba919 1px, transparent 1px);
+      background-size: 36px 36px;
+      opacity: .05;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--brand-orange);
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    /* ── BLOB ── */
+    @keyframes blob {
+      0%   { transform: translate(0,0) scale(1); }
+      33%  { transform: translate(30px,-40px) scale(1.08); }
+      66%  { transform: translate(-20px,20px) scale(0.94); }
+      100% { transform: translate(0,0) scale(1); }
+    }
+    .animate-blob { animation: blob 8s infinite; }
+    .animation-delay-2 { animation-delay: 2s; }
+
+    /* ── FADE IN UP ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeInUp .75s ease-out forwards; }
+    .fade-delay-1 { animation-delay: .1s; opacity: 0; }
+    .fade-delay-2 { animation-delay: .22s; opacity: 0; }
+    .fade-delay-3 { animation-delay: .36s; opacity: 0; }
+
+    /* ── FORM ELEMENTS ── */
+    .form-input {
+      width: 100%;
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      color: #374151;
+      transition: all 0.2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #fba919;
+      box-shadow: 0 0 0 3px rgba(251, 169, 25, 0.2);
+      background-color: #ffffff;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #051b38;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-slate-700 antialiased" data-subtitle="Contact">
+
+  <a class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-white focus:text-brand-navy focus:px-4 focus:py-2 focus:rounded-xl focus:shadow-lg" href="#main">Skip to content</a>
+
+  <div id="header-placeholder"></div>
+
+  <main id="main">
+
+    <header class="hero-section relative pt-32 pb-20 lg:pt-44 lg:pb-28 text-white overflow-hidden">
+      <div class="absolute inset-0 hero-grid pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute inset-0 hero-dots pointer-events-none" aria-hidden="true"></div>
+
+      <div class="absolute top-0 right-0 -mr-32 -mt-32 w-[480px] h-[480px] bg-brand-orange/15 blur-[110px] rounded-full pointer-events-none animate-blob" aria-hidden="true"></div>
+      <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-[360px] h-[360px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none animate-blob animation-delay-2" aria-hidden="true"></div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl text-center md:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-wider uppercase text-brand-orange mb-6 fade-in fade-delay-1">
+            <span class="w-2 h-2 rounded-full bg-brand-orange animate-pulse" aria-hidden="true"></span>
+            Get in Touch
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 fade-in fade-delay-2">
+            Let's build something<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-yellow-200 to-brand-orange">
+              remarkable together.
+            </span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-gray-300 leading-relaxed font-light max-w-xl mx-auto md:mx-0 fade-in fade-delay-3">
+            Whether you need a custom enterprise solution, have a question about our public utility tools, or just want to say hello—our team is ready to connect.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <section class="py-20 bg-white border-b border-gray-200 relative -mt-10 rounded-t-[3rem] z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+
+          <div class="lg:col-span-5 space-y-8">
+            <div>
+              <span class="section-label">Direct Contact</span>
+              <h2 class="text-3xl font-extrabold text-brand-navy tracking-tight mb-4">Reach out to us.</h2>
+              <p class="text-gray-500 text-sm leading-relaxed mb-8">
+                Drop us a message and we'll get back to you as soon as possible. We operate out of South Africa but collaborate globally.
+              </p>
+            </div>
+
+            <div class="flex items-start gap-5 p-6 rounded-2xl bg-gray-50 border border-gray-100 transition hover:shadow-md">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-envelope text-brand-navy text-lg"></i>
+              </div>
+              <div>
+                <h3 class="font-extrabold text-brand-navy mb-1">Email Us</h3>
+                <p class="text-gray-500 text-sm mb-2">For general inquiries and project requests.</p>
+                <a href="mailto:info@vylex.co.za" class="text-brand-orange font-bold hover:underline">info@vylex.co.za</a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-5 p-6 rounded-2xl bg-gray-50 border border-gray-100 transition hover:shadow-md">
+              <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-map-pin text-brand-orange text-lg"></i>
+              </div>
+              <div>
+                <h3 class="font-extrabold text-brand-navy mb-1">Headquarters</h3>
+                <p class="text-gray-500 text-sm">
+                  Durban, KwaZulu-Natal<br>
+                  South Africa
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-mono text-[10px] uppercase tracking-widest text-brand-mid mb-4">Connect on Social</h3>
+              <div class="flex flex-wrap gap-3">
+                <a href="https://instagram.com/vylex.inc" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-brand-navy hover:bg-brand-orange hover:text-white hover:border-brand-orange transition-all shadow-sm focus-ring" aria-label="Instagram">
+                  <i class="fa-brands fa-instagram text-xl"></i>
+                </a>
+                <a href="https://x.com/vylex.inc" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-brand-navy hover:bg-brand-navy hover:text-white hover:border-brand-navy transition-all shadow-sm focus-ring" aria-label="X">
+                  <i class="fa-brands fa-x-twitter text-xl"></i>
+                </a>
+                <a href="https://linkedin.com/company/vylex.inc" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-brand-navy hover:bg-[#0077B5] hover:text-white hover:border-[#0077B5] transition-all shadow-sm focus-ring" aria-label="LinkedIn">
+                  <i class="fa-brands fa-linkedin-in text-xl"></i>
+                </a>
+                <a href="https://github.com/vylex.inc" target="_blank" rel="noopener noreferrer" class="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-brand-navy hover:bg-[#333] hover:text-white hover:border-[#333] transition-all shadow-sm focus-ring" aria-label="GitHub">
+                  <i class="fa-brands fa-github text-xl"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="bg-white rounded-3xl border border-gray-200 p-8 sm:p-10 shadow-xl shadow-brand-navy/5">
+              <form action="#" method="POST" class="space-y-6">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required class="form-input" placeholder="Jane" />
+                  </div>
+                  <div>
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required class="form-input" placeholder="Doe" />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" id="email" name="email" required class="form-input" placeholder="jane@example.com" />
+                </div>
+
+                <div>
+                  <label for="subject" class="form-label">What is this regarding?</label>
+                  <select id="subject" name="subject" class="form-input" required>
+                    <option value="" disabled selected>Select an option...</option>
+                    <option value="corporate">Corporate Client Solutions</option>
+                    <option value="products">Tools & Products Inquiry</option>
+                    <option value="games">Games / EdTech</option>
+                    <option value="general">General Inquiry</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="message" class="form-label">Your Message</label>
+                  <textarea id="message" name="message" rows="5" required class="form-input resize-y" placeholder="Tell us about your project or inquiry..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full px-8 py-4 bg-brand-navy text-white font-extrabold rounded-xl hover:bg-brand-orange hover:text-brand-navy transition-all duration-300 shadow-lg shadow-brand-navy/20 focus-ring">
+                  Send Message
+                </button>
+
+                <p class="text-xs text-gray-400 text-center mt-4">
+                  By submitting this form, you agree to our <a href="legal.html" class="text-brand-navy underline hover:text-brand-orange">Privacy Policy</a>.
+                </p>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="/js/menu.js"></script>
+  
+  <script>
+    // Intersection Observer for fade-in-up animations (Specific to Contact Page)
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.animationPlayState = 'running';
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    fadeEls.forEach(el => {
+      el.style.animationPlayState = 'paused';
+      obs.observe(el);
+    });
+  </script>
+</body>
+</html>

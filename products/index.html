@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Products & Tools | Vylex Technology Group</title>
+
+    <meta name="description"
+        content="A suite of professional tools, platforms, and utilities built by Vylex. Everything you need to build, manage, and grow.">
+    <meta name="keywords"
+        content="Vylex Products, SaaS, Web Tools, AI Tools, EdTech, Productivity Apps, South Africa Tech">
+    <meta name="author" content="Vylex Tech">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        mono: ["JetBrains Mono", "monospace"],
+                    },
+                    colors: {
+                        brand: {
+                            navy: "#051b38",
+                            lightNavy: "#0a2e5c",
+                            orange: "#fba919",
+                            gray: "#f3f4f6",
+                            slate: "#e2e8f0",
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Global CSS & JS -->
+    <link rel="stylesheet" href="/css/global.css">
+    <script src="/js/menu.js" defer></script>
+
+    <!-- Page Specific Styles -->
+    <style>
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            border-color: rgba(251, 169, 25, 0.4);
+        }
+
+        .product-card:hover .icon-badge {
+            background-color: #fba919;
+            color: #051b38;
+            transform: scale(1.1);
+        }
+
+        .hero-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-700 antialiased" data-subtitle="Products">
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-28 bg-brand-navy overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 hero-pattern opacity-30 pointer-events-none"></div>
+            <div
+                class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-lightNavy/50 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none">
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
+                <div class="max-w-4xl">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-wider uppercase text-brand-orange mb-6">
+                        <span class="w-2 h-2 rounded-full bg-brand-orange animate-pulse"></span>
+                        Products & Tools
+                    </div>
+
+                    <h1
+                        class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white mb-6">
+                        Everything you need to <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-yellow-200">
+                            build, manage, and grow.
+                        </span>
+                    </h1>
+
+                    <p class="text-lg text-gray-300 mb-10 font-light max-w-2xl leading-relaxed">
+                        A suite of professional tools and platforms built by Vylex — engineered for real work, real
+                        businesses, and real outcomes.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#suite"
+                            class="px-8 py-4 bg-brand-orange text-brand-navy font-bold rounded-xl hover:bg-white transition-colors text-center shadow-lg shadow-orange-500/20">
+                            Explore The Suite
+                        </a>
+                        <a href="#flagship"
+                            class="px-8 py-4 border border-white/30 bg-white/5 text-white font-bold rounded-xl hover:bg-white hover:text-brand-navy transition-colors text-center backdrop-blur-sm">
+                            Flagship Platforms
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div
+                    class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:text-left divide-y md:divide-y-0 md:divide-x divide-gray-100">
+                    <div class="px-4">
+                        <div class="text-3xl font-extrabold text-brand-navy">10<span class="text-brand-orange">+</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-1">Live Products</div>
+                    </div>
+                    <div class="px-4 pt-4 md:pt-0">
+                        <div class="text-3xl font-extrabold text-brand-navy">5k<span class="text-brand-orange">+</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-1">Monthly Users</div>
+                    </div>
+                    <div class="px-4 pt-4 md:pt-0">
+                        <div class="text-3xl font-extrabold text-brand-navy">3<span class="text-brand-orange">+</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-1">Enterprise Clients
+                        </div>
+                    </div>
+                    <div class="px-4 pt-4 md:pt-0">
+                        <div class="text-3xl font-extrabold text-brand-navy">ZA<span class="text-2xl ml-2">🇿🇦</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-1">Built in South
+                            Africa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flagship Section -->
+        <section id="flagship" class="py-20 bg-gray-50 border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-brand-orange font-bold uppercase tracking-widest text-sm mb-2">Flagship</h2>
+                    <h3 class="text-3xl font-extrabold text-brand-navy">Core Platforms</h3>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Our highest-impact products — built for scale, used
+                        by businesses and communities.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- NexysSocial -->
+                    <a href="https://vylexnexys.co.za/NexysSocial"
+                        class="product-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between h-full group">
+                        <div>
+                            <div class="flex items-start justify-between mb-6">
+                                <div
+                                    class="icon-badge w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl transition-all duration-300">
+                                    <i class="fa-solid fa-comments"></i>
+                                </div>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">Social
+                                    Platform</span>
+                            </div>
+                            <h4
+                                class="text-2xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                                NexysSocial</h4>
+                            <p class="text-gray-600 mb-6 leading-relaxed">Real-time social platform with live updates,
+                                Firebase backend, modular architecture, and scalable community features.</p>
+                        </div>
+                        <div class="flex items-center text-sm font-bold text-brand-orange uppercase tracking-wide">
+                            Open Platform <i
+                                class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- VyTrack -->
+                    <a href="https://vylexnexys.co.za/vyTrack"
+                        class="product-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between h-full group">
+                        <div>
+                            <div class="flex items-start justify-between mb-6">
+                                <div
+                                    class="icon-badge w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center text-2xl transition-all duration-300">
+                                    <i class="fa-solid fa-chart-pie"></i>
+                                </div>
+                                <span
+                                    class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">Finance</span>
+                            </div>
+                            <h4
+                                class="text-2xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                                VyTrack</h4>
+                            <p class="text-gray-600 mb-6 leading-relaxed">Intelligent financial tracking and budgeting
+                                application. Manage your money with clarity using powerful dashboards and insights.</p>
+                        </div>
+                        <div class="flex items-center text-sm font-bold text-brand-orange uppercase tracking-wide">
+                            Open VyTrack <i
+                                class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- EdTech -->
+                    <a href="https://vylexnexys.co.za/edTech"
+                        class="product-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between h-full group">
+                        <div>
+                            <div class="flex items-start justify-between mb-6">
+                                <div
+                                    class="icon-badge w-16 h-16 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center text-2xl transition-all duration-300">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <span
+                                    class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">Education</span>
+                            </div>
+                            <h4
+                                class="text-2xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                                EdTech STEM</h4>
+                            <p class="text-gray-600 mb-6 leading-relaxed">End-to-end educational tools and resources for
+                                high school STEM students. Interactive, curriculum-aligned, and built for results.</p>
+                        </div>
+                        <div class="flex items-center text-sm font-bold text-brand-orange uppercase tracking-wide">
+                            Explore Platform <i
+                                class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- Games -->
+                    <a href="https://vylexnexys.co.za/games/"
+                        class="product-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between h-full group">
+                        <div>
+                            <div class="flex items-start justify-between mb-6">
+                                <div
+                                    class="icon-badge w-16 h-16 bg-orange-50 text-brand-orange rounded-2xl flex items-center justify-center text-2xl transition-all duration-300">
+                                    <i class="fa-solid fa-gamepad"></i>
+                                </div>
+                                <span
+                                    class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full">Lab</span>
+                            </div>
+                            <h4
+                                class="text-2xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                                Vylex Game Lab</h4>
+                            <p class="text-gray-600 mb-6 leading-relaxed">Creating web-based games, interactive
+                                experiences, and downloadable tools for players worldwide.</p>
+                        </div>
+                        <div class="flex items-center text-sm font-bold text-brand-orange uppercase tracking-wide">
+                            Visit Game Lab <i
+                                class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Suite Grid -->
+        <section id="suite" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-12 border-l-4 border-brand-orange pl-6">
+                    <h2 class="text-3xl font-extrabold text-brand-navy">The Full Suite</h2>
+                    <p class="text-gray-600 mt-2">Specialized tools for professionals, students, and creators.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+
+                    <!-- Nexora AI -->
+                    <a href="https://vylexnexys.co.za/nexora/index.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Nexora AI</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">AI · Productivity</p>
+                    </a>
+
+                    <!-- TaskMaster -->
+                    <a href="https://vylexnexys.co.za/TaskMaster/login.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-check-double"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">TaskMaster</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Productivity</p>
+                    </a>
+
+                    <!-- AI Tools -->
+                    <a href="https://vylexnexys.co.za/ai"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-cyan-50 text-cyan-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">AI Tools Hub</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Directory</p>
+                    </a>
+
+                    <!-- BitNexys -->
+                    <a href="https://vylexnexys.co.za/crypto/"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-brands fa-bitcoin"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">BitNexys</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Crypto · Finance</p>
+                    </a>
+
+                    <!-- Text Analyser -->
+                    <a href="https://vylexnexys.co.za/edTech/tools/advanced-text-analysis.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-slate-100 text-slate-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-chart-bar"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Text Analyser</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Writing Tools</p>
+                    </a>
+
+                    <!-- QR Studio -->
+                    <a href="https://vylexnexys.co.za/qr"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-qrcode"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">QR Studio</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Utility</p>
+                    </a>
+
+                    <!-- Photo Editor -->
+                    <a href="https://vylexnexys.co.za/photo-editor/index.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-image"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Photo Editor</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Creative</p>
+                    </a>
+
+                    <!-- Game Lab -->
+                    <a href="https://vylexnexys.co.za/games/"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-orange-50 text-brand-orange rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Game Lab</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Entertainment</p>
+                    </a>
+
+                    <!-- LexWriter -->
+                    <a href="https://vylexnexys.co.za/writer/index.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">LexWriter</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Writing Editor</p>
+                    </a>
+
+                    <!-- Bible Explorer -->
+                    <a href="https://vylexnexys.co.za/bible/index.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-book-bible"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Bible Explorer</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Reference</p>
+                    </a>
+
+                    <!-- Finance Hub -->
+                    <a href="https://vylexnexys.co.za/finance/index.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-green-50 text-green-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Finance Hub</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">News & Data</p>
+                    </a>
+
+                    <!-- News Feed -->
+                    <a href="https://vylexnexys.co.za/news/index.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-cyan-50 text-cyan-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">News Feed</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Global Media</p>
+                    </a>
+
+                    <!-- VisualVault -->
+                    <a href="https://vylexnexys.co.za/visual-vault/index.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">VisualVault</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Image Search</p>
+                    </a>
+
+                    <!-- Global Dictionary -->
+                    <a href="https://vylexnexys.co.za/globalDictionary.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Global Dictionary</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Language</p>
+                    </a>
+
+                    <!-- Pathfinders -->
+                    <a href="https://pathfindersempowerment.co.za/"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-orange-50 text-brand-orange rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Pathfinders</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Social Enterprise</p>
+                    </a>
+
+                    <!-- Math Visualizer -->
+                    <a href="https://vylexnexys.co.za/edTech/tools/Math-Function-Visualizer.html"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-green-50 text-green-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Math Visualizer</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Education · STEM</p>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-gray-50 border-t border-gray-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-extrabold text-brand-navy mb-6">Need a custom tool?</h2>
+                <p class="text-gray-600 mb-10 text-lg">We build custom software for businesses. If these tools don't fit
+                    your needs, let us build one that does.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="mailto:info@vylex.co.za"
+                        class="px-8 py-4 bg-brand-navy text-white font-bold rounded-xl hover:bg-brand-lightNavy transition-all shadow-xl hover:-translate-y-1">
+                        Request a Build
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+</body>
+
+</html>

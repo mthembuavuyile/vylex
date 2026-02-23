@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Services | Vylex Technology Group</title>
+
+    <meta name="description"
+        content="We help growing SMEs secure their data, automate operations, and build custom digital systems that reduce chaos and increase profit.">
+    <meta name="keywords"
+        content="Cybersecurity, SME Systems, Workflow Automation, Software Development, SaaS, Vylex, South Africa Tech">
+    <meta name="author" content="Vylex Tech">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        mono: ["JetBrains Mono", "monospace"],
+                    },
+                    colors: {
+                        brand: {
+                            navy: "#051b38",
+                            lightNavy: "#0a2e5c",
+                            orange: "#fba919",
+                            gray: "#f3f4f6",
+                            slate: "#e2e8f0",
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Global CSS & JS -->
+    <link rel="stylesheet" href="/css/global.css">
+    <script src="/js/menu.js" defer></script>
+
+    <!-- Page Specific CSS -->
+    <style>
+        .service-card {
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: rgba(251, 169, 25, 0.5);
+        }
+
+        .pain-point {
+            border-left: 3px solid #ef4444;
+            background: #fef2f2;
+        }
+
+        .hero-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-700 antialiased" data-subtitle="Services">
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-brand-navy overflow-hidden">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 hero-grid"></div>
+            <div
+                class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-orange/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none">
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-wider uppercase text-brand-orange mb-6">
+                        <span class="w-2 h-2 rounded-full bg-brand-orange animate-pulse"></span>
+                        SME Infrastructure Partner
+                    </div>
+
+                    <h1
+                        class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white mb-6">
+                        Stop chaos. <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-yellow-200">
+                            Build a business that flows.
+                        </span>
+                    </h1>
+
+                    <p class="text-lg text-gray-300 mb-8 font-light max-w-2xl leading-relaxed">
+                        We help growing SMEs secure their data, automate operations, and build custom digital systems.
+                        We don't just write code; we fix the operational bottlenecks that cost you money.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="/services/web/"
+                            class="px-8 py-4 bg-brand-orange text-brand-navy font-bold rounded-xl hover:bg-white transition-colors text-center focus-ring shadow-lg shadow-orange-500/20">
+                            Web Solutions
+                        </a>
+                        <a href="/services/mobile/"
+                            class="px-8 py-4 border border-white/30 bg-white/5 text-white font-bold rounded-xl hover:bg-white hover:text-brand-navy transition-colors text-center backdrop-blur-sm focus-ring">
+                            Mobile Apps
+                        </a>
+                        <a href="/services/cybersecurity/"
+                            class="px-8 py-4 border border-white/30 bg-white/5 text-white font-bold rounded-xl hover:bg-white hover:text-brand-navy transition-colors text-center backdrop-blur-sm focus-ring">
+                            Cybersecurity
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEG 1: Security (High Urgency) -->
+        <section id="security" class="py-20 bg-white border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-12 items-start">
+
+                    <div class="lg:w-1/3">
+                        <div
+                            class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-2xl text-red-600 mb-6 border border-red-100">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-brand-navy mb-4">Cybersecurity & Risk Protection</h2>
+                        <p class="text-gray-600 mb-6">Security is not optional. It protects your revenue and reputation.
+                            We align your systems with POPIA regulations and harden your infrastructure against attacks.
+                        </p>
+
+                        <!-- The Pain -->
+                        <div class="pain-point p-5 rounded-r-lg mb-6">
+                            <h4 class="text-xs font-bold text-red-600 uppercase tracking-widest mb-2">The Pain</h4>
+                            <ul class="space-y-2">
+                                <li class="text-sm text-gray-700 italic">"We’re scared of being hacked."</li>
+                                <li class="text-sm text-gray-700 italic">"Clients are asking about our data security."
+                                </li>
+                                <li class="text-sm text-gray-700 italic">"We can't afford downtime."</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-2/3 grid sm:grid-cols-2 gap-6">
+                        <div class="service-card p-6 bg-gray-50 rounded-xl border border-gray-100">
+                            <h3 class="font-bold text-brand-navy mb-2"><i
+                                    class="fa-solid fa-magnifying-glass text-brand-orange mr-2"></i>Audits & Compliance
+                            </h3>
+                            <p class="text-sm text-gray-600">Vulnerability assessments and POPIA/HIPAA compliance checks
+                                for clinics and firms.</p>
+                        </div>
+                        <div class="service-card p-6 bg-gray-50 rounded-xl border border-gray-100">
+                            <h3 class="font-bold text-brand-navy mb-2"><i
+                                    class="fa-solid fa-network-wired text-brand-orange mr-2"></i>Network Hardening</h3>
+                            <p class="text-sm text-gray-600">Penetration testing, email security configuration, and
+                                secure gateway setup.</p>
+                        </div>
+                        <div class="service-card p-6 bg-gray-50 rounded-xl border border-gray-100">
+                            <h3 class="font-bold text-brand-navy mb-2"><i
+                                    class="fa-solid fa-server text-brand-orange mr-2"></i>Backup & Recovery</h3>
+                            <p class="text-sm text-gray-600">Automated disaster recovery protocols ensuring you never
+                                lose client data.</p>
+                        </div>
+                        <div class="service-card p-6 bg-gray-50 rounded-xl border border-gray-100">
+                            <h3 class="font-bold text-brand-navy mb-2"><i
+                                    class="fa-solid fa-user-shield text-brand-orange mr-2"></i>Staff Training</h3>
+                            <p class="text-sm text-gray-600">Security policy documentation and employee awareness
+                                training to prevent phishing.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- LEG 2: Custom Systems (Efficiency) -->
+        <section id="systems" class="py-20 bg-gray-50 border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row-reverse gap-12 items-start">
+
+                    <div class="lg:w-1/3">
+                        <div
+                            class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl text-brand-navy mb-6 border border-blue-100">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-brand-navy mb-4">Custom Business Systems</h2>
+                        <p class="text-gray-600 mb-6">Replace your spreadsheets with a system built for how your company
+                            actually works. We don't sell generic software; we build your operational engine.</p>
+
+                        <!-- The Pain -->
+                        <div class="pain-point p-5 rounded-r-lg mb-6 !border-brand-navy !bg-white">
+                            <h4 class="text-xs font-bold text-brand-navy uppercase tracking-widest mb-2">The Pain</h4>
+                            <ul class="space-y-2">
+                                <li class="text-sm text-gray-700 italic">"We still use Excel for everything."</li>
+                                <li class="text-sm text-gray-700 italic">"We keep losing inventory."</li>
+                                <li class="text-sm text-gray-700 italic">"Everything is manual and slow."</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-2/3 grid sm:grid-cols-2 gap-6">
+                        <div class="service-card p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+                            <h3 class="font-bold text-brand-navy mb-2">Inventory Management</h3>
+                            <p class="text-sm text-gray-600">Real-time stock tracking for logistics and retail,
+                                eliminating spreadsheet errors.</p>
+                        </div>
+                        <div class="service-card p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+                            <h3 class="font-bold text-brand-navy mb-2">Custom CRMs</h3>
+                            <p class="text-sm text-gray-600">Client management systems tailored to accounting firms and
+                                private schools.</p>
+                        </div>
+                        <div class="service-card p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+                            <h3 class="font-bold text-brand-navy mb-2">Workflow Automation</h3>
+                            <p class="text-sm text-gray-600">Manufacturing workflow systems and internal dashboards for
+                                executives.</p>
+                        </div>
+                        <div class="service-card p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+                            <h3 class="font-bold text-brand-navy mb-2">Booking Platforms</h3>
+                            <p class="text-sm text-gray-600">Scheduling tools for clinics and service providers to
+                                reduce admin time.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- LEG 3 & 4: Automation & Dev (Growth) -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-brand-orange font-bold uppercase tracking-widest text-sm mb-2">Growth Levers</h2>
+                    <h3 class="text-3xl font-extrabold text-brand-navy">Modernize & Scale</h3>
+                    <p class="mt-4 text-gray-600">When off-the-shelf tools fail, we engineer the specific solution you
+                        need.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Workflow Automation -->
+                    <article
+                        class="p-8 rounded-2xl border border-gray-100 bg-white shadow-lg shadow-gray-200/50 hover:border-brand-orange transition-colors">
+                        <div
+                            class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center text-purple-600 text-xl mb-6">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand-navy mb-3">Workflow Automation & AI</h4>
+                        <p class="text-sm text-gray-600 mb-6">Stop hiring people to do repetitive tasks. We integrate AI
+                            to handle the busy work.</p>
+                        <ul class="text-sm space-y-2 text-gray-700">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>API Integrations</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Automated Reporting</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>AI Knowledge Assistants</li>
+                        </ul>
+                    </article>
+
+                    <!-- Software Development -->
+                    <article
+                        class="p-8 rounded-2xl border border-gray-100 bg-white shadow-lg shadow-gray-200/50 hover:border-brand-orange transition-colors">
+                        <div
+                            class="w-12 h-12 bg-brand-navy rounded-lg flex items-center justify-center text-white text-xl mb-6">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand-navy mb-3">Software Development</h4>
+                        <p class="text-sm text-gray-600 mb-6">The core engineering backbone. We upgrade legacy systems
+                            and build new platforms.</p>
+                        <ul class="text-sm space-y-2 text-gray-700">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Web & Android Apps</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>SaaS Platform Builds</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Database Architecture</li>
+                        </ul>
+                    </article>
+
+                    <!-- Vertical SaaS -->
+                    <article
+                        class="p-8 rounded-2xl border border-gray-100 bg-white shadow-lg shadow-gray-200/50 hover:border-brand-orange transition-colors">
+                        <div
+                            class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center text-green-600 text-xl mb-6">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-brand-navy mb-3">Vertical SaaS Products</h4>
+                        <p class="text-sm text-gray-600 mb-6">Scalable asset creation. We help you turn your internal
+                            tools into sellable products.</p>
+                        <ul class="text-sm space-y-2 text-gray-700">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Clinic Management</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>School Admin Systems</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Subscription Models</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Backbone / Trust Section -->
+        <section class="py-16 bg-brand-navy text-white relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: radial-gradient(#fba919 1px, transparent 1px); background-size: 20px 20px;">
+            </div>
+
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-2">Technical Rigor meets Business Logic</h3>
+                    <p class="text-gray-300 text-sm max-w-xl">
+                        We aren't just web designers. We are certified professionals with backgrounds in Systems
+                        Development, Security+, and Enterprise Java. We build systems that are secure by default.
+                    </p>
+                </div>
+                <div class="flex gap-4">
+                    <span class="px-4 py-2 bg-white/10 rounded-lg border border-white/10 font-mono text-xs"><i
+                            class="fa-solid fa-certificate text-brand-orange mr-2"></i>CompTIA Security+</span>
+                    <span class="px-4 py-2 bg-white/10 rounded-lg border border-white/10 font-mono text-xs"><i
+                            class="fa-brands fa-java text-brand-orange mr-2"></i>Java Enterprise</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-extrabold text-brand-navy mb-6">Stop trading time for manual work.</h2>
+                <p class="text-gray-600 mb-10 text-lg">Whether you need a security audit or a complete custom operating
+                    system, let's scope the solution.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="mailto:info@vylex.co.za"
+                        class="px-8 py-4 bg-brand-navy text-white font-bold rounded-xl hover:bg-brand-lightNavy transition-all shadow-xl hover:-translate-y-1">
+                        Book a Technical Consultation
+                    </a>
+                    <a href="https://wa.me/27648784287" target="_blank"
+                        class="px-8 py-4 bg-white text-brand-navy border border-gray-200 font-bold rounded-xl hover:border-green-500 hover:text-green-600 transition-all shadow-sm">
+                        <i class="fa-brands fa-whatsapp mr-2"></i> Quick Chat
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+</body>
+
+</html>
