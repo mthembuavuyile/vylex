@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Lesson 6: Functions - Vylex Nexys</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div id="branding">
+                    <h1><span class="highlight">Vylex Nexys</span> EdTech</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../courses.html">Courses</a></li>
+                    <li><a href="https://vylexnexys.co.za/ai-tools">AI Tools</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="text-center"><span class="highlight">Math Lesson 6:</span> Functions</h1>
+
+        <div class="container">
+            <div class="section">
+                <h2>6.1 What is a function?</h2>
+                <p>A function is a special relationship between two sets of numbers, called the domain and range. For each input value in the domain, there is exactly one output value in the range.</p>
+                <p>Think of a function like a machine. You put an input into the machine, and it produces an output based on a specific set of rules. </p>
+
+                <p><strong>Example:</strong></p>
+                <p>Let's say we have a function that doubles the input number. The domain is all real numbers, and the range is also all real numbers. If we input 5, the output is 10 (5 * 2 = 10). If we input -3, the output is -6 (-3 * 2 = -6). </p>
+            </div>
+
+            <div class="section">
+                <h2>6.2 Function notation</h2>
+                <p>We use a special notation to represent functions. The most common notation is:</p>
+                <p>f(x) = ...</p>
+                <p>where: </p>
+                <ul>
+                    <li>f is the name of the function</li>
+                    <li>x is the input variable</li>
+                    <li>... represents the rule that defines the function</li>
+                </ul>
+
+                <p><strong>Example:</strong></p>
+                <p>The function that doubles the input can be written as: f(x) = 2x.</p>
+                <p>To find the output for a specific input, we substitute the input value for x. For example, f(3) = 2 * 3 = 6. </p>
+            </div>
+
+            <div class="section">
+                <h2>4.3 The basic functions, formulas and graphs</h2>
+                <p>There are several basic functions that are essential to understand in algebra. Here are some of the most common ones:</p>
+
+                <h3>Linear functions</h3>
+                <p>A linear function is a function that can be represented by a straight line when graphed. The general form of a linear function is:</p>
+                <p>f(x) = mx + c</p>
+                <p>where:</p>
+                <ul>
+                    <li>m is the slope of the line (the rate of change)</li>
+                    <li>c is the y-intercept (the point where the line crosses the y-axis)</li>
+                </ul>
+
+                <p><strong>Example:</strong></p>
+                <p>f(x) = 3x + 2 is a linear function with a slope of 3 and a y-intercept of 2.</p>
+
+                <div class="exercise">
+                    <h3>Exercise: Linear Function</h3>
+                    <p>Find the value of f(4) for the linear function: f(x) = 2x - 1</p>
+                    <input type="number" id="linearInput">
+                    <button onclick="checkLinear()" class="btn">Check</button>
+                    <div id="linearResult"></div>
+                </div>
+
+                <h3>Quadratic functions</h3>
+                <p>A quadratic function is a function that can be represented by a parabola when graphed. The general form of a quadratic function is:</p>
+                <p>f(x) = ax<sup>2</sup> + bx + c</p>
+                <p>where:</p>
+                <ul>
+                    <li>a, b, and c are constants</li>
+                </ul>
+
+                <p><strong>Example:</strong></p>
+                <p>f(x) = x<sup>2</sup> - 4x + 3 is a quadratic function.</p>
+
+                <div class="exercise">
+                    <h3>Exercise: Quadratic Function</h3>
+                    <p>Find the value of f(2) for the quadratic function: f(x) = x<sup>2</sup> + 3x - 2</p>
+                    <input type="number" id="quadraticInput">
+                    <button onclick="checkQuadratic()" class="btn">Check</button>
+                    <div id="quadraticResult"></div>
+                </div>
+
+                <h3>Exponential functions</h3>
+                <p>An exponential function is a function where the input variable appears in the exponent. The general form of an exponential function is:</p>
+                <p>f(x) = a<sup>x</sup></p>
+                <p>where:</p>
+                <ul>
+                    <li>a is a constant called the base (a > 0 and a ≠ 1)</li>
+                </ul>
+
+                <p><strong>Example:</strong></p>
+                <p>f(x) = 2<sup>x</sup> is an exponential function with a base of 2.</p>
+
+                <div class="exercise">
+                    <h3>Exercise: Exponential Function</h3>
+                    <p>Find the value of f(3) for the exponential function: f(x) = 3<sup>x</sup></p>
+                    <input type="number" id="exponentialInput">
+                    <button onclick="checkExponential()" class="btn">Check</button>
+                    <div id="exponentialResult"></div>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <h2>4.4 Inverse functions</h2>
+                <p>An inverse function "undoes" the original function. If we apply a function and then its inverse, we get back to the original input. </p>
+                <p><strong>Notation:</strong> The inverse of a function f(x) is denoted as f<sup>-1</sup>(x).</p>
+
+                <p><strong>Example:</strong></p>
+                <p>Let's say f(x) = 2x + 1. The inverse function is f<sup>-1</sup>(x) = (x - 1) / 2. </p>
+                <p>If we input 3 into f(x), we get f(3) = 2 * 3 + 1 = 7. </p>
+                <p>If we then input 7 into f<sup>-1</sup>(x), we get f<sup>-1</sup>(7) = (7 - 1) / 2 = 3, which is our original input. </p>
+            </div>
+
+            <div class="section">
+                <h2>4.5 The logarithmic function</h2>
+                <p>The logarithmic function is the inverse of the exponential function. It helps us find the exponent to which a base must be raised to get a certain number.</p>
+                <p><strong>Notation:</strong> log<sub>a</sub>(x) = y</p>
+                <p>This means that a<sup>y</sup> = x. </p>
+
+                <p><strong>Example:</strong></p>
+                <p>log<sub>2</sub>(8) = 3, because 2<sup>3</sup> = 8. </p>
+            </div>
+
+            <a href="07_trig_functions.html"><p class="btn">Next lesson</p></a>
+
+
+            <div class="section">
+                <h2>AI Interaction</h2>
+                <input type="text" id="userPrompt" placeholder="Ask AI anything...">
+                <button onclick="askAI()" class="btn">Ask AI</button>
+                <div id="aiResponse"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <p><a href="../tools/Math-Function-Visualizer.html" class="btn">Math Function Visualizer</a></p>
+        </div>
+        
+        </main>
+
+    <footer>
+        <p>Copyright © 2024 Vylex Nexys. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../scripts/common-scripts.js"></script>
+
+    <script>
+        function checkLinear() {
+            var userAnswer = parseInt(document.getElementById('linearInput').value);
+            var correctAnswer = 7;
+            if (userAnswer === correctAnswer) {
+                document.getElementById('linearResult').innerHTML = "Correct! f(4) = 7.";
+            } else {
+                document.getElementById('linearResult').innerHTML = "Incorrect. f(4) = 7.";
+            }
+        }
+
+        function checkQuadratic() {
+            var userAnswer = parseInt(document.getElementById('quadraticInput').value);
+            var correctAnswer = 8;
+            if (userAnswer === correctAnswer) {
+                document.getElementById('quadraticResult').innerHTML = "Correct! f(2) = 8.";
+            } else {
+                document.getElementById('quadraticResult').innerHTML = "Incorrect. f(2) = 8.";
+            }
+        }
+
+        function checkExponential() {
+            var userAnswer = parseInt(document.getElementById('exponentialInput').value);
+            var correctAnswer = 27;
+            if (userAnswer === correctAnswer) {
+                document.getElementById('exponentialResult').innerHTML = "Correct! f(3) = 27.";
+            } else {
+                document.getElementById('exponentialResult').innerHTML = "Incorrect. f(3) = 27.";
+            }
+        }
+
+        function askAI() {
+            const userPrompt = document.getElementById('userPrompt').value;
+            const responseDiv = document.getElementById('aiResponse');
+
+            if (!userPrompt) {
+                responseDiv.innerHTML = "Please enter a prompt.";
+                return;
+            }
+
+            // Simulate AI response
+            responseDiv.innerHTML = "I apologize, but the AI service is currently unavailable. Please try again later or contact support if the issue persists.";
+        }
+    </script>
+</body>
+</html>

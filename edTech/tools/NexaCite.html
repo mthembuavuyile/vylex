@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NexaCite: Effortlessly generate accurate academic citations in various styles. Fast, modern, and reliable citation tool.">
+    <meta name="keywords" content="citation generator, reference generator, bibliography tool, academic citation, APA, MLA, Chicago, Harvard, academic writing">
+    <meta name="author" content="NexaCite (Based on Vylex Nexys by Avuyile Mthembu, Redesigned)">
+    <title>NexaCite - Modern Citation Generator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- RESET & BASE --- */
+        :root {
+            --primary-hue: 231;
+            --accent-hue: 260;
+            --success-hue: 125;
+            --danger-hue: 350;
+
+            --primary-color: hsl(var(--primary-hue), 50%, 55%);
+            --primary-color-dark: hsl(var(--primary-hue), 50%, 45%);
+            --primary-color-light: hsl(var(--primary-hue), 60%, 95%);
+
+            --accent-color: hsl(var(--accent-hue), 70%, 60%);
+
+            --text-color: hsl(var(--primary-hue), 10%, 25%);
+            --text-color-light: hsl(var(--primary-hue), 10%, 55%);
+            --text-on-primary: white;
+
+            --bg-color: hsl(var(--primary-hue), 20%, 98%);
+            --surface-color: white;
+            --border-color: hsl(var(--primary-hue), 20%, 88%);
+
+            --success-color: hsl(var(--success-hue), 55%, 50%);
+            --danger-color: hsl(var(--danger-hue), 70%, 55%);
+
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+            --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --transition-speed: 0.2s;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 800px; /* Optimized for form content */
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- HEADER --- */
+        .app-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .app-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+         .app-header h1 .brand-accent {
+            color: var(--accent-color);
+        }
+
+        .app-header p {
+            font-size: 1.1rem;
+            color: var(--text-color-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- TABS --- */
+        .tabs-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            flex-grow: 1;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: center;
+            background-color: var(--surface-color);
+            color: var(--text-color-light);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            background-color: var(--primary-color-light);
+            border-color: hsl(var(--primary-hue), 30%, 80%);
+            color: var(--primary-color-dark);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: var(--text-on-primary);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+            font-weight: 600;
+        }
+
+        .tab-btn svg {
+            width: 18px;
+            height: 18px;
+            opacity: 0.8;
+        }
+         .tab-btn.active svg {
+             opacity: 1;
+         }
+
+        .tab-content {
+            display: none;
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        /* --- FORMS --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Reduced margin as grid gap handles spacing */
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="url"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px hsla(var(--primary-hue), 50%, 55%, 0.2);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* --- AUTHOR INPUTS --- */
+        .authors-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .author-entry {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .author-entry input {
+            flex-grow: 1;
+        }
+        .author-entry .first-name-input { /* Slight differentiation */
+            flex-basis: 40%;
+        }
+         .author-entry .last-name-input {
+             flex-basis: 60%;
+         }
+
+        .add-author-btn, .remove-author-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color var(--transition-speed);
+        }
+
+        .add-author-btn svg, .remove-author-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .add-author-btn {
+            color: var(--primary-color);
+            margin-top: 5px; /* Space below last author input */
+            padding: 8px 15px;
+            border-radius: var(--border-radius-md);
+            border: 1px dashed var(--border-color);
+            width: 100%;
+            font-weight: 500;
+            font-size: 0.9rem;
+            gap: 5px;
+        }
+        .add-author-btn:hover {
+             background-color: var(--primary-color-light);
+             border-color: var(--primary-color);
+             color: var(--primary-color-dark);
+        }
+
+        .remove-author-btn {
+             color: var(--danger-color);
+             margin-left: 5px; /* Space it from input */
+        }
+        .remove-author-btn:hover {
+            background-color: hsla(var(--danger-hue), 70%, 55%, 0.1);
+        }
+
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            text-decoration: none; /* For potential <a> buttons */
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-on-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-color-dark);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: var(--surface-color);
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+             box-shadow: var(--shadow-sm);
+        }
+        .btn-secondary:hover {
+             background-color: var(--primary-color-light);
+             border-color: hsl(var(--primary-hue), 30%, 80%);
+        }
+
+        .btn-generate {
+            width: 100%;
+            margin-top: 30px;
+            background-color: var(--accent-color); /* Make generate stand out */
+            color: white;
+        }
+         .btn-generate:hover {
+            background-color: hsl(var(--accent-hue), 70%, 50%);
+             box-shadow: var(--shadow-md);
+         }
+
+        .btn-copy {
+             background-color: var(--success-color);
+             color: white;
+             font-size: 0.9rem;
+             padding: 8px 15px;
+        }
+        .btn-copy:hover {
+             background-color: hsl(var(--success-hue), 55%, 40%);
+        }
+         .btn-copy.copied {
+             background-color: hsl(var(--success-hue), 55%, 65%);
+         }
+
+        /* --- OUTPUT --- */
+        .output-section {
+            margin-top: 40px;
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .output-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .output-box {
+            background-color: var(--primary-color-light);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            margin-bottom: 15px;
+            min-height: 80px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            overflow-wrap: break-word;
+            position: relative;
+        }
+        .output-box:empty::before {
+            content: "Your generated citation will appear here...";
+            color: var(--text-color-light);
+            font-style: italic;
+        }
+
+        .output-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* --- INFO SECTION --- */
+        .info-section {
+            background-color: transparent; /* Integrate better with page bg */
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        .info-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .info-section p, .info-section li {
+            color: var(--text-color-light);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+         .info-section strong {
+             color: var(--text-color);
+             font-weight: 600;
+         }
+
+        .info-section ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* --- UTILITIES --- */
+        .hidden { display: none; }
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        input.error, select.error {
+             border-color: var(--danger-color);
+        }
+         input.error:focus, select.error:focus {
+            box-shadow: 0 0 0 3px hsla(var(--danger-hue), 70%, 55%, 0.2);
+         }
+
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            .container { margin: 20px auto; }
+            .app-header h1 { font-size: 2rem; }
+            .app-header p { font-size: 1rem; }
+            .tabs-nav { gap: 5px; }
+            .tab-btn { padding: 10px 12px; font-size: 0.9rem; flex-basis: calc(50% - 5px); } /* Two columns on smaller screens */
+            .form-grid { grid-template-columns: 1fr; } /* Stack form fields */
+            .tab-content, .output-section, .info-section { padding: 20px; }
+        }
+
+         @media (max-width: 480px) {
+             .tab-btn { flex-basis: 100%; } /* Full width tabs on very small screens */
+             .author-entry { flex-wrap: wrap; } /* Allow author fields to wrap */
+             .author-entry input { flex-basis: 100%; }
+             .remove-author-btn { margin-left: auto; /* Push remove btn to right */}
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Nexa<span class="brand-accent">Cite</span></h1>
+            <p>Effortlessly generate accurate academic citations in various styles.</p>
+        </header>
+
+        <nav class="tabs-nav" id="tabsNav">
+            <!-- Tab buttons will be dynamically inserted here -->
+        </nav>
+
+        <div id="formsContainer">
+            <!-- Form content will be dynamically inserted here -->
+        </div>
+
+        <div class="output-section">
+            <h2>Generated Citation</h2>
+            <div id="citation-output" class="output-box" aria-live="polite"></div>
+            <div class="output-actions">
+                <button id="copyBtn" class="btn btn-copy">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                      <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                    </svg>
+                    Copy
+                </button>
+            </div>
+        </div>
+
+         <section class="info-section">
+            <h2>Why Proper Citation Matters</h2>
+            <p>Accurate citation is fundamental to academic integrity. It allows you to:</p>
+            <ul>
+                <li>Give credit to original authors and respect intellectual property.</li>
+                <li>Provide evidence for your arguments and claims.</li>
+                <li>Enable readers to locate and verify your sources.</li>
+                <li>Avoid plagiarism and its serious consequences.</li>
+                <li>Participate responsibly in scholarly conversation.</li>
+            </ul>
+            <p><strong>Always double-check generated citations against your style guide's specific requirements.</strong></p>
+        </section>
+
+        <footer style="text-align: center; margin-top: 40px; font-size: 0.9rem; color: var(--text-color-light);">
+            <p>NexaCite | Redesigned concept based on original by Avuyile Mthembu.</p>
+        </footer>
+
+    </div>
+
+    <!-- Template for Author Input Row -->
+    <template id="author-template">
+        <div class="author-entry">
+            <input type="text" placeholder="First name / Initials" class="author-first form-control first-name-input">
+            <input type="text" placeholder="Last name / Org name" class="author-last form-control last-name-input">
+            <button type="button" class="remove-author-btn" title="Remove author">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </button>
+        </div>
+    </template>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- CONFIGURATION ---
+            const config = {
+                citationStyles: [
+                    { id: 'apa', name: 'APA 7th Ed.' },
+                    { id: 'mla', name: 'MLA 9th Ed.' },
+                    { id: 'chicago', name: 'Chicago (Note/Bib)' },
+                    { id: 'harvard', name: 'Harvard' }
+                    // Add more styles here easily
+                ],
+                sourceTypes: [
+                    {
+                        id: 'book', name: 'Book', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.893c-.885-.37-2.154-.769-3.388-.893-1.33-.134-2.458.063-3.112.752V2.687zM8 1.783C7.015 1.104 5.58 1.006 4.5 1.134 3.29 1.28 1.98 1.687 1 2.25v11.518c.886-.387 2.19-.69 3.5-.57 1.056.094 2.052.334 2.986.746a.5.5 0 0 0 .528-.475V2.25a.5.5 0 0 0-.105-.317zM15 2.25c-.98-.563-2.29-.967-3.5-.834-1.08.128-2.415.226-3.396.903-.104.07-.104.243 0 .317v11.775a.5.5 0 0 0 .528.475c.934-.412 1.93-.652 2.986-.746 1.31-.12 2.614.183 3.5.57V2.25z"/></svg>`,
+                        fields: [
+                            { id: 'title', label: 'Book Title', type: 'text', required: true, fullWidth: true },
+                            { id: 'year', label: 'Year Published', type: 'number', required: true, },
+                            { id: 'edition', label: 'Edition (e.g., 2nd)', type: 'text' },
+                            { id: 'city', label: 'City of Publication', type: 'text' },
+                            { id: 'publisher', label: 'Publisher', type: 'text', required: true },
+                        ]
+                    },
+                    {
+                        id: 'journal', name: 'Journal Article', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/><path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/></svg>`,
+                        fields: [
+                            { id: 'article-title', label: 'Article Title', type: 'text', required: true, fullWidth: true },
+                            { id: 'journal-title', label: 'Journal Title', type: 'text', required: true, fullWidth: true },
+                            { id: 'year', label: 'Year Published', type: 'number', required: true },
+                            { id: 'volume', label: 'Volume', type: 'text' },
+                            { id: 'issue', label: 'Issue', type: 'text' },
+                            { id: 'pages', label: 'Page Range (e.g., 45-67)', type: 'text' },
+                            { id: 'doi', label: 'DOI (if available)', type: 'text', fullWidth: true },
+                        ]
+                    },
+                    {
+                        id: 'website', name: 'Website', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 0 16 0A8 8 0 0 0 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855-.143.268-.276.56-.395.872.705.157 1.472.257 2.282.287V1.077zM4.249 3.539c.142-.384.304-.744.481-1.078a6.7 6.7 0 0 1 .597-.933A7.01 7.01 0 0 0 3.051 3.05c.362.184.763.349 1.198.49zM3.509 4.225c.036-.1.07-.2.106-.3.067-.192.14-.38.217-.563a6.8 6.8 0 0 1 .557-1.078 7.011 7.011 0 0 0 0 8.478.68.68 0 0 1-.557-1.078.14-.183.217-.37.106-.563.036-.1.07-.2.036-.3zm.591-2.876c-.182.334-.343.694-.48 1.078.137.148.29.292.45.43.844.74 1.785 1.18 2.734 1.25v-2.17a6.99 6.99 0 0 0-3.104-.57zM8.5 1.077V3.49c.947-.07 1.888-.51 2.732-1.25.16-.138.313-.282.45-.43-.137-.384-.298-.744-.48-1.078a6.7 6.7 0 0 1-.597-.933 7.01 7.01 0 0 0-2.105.254zm4.173 1.855c.119-.312.252-.604.395-.872.552-1.035 1.218-1.65 1.887-1.855A7.01 7.01 0 0 0 11.95 3.05a7.012 7.012 0 0 0 1.198-.49zm-2.282.287c.81.03 1.577.13 2.282.287-.119.313-.252.604-.395.872-.552 1.035-1.218 1.65-1.887 1.855A7.01 7.01 0 0 0 8.5 3.491V1.077zm-4.668 6.33c-.143-.268-.276-.56-.395-.872-.705-.157-1.472-.257-2.282-.287v2.17c.947.07 1.888.51 2.732 1.25.16.138.313.282.45.43.137.384.298.744.48 1.078a6.7 6.7 0 0 1 .597.933 7.01 7.01 0 0 0 3.051-3.051c-.362-.184-.763-.349-1.198-.49zm2.282-.287c-.81-.03-1.577-.13-2.282-.287.119-.313.252-.604.395-.872.552-1.035 1.218-1.65 1.887-1.855A7.011 7.011 0 0 1 8.5 6.509v2.17zM4.249 12.461c-.142.384-.304.744-.481 1.078a6.7 6.7 0 0 1-.597.933A7.01 7.01 0 0 0 5.95 12.95c-.362-.184-.763-.349-1.198-.49zm1.198.49c.182-.334.343-.694.48-1.078-.137-.148-.29-.292-.45-.43-.844-.74-1.785-1.18-2.734-1.25v2.17a6.99 6.99 0 0 0 3.104.57zm2.555 2.993c.67-.204 1.335-.82 1.887-1.855.143-.268.276-.56.395-.872-.705-.157-1.472-.257-2.282-.287v2.17c.81.03 1.577.13 2.282.287zm2.105-2.54c.142.384.304.744.481 1.078.193.334.4.644.597.933a7.01 7.01 0 0 0 2.105-.254c.362.184.763.349 1.198.49-.182-.334-.343-.694-.48-1.078.137-.148.29-.292.45-.43.844-.74 1.785-1.18 2.734-1.25v-2.17a6.99 6.99 0 0 0-3.104-.57c-.143.268-.276.56-.395.872-.705.157-1.472.257-2.282.287v2.17z"/></svg>`,
+                        fields: [
+                            { id: 'page-title', label: 'Page Title', type: 'text', required: true, fullWidth: true },
+                            { id: 'website-name', label: 'Website Name', type: 'text', required: true, fullWidth: true },
+                            { id: 'year', label: 'Year Published/Updated', type: 'number' },
+                            { id: 'url', label: 'URL', type: 'url', required: true, fullWidth: true },
+                            { id: 'access-date', label: 'Date Accessed', type: 'date', required: true },
+                        ]
+                    },
+                     {
+                        id: 'ebook', name: 'eBook', icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.893c-.885-.37-2.154-.769-3.388-.893-1.33-.134-2.458.063-3.112.752V2.687zM8 1.783C7.015 1.104 5.58 1.006 4.5 1.134 3.29 1.28 1.98 1.687 1 2.25v11.518c.886-.387 2.19-.69 3.5-.57 1.056.094 2.052.334 2.986.746a.5.5 0 0 0 .528-.475V2.25a.5.5 0 0 0-.105-.317zM15 2.25c-.98-.563-2.29-.967-3.5-.834-1.08.128-2.415.226-3.396.903-.104.07-.104.243 0 .317v11.775a.5.5 0 0 0 .528.475c.934-.412 1.93-.652 2.986-.746 1.31-.12 2.614.183 3.5.57V2.25z"/><path d="M14 14.24V13.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.74c-.296-.038-.6-.08-.914-.119l-.593-.026c-1.056-.046-2.079.182-2.986.596V8.64a6.486 6.486 0 0 1 .532-.36c.37-.246.75-.44 1.136-.59V8.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v-.007c.373.16.765.376 1.168.644.41.274.76.59 1.046.952V10.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-.002c-.307-.29-.656-.542-1.04-.74V13.5c.594.038 1.17.125 1.717.266.3.077.584.16.852.253z"/></svg>`,
+                        fields: [
+                            // Similar to book, but add URL/DOI and maybe access date
+                            { id: 'title', label: 'eBook Title', type: 'text', required: true, fullWidth: true },
+                            { id: 'year', label: 'Year Published', type: 'number', required: true },
+                            { id: 'edition', label: 'Edition (e.g., 2nd)', type: 'text' },
+                            { id: 'city', label: 'City of Publication', type: 'text' },
+                            { id: 'publisher', label: 'Publisher', type: 'text' },
+                            { id: 'url_doi', label: 'URL or DOI', type: 'text', required: true, fullWidth: true },
+                            { id: 'access-date', label: 'Date Accessed (if URL)', type: 'date'},
+                        ]
+                    },
+                    // Add more source types here
+                ]
+            };
+
+            // --- DOM Elements ---
+            const tabsNav = document.getElementById('tabsNav');
+            const formsContainer = document.getElementById('formsContainer');
+            const citationOutput = document.getElementById('citation-output');
+            const copyBtn = document.getElementById('copyBtn');
+            const authorTemplate = document.getElementById('author-template');
+
+            // --- State ---
+            let activeTabId = config.sourceTypes[0]?.id; // Default to first source type
+
+            // --- UI Functions ---
+
+            function renderTabs() {
+                tabsNav.innerHTML = ''; // Clear existing tabs
+                config.sourceTypes.forEach(type => {
+                    const button = document.createElement('button');
+                    button.className = `tab-btn ${type.id === activeTabId ? 'active' : ''}`;
+                    button.dataset.tabId = type.id;
+                    button.innerHTML = `${type.icon || ''} ${type.name}`;
+                    tabsNav.appendChild(button);
+                });
+            }
+
+            function renderForm(sourceTypeId) {
+                formsContainer.innerHTML = ''; // Clear existing form
+                const sourceType = config.sourceTypes.find(t => t.id === sourceTypeId);
+                if (!sourceType) return;
+
+                const form = document.createElement('form');
+                form.id = `${sourceTypeId}-form`;
+                form.classList.add('tab-content', 'active'); // Show the form
+                form.dataset.sourceType = sourceTypeId; // Store type for generation logic
+                form.addEventListener('submit', (e) => e.preventDefault()); // Prevent actual submission
+
+                // Form Title
+                const title = document.createElement('h2');
+                title.textContent = `${sourceType.name} Citation Details`;
+                form.appendChild(title);
+
+                // Grid container for layout
+                const grid = document.createElement('div');
+                grid.className = 'form-grid';
+
+                // Citation Style Selector
+                const styleGroup = createFormGroup('citation-style', 'Citation Style', 'select', true, false); // Required, not full width
+                const select = styleGroup.querySelector('select');
+                config.citationStyles.forEach(style => {
+                    const option = document.createElement('option');
+                    option.value = style.id;
+                    option.textContent = style.name;
+                    select.appendChild(option);
+                });
+                grid.appendChild(styleGroup);
+
+                // Author Inputs Section
+                 const authorGroup = createFormGroup('authors', 'Authors / Organization', 'div', false, true); // Not required (handled within), full width
+                 authorGroup.classList.add('authors-section'); // Specific styling hook if needed
+                 const authorsList = document.createElement('div');
+                 authorsList.className = 'authors-list';
+                 authorsList.id = `${sourceTypeId}-authors-container`;
+                 authorGroup.appendChild(authorsList);
+
+                 // Add initial author row
+                 addAuthorRow(authorsList, false); // Don't allow removing the first row initially
+
+                const addBtn = document.createElement('button');
+                 addBtn.type = 'button';
+                 addBtn.className = 'add-author-btn';
+                 addBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg> Add Author`;
+                 addBtn.onclick = () => addAuthorRow(authorsList); // Add row to *this specific* list
+                 authorGroup.appendChild(addBtn);
+                 grid.appendChild(authorGroup);
+
+                // Dynamic Fields based on Source Type
+                sourceType.fields.forEach(field => {
+                    const formGroup = createFormGroup(field.id, field.label, field.type, field.required, field.fullWidth);
+                    if (field.type === 'date' && field.id === 'access-date') {
+                        // Pre-fill access date with today
+                         const dateInput = formGroup.querySelector('input');
+                        if(dateInput) dateInput.valueAsDate = new Date();
+                    }
+                    grid.appendChild(formGroup);
+                });
+
+                form.appendChild(grid);
+
+                // Generate Button
+                const generateBtn = document.createElement('button');
+                generateBtn.type = 'button'; // Important: prevent form submission
+                generateBtn.className = 'btn btn-primary btn-generate';
+                generateBtn.textContent = 'Generate Citation';
+                generateBtn.onclick = handleGenerateClick; // Use central handler
+                form.appendChild(generateBtn);
+
+                formsContainer.appendChild(form);
+            }
+
+             function createFormGroup(id, labelText, type = 'text', required = false, fullWidth = false) {
+                 const group = document.createElement('div');
+                 group.className = 'form-group';
+                 if (fullWidth) {
+                     group.classList.add('full-width');
+                 }
+
+                 const label = document.createElement('label');
+                 label.setAttribute('for', id);
+                 label.textContent = labelText + (required ? ' *' : '');
+                 group.appendChild(label);
+
+                 let input;
+                 if (type === 'select') {
+                     input = document.createElement('select');
+                 } else if (type === 'textarea') {
+                     input = document.createElement('textarea');
+                 } else if (type === 'div') {
+                     // Used for custom structures like author list
+                     input = document.createElement('div');
+                 }
+                 else {
+                     input = document.createElement('input');
+                     input.type = type;
+                      if (type === 'number') {
+                          input.min = "1000"; // Basic year validation
+                          input.max = new Date().getFullYear() + 1;
+                      }
+                 }
+                 input.id = id;
+                 input.name = id;
+                 input.classList.add('form-control'); // Add a common class for styling/selection
+                 if (required && type !== 'div') {
+                     input.required = true;
+                 }
+                 group.appendChild(input);
+
+                  // Add placeholder for error messages
+                 const errorSpan = document.createElement('span');
+                 errorSpan.className = 'error-message hidden';
+                 group.appendChild(errorSpan);
+
+
+                 return group;
+             }
+
+            function addAuthorRow(container, allowRemove = true) {
+                 const templateClone = authorTemplate.content.cloneNode(true);
+                 const newEntry = templateClone.querySelector('.author-entry');
+                 const removeBtn = newEntry.querySelector('.remove-author-btn');
+
+                 if (allowRemove) {
+                     removeBtn.onclick = () => container.removeChild(newEntry);
+                 } else {
+                     removeBtn.remove(); // Remove the button if not allowed
+                 }
+                 container.appendChild(newEntry);
+
+                 // If it's the only row after potentially removing others, hide its remove button
+                 updateRemoveButtonVisibility(container);
+             }
+
+             function updateRemoveButtonVisibility(container) {
+                 const entries = container.querySelectorAll('.author-entry');
+                 if (entries.length === 1) {
+                     const removeBtn = entries[0].querySelector('.remove-author-btn');
+                     if (removeBtn) removeBtn.style.display = 'none';
+                 } else {
+                      entries.forEach(entry => {
+                         const removeBtn = entry.querySelector('.remove-author-btn');
+                         if (removeBtn) removeBtn.style.display = 'flex'; // Or 'inline-flex' etc.
+                      });
+                 }
+             }
+
+
+            function switchTab(tabId) {
+                if (tabId === activeTabId) return; // No change needed
+
+                activeTabId = tabId;
+                renderTabs(); // Update active button style
+                renderForm(tabId); // Render the corresponding form
+                citationOutput.innerHTML = ''; // Clear output on tab switch
+                resetCopyButton();
+            }
+
+            function updateOutput(citationHtml) {
+                citationOutput.innerHTML = citationHtml;
+                resetCopyButton();
+            }
+
+             function showValidationErrors(errors) {
+                // Clear previous errors
+                 const currentForm = document.getElementById(`${activeTabId}-form`);
+                 currentForm.querySelectorAll('.error-message').forEach(span => span.classList.add('hidden'));
+                 currentForm.querySelectorAll('.form-control.error').forEach(el => el.classList.remove('error'));
+
+                 // Show new errors
+                 errors.forEach(error => {
+                     const inputElement = currentForm.querySelector(`#${error.fieldId}`);
+                     if (inputElement) {
+                        inputElement.classList.add('error');
+                         const errorSpan = inputElement.closest('.form-group')?.querySelector('.error-message');
+                         if (errorSpan) {
+                             errorSpan.textContent = error.message;
+                             errorSpan.classList.remove('hidden');
+                         }
+                     }
+                 });
+
+                 // Focus the first errored field
+                 const firstErrorField = currentForm.querySelector('.form-control.error');
+                if(firstErrorField) firstErrorField.focus();
+             }
+
+            function resetCopyButton() {
+                copyBtn.disabled = !citationOutput.textContent.trim(); // Disable if output is empty
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                      <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                    </svg>
+                    Copy`;
+            }
+
+            // --- Event Handlers ---
+
+            tabsNav.addEventListener('click', (e) => {
+                const button = e.target.closest('.tab-btn');
+                if (button && button.dataset.tabId) {
+                    switchTab(button.dataset.tabId);
+                }
+            });
+
+            formsContainer.addEventListener('click', (e) => {
+                // Handle remove author clicks using event delegation
+                 if (e.target.closest('.remove-author-btn')) {
+                     const button = e.target.closest('.remove-author-btn');
+                     const entryToRemove = button.closest('.author-entry');
+                     const container = entryToRemove?.parentElement;
+                     if (entryToRemove && container) {
+                         container.removeChild(entryToRemove);
+                          updateRemoveButtonVisibility(container); // Update visibility after removal
+                     }
+                 }
+                // Could add other delegated events here if needed
+            });
+
+
+            function handleGenerateClick() {
+                 const currentForm = document.getElementById(`${activeTabId}-form`);
+                 if (!currentForm) return;
+
+                 const formData = {};
+                 const validationErrors = [];
+
+                 // Get all form controls within the active form
+                 const controls = currentForm.querySelectorAll('.form-control');
+
+                 controls.forEach(control => {
+                     // Basic validation
+                     if (control.required && !control.value.trim()) {
+                         validationErrors.push({
+                             fieldId: control.id,
+                             message: `${control.closest('.form-group')?.querySelector('label')?.textContent.replace(' *', '') || 'Field'} is required.`
+                         });
+                     }
+                     // Add more specific validation (e.g., URL format, year range) here if needed
+
+                     formData[control.id] = control.value.trim();
+                 });
+
+                 // Collect Author Data separately
+                const authorsContainer = currentForm.querySelector(`#${activeTabId}-authors-container`);
+                 formData.authors = [];
+                 if (authorsContainer) {
+                     authorsContainer.querySelectorAll('.author-entry').forEach(entry => {
+                         const first = entry.querySelector('.author-first').value.trim();
+                         const last = entry.querySelector('.author-last').value.trim();
+                         // Only add if at least one name part is filled
+                         if (first || last) {
+                             formData.authors.push({ first, last });
+                         }
+                     });
+                 }
+                  // Add validation for at least one author if needed by the style/source type
+                 // if (formData.authors.length === 0 && /* check if authors required */ ) {
+                 //     validationErrors.push({ fieldId: authorsContainer?.id || 'authors', message: 'At least one author or organization name is required.'});
+                 // }
+
+
+                 if (validationErrors.length > 0) {
+                     showValidationErrors(validationErrors);
+                     updateOutput(''); // Clear previous output on error
+                 } else {
+                      showValidationErrors([]); // Clear any previous errors
+                     const citationHtml = generateCitation(activeTabId, formData);
+                     updateOutput(citationHtml);
+                 }
+            }
+
+             copyBtn.addEventListener('click', async () => {
+                const textToCopy = citationOutput.textContent || citationOutput.innerText; // Get text content
+                 if (!textToCopy) return;
+
+                 try {
+                     await navigator.clipboard.writeText(textToCopy);
+                     copyBtn.classList.add('copied');
+                     copyBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+                        Copied!`;
+                     copyBtn.disabled = true;
+                     setTimeout(() => {
+                         resetCopyButton();
+                     }, 2000);
+                 } catch (err) {
+                     console.error('Failed to copy text: ', err);
+                     // Optionally show an error message to the user
+                 }
+             });
+
+
+            // --- Citation Generation Logic (Simplified & Improved) ---
+
+            function formatAuthors(authors, style) {
+                if (!authors || authors.length === 0) return ""; // Or handle as 'Anon.' based on style
+
+                // Simplified logic - A robust solution needs detailed rules per style
+                 // Filter out empty entries first
+                 const validAuthors = authors.filter(a => a.first || a.last);
+                 if(validAuthors.length === 0) return "";
+
+                if (style === 'apa') {
+                    // Last, F. M., & Last, F. M. (up to 20 authors) ... Last, F. M.
+                    // Very simplified: Only uses first initial. Doesn't handle et al. rules perfectly.
+                     let authorStr = validAuthors.map(a => `${a.last || ''}${a.last && a.first ? ', ' : ''}${a.first ? a.first.charAt(0) + '.' : ''}`).join(', ');
+                     const lastCommaIndex = authorStr.lastIndexOf(', ');
+                    if (validAuthors.length > 1 && lastCommaIndex !== -1) {
+                        authorStr = authorStr.substring(0, lastCommaIndex) + ' & ' + authorStr.substring(lastCommaIndex + 2);
+                    }
+                     return authorStr + (authorStr ? '.' : ''); // Add period if authors exist
+                } else if (style === 'mla') {
+                    // Last, First M., and First M. Last. / Last, First M., et al.
+                    // Very simplified
+                    if (validAuthors.length === 1) {
+                         return `${validAuthors[0].last || ''}${validAuthors[0].last && validAuthors[0].first ? ', ' : ''}${validAuthors[0].first || ''}.`;
+                     } else if (validAuthors.length === 2) {
+                        return `${validAuthors[0].last || ''}${validAuthors[0].last && validAuthors[0].first ? ', ' : ''}${validAuthors[0].first || ''}, and ${validAuthors[1].first || ''} ${validAuthors[1].last || ''}.`;
+                    } else {
+                         return `${validAuthors[0].last || ''}${validAuthors[0].last && validAuthors[0].first ? ', ' : ''}${validAuthors[0].first || ''}, et al.`;
+                    }
+                } else if (style === 'chicago') {
+                    // Last, First M., and First M. Last. (Similar to MLA for Bib)
+                     // Very simplified
+                     if (validAuthors.length === 1) {
+                         return `${validAuthors[0].last || ''}${validAuthors[0].last && validAuthors[0].first ? ', ' : ''}${validAuthors[0].first || ''}.`;
+                     } else if (validAuthors.length <= 10) { // Full list up to 10, then et al. (simplified rule)
+                         let authorStr = validAuthors.map((a, i) => i === 0 ? `${a.last || ''}${a.last && a.first ? ', ' : ''}${a.first || ''}` : `${a.first || ''} ${a.last || ''}`).join(', ');
+                         const lastCommaIndex = authorStr.lastIndexOf(', ');
+                         if (validAuthors.length > 1 && lastCommaIndex !== -1) {
+                            authorStr = authorStr.substring(0, lastCommaIndex) + ', and ' + authorStr.substring(lastCommaIndex + 2);
+                         }
+                         return authorStr + (authorStr ? '.' : '');
+                     } else {
+                         return `${validAuthors[0].last || ''}${validAuthors[0].last && validAuthors[0].first ? ', ' : ''}${validAuthors[0].first || ''}, et al.`;
+                     }
+                } else if (style === 'harvard') {
+                    // Last, F.M., Last, F.M. & Last, F.M.
+                     // Simplified: Only uses first initial
+                     let authorStr = validAuthors.map(a => `${a.last || ''}${a.last && a.first ? ', ' : ''}${a.first ? a.first.charAt(0) + '.' : ''}`).join(', ');
+                     const lastCommaIndex = authorStr.lastIndexOf(', ');
+                    if (validAuthors.length > 1 && lastCommaIndex !== -1) {
+                        authorStr = authorStr.substring(0, lastCommaIndex) + ' & ' + authorStr.substring(lastCommaIndex + 2);
+                    }
+                     return authorStr + (authorStr ? '.' : '');
+                }
+
+                // Default fallback (simple list)
+                return validAuthors.map(a => `${a.last || ''}${a.last && a.first ? ', ' : ''}${a.first || ''}`).join(', ');
+            }
+
+            function formatAccessDate(dateString, style) {
+                if (!dateString) return '';
+                const date = new Date(dateString + 'T00:00:00'); // Ensure correct date parsing
+                 const day = date.getDate();
+                const monthNamesMLA = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
+                 const monthNamesFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                 const monthMLA = monthNamesMLA[date.getMonth()];
+                 const monthFull = monthNamesFull[date.getMonth()];
+                 const year = date.getFullYear();
+
+                if (style === 'mla') return `${day} ${monthMLA} ${year}`;
+                if (style === 'harvard') return `${day} ${monthFull} ${year}`;
+                // APA and Chicago often don't require access date unless content might change
+                return `${day} ${monthFull} ${year}`; // Fallback
+            }
+
+            function generateCitation(sourceType, data) {
+                const style = data['citation-style'];
+                const authors = formatAuthors(data.authors, style);
+                const year = data.year ? `(${data.year})` : '';
+                const yearNoParen = data.year || '';
+
+                // Use helper functions for cleaner formatting
+                const titleItalic = data.title ? `<i>${data.title}</i>` : '';
+                const titleQuotes = data['page-title'] || data['article-title'] ? `"${data['page-title'] || data['article-title']}"` : '';
+                const titleItalicJournal = data['journal-title'] ? `<i>${data['journal-title']}</i>` : '';
+                 const titleItalicWebsite = data['website-name'] ? `<i>${data['website-name']}</i>` : '';
+                 const titleItalicEbook = data['ebook-title'] ? `<i>${data['ebook-title']}</i>` : '';
+
+                const edition = data.edition ? `(${data.edition} ed.)` : '';
+                 const editionComma = data.edition ? `, ${data.edition} ed.` : '';
+                const publisher = data.publisher || '';
+                const city = data.city || '';
+
+                const volume = data.volume || '';
+                const issue = data.issue ? `(${data.issue})` : '';
+                const pages = data.pages ? `, ${data.pages}` : ''; // APA/Harvard like comma
+                const pagesPP = data.pages ? `, pp. ${data.pages}` : ''; // MLA like pp.
+                 const pagesColon = data.pages ? `: ${data.pages}` : ''; // Chicago like colon
+
+                 const doi = data.doi || '';
+                 const doiUrl = doi ? ` https://doi.org/${doi}` : '';
+                 const url = data.url || data.url_doi || ''; // Use url_doi for ebook if present
+
+                 const accessDate = data['access-date'] ? formatAccessDate(data['access-date'], style) : '';
+                 const accessedMla = accessDate ? `. Accessed ${accessDate}` : '';
+                 const accessedHarvard = accessDate ? ` [Accessed ${accessDate}]` : '';
+                 const accessedEbookHarvard = (data['access-date'] && data.url_doi && !data.url_doi.toLowerCase().includes('doi:')) ? `. Date of access: ${accessDate}` : ''; // Only if URL based ebook
+
+
+                 // --- Style-Specific Generation ---
+                 try {
+                    switch (sourceType) {
+                        case 'book':
+                            if (style === 'apa') return `${authors} ${year}. ${titleItalic} ${edition}. ${publisher}.`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            if (style === 'mla') return `${authors} ${titleItalic}${editionComma}. ${publisher}, ${yearNoParen}.`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            if (style === 'chicago') return `${authors} ${titleItalic}${editionComma}. ${city ? city + ': ' : ''}${publisher}, ${yearNoParen}.`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            if (style === 'harvard') return `${authors} ${yearNoParen}. ${titleItalic}${editionComma}. ${city ? city + ': ' : ''}${publisher}.`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            break;
+                        case 'journal':
+                            if (style === 'apa') return `${authors} ${year}. ${data['article-title'] || ''}. ${titleItalicJournal}${volume ? `, <i>${volume}</i>` : ''}${issue}${pages}.${doiUrl}`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            if (style === 'mla') return `${authors} ${titleQuotes}. ${titleItalicJournal}${volume ? `, vol. ${volume}` : ''}${data.issue ? `, no. ${data.issue}` : ''}, ${yearNoParen}${pagesPP}.${doi ? ` doi:${doi}` : ''}`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            if (style === 'chicago') return `${authors} ${titleQuotes}. ${titleItalicJournal} ${volume}${data.issue ? `, no. ${data.issue}` : ''} (${yearNoParen})${pagesColon}.${doi ? ` https://doi.org/${doi}` : ''}`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            if (style === 'harvard') return `${authors} ${yearNoParen}. '${data['article-title'] || ''}'. ${titleItalicJournal}${volume ? `, ${volume}` : ''}${issue}${pagesColon}.${doi ? ` doi:${doi}` : ''}`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim(); // Note: Harvard single quotes article title
+                            break;
+                        case 'website':
+                             // APA 7 doesn't usually need access date unless content changes frequently
+                             if (style === 'apa') return `${authors || data['website-name'] || ''} ${year}. ${data['page-title'] ? `<i>${data['page-title']}</i>` : ''}. ${titleItalicWebsite}. Retrieved ${formatAccessDate(data['access-date'], 'apa')}, from ${url}`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            if (style === 'mla') return `${authors || data['website-name'] || ''} ${titleQuotes}. ${titleItalicWebsite}, ${yearNoParen}, ${url}${accessedMla}.`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                             // Chicago often uses note format or just includes URL in text, bib entry is simpler
+                            if (style === 'chicago') return `${authors || data['website-name'] || ''} ${titleQuotes}. ${titleItalicWebsite}. Last modified or published ${yearNoParen}. Accessed ${formatAccessDate(data['access-date'], 'chicago')}. ${url}.`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim(); // More detailed Chicago
+                            if (style === 'harvard') return `${authors || data['website-name'] || ''} ${yearNoParen}. ${data['page-title'] || ''}. ${titleItalicWebsite}. Available at: ${url}${accessedHarvard}.`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            break;
+                        case 'ebook':
+                             const ebookUrlPart = data.url_doi ? ` ${data.url_doi}` : '';
+                             const ebookAvailableHarvard = data.url_doi ? ` Available from: ${data.url_doi}` : '';
+
+                             if (style === 'apa') return `${authors} ${year}. ${titleItalicEbook} ${edition}. ${publisher}.${ebookUrlPart}`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                             if (style === 'mla') return `${authors} ${titleItalicEbook}${editionComma}. ${publisher}, ${yearNoParen}.${ebookUrlPart ? ` ${data.url_doi}.` : ''}${accessedMla}`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim(); // MLA might need platform sometimes
+                             if (style === 'chicago') return `${authors} ${titleItalicEbook}${editionComma}. ${city ? city + ': ' : ''}${publisher}, ${yearNoParen}.${ebookUrlPart}`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                            if (style === 'harvard') return `${authors} ${yearNoParen}. ${titleItalicEbook}${editionComma}. ${city ? city + ': ' : ''}${publisher}.${ebookAvailableHarvard}${accessedEbookHarvard}.`.replace(/\s+/g, ' ').replace(/\.\./g, '.').trim();
+                             break;
+                         // Add cases for other source types
+                    }
+                 } catch (error) {
+                    console.error("Citation generation error:", error);
+                    return `<span style="color: var(--danger-color);">Error generating citation. Please check inputs.</span>`;
+                 }
+
+                return `<span style="color: var(--text-color-light);">Citation format not available for this combination.</span>`; // Fallback
+            }
+
+
+            // --- INITIALIZATION ---
+            function init() {
+                renderTabs();
+                if (activeTabId) {
+                    renderForm(activeTabId);
+                }
+                resetCopyButton(); // Ensure copy is disabled initially
+            }
+
+            init(); // Run initialization
+
+        });
+    </script>
+</body>
+</html>

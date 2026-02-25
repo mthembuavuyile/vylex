@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vylex Nexys - South African APS Calculator | University Admissions Tool</title>
+    <meta name="description" content="Calculate your Academic Performance Score (APS) for South African university admissions. Free tool to determine if you qualify for bachelor's, diploma, or certificate programs.">
+    <meta name="keywords" content="APS calculator, South Africa, university admissions, academic performance score, NSC, matric, university requirements">
+    <link rel="canonical" href="https://www.vylexnexys.com/aps-calculator">
+    <meta property="og:title" content="Vylex Nexys South African APS Calculator - University Admissions Tool">
+    <meta property="og:description" content="Calculate your Academic Performance Score (APS) for South African university admissions and see what programs you qualify for.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.vylexnexys.com/aps-calculator">
+    <!-- Use a more recent version of Tailwind if possible, or stick with 2.2.19 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script> <!-- Specific Chart.js version -->
+    <style>
+        :root {
+            --primary: #2563eb; /* blue-600 */
+            --primary-dark: #1e40af; /* blue-800 */
+            --secondary: #64748b; /* slate-500 */
+            --success: #10b981; /* emerald-500 */
+            --warning: #f59e0b; /* amber-500 */
+            --danger: #ef4444; /* red-500 */
+            --light-bg: #f8fafc; /* slate-50 */
+            --medium-bg: #f1f5f9; /* slate-100 */
+            --dark-text: #1e293b; /* slate-800 */
+            --medium-text: #475569; /* slate-600 */
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--medium-text);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px; /* Slightly softer radius */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer shadow */
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb; /* Subtle border */
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
+        }
+
+        .input-group {
+            transition: all 0.3s ease;
+            background-color: var(--light-bg); /* Lighter background for input groups */
+            border: 1px solid transparent;
+        }
+        .input-group:focus-within { /* Style group when child has focus */
+             border-color: rgba(37, 99, 235, 0.3);
+             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        select, input[type="number"], input[type="text"] {
+            transition: all 0.2s ease;
+            border: 1px solid #d1d5db; /* gray-300 */
+            background-color: white;
+            border-radius: 6px;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .info-card {
+            background: var(--medium-bg);
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+        }
+
+        .btn {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+        }
+        .btn:active {
+             transform: translateY(0px);
+             filter: brightness(0.95);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--medium-bg);
+            color: var(--secondary);
+            border: 1px solid #e5e7eb; /* gray-200 */
+        }
+        .btn-secondary:hover {
+            background-color: #e2e8f0; /* slate-200 */
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem; /* More horizontal padding */
+            border-radius: 9999px;
+            font-size: 0.75rem; /* 12px */
+            font-weight: 500;
+            line-height: 1; /* Ensure consistent height */
+        }
+
+        .tag-success { background-color: #ecfdf5; color: #059669; } /* green */
+        .tag-warning { background-color: #fffbeb; color: #d97706; } /* amber */
+        .tag-danger { background-color: #fef2f2; color: #dc2626; } /* red */
+        .tag-info { background-color: #eff6ff; color: #2563eb; } /* blue */
+
+        .progress-bar {
+            height: 0.5rem;
+            background-color: #e2e8f0; /* slate-200 */
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        .progress-value {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+            background-color: var(--primary);
+        }
+        .progress-value.bg-success { background-color: var(--success); }
+        .progress-value.bg-warning { background-color: var(--warning); }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            z-index: 100; /* Ensure above modal backdrop */
+            transform: translateX(calc(100% + 1.5rem)); /* Start off screen */
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Easing */
+            border-left: 4px solid var(--primary); /* Default border */
+            min-width: 250px;
+            max-width: 350px;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .validation-error {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 1px var(--danger) !important;
+        }
+        .error-text {
+            color: var(--danger);
+            font-size: 0.75rem; /* 12px */
+            margin-top: 0.25rem; /* 4px */
+        }
+
+        /* University requirements table */
+        .table-container {
+            overflow-x: auto;
+            border: 1px solid #e5e7eb; /* gray-200 */
+            border-radius: 8px;
+        }
+        .university-table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 600px; /* Prevent excessive shrinking */
+        }
+        .university-table th,
+        .university-table td {
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+            padding: 0.75rem 1rem; /* More padding */
+            text-align: left;
+            vertical-align: top; /* Align top */
+            font-size: 0.875rem; /* 14px */
+        }
+        .university-table th {
+            background-color: var(--light-bg);
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+        .university-table tr:last-child td {
+            border-bottom: none;
+        }
+        .university-table tr:hover {
+             background-color: var(--medium-bg);
+        }
+
+
+        .program-card {
+            border-left: 4px solid #ddd;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+        .program-card.eligible { border-left-color: var(--success); }
+        .program-card.almost { border-left-color: var(--warning); }
+        .program-card.not-eligible { border-left-color: var(--danger); }
+
+        /* Loading spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Keep as is */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+        /* Report Modal Specific Styles */
+        #report-modal {
+             background-color: rgba(0, 0, 0, 0.6); /* Darker backdrop */
+        }
+        .report-modal-content {
+            max-height: 90vh; /* Limit height */
+            display: flex;
+            flex-direction: column; /* Allow sticky footer */
+        }
+        .report-modal-body {
+             overflow-y: auto; /* Enable scrolling for the body only */
+             padding: 1rem 1.5rem; /* Add padding */
+        }
+        /* Ensure sticky elements have background */
+        .report-sticky-header, .report-sticky-footer {
+            background-color: white;
+            z-index: 10; /* Above scrolling content */
+        }
+        .report-sticky-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 1.5rem;
+        }
+         .report-sticky-footer {
+             border-top: 1px solid #e5e7eb;
+             padding: 1rem 1.5rem;
+             margin-top: auto; /* Push footer to bottom */
+         }
+        /* Report table styles */
+        .report-table { width: 100%; font-size: 0.8rem; /* Smaller font */ border-collapse: collapse; }
+        .report-table th, .report-table td { padding: 0.4rem 0.5rem; border: 1px solid #e5e7eb; text-align: left; }
+        .report-table th { background-color: var(--light-bg); font-weight: 600; }
+        .report-table tbody tr:nth-child(even) { background-color: var(--light-bg); }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .subject-controls {
+                flex-direction: column;
+                align-items: stretch; /* Make children take full width */
+            }
+            .subject-controls > * {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+             .subject-controls > button {
+                width: auto; /* Override full width for button */
+                align-self: flex-end; /* Align remove button to the right */
+                margin-top: 0.5rem; /* Add space above button */
+                margin-bottom: 0; /* Remove bottom margin */
+             }
+             .subject-controls > span { /* APS score text */
+                 text-align: right;
+                 margin-top: -0.25rem; /* Adjust spacing */
+                 margin-bottom: 0.5rem;
+             }
+
+            .card { padding: 1rem; }
+            h1 { font-size: 1.875rem; } /* 30px */
+            h2 { font-size: 1.25rem; } /* 20px */
+
+            .toast {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+                width: auto;
+                transform: translateY(calc(100% + 1rem)); /* Adjust starting position */
+            }
+             .toast.show { transform: translateY(0); }
+
+            /* Make modal full width on small screens, adjust padding */
+            .report-modal-content {
+                max-width: 100%;
+                height: 100vh; /* Full height */
+                max-height: 100vh;
+                border-radius: 0;
+             }
+             .report-sticky-header, .report-sticky-footer, .report-modal-body {
+                 padding-left: 1rem;
+                 padding-right: 1rem;
+             }
+        }
+
+         /* Print-specific styles */
+        @media print {
+            body > *:not(#report-modal) { display: none !important; }
+            #report-modal {
+                position: static !important;
+                background: none !important;
+                overflow: visible !important;
+                padding: 0 !important;
+            }
+            .report-modal-content {
+                max-width: 100% !important;
+                max-height: none !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+            }
+            .report-modal-body {
+                overflow-y: visible !important;
+            }
+             .report-sticky-header, .report-sticky-footer {
+                 position: static !important;
+                 display: none !important; /* Hide header/footer with buttons */
+             }
+             .report-table { font-size: 9pt !important; } /* Adjust font size for print */
+             #aps-chart-container { display: none !important; } /* Hide chart in print */
+             a[href]:after { content: none !important; } /* Prevent URL printing */
+             .no-print { display: none !important; } /* Class to hide specific elements */
+        }
+
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Vylex Nexys APS Calculator",
+      "description": "Calculate your Academic Performance Score (APS) for South African university admissions",
+      "applicationCategory": "Education",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "ZAR"
+      }
+    }
+    </script>
+</head>
+<body class="min-h-screen py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                <span class="text-blue-600">Vylex Nexys</span> APS Calculator
+            </h1>
+            <p class="text-gray-600 mb-4">Calculate your Academic Performance Score for South African University Admissions</p>
+            <nav class="flex justify-center gap-1 sm:gap-2 flex-wrap">
+                <button onclick="toggleTab('calculator')" id="calculator-tab" class="px-3 py-2 sm:px-4 text-sm sm:text-base rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-semibold">
+                    Calculator
+                </button>
+                <button onclick="toggleTab('universities')" id="universities-tab" class="px-3 py-2 sm:px-4 text-sm sm:text-base rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">
+                    University Requirements
+                </button>
+                <button onclick="toggleTab('programs')" id="programs-tab" class="px-3 py-2 sm:px-4 text-sm sm:text-base rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">
+                    Program Recommendations
+                </button>
+                <button onclick="toggleTab('faq')" id="faq-tab" class="px-3 py-2 sm:px-4 text-sm sm:text-base rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">
+                    FAQ
+                </button>
+            </nav>
+        </header>
+
+        <!-- Tab Container -->
+        <main id="tab-container">
+            <!-- Calculator Tab -->
+            <div id="calculator-tab-content" class="tab-content">
+                <!-- Main Calculator Card -->
+                <section class="card p-6 mb-8">
+                    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                        <h2 class="text-xl font-bold text-gray-900">Add Your Subjects & Marks</h2>
+                        <div class="flex gap-2 flex-shrink-0">
+                            <button onclick="saveCalculation()" class="btn btn-secondary px-3 py-1 text-sm" aria-label="Save current subjects and marks">
+                                Save
+                            </button>
+                            <button onclick="loadCalculation()" class="btn btn-secondary px-3 py-1 text-sm" aria-label="Load previously saved subjects and marks">
+                                Load
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="subjects-container" class="space-y-4">
+                        <!-- Subject rows will be rendered here by JS -->
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                        <button onclick="addSubject()" class="btn btn-secondary flex-1 px-4 py-2 flex justify-center items-center text-blue-600 hover:bg-blue-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                            Add Subject
+                        </button>
+                        <button onclick="calculateTotalAPS()" class="btn btn-primary flex-1 px-4 py-2 flex justify-center items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            Calculate APS
+                        </button>
+                    </div>
+
+                    <div id="total-aps" class="mt-8 p-6 bg-blue-50 rounded-lg text-center hidden transition-all duration-300 ease-in-out">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Your Total APS Score</h3>
+                        <div id="aps-score" class="text-5xl font-bold text-blue-600 mb-4">0</div>
+                        <div id="qualification-status" class="mb-4 text-md text-gray-700 font-medium">Enter subjects to see status</div>
+
+                        <!-- Progress bars for qualification levels -->
+                        <div class="space-y-4 mt-6 text-left max-w-md mx-auto">
+                             <!-- Bachelor -->
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Bachelor's Degree (Guide: 23+)</span>
+                                    <span id="bachelor-progress-text" class="text-sm font-medium text-gray-700">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="bachelor-progress" class="progress-value" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <!-- Diploma -->
+                             <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Diploma (Guide: 19+)</span>
+                                    <span id="diploma-progress-text" class="text-sm font-medium text-gray-700">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="diploma-progress" class="progress-value" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <!-- Certificate -->
+                             <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Higher Certificate (Guide: 15+)</span>
+                                    <span id="certificate-progress-text" class="text-sm font-medium text-gray-700">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div id="certificate-progress" class="progress-value" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                             <button onclick="generateDetailedReport()" class="btn btn-primary px-4 py-2">
+                                View Detailed Report
+                             </button>
+                         </div>
+
+                        <div class="mt-6 border-t pt-4">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-2">Share Your Results</h4>
+                            <div class="flex gap-2 justify-center flex-wrap">
+                                <button onclick="shareResults('whatsapp')" class="p-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-xs">WhatsApp</button>
+                                <button onclick="shareResults('facebook')" class="p-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-xs">Facebook</button>
+                                <button onclick="shareResults('twitter')" class="p-2 bg-sky-100 text-sky-700 rounded-lg hover:bg-sky-200 transition-colors text-xs">Twitter</button>
+                                <button onclick="shareResults('email')" class="p-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-xs">Email</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Information Section -->
+                <section class="space-y-6">
+                    <div class="card p-6">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">NSC Levels and Achievement Ratings</h2>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div class="space-y-2">
+                                <div class="info-card p-3"><span class="font-semibold">Level 7:</span> 80 - 100% (Outstanding)</div>
+                                <div class="info-card p-3"><span class="font-semibold">Level 6:</span> 70 - 79% (Meritorious)</div>
+                                <div class="info-card p-3"><span class="font-semibold">Level 5:</span> 60 - 69% (Substantial)</div>
+                                <div class="info-card p-3"><span class="font-semibold">Level 4:</span> 50 - 59% (Moderate)</div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="info-card p-3"><span class="font-semibold">Level 3:</span> 40 - 49% (Adequate)</div>
+                                <div class="info-card p-3"><span class="font-semibold">Level 2:</span> 30 - 39% (Elementary)</div>
+                                <div class="info-card p-3"><span class="font-semibold">Level 1:</span> 0 - 29% (Not achieved)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-6">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">General Qualification Guidelines</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="info-card p-3"><span class="font-semibold">Bachelor's Degree:</span> Minimum APS often 23+, plus specific subject/level requirements.</div>
+                            <div class="info-card p-3"><span class="font-semibold">Diploma:</span> Minimum APS often 19+, plus specific subject/level requirements.</div>
+                            <div class="info-card p-3"><span class="font-semibold">Higher Certificate:</span> Minimum APS often 15+, plus specific subject/level requirements.</div>
+                        </div>
+                        <p class="mt-4 text-xs text-gray-600">
+                            <strong>Disclaimer:</strong> These are general guidelines used for the progress bars above. Meeting minimum APS scores does not guarantee university admission. Different universities, faculties, and specific programs have their own distinct and often higher APS requirements, calculation methods (especially for Life Orientation), and specific subject/percentage needs. Always verify official requirements directly with the institutions.
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Universities Tab -->
+            <div id="universities-tab-content" class="tab-content hidden">
+                <section class="card p-6 mb-8">
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">South African University APS Requirements (Examples)</h2>
+
+                    <div class="mb-4">
+                        <input type="text" id="university-search" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Search universities or programs (e.g., UCT Science, Wits Engineering)..." aria-label="Search university requirements">
+                    </div>
+
+                    <div class="table-container">
+                        <table class="university-table w-full">
+                            <thead>
+                                <tr>
+                                    <th>University</th>
+                                    <th>Faculty/Program Example</th>
+                                    <th class="text-center">Approx. Min APS</th>
+                                    <th>Common Additional Requirements</th>
+                                </tr>
+                            </thead>
+                            <tbody id="university-requirements">
+                                <!-- Will be populated by JS -->
+                                <tr><td colspan="4" class="text-center text-gray-500 py-4">Loading requirements...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <p class="mt-4 text-xs text-gray-600">
+                        <strong>Disclaimer:</strong> These APS scores and requirements are illustrative examples and are subject to change. They may not be current. Always verify the latest official requirements directly with the university for the specific year of application and program. Calculation methods (especially for Life Orientation) may vary.
+                    </p>
+                </section>
+            </div>
+
+            <!-- Programs Tab -->
+            <div id="programs-tab-content" class="tab-content hidden">
+                 <section class="card p-6 mb-8">
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Program Recommendations</h2>
+
+                    <div id="program-warning" class="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                        <p class="text-sm text-yellow-700">
+                            To get personalized program recommendations, please enter your subjects and marks on the 'Calculator' tab and click 'Calculate APS'.
+                        </p>
+                    </div>
+
+                    <div id="program-recommendations" class="space-y-4 hidden">
+                        <!-- Program cards will be populated by JS -->
+                    </div>
+                     <p class="mt-4 text-xs text-gray-600 program-recommendations-note hidden">
+                        <strong>Note:</strong> Eligibility status is based on the calculated APS and general subject requirements matching common patterns. This is only a guide and does not guarantee admission. Program names, APS thresholds, and specific subject requirements (including required percentage levels) vary significantly between universities and change over time. Always check the official, detailed requirements directly with the specific university and faculty.
+                    </p>
+                 </section>
+            </div>
+
+            <!-- FAQ Tab -->
+            <div id="faq-tab-content" class="tab-content hidden">
+                <section class="card p-6 mb-8">
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+                    <div class="space-y-6">
+                        <!-- FAQ Content remains largely the same, minor text tweaks possible if needed -->
+                        <!-- Example FAQ Item Structure-->
+                        <details class="border-b border-gray-200 pb-4 group">
+                            <summary class="text-lg font-semibold text-gray-900 cursor-pointer list-none flex justify-between items-center group-open:mb-2">
+                                What is an APS score?
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </summary>
+                            <p class="text-gray-700 text-sm">
+                                The Academic Performance Score (APS) is a point system used by many South African universities to assess whether prospective students meet the minimum entry requirements for admission to specific programs. It's calculated based on your National Senior Certificate (NSC) subject results.
+                            </p>
+                        </details>
+                        <!-- Repeat <details> structure for other FAQ items -->
+                        <details class="border-b border-gray-200 pb-4 group">
+                             <summary class="text-lg font-semibold text-gray-900 cursor-pointer list-none flex justify-between items-center group-open:mb-2">
+                                 How is the APS calculated?
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                 </svg>
+                             </summary>
+                             <p class="text-gray-700 text-sm">
+                                Each NSC subject percentage is converted to a point on a scale (typically 1-7 or 1-8, this calculator uses the standard 7-point scale). The points for a specified number of subjects (often 6 or 7, potentially excluding or partially counting Life Orientation, depending on the institution) are summed up to get the total APS. This calculator sums the points for all subjects you enter based on the 7-point scale. **Always verify the specific method used by your target university.**
+                             </p>
+                         </details>
+                         <details class="border-b border-gray-200 pb-4 group">
+                             <summary class="text-lg font-semibold text-gray-900 cursor-pointer list-none flex justify-between items-center group-open:mb-2">
+                                 Is Life Orientation included in the APS?
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                 </svg>
+                             </summary>
+                             <p class="text-gray-700 text-sm">
+                                This varies significantly between universities and even faculties. Some include it fully, some exclude it, some assign it a lower maximum point value (e.g., max 3 points regardless of mark), and some only count it if it benefits the applicant. This calculator includes Life Orientation with its full points according to the standard 7-point scale *by default*. **Crucially, you must check the specific calculation rules of the universities you are applying to.** You can manually adjust the points or percentage for LO in the calculator if needed to reflect a specific university's policy.
+                             </p>
+                         </details>
+                         <!-- Add other FAQs similarly -->
+                         <details class="border-b border-gray-200 pb-4 group">
+                             <summary class="text-lg font-semibold text-gray-900 cursor-pointer list-none flex justify-between items-center group-open:mb-2">
+                                 Maths vs. Maths Lit for university entry?
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                 </svg>
+                             </summary>
+                              <p class="text-gray-700 text-sm">
+                                Core Mathematics is generally required for degrees in Science, Engineering, most Commerce fields (like Accounting, Actuarial Science), IT, and Health Sciences requiring quantitative skills. Mathematical Literacy is often accepted for some Diploma programs, Humanities, Arts, some Education degrees, and certain other fields, but typically *not* for highly mathematical or scientific degrees. Requirements vary greatly – always check the specific program details.
+                             </p>
+                         </details>
+                         <details class="border-b border-gray-200 pb-4 group">
+                             <summary class="text-lg font-semibold text-gray-900 cursor-pointer list-none flex justify-between items-center group-open:mb-2">
+                                 What if I meet APS but not subject requirements?
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                 </svg>
+                             </summary>
+                             <p class="text-gray-700 text-sm">
+                                You generally will not be admitted to that specific program. Meeting the minimum APS is only one part of the admission criteria. Programs almost always have requirements for specific subjects (e.g., Mathematics, Physical Sciences, English) and minimum percentage levels (e.g., Level 5 / 60% in Maths). Both the overall APS and the specific subject requirements must usually be met.
+                             </p>
+                         </details>
+                          <details class="border-b border-gray-200 pb-4 group">
+                             <summary class="text-lg font-semibold text-gray-900 cursor-pointer list-none flex justify-between items-center group-open:mb-2">
+                                 Does meeting minimums guarantee admission?
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                 </svg>
+                             </summary>
+                             <p class="text-gray-700 text-sm">
+                                No. Meeting the minimum requirements makes you eligible *for consideration*, but admission, especially to competitive programs, often depends on the number of available places and the strength of the applicant pool. Higher scores significantly improve your chances. Some programs also use additional selection criteria like portfolios, interviews, admission tests (e.g., NBTs), or consider disadvantaged backgrounds.
+                             </p>
+                         </details>
+                         <details class="pb-4 group">
+                            <summary class="text-lg font-semibold text-gray-900 cursor-pointer list-none flex justify-between items-center group-open:mb-2">
+                                Can I improve my APS after matric?
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                 </svg>
+                             </summary>
+                             <p class="text-gray-700 text-sm">
+                                Yes. You can rewrite specific NSC subjects through the Department of Basic Education's Second Chance Matric Programme or upgrade your marks via registered institutions offering matric rewrites/upgrades. Some universities also offer foundation or extended programs designed to bridge the gap for students who don't meet the direct entry requirements for a degree, often requiring application and meeting slightly lower criteria.
+                             </p>
+                         </details>
+
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Detailed Report Modal -->
+    <div id="report-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden p-4 print:p-0" aria-labelledby="report-title" role="dialog" aria-modal="true">
+        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full report-modal-content">
+            <!-- Sticky Header -->
+            <div class="report-sticky-header flex justify-between items-center">
+                <h2 id="report-title" class="text-xl font-bold text-gray-900">Your Detailed APS Report</h2>
+                <button onclick="closeModal('report-modal')" class="text-gray-500 hover:text-gray-800 no-print" aria-label="Close report">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+             <!-- Scrollable Body -->
+             <div id="report-content" class="report-modal-body space-y-6">
+                 <!-- Content will be populated by JS -->
+                  <div class="text-center py-10">
+                     <p class="text-gray-500">Generating report...</p>
+                 </div>
+            </div>
+
+             <!-- Sticky Footer -->
+             <div class="report-sticky-footer flex justify-end gap-4">
+                <button onclick="printReport()" class="btn btn-primary px-4 py-2 no-print" aria-label="Print or save report as PDF">
+                    Print / Save PDF
+                </button>
+                 <button onclick="closeModal('report-modal')" class="btn btn-secondary px-4 py-2 no-print">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-[100] space-y-2">
+<!-- Toasts will be added here by JS -->
+</div>
+
+    <script>
+        // --- Data Definitions ---
+        const subjectsList = [
+             // Add more languages as needed, ensuring value uniqueness
+            { value: 'english-hl', label: 'English Home Language' },
+            { value: 'english-fal', label: 'English First Additional Language' },
+            { value: 'afrikaans-hl', label: 'Afrikaans Home Language' },
+            { value: 'afrikaans-fal', label: 'Afrikaans First Additional Language' },
+            { value: 'isizulu-hl', label: 'IsiZulu Home Language' },
+            { value: 'isizulu-fal', label: 'IsiZulu First Additional Language' },
+            { value: 'isixhosa-hl', label: 'IsiXhosa Home Language' },
+            { value: 'isixhosa-fal', label: 'IsiXhosa First Additional Language' },
+            { value: 'sepedi-hl', label: 'Sepedi Home Language' },
+            { value: 'sepedi-fal', label: 'Sepedi First Additional Language' },
+            { value: 'setswana-hl', label: 'Setswana Home Language' },
+            { value: 'setswana-fal', label: 'Setswana First Additional Language' },
+            { value: 'sesotho-hl', label: 'Sesotho Home Language' },
+            { value: 'sesotho-fal', label: 'Sesotho First Additional Language' },
+            { value: 'xitsonga-hl', label: 'Xitsonga Home Language' },
+            { value: 'xitsonga-fal', label: 'Xitsonga First Additional Language' },
+            { value: 'sivswati-hl', label: 'SiSwati Home Language' },
+            { value: 'sivswati-fal', label: 'SiSwati First Additional Language' },
+             { value: 'tshivenda-hl', label: 'Tshivenda Home Language' },
+            { value: 'tshivenda-fal', label: 'Tshivenda First Additional Language' },
+            { value: 'isindebele-hl', label: 'IsiNdebele Home Language' },
+            { value: 'isindebele-fal', label: 'IsiNdebele First Additional Language' },
+            // --- Core & Electives ---
+            { value: 'life-orientation', label: 'Life Orientation' },
+            { value: 'mathematics', label: 'Mathematics' },
+            { value: 'mathematical-literacy', label: 'Mathematical Literacy' },
+            { value: 'physical-sciences', label: 'Physical Sciences' },
+            { value: 'life-sciences', label: 'Life Sciences' },
+            { value: 'geography', label: 'Geography' },
+            { value: 'history', label: 'History' },
+            { value: 'accounting', label: 'Accounting' },
+            { value: 'business-studies', label: 'Business Studies' },
+            { value: 'economics', label: 'Economics' },
+            { value: 'computer-at', label: 'Computer Applications Technology (CAT)' },
+            { value: 'it', label: 'Information Technology (IT)' },
+            { value: 'agricultural-sciences', label: 'Agricultural Sciences' },
+            { value: 'tourism', label: 'Tourism' },
+            { value: 'consumer-studies', label: 'Consumer Studies' },
+            { value: 'hospitality-studies', label: 'Hospitality Studies' },
+            { value: 'dramatic-arts', label: 'Dramatic Arts' },
+            { value: 'visual-arts', label: 'Visual Arts' },
+            { value: 'music', label: 'Music' },
+            { value: 'engineering-graphics', label: 'Engineering Graphics & Design (EGD)' },
+            { value: 'religion-studies', label: 'Religion Studies' },
+            { value: 'design', label: 'Design'},
+            { value: 'agric-tech', label: 'Agricultural Technology'},
+            { value: 'agric-man-prac', label: 'Agricultural Management Practices'},
+             // Add any other relevant NSC subjects
+        ].sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
+
+        const scoreRanges = [
+            { value: '7', label: '80-100% (L7)', min: 80, max: 100 },
+            { value: '6', label: '70-79% (L6)', min: 70, max: 79 },
+            { value: '5', label: '60-69% (L5)', min: 60, max: 69 },
+            { value: '4', label: '50-59% (L4)', min: 50, max: 59 },
+            { value: '3', label: '40-49% (L3)', min: 40, max: 49 },
+            { value: '2', label: '30-39% (L2)', min: 30, max: 39 },
+            { value: '1', label: '0-29% (L1)', min: 0, max: 29 }
+        ];
+
+        // University requirements data - EXAMPLES ONLY, ADD MORE AND KEEP UPDATED
+        const universityRequirements = [
+             // UCT
+             { university: "UCT", faculty: "Science (BSc)", minAPS: 37, additionalRequirements: "Maths L6, Phys Sci L5, Engl L5", notes: "APS calc excludes LO" },
+             { university: "UCT", faculty: "Engineering (BEng/BSc Eng)", minAPS: 38, additionalRequirements: "Maths L6, Phys Sci L6, Engl L5", notes: "APS calc excludes LO" },
+             { university: "UCT", faculty: "Commerce (BCom)", minAPS: 36, additionalRequirements: "Maths L5, Engl L5", notes: "APS calc excludes LO" },
+             { university: "UCT", faculty: "Humanities (BA/BSocSci)", minAPS: 32, additionalRequirements: "Engl L5", notes: "APS calc excludes LO" },
+             // Wits
+             { university: "Wits", faculty: "Science (BSc)", minAPS: 36, additionalRequirements: "Maths L5, Phys Sci L5, Engl L5", notes: "APS includes LO (max 3 points)" },
+             { university: "Wits", faculty: "Engineering (BSc Eng)", minAPS: 38, additionalRequirements: "Maths L6, Phys Sci L6, Engl L5", notes: "APS includes LO (max 3 points)" },
+             { university: "Wits", faculty: "Commerce (BCom)", minAPS: 36, additionalRequirements: "Maths L5, Engl L5", notes: "APS includes LO (max 3 points)" },
+             { university: "Wits", faculty: "Health Sci (MBBCh)", minAPS: 42, additionalRequirements: "Maths L5, Phys Sci L5, Life Sci L5, Engl L5", notes: "APS includes LO (max 3). Competitive." },
+             // UP
+             { university: "UP", faculty: "Science (BSc)", minAPS: 30, additionalRequirements: "Maths L5, Phys Sci L5, Engl L4", notes: "APS includes LO" },
+             { university: "UP", faculty: "Engineering (BEng)", minAPS: 33, additionalRequirements: "Maths L6, Phys Sci L5, Engl L5", notes: "APS includes LO" },
+             { university: "UP", faculty: "Commerce (BCom)", minAPS: 30, additionalRequirements: "Maths L5, Engl L4", notes: "APS includes LO" },
+             { university: "UP", faculty: "Veterinary Sci (BVSc)", minAPS: 35, additionalRequirements: "Maths L6, Phys Sci L6, Engl L5", notes: "APS includes LO. Competitive." },
+             // SU
+             { university: "SU", faculty: "Science (BSc)", minAPS: 34, additionalRequirements: "Maths L5, Phys Sci L4, Engl HL L4 / FAL L5", notes: "Avg % calc, not APS. This is APS equivalent guide." },
+             { university: "SU", faculty: "Engineering (BEng)", minAPS: 37, additionalRequirements: "Maths L6, Phys Sci L6, Engl HL L5 / FAL L6", notes: "Avg % calc + subj reqs. APS guide." },
+             { university: "SU", faculty: "Commerce (BCom)", minAPS: 34, additionalRequirements: "Maths L5, Engl HL L4 / FAL L5", notes: "Avg % calc + subj reqs. APS guide." },
+             // UKZN
+             { university: "UKZN", faculty: "Science", minAPS: 28, additionalRequirements: "Maths L4, Life Sci/Phys Sci L4, Engl L4", notes: "Check specific major" },
+             { university: "UKZN", faculty: "Engineering", minAPS: 33, additionalRequirements: "Maths L6, Phys Sci L5, Engl L4", notes: "" },
+             { university: "UKZN", faculty: "Commerce", minAPS: 28, additionalRequirements: "Maths L4, Engl L4", notes: "" },
+              // UJ
+             { university: "UJ", faculty: "Science (BSc)", minAPS: 28, additionalRequirements: "Maths L4, Phys Sci L4, Engl L4", notes: "APS includes LO (max 3 points)" },
+             { university: "UJ", faculty: "Engineering (BEng Tech)", minAPS: 28, additionalRequirements: "Maths L5, Phys Sci L5, Engl L4", notes: "APS includes LO (max 3 points)" },
+             { university: "UJ", faculty: "Commerce (BCom)", minAPS: 26, additionalRequirements: "Maths L4, Engl L4", notes: "APS includes LO (max 3 points)" },
+             // Add more universities/programs...
+        ].sort((a, b) => a.university.localeCompare(b.university) || a.faculty.localeCompare(b.faculty));
+
+        // Program recommendations data
+        const programRecommendations = [
+             // Higher APS
+            { name: "MBBCh / Medicine", category: "Health Sciences", apsRequired: 40, subjects: ["mathematics", "physical-sciences", "life-sciences", "english-hl|english-fal"], description: "Highly competitive medical degree. Strong science and Maths required.", notes: "Very high APS & subject levels needed." },
+            { name: "BSc Actuarial Science", category: "Commerce / Science", apsRequired: 38, subjects: ["mathematics", "english-hl|english-fal"], description: "Mathematical and statistical focus for risk assessment. Requires very high Maths.", notes: "Often requires L7 Maths." },
+            { name: "Bachelor of Engineering (Various)", category: "Engineering", apsRequired: 35, subjects: ["mathematics", "physical-sciences", "english-hl|english-fal"], description: "Design/improve systems (Civil, Mech, Elec, Chem etc). Requires high Maths & Physics.", notes: "Specific levels vary by uni/branch." },
+            // Mid-High APS
+            { name: "BSc Computer Science", category: "Science & Technology", apsRequired: 33, subjects: ["mathematics", "physical-sciences|it", "english-hl|english-fal"], description: "Programming, algorithms, software dev. Strong Maths essential, Physics or IT often needed.", notes: "Some accept IT instead of Physics." },
+            { name: "BCom Accounting (CA Stream)", category: "Commerce", apsRequired: 32, subjects: ["mathematics", "accounting", "english-hl|english-fal"], description: "Leads to Chartered Accountant path. Requires good Maths (not Lit) and Accounting.", notes: "Specific Maths/Acc levels critical." },
+            { name: "LLB / Law", category: "Humanities / Law", apsRequired: 32, subjects: ["english-hl|english-fal"], description: "Legal theory/practice. Requires strong language skills (often L5+). Some unis prefer Maths.", notes: "Can be BA Law -> LLB or direct LLB." },
+            // Mid APS
+            { name: "BSc Life Sciences / Biological Sci", category: "Science & Technology", apsRequired: 30, subjects: ["mathematics|mathematical-literacy", "life-sciences", "english-hl|english-fal"], description: "Covers biology, genetics, physiology etc. Usually needs Maths (check if Lit accepted), Life Sci essential.", notes: "Maths Lit may limit options." },
+            { name: "Bachelor of Education (BEd FET Phase)", category: "Education", apsRequired: 28, subjects: ["english-hl|english-fal"], description: "Teacher training for Grades 10-12. Requires relevant school subjects for teaching specialisation.", notes: "e.g., Maths needed to teach Maths." },
+            { name: "BCom General / Business Management", category: "Commerce", apsRequired: 28, subjects: ["mathematics|mathematical-literacy", "english-hl|english-fal"], description: "Broad business foundation. Maths Lit may be accepted by some unis.", notes: "Verify Maths requirement." },
+             // Lower-Mid APS (Diplomas / Higher Certs / Some Degrees)
+            { name: "Diploma in Information Technology", category: "Science & Technology", apsRequired: 24, subjects: ["mathematics|mathematical-literacy", "english-hl|english-fal"], description: "Practical IT skills (networking, programming basics). Maths or Maths Lit usually required.", notes: "Check specific institution." },
+            { name: "Bachelor of Education (BEd Foundation Phase)", category: "Education", apsRequired: 26, subjects: ["english-hl|english-fal"], description: "Teacher training for Grades R-3. Often accepts Maths Lit.", notes: "Check language requirements." },
+            { name: "Diploma in Tourism Management", category: "Business / Hospitality", apsRequired: 22, subjects: ["english-hl|english-fal"], description: "Prepares for careers in tourism. May require Tourism or Business Studies.", notes: "Check subject specifics." },
+            { name: "Higher Certificate in Business Management", category: "Business", apsRequired: 18, subjects: ["english-hl|english-fal"], description: "Foundational business knowledge. Lower entry requirements.", notes: "Often a pathway to Diploma/Degree." },
+            { name: "Higher Certificate in Office Administration", category: "Business / Admin", apsRequired: 16, subjects: ["english-hl|english-fal"], description: "Prepares for administrative roles. Generally lower entry requirements.", notes: "" }
+        ].sort((a, b) => b.apsRequired - a.apsRequired || a.name.localeCompare(b.name)); // Sort by APS desc, then name
+
+
+        // --- State Variables ---
+        const subjectsContainer = document.getElementById('subjects-container');
+        let subjects = [{ id: 1, name: '', score: '', manualScore: '' }]; // Start with one empty row
+        let currentAPS = 0;
+        let currentSubjectData = []; // Stores { name, percentage, level, points } for report
+        let toastTimeoutIds = [];
+        let apsChartInstance = null; // To hold the Chart.js instance
+
+        // --- Core Functions ---
+
+        function renderSubjects() {
+    subjectsContainer.innerHTML = '';
+    const selectedValues = subjects.map(s => s.name).filter(Boolean);
+
+    subjects.forEach((subject, index) => {
+        const subjectRow = document.createElement('div');
+        subjectRow.className = 'input-group p-4 bg-gray-50 rounded-lg border border-gray-200';
+        subjectRow.id = `subject-row-${index}`;
+
+        const availableSubjects = subjectsList.filter(s =>
+            s.value === subject.name || !selectedValues.includes(s.value)
+        );
+
+        const currentAPSPoints = subject.name
+            ? (subject.score ? Number(subject.score) : (subject.manualScore ? getAPSFromPercentage(subject.manualScore) : 0))
+            : 0;
+
+        subjectRow.innerHTML = `
+            <div class="subject-controls flex flex-wrap sm:flex-nowrap gap-3 items-center">
+
+                <!-- Subject Select -->
+                <div class="flex-1 min-w-[150px]">
+                    <label for="subject-name-${index}" class="sr-only">Subject Name</label>
+                    <select id="subject-name-${index}" class="w-full p-2 rounded border border-gray-300"
+                            onchange="handleSubjectChange(${index}, 'name', this.value)">
+                        <option value="">-- Select Subject --</option>
+                        ${availableSubjects.map(subj => `<option value="${subj.value}" ${subj.value === subject.name ? 'selected' : ''}>${subj.label}</option>`).join('')}
+                    </select>
+                </div>
+
+                <!-- Score Range Select -->
+                <div class="flex-1 min-w-[150px]">
+                    <label for="subject-score-${index}" class="sr-only">Score Range</label>
+                    <select id="subject-score-${index}" class="w-full p-2 rounded border border-gray-300"
+                            onchange="handleSubjectChange(${index}, 'score', this.value)"
+                            ${subject.manualScore ? 'disabled' : ''}>
+                        <option value="">-- Select Range --</option>
+                        ${scoreRanges.map(range => `<option value="${range.value}" ${range.value === subject.score ? 'selected' : ''}>${range.label}</option>`).join('')}
+                    </select>
+                </div>
+
+                <!-- Manual Percentage Input -->
+                <div class="flex-1 min-w-[120px]">
+                    <label for="subject-manual-${index}" class="sr-only">Manual Percentage</label>
+                    <input type="number" id="subject-manual-${index}"
+                           class="w-full p-2 rounded border border-gray-300"
+                           placeholder="Or Enter %"
+                           value="${subject.manualScore}"
+                           oninput="handleManualScoreChange(${index}, this.value)"
+                           min="0" max="100" step="1"
+                           ${subject.score ? 'disabled' : ''}>
+                </div>
+
+                <!-- APS Display -->
+                <span class="text-blue-600 font-semibold text-sm w-full sm:w-auto text-right sm:text-center px-2">
+                    APS: ${currentAPSPoints > 0 ? currentAPSPoints : '...'}
+                </span>
+
+                <!-- Remove Button -->
+                <button class="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg flex-shrink-0 no-print"
+                        onclick="removeSubject(${index})"
+                        ${subjects.length <= 1 ? 'disabled' : ''}
+                        title="${subjects.length <= 1 ? 'Cannot remove last subject' : 'Remove subject'}"
+                        aria-label="Remove subject row ${index + 1}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Placeholder for error message -->
+            <div id="subject-error-${index}" class="error-text h-4"></div>
+        `;
+
+        subjectsContainer.appendChild(subjectRow);
+        validateSingleRow(index);
+    });
+}
+
+
+        function getAPSFromPercentage(percentage) {
+            const numericPercentage = Number(percentage);
+            if (isNaN(numericPercentage) || numericPercentage < 0 || numericPercentage > 100) return 0;
+            const range = scoreRanges.find(r => numericPercentage >= r.min && numericPercentage <= r.max);
+            return range ? Number(range.value) : 0;
+        }
+
+        function handleSubjectChange(index, field, value) {
+            const previousName = subjects[index].name;
+            subjects[index][field] = value;
+
+            if (field === 'name') {
+                 clearRowError(index);
+                // Check for duplicates only if a valid subject is chosen
+                if (value && subjects.filter(s => s.name === value).length > 1) {
+                     setRowError(index, 'Subject already selected.');
+                     showToast('Subject already selected.', 'warning');
+                     // Revert to previous name or empty if it was empty
+                     subjects[index].name = previousName || '';
+                     value = subjects[index].name; // Ensure value reflects the actual state
+                }
+            }
+
+            if (field === 'score' && value !== '') {
+                subjects[index]['manualScore'] = ''; // Clear manual score
+                 clearRowError(index);
+            }
+
+            // Re-render to update dropdowns, APS display, and potentially enable/disable fields
+            renderSubjects();
+        }
+
+        function handleManualScoreChange(index, value) {
+             clearRowError(index);
+            const numericValue = Number(value);
+
+            if (value === '') {
+                 subjects[index]['manualScore'] = '';
+                 subjects[index]['score'] = ''; // Also clear range score if manual is cleared
+                 renderSubjects(); // Re-render to enable range select
+            } else if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= 100) {
+                subjects[index]['manualScore'] = value;
+                subjects[index]['score'] = ''; // Clear range score
+                 renderSubjects(); // Re-render to update APS display and disable range select
+            } else {
+                subjects[index]['manualScore'] = value; // Keep invalid value for user to see
+                 setRowError(index, 'Percentage must be between 0 and 100.');
+                 // Do not clear score here, let validation handle it
+                 renderSubjects(); // Re-render to show error state potentially
+                 // Find the input and add error class
+                 const inputElement = document.getElementById(`subject-manual-${index}`);
+                 if(inputElement) inputElement.classList.add('validation-error');
+            }
+        }
+
+
+        function addSubject() {
+             if (subjects.length >= 10) { // Limit number of subjects
+                 showToast('Maximum of 10 subjects reached.', 'warning');
+                 return;
+             }
+            subjects.push({ id: Date.now(), name: '', score: '', manualScore: '' });
+            renderSubjects();
+            // Focus the new subject dropdown
+            document.getElementById(`subject-name-${subjects.length - 1}`)?.focus();
+        }
+
+        function removeSubject(index) {
+            if (subjects.length > 1) {
+                subjects.splice(index, 1);
+                renderSubjects();
+                 // Recalculate if APS was already shown
+                 if (document.getElementById('total-aps').style.display !== 'none') {
+                     calculateTotalAPS();
+                 }
+            }
+        }
+
+        function setRowError(index, message) {
+             const errorDiv = document.getElementById(`subject-error-${index}`);
+             if (errorDiv) errorDiv.textContent = message;
+             // Add visual cue to the row or specific inputs if desired
+             const nameSelect = document.getElementById(`subject-name-${index}`);
+             const scoreSelect = document.getElementById(`subject-score-${index}`);
+             const manualInput = document.getElementById(`subject-manual-${index}`);
+
+             if (message.includes('select a subject')) nameSelect?.classList.add('validation-error');
+             if (message.includes('select a score') || message.includes('enter a percentage')) {
+                 scoreSelect?.classList.add('validation-error');
+                 manualInput?.classList.add('validation-error');
+             }
+             if (message.includes('Percentage must be')) manualInput?.classList.add('validation-error');
+             if (message.includes('already selected')) nameSelect?.classList.add('validation-error');
+         }
+
+         function clearRowError(index) {
+             const errorDiv = document.getElementById(`subject-error-${index}`);
+             if (errorDiv) errorDiv.textContent = '';
+             // Remove validation classes
+             document.getElementById(`subject-name-${index}`)?.classList.remove('validation-error');
+             document.getElementById(`subject-score-${index}`)?.classList.remove('validation-error');
+             document.getElementById(`subject-manual-${index}`)?.classList.remove('validation-error');
+         }
+
+         function validateSingleRow(index) {
+             const subject = subjects[index];
+             clearRowError(index); // Clear previous errors first
+
+             let isValid = true;
+             if (subject.name && !subject.score && !subject.manualScore) {
+                 setRowError(index, 'Please select a score range or enter a percentage.');
+                 isValid = false;
+             } else if (!subject.name && (subject.score || subject.manualScore)) {
+                 setRowError(index, 'Please select a subject.');
+                 isValid = false;
+             } else if (subject.manualScore && (Number(subject.manualScore) < 0 || Number(subject.manualScore) > 100)) {
+                 setRowError(index, 'Percentage must be between 0 and 100.');
+                 isValid = false;
+             }
+
+             // Check duplicates (only highlight the current row if it's the duplicate)
+             if (subject.name) {
+                 const count = subjects.filter(s => s.name === subject.name).length;
+                 if (count > 1) {
+                      // Check if this specific instance is the duplicate being added/changed
+                      const instances = subjects.map((s, i) => s.name === subject.name ? i : -1).filter(i => i !== -1);
+                      if (instances.indexOf(index) > 0) { // If this is not the first instance
+                          setRowError(index, 'Subject already selected elsewhere.');
+                           isValid = false;
+                      }
+                 }
+             }
+             return isValid;
+         }
+
+
+        function validateInputs() {
+            let isAllValid = true;
+            subjects.forEach((_, index) => {
+                if (!validateSingleRow(index)) {
+                    isAllValid = false;
+                }
+            });
+            return isAllValid;
+        }
+
+
+        function calculateTotalAPS() {
+            if (!validateInputs()) {
+                 showToast('Please fix the errors in the subject entries before calculating.', 'error');
+                 // Focus the first invalid field (optional enhancement)
+                  const firstError = document.querySelector('.error-text:not(:empty)');
+                  firstError?.closest('.input-group')?.querySelector('select, input')?.focus();
+                 return;
+            }
+
+            let total = 0;
+            currentSubjectData = []; // Reset subject data for report
+
+            subjects.forEach(subject => {
+                if (!subject.name) return; // Skip rows without a subject selected
+
+                let apsPoints = 0;
+                let percentageDisplay = 'N/A';
+                let levelDisplay = 'N/A';
+                let source = ''; // 'Range' or 'Manual'
+
+                if (subject.manualScore) {
+                    const scoreValue = Number(subject.manualScore);
+                     if (!isNaN(scoreValue) && scoreValue >= 0 && scoreValue <= 100) {
+                        apsPoints = getAPSFromPercentage(scoreValue);
+                        percentageDisplay = `${scoreValue}%`;
+                        levelDisplay = scoreRanges.find(r => scoreValue >= r.min && scoreValue <= r.max)?.label.match(/\(L(\d)\)/)?.[1] || 'N/A'; // Extract Level number
+                        source = 'Manual';
+                     }
+                } else if (subject.score) {
+                    apsPoints = Number(subject.score);
+                    const range = scoreRanges.find(r => r.value === subject.score);
+                    percentageDisplay = range ? range.label.split(' (')[0].trim() : 'N/A'; // "80-100%"
+                    levelDisplay = range ? range.value : 'N/A'; // Level number (7, 6, ...)
+                    source = 'Range';
+                }
+
+                if (apsPoints > 0 || source) { // Only add if valid points were calculated
+                    total += apsPoints;
+                     const subjectInfo = subjectsList.find(s => s.value === subject.name);
+                     currentSubjectData.push({
+                        name: subjectInfo ? subjectInfo.label : 'Unknown Subject',
+                        percentage: percentageDisplay,
+                        level: levelDisplay,
+                        points: apsPoints,
+                        source: source
+                     });
+                }
+            });
+
+             currentAPS = total;
+            document.getElementById('aps-score').textContent = total;
+
+            // Determine qualification status (General guidelines)
+            let status = '';
+            let statusColorClass = 'text-gray-700'; // Default
+            if (total >= 23) {
+                status = 'Potentially qualifies for Bachelor\'s Degree consideration.';
+                 statusColorClass = 'text-green-600';
+            } else if (total >= 19) {
+                status = 'Potentially qualifies for Diploma consideration.';
+                 statusColorClass = 'text-yellow-600';
+            } else if (total >= 15) {
+                status = 'Potentially qualifies for Higher Certificate consideration.';
+                 statusColorClass = 'text-yellow-600';
+            } else {
+                status = 'May not meet common minimums for Certificate/Diploma/Degree.';
+                 statusColorClass = 'text-red-600';
+            }
+            if (currentSubjectData.length === 0 && total === 0) {
+                 status = 'Enter subjects and marks to calculate status.';
+                 statusColorClass = 'text-gray-500';
+            }
+
+
+            const statusElement = document.getElementById('qualification-status');
+            statusElement.textContent = status;
+            statusElement.className = `mb-4 text-md font-medium ${statusColorClass}`; // Apply color
+
+
+            document.getElementById('total-aps').style.display = 'block';
+
+            // Update progress bars
+            updateProgressBars(total);
+
+            // Update program recommendations (if the tab is active or will be switched to)
+            updateProgramRecommendations(total, currentSubjectData.map(s => s.value)); // Pass selected subject values
+
+             // Show recommendations note
+             const recNote = document.querySelector('.program-recommendations-note');
+             if(recNote) recNote.classList.remove('hidden');
+
+             showToast(`APS Calculated: ${total}`, 'success');
+        }
+
+        function updateProgressBars(total) {
+            // Qualification thresholds (adjust if needed)
+            const bachelorRequired = 23;
+            const diplomaRequired = 19;
+            const certificateRequired = 15;
+
+             // Calculate percentage towards the goal, capped at 100%
+            const bachelorProgressPercent = Math.min((total / bachelorRequired) * 100, 100);
+            const diplomaProgressPercent = Math.min((total / diplomaRequired) * 100, 100);
+            const certificateProgressPercent = Math.min((total / certificateRequired) * 100, 100);
+
+             // Update progress bar widths
+             const bachelorBar = document.getElementById('bachelor-progress');
+             const diplomaBar = document.getElementById('diploma-progress');
+             const certificateBar = document.getElementById('certificate-progress');
+
+             bachelorBar.style.width = `${bachelorProgressPercent}%`;
+             diplomaBar.style.width = `${diplomaProgressPercent}%`;
+             certificateBar.style.width = `${certificateProgressPercent}%`;
+
+             // Update text labels
+             document.getElementById('bachelor-progress-text').textContent = total >= bachelorRequired ? `Achieved (${total}/${bachelorRequired})` : `${Math.floor(bachelorProgressPercent)}%`;
+             document.getElementById('diploma-progress-text').textContent = total >= diplomaRequired ? `Achieved (${total}/${diplomaRequired})` : `${Math.floor(diplomaProgressPercent)}%`;
+             document.getElementById('certificate-progress-text').textContent = total >= certificateRequired ? `Achieved (${total}/${certificateRequired})` : `${Math.floor(certificateProgressPercent)}%`;
+
+             // Update progress bar colors based on achievement
+             bachelorBar.className = `progress-value ${total >= bachelorRequired ? 'bg-success' : ''}`;
+             diplomaBar.className = `progress-value ${total >= diplomaRequired ? 'bg-success' : ''}`;
+             certificateBar.className = `progress-value ${total >= certificateRequired ? 'bg-success' : ''}`;
+        }
+
+        function updateProgramRecommendations(apsScore, selectedSubjectValues = []) {
+             // If called without valid selection (e.g. on initial load before calc), use current state
+             if (selectedSubjectValues.length === 0 && currentSubjectData.length > 0) {
+                selectedSubjectValues = subjects.map(s => s.name).filter(Boolean);
+             }
+
+            const recommendationsContainer = document.getElementById('program-recommendations');
+            const warningContainer = document.getElementById('program-warning');
+            recommendationsContainer.innerHTML = ''; // Clear previous recommendations
+
+            if (apsScore <= 0 && selectedSubjectValues.length === 0) {
+                warningContainer.innerHTML = `<p class="text-sm text-yellow-700">Enter subjects and scores on the 'Calculator' tab and click 'Calculate APS' to see recommendations.</p>`;
+                warningContainer.className = 'mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg';
+                recommendationsContainer.classList.add('hidden');
+                document.querySelector('.program-recommendations-note')?.classList.add('hidden');
+                return;
+            }
+
+
+             // Filter and sort recommendations
+            const filteredRecommendations = programRecommendations
+                .map(program => {
+                     // Check subject requirements more robustly
+                    let subjectMatchStatus = 'Met'; // Assume met initially
+                     const requiredSubjectsDetails = program.subjects.map(subjRule => {
+                        const isOrRule = subjRule.includes('|');
+                        const options = isOrRule ? subjRule.split('|').map(s => s.trim()) : [subjRule.trim()];
+                        const ruleMet = options.some(option => selectedSubjectValues.includes(option));
+                        const ruleLabel = options.map(opt => subjectsList.find(s => s.value === opt)?.label || opt).join(' OR ');
+
+                        if (!ruleMet && program.subjects.length > 0) { // Update status if any AND rule is not met
+                            subjectMatchStatus = 'Not Met';
+                        }
+
+                        return { label: ruleLabel, met: ruleMet };
+                     });
+
+                     if (subjectMatchStatus === 'Not Met' && program.subjects.length === 0) {
+                        subjectMatchStatus = 'Met'; // Correct if there were no subjects required
+                     }
+
+
+                    // Determine eligibility status
+                    let eligibilityStatus;
+                    let eligibilityClass;
+                    const apsDifference = apsScore - program.apsRequired;
+
+                    if (apsScore >= program.apsRequired && subjectMatchStatus === 'Met') {
+                        eligibilityStatus = 'Likely Eligible';
+                        eligibilityClass = 'eligible';
+                    } else if (apsDifference >= -3 && apsDifference < 0 && subjectMatchStatus === 'Met') {
+                        eligibilityStatus = 'Close (APS Low)';
+                        eligibilityClass = 'almost';
+                    } else if (apsScore >= program.apsRequired && subjectMatchStatus === 'Not Met') {
+                        eligibilityStatus = 'Check Subjects';
+                         eligibilityClass = 'almost';
+                    } else { // APS too low, regardless of subjects
+                        eligibilityStatus = 'APS Too Low';
+                        eligibilityClass = 'not-eligible';
+                    }
+                    // If APS is met but subjects not, it's 'Check Subjects', overriding 'APS Too Low' if needed
+                     if (apsScore >= program.apsRequired && subjectMatchStatus === 'Not Met') {
+                         eligibilityStatus = 'Check Subjects';
+                         eligibilityClass = 'almost';
+                     }
+
+
+                     // Calculate relevance score for sorting
+                     let relevanceScore = 0;
+                     if (eligibilityClass === 'eligible') relevanceScore = 4;
+                     else if (eligibilityClass === 'almost' && eligibilityStatus.includes('APS Low')) relevanceScore = 3;
+                     else if (eligibilityClass === 'almost' && eligibilityStatus.includes('Check Subjects')) relevanceScore = 2;
+                     else relevanceScore = 1; // Not eligible
+
+
+                    return { ...program, eligibilityStatus, eligibilityClass, requiredSubjectsDetails, relevanceScore };
+                })
+                .sort((a, b) => b.relevanceScore - a.relevanceScore || b.apsRequired - a.apsRequired); // Sort by relevance, then required APS
+
+            // Display recommendations
+            if (filteredRecommendations.length > 0) {
+                 filteredRecommendations.forEach(program => {
+                    const programCard = document.createElement('div');
+                    programCard.className = `program-card p-4 bg-white rounded-lg shadow-sm ${program.eligibilityClass} border-l-4 mb-4`; // Added mb-4
+
+                     let statusTagClass = program.eligibilityClass === 'eligible' ? 'tag-success' :
+                                     program.eligibilityClass === 'almost' ? 'tag-warning' : 'tag-danger';
+
+                     // Build required subjects HTML with icons
+                     let requiredSubjectsHtml = '';
+                     if (program.requiredSubjectsDetails.length > 0) {
+                         requiredSubjectsHtml = program.requiredSubjectsDetails.map(detail => `
+                             <span class="inline-flex items-center mr-2 text-xs ${detail.met ? 'text-green-700' : 'text-red-700'}">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                     ${detail.met
+                                         ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />'
+                                         : '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />'
+                                     }
+                                 </svg>
+                                 ${detail.label}
+                             </span>
+                         `).join('');
+
+                         requiredSubjectsHtml = `<div class="mt-2 pt-2 border-t border-gray-100">
+                                                    <span class="font-medium text-xs text-gray-600 block mb-1">Subject Requirements:</span>
+                                                    ${requiredSubjectsHtml}
+                                                </div>`;
+                     }
+
+
+                    programCard.innerHTML = `
+                        <div class="flex justify-between items-start gap-2">
+                            <div>
+                                <h3 class="text-md font-semibold text-gray-900">${program.name}</h3>
+                                <div class="text-xs text-gray-500 mb-1">${program.category}</div>
+                            </div>
+                            <span class="tag ${statusTagClass} flex-shrink-0 ml-2 whitespace-nowrap">${program.eligibilityStatus}</span>
+                        </div>
+                        <p class="text-gray-700 text-sm mt-1 mb-2">${program.description}</p>
+                        <div class="flex flex-wrap justify-between items-center text-sm gap-2">
+                            <div class="text-xs">
+                                <span class="font-medium">Guide APS:</span> ${program.apsRequired}
+                                <span class="text-gray-500">(Yours: ${apsScore})</span>
+                                <span class="${apsScore >= program.apsRequired ? 'text-green-600' : 'text-red-600'} ml-1 font-medium">
+                                    (${apsScore >= program.apsRequired ? '+' : ''}${apsScore - program.apsRequired})
+                                </span>
+                            </div>
+                             ${program.notes ? `<div class="text-xs text-gray-500 w-full text-right"><em>Note: ${program.notes}</em></div>` : ''}
+                        </div>
+                         ${requiredSubjectsHtml}
+                    `;
+                    recommendationsContainer.appendChild(programCard);
+                 });
+
+                recommendationsContainer.classList.remove('hidden');
+                warningContainer.innerHTML = `<p class="text-sm text-green-700">Based on your calculated APS of <strong>${apsScore}</strong> and selected subjects, here are some potential program recommendations. <strong>Verify all details with the university.</strong></p>`;
+                warningContainer.className = 'mb-6 p-4 bg-green-50 border-l-4 border-green-400 rounded-r-lg'; // Info style
+            } else {
+                warningContainer.innerHTML = `<p class="text-sm text-yellow-700">Could not find specific program recommendations matching APS ${apsScore} and the selected subjects in our list. Check university websites directly for programs suitable for your profile.</p>`;
+                warningContainer.className = 'mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg';
+                recommendationsContainer.classList.add('hidden');
+            }
+             document.querySelector('.program-recommendations-note')?.classList.toggle('hidden', filteredRecommendations.length === 0);
+        }
+
+        // --- University Requirements Tab ---
+
+        function populateUniversityRequirements() {
+            const tableBody = document.getElementById('university-requirements');
+            if (!tableBody) return;
+            tableBody.innerHTML = ''; // Clear loading/previous rows
+
+            if (!universityRequirements || universityRequirements.length === 0) {
+                 tableBody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500 py-4">University requirement data not available or failed to load.</td></tr>';
+                 return;
+            }
+
+            universityRequirements.forEach(req => {
+                const row = document.createElement('tr');
+                 row.className = 'hover:bg-gray-50 transition-colors';
+                 // Add data attributes for filtering
+                 row.setAttribute('data-university', req.university.toLowerCase());
+                 row.setAttribute('data-faculty', req.faculty.toLowerCase());
+                 row.setAttribute('data-requirements', req.additionalRequirements.toLowerCase());
+
+                row.innerHTML = `
+                    <td class="font-medium text-gray-800">${req.university}</td>
+                    <td>${req.faculty}</td>
+                    <td class="text-center font-semibold text-blue-600">${req.minAPS}</td>
+                    <td class="text-xs">${req.additionalRequirements} ${req.notes ? `<br><em class='text-gray-500'>(${req.notes})</em>` : ''}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function filterUniversityTable() {
+            const searchTerm = document.getElementById('university-search').value.toLowerCase().trim();
+            const tableBody = document.getElementById('university-requirements');
+            const rows = tableBody.querySelectorAll('tr');
+            let visibleRows = 0;
+
+            rows.forEach(row => {
+                 // Check if the row contains data attributes (skip potential 'no results' row)
+                 if (!row.hasAttribute('data-university')) {
+                     row.style.display = 'none'; // Hide helper rows
+                     return;
+                 };
+
+                const uni = row.getAttribute('data-university') || '';
+                const fac = row.getAttribute('data-faculty') || '';
+                const req = row.getAttribute('data-requirements') || '';
+                const notes = (row.querySelector('em')?.textContent || '').toLowerCase();
+
+                const rowText = `${uni} ${fac} ${req} ${notes}`; // Combine searchable text
+
+                if (searchTerm === '' || rowText.includes(searchTerm)) {
+                    row.style.display = ''; // Show row
+                    visibleRows++;
+                } else {
+                    row.style.display = 'none'; // Hide row
+                }
+            });
+
+             // Manage "no results" message
+            let noResultsRow = tableBody.querySelector('.no-results-row');
+            if (visibleRows === 0 && searchTerm !== '') {
+                if (!noResultsRow) {
+                    noResultsRow = document.createElement('tr');
+                    noResultsRow.className = 'no-results-row';
+                    noResultsRow.innerHTML = `<td colspan="4" class="text-center text-gray-500 py-4">No matching requirements found for "${searchTerm}". Check university websites for confirmation.</td>`;
+                    tableBody.appendChild(noResultsRow);
+                } else {
+                    noResultsRow.style.display = ''; // Show existing no-results row
+                }
+            } else if (noResultsRow) {
+                noResultsRow.style.display = 'none'; // Hide no-results row if there are results or search is empty
+            }
+        }
+
+
+        // --- UI Interaction ---
+
+        function toggleTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            // Reset all tab buttons style
+            document.querySelectorAll('nav button[id$="-tab"]').forEach(button => {
+                button.classList.remove('bg-blue-600', 'text-white', 'font-semibold');
+                button.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            });
+
+            // Show selected tab content
+            const selectedTabContent = document.getElementById(`${tabName}-tab-content`);
+            selectedTabContent?.classList.remove('hidden');
+
+            // Highlight selected tab button
+             const selectedTabButton = document.getElementById(`${tabName}-tab`);
+             selectedTabButton?.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+             selectedTabButton?.classList.add('bg-blue-600', 'text-white', 'font-semibold');
+
+            // Lazy load university data or update recommendations if needed
+            if (tabName === 'universities') {
+                 const tableBody = document.getElementById('university-requirements');
+                  // Populate only if it seems empty or has the initial loading message
+                 if (tableBody && (!tableBody.hasChildNodes() || tableBody.textContent.includes("Loading"))) {
+                     populateUniversityRequirements();
+                 }
+                 // Add listener if not already added
+                 const searchInput = document.getElementById('university-search');
+                 if (searchInput && !searchInput.dataset.listenerAdded) {
+                      searchInput.addEventListener('input', filterUniversityTable);
+                      searchInput.dataset.listenerAdded = 'true';
+                 }
+            } else if (tabName === 'programs') {
+                 // Re-run recommendations update in case APS was calculated while on another tab
+                 updateProgramRecommendations(currentAPS, subjects.map(s => s.name).filter(Boolean));
+            }
+        }
+
+
+        function shareResults(platform) {
+            if (currentAPS <= 0 && currentSubjectData.length === 0) {
+                showToast('Calculate your APS first to share results.', 'warning');
+                return;
+            }
+            const apsScore = currentAPS;
+            const qualificationStatus = document.getElementById('qualification-status').textContent;
+            const pageUrl = document.querySelector('link[rel="canonical"]')?.href || window.location.href;
+            const text = `I calculated my potential SA university APS score: ${apsScore}. ${qualificationStatus.split('.')[0]}. Check yours with the Vylex Nexys APS Calculator!`;
+            const encodedText = encodeURIComponent(text);
+            const encodedUrl = encodeURIComponent(pageUrl);
+
+            let url;
+            switch(platform) {
+                case 'whatsapp': url = `https://wa.me/?text=${encodedText}%20${encodedUrl}`; break;
+                case 'facebook': url = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`; break;
+                case 'twitter': url = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`; break;
+                case 'email': url = `mailto:?subject=${encodeURIComponent('My APS Score Calculation')}&body=${encodedText}%0A%0A${encodedUrl}`; break;
+                default: showToast('Unknown sharing platform', 'error'); return;
+            }
+
+            window.open(url, '_blank', 'noopener,noreferrer');
+            // showToast(`Opening share dialog for ${platform}...`, 'info');
+        }
+
+        function saveCalculation() {
+             const subjectsToSave = subjects.filter(s => s.name && (s.score || s.manualScore)); // Only save valid, completed rows
+            if (subjectsToSave.length === 0) {
+                showToast('Add at least one subject with a name and score/percentage to save.', 'warning');
+                return;
+            }
+
+            try {
+                localStorage.setItem('vylexNexysApsCalcV1', JSON.stringify(subjectsToSave));
+                showToast('Calculation progress saved!', 'success');
+            } catch (error) {
+                console.error('Save Error:', error);
+                 const message = error.name === 'QuotaExceededError'
+                     ? 'Could not save. Browser storage might be full.'
+                     : 'Failed to save calculation.';
+                 showToast(message, 'error');
+            }
+        }
+
+        function loadCalculation() {
+            try {
+                const savedData = localStorage.getItem('vylexNexysApsCalcV1');
+                if (!savedData) {
+                    showToast('No saved calculation found.', 'info');
+                    return;
+                }
+
+                const loadedSubjects = JSON.parse(savedData);
+                 if (!Array.isArray(loadedSubjects)) throw new Error("Invalid data format");
+
+                 // Filter out any potentially invalid loaded subjects (basic check)
+                 subjects = loadedSubjects.filter(s =>
+                    typeof s.id === 'number' &&
+                    typeof s.name === 'string' &&
+                    subjectsList.some(validSubj => validSubj.value === s.name) && // Check if name is valid
+                    (typeof s.score === 'string' || s.score === '') &&
+                    (typeof s.manualScore === 'string' || s.manualScore === '')
+                 );
+
+                if (subjects.length === 0) {
+                     subjects = [{ id: 1, name: '', score: '', manualScore: '' }]; // Start fresh if loaded data was empty/invalid
+                     showToast('Loaded data was empty or invalid. Starting fresh.', 'warning');
+                 } else {
+                     showToast('Calculation loaded successfully!', 'success');
+                 }
+
+                renderSubjects();
+                calculateTotalAPS(); // Recalculate APS based on loaded data
+
+            } catch (error) {
+                console.error('Load Error:', error);
+                showToast('Failed to load calculation. Saved data might be corrupted.', 'error');
+                localStorage.removeItem('vylexNexysApsCalcV1'); // Clear potentially corrupted data
+                subjects = [{ id: 1, name: '', score: '', manualScore: '' }]; // Reset to default
+                renderSubjects();
+                calculateTotalAPS(); // Reset calculation display
+            }
+        }
+
+        // --- Report Modal ---
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                // Add listener for ESC key
+                document.addEventListener('keydown', handleEscKey);
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Restore background scrolling
+                // Clean up chart if it's the report modal being closed
+                if (modalId === 'report-modal' && apsChartInstance) {
+                    apsChartInstance.destroy();
+                    apsChartInstance = null;
+                }
+                 // Remove listener for ESC key
+                 document.removeEventListener('keydown', handleEscKey);
+            }
+        }
+
+         // Global handler for ESC key to close modals
+         function handleEscKey(event) {
+            if (event.key === 'Escape') {
+                 // Find any open modal (assuming only one is open at a time)
+                 const openModalElement = document.querySelector('.fixed.inset-0.z-50:not(.hidden)');
+                 if (openModalElement) {
+                     closeModal(openModalElement.id);
+                 }
+             }
+         }
+
+
+        function generateDetailedReport() {
+            if (currentAPS <= 0 && currentSubjectData.length === 0) {
+                showToast('Calculate your APS first to generate a report.', 'warning');
+                return;
+            }
+
+            const reportContentEl = document.getElementById('report-content');
+            if (!reportContentEl) {
+                console.error("Report content element not found");
+                return;
+            }
+
+            const qualificationStatusText = document.getElementById('qualification-status')?.textContent || 'Status not calculated';
+             const statusColorClass = document.getElementById('qualification-status')?.className.match(/text-(green|yellow|red|gray)-(\d+)/)?.[0] || 'text-gray-700';
+
+
+             // Generate report HTML
+            reportContentEl.innerHTML = `
+<!--Summary section -->
+
+                <section class="mb-6 pb-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">APS Summary</h3>
+                    <div class="flex flex-col md:flex-row gap-6 items-center">
+                        <div class="flex-1 text-center md:text-left">
+                            <div class="text-5xl font-bold text-blue-600 mb-1">${currentAPS}</div>
+                            <div class="text-base ${statusColorClass} font-medium">
+                                ${qualificationStatusText}
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Based on ${currentSubjectData.length} subjects entered. Verify university-specific calculations.</p>
+                        </div>
+                         <!-- Chart Container - ensure it exists for Chart.js -->
+                         <div id="aps-chart-container" class="flex-shrink-0 w-full max-w-[180px] md:max-w-[160px] h-[180px] md:h-[160px] mx-auto relative">
+                             <canvas id="aps-chart"></canvas>
+                         </div>
+                    </div>
+                </section>
+
+                <!-- Subject Breakdown Section -->
+                 <section class="mb-6 pb-6 border-b border-gray-200">
+                     <h3 class="text-lg font-semibold text-gray-900 mb-3">Subject Breakdown</h3>
+                     <div class="overflow-x-auto">
+                         <table class="report-table">
+                             <thead>
+                                 <tr>
+                                     <th>Subject</th>
+                                     <th class="text-center">Mark / Range</th>
+                                     <th class="text-center">Level</th>
+                                     <th class="text-center">APS Points</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 ${currentSubjectData.map(subject => `
+                                     <tr>
+                                         <td>${subject.name}</td>
+                                         <td class="text-center">${subject.percentage}</td>
+                                         <td class="text-center font-medium">${subject.level}</td>
+                                         <td class="text-center font-bold text-blue-600">${subject.points}</td>
+                                     </tr>
+                                 `).join('')}
+                                 <tr class="bg-gray-100 font-bold">
+                                     <td colspan="3" class="text-right">Total APS Points:</td>
+                                     <td class="text-center">${currentAPS}</td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                     </div>
+                 </section>
+
+                <!-- Qualification Thresholds Section -->
+                 <section class="mb-6 pb-6 border-b border-gray-200">
+                     <h3 class="text-lg font-semibold text-gray-900 mb-3">General Qualification Thresholds</h3>
+                     <div class="space-y-2 text-sm">
+                         ${generateThresholdHtml(23, "Bachelor's Degree Pass")}
+                         ${generateThresholdHtml(19, "Diploma Pass")}
+                         ${generateThresholdHtml(15, "Higher Certificate Pass")}
+                     </div>
+                     <p class="text-xs text-gray-500 mt-2"><strong>Note:</strong> These are general minimum guidelines. Meeting these does not guarantee admission. Specific programs often have higher APS requirements and additional subject/level criteria. Check university websites.</p>
+                 </section>
+
+                 <!-- Important Notes Section -->
+                 <section>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Important Considerations & Next Steps</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-sm text-gray-700">
+                        <li><strong>Verify Official Requirements:</strong> Always check the latest admission requirements directly on the websites of the universities and specific programs you are interested in.</li>
+                        <li><strong>Life Orientation (LO):</strong> Universities calculate APS differently, especially regarding LO. Some exclude it, some cap its points. Confirm how your target institutions handle it.</li>
+                        <li><strong>Subject & Level Requirements:</strong> Meeting the APS is not enough. Ensure you meet the specific subject requirements (e.g., Maths, Physics, English) and the minimum percentage levels for those subjects.</li>
+                        <li><strong>Competition:</strong> Admission to popular programs is competitive. Aiming well above the minimum APS increases your chances significantly.</li>
+                        <li><strong>NBTs:</strong> Some universities/programs require the National Benchmark Tests (NBTs). Check if this applies to you and prepare accordingly.</li>
+                        <li><strong>Application Deadlines:</strong> Be aware of all application opening and closing dates.</li>
+                    </ul>
+                 </section>
+             `;
+
+             openModal('report-modal');
+
+             // Generate chart AFTER modal is visible
+             setTimeout(() => {
+                renderAPSChart();
+             }, 100); // Small delay to ensure canvas is rendered
+        }
+
+
+        function renderAPSChart() {
+             const ctx = document.getElementById('aps-chart')?.getContext('2d');
+             if (!ctx) {
+                 console.error("APS Chart canvas context not found in modal.");
+                 return;
+             }
+
+             // Destroy previous chart instance if it exists
+             if (apsChartInstance) {
+                 apsChartInstance.destroy();
+                 apsChartInstance = null;
+             }
+
+             // Define colors - use a consistent palette
+              const chartColors = [
+                 '#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899',
+                 '#6366f1', '#14b8a6', '#f97316', '#65a30d', '#0ea5e9', '#d946ef'
+              ];
+
+              // Prepare data, potentially grouping smaller slices
+              let chartData = currentSubjectData.map((s, i) => ({
+                 label: s.name,
+                 value: s.points,
+                 color: chartColors[i % chartColors.length]
+              }));
+
+              // Group small slices into 'Other' if desired (e.g., < 2 points)
+              const threshold = 1.5; // Group subjects contributing less than 1.5 points
+              let otherPoints = 0;
+              const mainSlices = chartData.filter(d => {
+                 if (d.value < threshold) {
+                     otherPoints += d.value;
+                     return false;
+                 }
+                 return true;
+              });
+
+              if (otherPoints > 0) {
+                 mainSlices.push({ label: 'Other Subjects', value: otherPoints, color: '#9ca3af' }); // gray-400
+              }
+
+
+             apsChartInstance = new Chart(ctx, {
+                 type: 'doughnut',
+                 data: {
+                     labels: mainSlices.map(d => d.label),
+                     datasets: [{
+                         data: mainSlices.map(d => d.value),
+                         backgroundColor: mainSlices.map(d => d.color),
+                         hoverOffset: 4,
+                         borderWidth: 1, // Add subtle border
+                         borderColor: '#fff' // White border for separation
+                     }]
+                 },
+                 options: {
+                     responsive: true,
+                     maintainAspectRatio: false, // Allow chart to fill container
+                     plugins: {
+                         legend: { display: false }, // Keep legend off for simplicity
+                         tooltip: {
+                             callbacks: {
+                                 label: function(context) {
+                                     let label = context.label || '';
+                                     if (label) label += ': ';
+                                     if (context.parsed !== null) label += `${context.parsed} APS points`;
+                                     return label;
+                                 }
+                             }
+                         }
+                     },
+                      cutout: '65%' // Adjust doughnut thickness
+                 }
+             });
+         }
+
+
+        // Helper function for report thresholds - uses currentAPS
+        function generateThresholdHtml(requiredAps, levelName) {
+            const difference = currentAPS - requiredAps;
+            const qualified = currentAPS >= requiredAps;
+            const textClass = qualified ? 'text-green-600' : 'text-red-600';
+            const icon = qualified
+                ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 inline text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`
+                : `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 inline text-red-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>`;
+            const statusText = qualified ? 'Met' : 'Not Met';
+            const differenceText = `(${qualified ? '+' : ''}${difference} points)`;
+
+            return `
+                <div class="flex justify-between items-center p-2 rounded bg-gray-50 border border-gray-200">
+                    <span>${levelName} (Guide: ${requiredAps} APS)</span>
+                    <span class="${textClass} font-medium text-right flex items-center">
+                         ${icon} ${statusText} ${differenceText}
+                    </span>
+                </div>
+             `;
+         }
+
+        function printReport() {
+             // Add a class to the body for print-specific overrides if needed
+             // document.body.classList.add('print-active');
+             window.print();
+             // Remove the class after printing
+             // document.body.classList.remove('print-active');
+             showToast('Print dialog initiated. Use "Save as PDF" option if needed.', 'info');
+        }
+
+         // --- Toast Notifications ---
+         function showToast(message, type = 'info', duration = 3500) {
+            const toastContainer = document.getElementById('toast-container');
+            if (!toastContainer) return;
+
+            const toastId = `toast-${Date.now()}`;
+            const toast = document.createElement('div');
+            toast.id = toastId;
+            toast.className = `toast ${type}`; // Add type class for potential specific styling
+
+            let iconPath = '';
+            let borderColor = '';
+            let iconColorClass = '';
+
+            switch (type) {
+                case 'success':
+                    iconPath = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />';
+                    borderColor = 'var(--success)'; iconColorClass = 'text-green-500'; break;
+                case 'error':
+                    iconPath = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />';
+                    borderColor = 'var(--danger)'; iconColorClass = 'text-red-500'; duration = 5000; break; // Longer for errors
+                 case 'warning':
+                     iconPath = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />';
+                     borderColor = 'var(--warning)'; iconColorClass = 'text-yellow-500'; duration = 4000; break;
+                case 'info':
+                default:
+                    iconPath = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />';
+                    borderColor = 'var(--primary)'; iconColorClass = 'text-blue-500'; break;
+            }
+
+            toast.style.borderLeftColor = borderColor;
+            toast.innerHTML = `
+                 <div class="flex items-center">
+                     <svg class="h-6 w-6 mr-3 flex-shrink-0 ${iconColorClass}" fill="none" viewBox="0 0 24 24" stroke="currentColor">${iconPath}</svg>
+                     <span class="text-sm text-gray-800">${message}</span>
+                      <button onclick="removeToast('${toastId}')" class="ml-auto -mr-1 -my-1 p-1 text-gray-400 hover:text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-300" aria-label="Dismiss">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                      </button>
+                 </div>
+             `;
+
+            toastContainer.appendChild(toast);
+
+             // Trigger the transition
+             requestAnimationFrame(() => {
+                 toast.classList.add('show');
+             });
+
+
+            // Set timer to remove toast
+            const timeoutId = setTimeout(() => {
+                removeToast(toastId);
+            }, duration);
+            toastTimeoutIds.push({ id: toastId, timeout: timeoutId });
+        }
+
+        function removeToast(toastId) {
+             const toast = document.getElementById(toastId);
+             if (toast) {
+                 toast.classList.remove('show');
+                 // Remove the element after the transition ends
+                 toast.addEventListener('transitionend', () => {
+                     toast.remove();
+                 }, { once: true });
+             }
+             // Clear the corresponding timeout
+             const index = toastTimeoutIds.findIndex(t => t.id === toastId);
+             if (index > -1) {
+                 clearTimeout(toastTimeoutIds[index].timeout);
+                 toastTimeoutIds.splice(index, 1);
+             }
+         }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+             renderSubjects();
+             toggleTab('calculator'); // Start on calculator tab
+
+             // Add listener for clicks outside modal to close it (optional)
+             const reportModal = document.getElementById('report-modal');
+             if (reportModal) {
+                 reportModal.addEventListener('click', (event) => {
+                     // Close if click is directly on the backdrop
+                     if (event.target === reportModal) {
+                         closeModal('report-modal');
+                     }
+                 });
+             }
+             // Pre-populate recommendations with empty state
+              updateProgramRecommendations(0, []);
+        });
+
+    </script>
+</body>
+</html>

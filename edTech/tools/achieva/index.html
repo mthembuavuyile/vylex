@@ -1,0 +1,1348 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achieva – Smart Academic Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .settings-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem; /* For gear icon */
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .settings-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .theme-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-tab.active {
+            color: #4f46e5;
+            border-bottom: 2px solid #4f46e5;
+            background: white;
+        }
+
+        .nav-tab:hover {
+            color: #4f46e5;
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        .content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        footer {
+            text-align: center;
+           
+        }
+        footer a {
+            text-decoration: none;
+            color: black;
+            
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+        .card h3 { margin-bottom: 1rem; color: #1e293b; font-size: 1.2rem; }
+        .card h4 { margin-bottom: 0.5rem; color: #374151; font-size: 1.05rem; }
+
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-item { text-align: center; padding: 1rem; background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); border-radius: 8px; }
+        .stat-number { font-size: 1.8rem; font-weight: 700; color: #4f46e5; }
+        .stat-label { font-size: 0.9rem; color: #64748b; margin-top: 0.25rem; }
+
+        .progress-bar { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin: 0.5rem 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #4f46e5, #7c3aed); transition: width 0.3s ease; }
+
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.3s ease; text-decoration: none; display: inline-block; text-align: center; }
+        .btn-primary { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4); }
+        .btn-secondary { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .btn-secondary:hover { background: #e2e8f0; }
+        .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
+        .btn-icon { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #64748b; padding: 0.25rem; }
+        .btn-icon:hover { color: #4f46e5; }
+
+
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; }
+        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; transition: border-color 0.3s ease; }
+        .form-control:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 2rem; border-radius: 12px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-header h2 { margin: 0; color: #1e293b; }
+        .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b; }
+
+        .subject-card { border-left: 4px solid #4f46e5; margin-bottom: 1.5rem; }
+        .subject-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .subject-info h4 { margin-bottom: 0.25rem; color: #1e293b; }
+        .subject-code, .subject-instructor { color: #64748b; font-size: 0.9rem; }
+        .subject-grade { text-align: right; }
+        .grade-number { font-size: 1.8rem; font-weight: 700; color: #4f46e5; }
+        .grade-label { font-size: 0.8rem; color: #64748b; }
+        .grade-label-small { font-size: 0.75rem; color: #6b7280; margin-top: 2px;}
+        .subject-progress-info { margin-bottom: 1rem; font-size: 0.9rem; }
+        .subject-progress-info p { margin-bottom: 0.3rem; }
+
+        .assessments-section { margin-top: 1.5rem; }
+        .assessments-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .assessments-header h4 { margin:0; font-size: 1.1rem; color: #374151;}
+        .no-assessments { font-size: 0.9rem; color: #64748b; }
+        .assessment-list { margin-top: 1rem; }
+        .assessment-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; }
+        .assessment-item:last-child { border-bottom: none; }
+        .assessment-info { flex: 1; }
+        .assessment-name { font-weight: 500; color: #374151; }
+        .assessment-details { font-size: 0.8rem; color: #64748b; }
+        .assessment-score { text-align: right; min-width: 80px; font-size: 0.9rem; }
+        .assessment-score .score-value { font-weight: 500; }
+        .assessment-score .score-weight { font-size: 0.75rem; color: #6b7280; }
+
+        .subject-actions { margin-top: 1.5rem; text-align: right; }
+        .subject-actions .btn-danger { background-color: #ef4444; color: white; }
+        .subject-actions .btn-danger:hover { background-color: #dc2626; }
+
+        /* Task Card Styling */
+        .task-card { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; padding: 1rem; }
+        .task-card.completed .task-title { text-decoration: line-through; color: #9ca3af; }
+        .task-card.overdue .task-due { color: #ef4444; font-weight: bold; }
+        .task-content { display: flex; align-items: center; flex-grow: 1; }
+        .task-checkbox { margin-right: 1rem; }
+        .task-info { flex-grow: 1; }
+        .task-title { font-size: 1rem; font-weight: 500; margin-bottom: 0.25rem; }
+        .task-meta { font-size: 0.8rem; color: #64748b; }
+        .task-meta span { margin-right: 0.5rem; }
+        .priority-low { color: #22c55e; }
+        .priority-medium { color: #f97316; }
+        .priority-high { color: #ef4444; }
+
+        /* Goal Card Styling */
+        .goal-card { margin-bottom: 1rem; }
+        .goal-card.completed .goal-title { text-decoration: line-through; color: #9ca3af; }
+        .goal-content { display: flex; justify-content: space-between; align-items: flex-start;}
+        .goal-info { flex-grow: 1; }
+        .goal-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .goal-meta { font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; }
+        .goal-meta span { display: block; margin-bottom: 0.25rem; }
+        .goal-target strong { color: #4f46e5; }
+        .goal-progress { margin-top: 0.5rem; }
+        .progress-text { font-size: 0.8rem; color: #64748b; }
+        .goal-status-message { font-size: 0.9rem; margin-top: 0.75rem; padding: 0.5rem; border-radius: 4px; background-color: #f0f9ff; border-left: 3px solid #0ea5e9; }
+        .goal-actions { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; margin-left: 1rem;}
+
+
+        /* Planner / Due Item Styling */
+        .due-item-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+        .due-item { border-left-width: 4px; border-left-style: solid; }
+        .due-item.task-item { border-left-color: #f97316; } /* Orange for tasks */
+        .due-item.assessment-item { border-left-color: #3b82f6; } /* Blue for assessments */
+        .due-item.completed { opacity: 0.7; border-left-color: #16a34a; /* Green for completed */ }
+        .due-item.overdue { border-left-color: #ef4444; /* Red for overdue */ }
+        .due-item h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .due-item p { font-size: 0.9rem; margin-bottom: 0.25rem; color: #475569; }
+        .due-item p strong { color: #1e293b; }
+        .due-item small { font-size: 0.8rem; color: #64748b; }
+
+
+        .chart-container { height: 300px; margin: 1rem 0; position: relative; }
+        .empty-state { text-align: center; padding: 3rem; color: #64748b; }
+        .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+        /* Report Styling */
+        #reportContent h3, #reportContent h4, #reportContent h5, #reportContent h6 { color: #1e293b; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .report-subject-card { border: 1px solid #e2e8f0; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
+        #reportContent ul { list-style-position: inside; padding-left: 0.5rem; }
+        #reportContent li { margin-bottom: 0.25rem; }
+
+        @media print {
+          body * { visibility: hidden; }
+          .app-container { margin:0; max-width: none; box-shadow: none; }
+          #reportModal .modal-content, #reportModal .modal-content * { visibility: visible; }
+          #reportModal .modal-content {
+            position: absolute; left: 0; top: 0; width: 100%; max-width:none;
+            max-height: none; box-shadow: none; border-radius: 0; padding: 1in; /* Adjust padding for print */
+          }
+          #reportModal .modal-header h2 { font-size: 1.5rem; }
+          #reportModal .modal-header .close-btn, #reportModal .btn-secondary { display: none !important; }
+          .nav-tabs, .header { display: none !important; }
+          .content { padding: 0 !important; }
+        }
+
+        @media (max-width: 768px) {
+            .content { padding: 1rem; }
+            .dashboard-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .nav-tab { padding: 0.75rem 1rem; font-size: 0.9rem; }
+            .modal-content { padding: 1.5rem; margin: 1rem; max-height: 85vh; }
+        }
+
+        .dark-theme { background: #0f172a; color: #e2e8f0; }
+        .dark-theme .app-container { background: #1e293b; }
+        .dark-theme .card, .dark-theme .subject-card, .dark-theme .modal-content, .dark-theme .stat-item {
+            background: #334155; border-color: #475569; color: #e2e8f0;
+        }
+        .dark-theme .card h3, .dark-theme .card h4, .dark-theme .modal-header h2,
+        .dark-theme .subject-info h4, .dark-theme .assessments-header h4,
+        .dark-theme .report-subject-card h5, .dark-theme #reportContent h3, .dark-theme #reportContent h4,
+        .dark-theme .goal-title { color: #f1f5f9; }
+        .dark-theme .nav-tabs { background: #1e293b; border-color: #475569; }
+        .dark-theme .nav-tab { color: #94a3b8; }
+        .dark-theme .nav-tab.active { color: #818cf8; border-bottom-color: #818cf8; background: #334155; }
+        .dark-theme .nav-tab:hover { color: #818cf8; background: rgba(129, 140, 248, 0.1); }
+        .dark-theme .form-control { background-color: #475569; border-color: #525f76; color: #e2e8f0; }
+        .dark-theme .form-control:focus { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2); }
+        .dark-theme .form-group label, .dark-theme .stat-label, .dark-theme .subject-code,
+        .dark-theme .subject-instructor, .dark-theme .grade-label, .dark-theme .grade-label-small,
+        .dark-theme .assessment-details, .dark-theme .no-assessments, .dark-theme .task-meta,
+        .dark-theme .goal-meta, .dark-theme .progress-text, .dark-theme .due-item p, .dark-theme .due-item small,
+        .dark-theme .empty-state, .dark-theme .close-btn { color: #cbd5e1; }
+        .dark-theme .stat-number, .dark-theme .grade-number, .dark-theme .goal-target strong { color: #a5b4fc; }
+        .dark-theme .progress-bar { background: #475569; }
+        .dark-theme .progress-fill { background: linear-gradient(90deg, #818cf8, #a78bfa); }
+        .dark-theme .btn-secondary { background: #475569; color: #e2e8f0; border-color: #525f76; }
+        .dark-theme .btn-secondary:hover { background: #525f76; }
+        .dark-theme .assessment-item { border-bottom-color: #475569; }
+        .dark-theme .assessment-name, .dark-theme .task-title { color: #f8fafc; }
+        .dark-theme .priority-low { color: #4ade80; }
+        .dark-theme .priority-medium { color: #fb923c; }
+        .dark-theme .priority-high { color: #f87171; }
+        .dark-theme .goal-status-message { background-color: #3730a3; border-left-color: #6d28d9; color: #e0e7ff; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1>Achieva</h1>
+            <div class="header-controls">
+                <button class="settings-btn" onclick="openSettingsModal()" title="Settings">⚙️</button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">🌓</button>
+            </div>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab(event, 'dashboard')">Dashboard</button>
+            <button class="nav-tab" onclick="switchTab(event, 'subjects')">Subjects</button>
+            <button class="nav-tab" onclick="switchTab(event, 'schedule')">Schedule</button>
+            <button class="nav-tab" onclick="switchTab(event, 'goals')">Goals</button>
+            <button class="nav-tab" onclick="switchTab(event, 'report')">Report</button>
+            <button class="nav-tab" onclick="switchTab(event, 'analytics')">Analytics</button>
+        </nav>
+
+        <main class="content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                 <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="overallGPA">0.00</div>
+                        <div class="stat-label">Current GPA</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="creditsEnrolled">0</div>
+                        <div class="stat-label">Credits Enrolled</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="activeTasks">0</div>
+                        <div class="stat-label">Active Tasks</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="completedGoals">0</div>
+                        <div class="stat-label">Goals Achieved</div>
+                    </div>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Recent Subjects</h3>
+                        <div id="recentSubjectsList">
+                            <div class="empty-state"><div class="empty-state-icon">📚</div><p>No subjects added yet.</p></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Upcoming Due Dates</h3>
+                        <div id="upcomingDueDatesList">
+                             <div class="empty-state"><div class="empty-state-icon">📅</div><p>No upcoming due dates.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subjects Tab -->
+            <div id="subjects" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>My Subjects</h2>
+                    <button class="btn btn-primary" onclick="openSubjectModal()">Add Subject</button>
+                </div>
+                <div id="subjectsList">
+                     <div class="empty-state"><div class="empty-state-icon">📚</div><p>No subjects added yet. Click "Add Subject" to get started!</p></div>
+                </div>
+            </div>
+
+            <!-- Schedule Tab (formerly Planner) -->
+            <div id="schedule" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>My Schedule</h2>
+                    <button class="btn btn-primary" onclick="openTaskModal()">Add General Task</button>
+                </div>
+                <p style="margin-bottom: 1rem; color: #64748b;">This includes general tasks and assessment due dates.</p>
+                <div id="scheduleList" class="due-item-list">
+                    <div class="empty-state"><div class="empty-state-icon">📅</div><p>No tasks or assessment due dates.</p></div>
+                </div>
+            </div>
+
+            <!-- Goals Tab -->
+            <div id="goals" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Academic Goals</h2>
+                    <button class="btn btn-primary" onclick="openGoalModal()">Add Goal</button>
+                </div>
+                <div id="goalsList">
+                    <div class="empty-state"><div class="empty-state-icon">🎯</div><p>No goals set yet. Click "Add Goal" to start tracking!</p></div>
+                </div>
+            </div>
+
+            <!-- Report Tab -->
+            <div id="report" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Academic Report</h2>
+                    <button class="btn btn-primary" onclick="printReport()">Print Report</button>
+                </div>
+                <div id="reportContentContainer" class="card">
+                    <!-- Report generated by JS will go here -->
+                     <div class="empty-state"><div class="empty-state-icon">📄</div><p>Report will be generated here. Ensure you have subjects and assessments added.</p></div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="tab-content">
+                <h2>Performance Analytics</h2>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Grade Distribution (Placeholder)</h3>
+                        <div class="chart-container" id="gradeChart">
+                            <div class="empty-state"><div class="empty-state-icon">📊</div><p>Add grades to see analytics. Charting library needed for full feature.</p></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Performance Trends (Placeholder)</h3>
+                        <div class="chart-container" id="trendsChart">
+                            <div class="empty-state"><div class="empty-state-icon">📈</div><p>More data needed for trends. Charting library needed for full feature.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Subject Modal -->
+    <div id="subjectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Add Subject</h2><button class="close-btn" onclick="closeModal('subjectModal')">×</button></div>
+            <form id="subjectForm">
+                <div class="form-group"><label for="subjectName">Subject Name</label><input type="text" id="subjectName" class="form-control" required></div>
+                <div class="form-group"><label for="subjectCode">Subject Code</label><input type="text" id="subjectCode" class="form-control"></div>
+                <div class="form-group"><label for="subjectCredits">Credits</label><input type="number" id="subjectCredits" class="form-control" min="0" step="0.5" required></div>
+                <div class="form-group"><label for="subjectInstructor">Instructor</label><input type="text" id="subjectInstructor" class="form-control"></div>
+                <div class="form-group"><label for="subjectSemester">Semester</label><input type="text" id="subjectSemester" class="form-control" placeholder="e.g., Fall 2024"></div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('subjectModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Subject</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Assessment Modal -->
+    <div id="assessmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Add Assessment</h2><button class="close-btn" onclick="closeModal('assessmentModal')">×</button></div>
+            <form id="assessmentForm">
+                <input type="hidden" id="assessmentSubjectId">
+                <input type="hidden" id="editingAssessmentId">
+                <div class="form-group"><label for="assessmentName">Assessment Name</label><input type="text" id="assessmentName" class="form-control" required></div>
+                <div class="form-group">
+                    <label for="assessmentType">Type</label>
+                    <select id="assessmentType" class="form-control" required>
+                        <option value="">Select Type</option><option value="Essay">Essay</option><option value="Exam">Exam</option><option value="Quiz">Quiz</option>
+                        <option value="Project">Project</option><option value="Lab">Lab</option><option value="Presentation">Presentation</option><option value="Assignment">Assignment</option><option value="Participation">Participation</option><option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group"><label for="assessmentWeight">Weight (%)</label><input type="number" id="assessmentWeight" class="form-control" min="0" max="100" step="0.1" required></div>
+                <div class="form-group"><label for="assessmentScore">Your Score (optional)</label><input type="number" id="assessmentScore" class="form-control" min="0" step="0.01"></div>
+                <div class="form-group"><label for="assessmentMaxScore">Max Possible Score (Out of)</label><input type="number" id="assessmentMaxScore" class="form-control" min="1" value="100" step="0.01" required></div>
+                <div class="form-group"><label for="assessmentDueDate">Due Date (optional)</label><input type="date" id="assessmentDueDate" class="form-control"></div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('assessmentModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Assessment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Add General Task</h2><button class="close-btn" onclick="closeModal('taskModal')">×</button></div>
+            <form id="taskForm">
+                <div class="form-group"><label for="taskTitle">Task Title</label><input type="text" id="taskTitle" class="form-control" required></div>
+                <div class="form-group">
+                    <label for="taskSubject">Related Subject (optional)</label>
+                    <select id="taskSubject" class="form-control"><option value="">General Task</option></select>
+                </div>
+                <div class="form-group"><label for="taskDueDate">Due Date</label><input type="date" id="taskDueDate" class="form-control"></div>
+                <div class="form-group">
+                    <label for="taskPriority">Priority</label>
+                    <select id="taskPriority" class="form-control">
+                        <option value="Low">Low</option><option value="Medium" selected>Medium</option><option value="High">High</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('taskModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Goal Modal -->
+    <div id="goalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Add Goal</h2><button class="close-btn" onclick="closeModal('goalModal')">×</button></div>
+            <form id="goalForm">
+                <div class="form-group"><label for="goalTitle">Goal Title</label><input type="text" id="goalTitle" class="form-control" required></div>
+                <div class="form-group">
+                    <label for="goalType">Goal Type</label>
+                    <select id="goalType" class="form-control" required onchange="toggleGoalSubjectSelect(this.value)">
+                        <option value="">Select Type</option><option value="GPA">Overall GPA Target</option>
+                        <option value="SubjectGrade">Subject Grade Target</option><option value="TaskCompletion">Task Completion</option><option value="Personal">Personal Development</option>
+                    </select>
+                </div>
+                <div class="form-group" id="goalSubjectGroup" style="display:none;">
+                    <label for="goalSubjectId">Select Subject (for Subject Grade Target)</label>
+                    <select id="goalSubjectId" class="form-control"></select>
+                </div>
+                <div class="form-group"><label for="goalTarget">Target Value</label><input type="text" id="goalTarget" class="form-control" placeholder="e.g., 3.5 (GPA), 85 (Subject Grade %), Complete X tasks" required></div>
+                <div class="form-group"><label for="goalDeadline">Target Date (optional)</label><input type="date" id="goalDeadline" class="form-control"></div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('goalModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Goal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Settings</h2><button class="close-btn" onclick="closeModal('settingsModal')">×</button></div>
+            <form id="settingsForm">
+                <div class="form-group">
+                    <label for="settingsStudentName">Your Name (for Reports)</label>
+                    <input type="text" id="settingsStudentName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="settingsTotalCredits">Target Total Credits for Program</label>
+                    <input type="number" id="settingsTotalCredits" class="form-control" min="1">
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('settingsModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer><a href="help.html">Help</a></footer>
+
+
+    <script>
+        // Application State
+        let appData = {
+            subjects: [],
+            tasks: [],
+            goals: [],
+            settings: {
+                theme: 'light',
+                studentName: "My Academic Journey",
+                totalCreditsRequired: 120 // Default, can be changed in settings
+            }
+        };
+
+        // --- Storage ---
+        function loadData() {
+            const saved = localStorage.getItem('academiaTrackData_v2'); // Use a new key for incompatible changes
+            if (saved) {
+                try {
+                    const parsedData = JSON.parse(saved);
+                    // Merge saved data with defaults to ensure new settings fields are present
+                    appData = {
+                        ...appData, // Default structure
+                        ...parsedData, // Overwrite with saved values
+                        settings: {
+                            ...appData.settings, // Default settings
+                            ...(parsedData.settings || {}) // Saved settings
+                        }
+                    };
+                } catch (e) {
+                    console.error('Could not load saved data:', e);
+                    // Optionally clear corrupted data: localStorage.removeItem('academiaTrackData_v2');
+                }
+            }
+            applyTheme();
+            refreshAllData();
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem('academiaTrackData_v2', JSON.stringify(appData));
+            } catch (e) {
+                console.error('Could not save data:', e);
+                alert('Error saving data. LocalStorage might be full or unavailable.');
+            }
+        }
+
+        function refreshAllData() {
+            renderSubjects();
+            renderSchedule();
+            renderGoals();
+            updateDashboard();
+            generateReportOnTab(); // Update report tab content
+        }
+
+        // --- Theme ---
+        function applyTheme() {
+            document.body.classList.toggle('dark-theme', appData.settings.theme === 'dark');
+            document.querySelector('.theme-toggle').textContent = appData.settings.theme === 'dark' ? '☀️' : '🌓';
+        }
+        function toggleTheme() {
+            appData.settings.theme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
+            applyTheme();
+            saveData();
+        }
+
+        // --- Navigation ---
+        function switchTab(event, tabName) {
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            if (tabName === 'report') generateReportOnTab(); // Refresh report when tab is viewed
+        }
+
+        // --- Modals ---
+        function openModal(modalId) { document.getElementById(modalId).classList.add('active'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
+
+        function openSubjectModal() {
+            document.getElementById('subjectForm').reset();
+            openModal('subjectModal');
+        }
+        
+        function openAssessmentModal(subjectId, assessmentIdToEdit = null) {
+            document.getElementById('assessmentForm').reset();
+            document.getElementById('assessmentSubjectId').value = subjectId;
+            document.getElementById('editingAssessmentId').value = assessmentIdToEdit || '';
+
+            if (assessmentIdToEdit) {
+                const subject = appData.subjects.find(s => s.id === subjectId);
+                const assessment = subject.assessments.find(a => a.id === assessmentIdToEdit);
+                if (assessment) {
+                    document.getElementById('assessmentName').value = assessment.name;
+                    document.getElementById('assessmentType').value = assessment.type;
+                    document.getElementById('assessmentWeight').value = assessment.weight;
+                    document.getElementById('assessmentScore').value = assessment.score !== null ? assessment.score : '';
+                    document.getElementById('assessmentMaxScore').value = assessment.maxScore;
+                    document.getElementById('assessmentDueDate').value = assessment.dueDate;
+                    document.querySelector('#assessmentModal .modal-header h2').textContent = 'Edit Assessment';
+                }
+            } else {
+                document.querySelector('#assessmentModal .modal-header h2').textContent = 'Add Assessment';
+            }
+            openModal('assessmentModal');
+        }
+
+        function openTaskModal() {
+            document.getElementById('taskForm').reset();
+            const select = document.getElementById('taskSubject');
+            select.innerHTML = '<option value="">General Task</option>';
+            appData.subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject.id;
+                option.textContent = subject.name;
+                select.appendChild(option);
+            });
+            openModal('taskModal');
+        }
+
+        function toggleGoalSubjectSelect(goalType) {
+            const subjectGroup = document.getElementById('goalSubjectGroup');
+            const subjectSelect = document.getElementById('goalSubjectId');
+            if (goalType === 'SubjectGrade') {
+                subjectGroup.style.display = 'block';
+                subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                appData.subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject.id;
+                    option.textContent = `${subject.name} (${subject.code || 'No Code'})`;
+                    subjectSelect.appendChild(option);
+                });
+                subjectSelect.required = true;
+            } else {
+                subjectGroup.style.display = 'none';
+                subjectSelect.required = false;
+            }
+        }
+
+        function openGoalModal() {
+            document.getElementById('goalForm').reset();
+            toggleGoalSubjectSelect(''); // Reset dependent fields
+            openModal('goalModal');
+        }
+
+        function openSettingsModal() {
+            document.getElementById('settingsStudentName').value = appData.settings.studentName;
+            document.getElementById('settingsTotalCredits').value = appData.settings.totalCreditsRequired;
+            openModal('settingsModal');
+        }
+
+        // --- Form Submissions ---
+        document.getElementById('subjectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const subject = {
+                id: 'subj_' + Date.now(),
+                name: document.getElementById('subjectName').value.trim(),
+                code: document.getElementById('subjectCode').value.trim(),
+                credits: parseFloat(document.getElementById('subjectCredits').value),
+                instructor: document.getElementById('subjectInstructor').value.trim(),
+                semester: document.getElementById('subjectSemester').value.trim(),
+                assessments: [],
+                createdAt: new Date().toISOString()
+            };
+            appData.subjects.push(subject);
+            saveAndRefresh();
+            closeModal('subjectModal');
+        });
+
+        document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const subjectId = document.getElementById('assessmentSubjectId').value;
+            const editingAssessmentId = document.getElementById('editingAssessmentId').value;
+            const subject = appData.subjects.find(s => s.id === subjectId);
+            
+            if (subject) {
+                const assessmentData = {
+                    name: document.getElementById('assessmentName').value.trim(),
+                    type: document.getElementById('assessmentType').value,
+                    weight: parseFloat(document.getElementById('assessmentWeight').value),
+                    score: document.getElementById('assessmentScore').value.trim() !== '' ? parseFloat(document.getElementById('assessmentScore').value) : null,
+                    maxScore: parseFloat(document.getElementById('assessmentMaxScore').value),
+                    dueDate: document.getElementById('assessmentDueDate').value || null,
+                };
+
+                if (assessmentData.maxScore <= 0) {
+                    alert("Max Score must be greater than 0.");
+                    return;
+                }
+                if (assessmentData.score !== null && assessmentData.score > assessmentData.maxScore) {
+                    alert("Your score cannot be greater than the Max Possible Score.");
+                    return;
+                }
+                
+                if (editingAssessmentId) { // Editing existing
+                    const assessmentIndex = subject.assessments.findIndex(a => a.id === editingAssessmentId);
+                    if (assessmentIndex > -1) {
+                        subject.assessments[assessmentIndex] = { ...subject.assessments[assessmentIndex], ...assessmentData };
+                    }
+                } else { // Adding new
+                    const newAssessment = {
+                        id: 'asm_' + Date.now(),
+                        ...assessmentData,
+                        createdAt: new Date().toISOString()
+                    };
+                    subject.assessments.push(newAssessment);
+                }
+                
+                saveAndRefresh();
+                closeModal('assessmentModal');
+            }
+        });
+        
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const task = {
+                id: 'task_' + Date.now(),
+                title: document.getElementById('taskTitle').value.trim(),
+                subjectId: document.getElementById('taskSubject').value || null,
+                dueDate: document.getElementById('taskDueDate').value || null,
+                priority: document.getElementById('taskPriority').value,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+            appData.tasks.push(task);
+            saveAndRefresh();
+            closeModal('taskModal');
+        });
+
+        document.getElementById('goalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const goalType = document.getElementById('goalType').value;
+            const goal = {
+                id: 'goal_' + Date.now(),
+                title: document.getElementById('goalTitle').value.trim(),
+                type: goalType,
+                subjectId: goalType === 'SubjectGrade' ? document.getElementById('goalSubjectId').value : null,
+                target: document.getElementById('goalTarget').value.trim(),
+                deadline: document.getElementById('goalDeadline').value || null,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+            if (goalType === 'SubjectGrade' && !goal.subjectId) {
+                alert("Please select a subject for the 'Subject Grade Target' goal.");
+                return;
+            }
+            appData.goals.push(goal);
+            saveAndRefresh();
+            closeModal('goalModal');
+        });
+
+        document.getElementById('settingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            appData.settings.studentName = document.getElementById('settingsStudentName').value.trim();
+            appData.settings.totalCreditsRequired = parseInt(document.getElementById('settingsTotalCredits').value) || 120;
+            saveAndRefresh();
+            closeModal('settingsModal');
+        });
+        
+        function saveAndRefresh() {
+            saveData();
+            refreshAllData();
+        }
+
+        // --- Render Functions ---
+        function renderSubjects() {
+            const container = document.getElementById('subjectsList');
+            if (appData.subjects.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📚</div><p>No subjects added yet. Click "Add Subject" above.</p></div>`;
+                return;
+            }
+            container.innerHTML = appData.subjects.map(subject => {
+                const gradeInfo = calculateSubjectGrade(subject);
+                let gradeDisplayHTML = '';
+                if (gradeInfo.currentContributionToFinal !== null) {
+                    gradeDisplayHTML = `
+                        <div class="grade-number">${gradeInfo.currentContributionToFinal.toFixed(1)}%</div>
+                        <div class="grade-label">Current Mark (of 100%)</div>
+                        <div class="grade-label-small">(${gradeInfo.totalWeightAchieved.toFixed(1)}% of assessments graded)</div>
+                        ${gradeInfo.weightedAverageOfGraded !== null ? `<div class="grade-label-small">Avg on graded: ${gradeInfo.weightedAverageOfGraded.toFixed(1)}%</div>` : ''}
+                    `;
+                } else {
+                    gradeDisplayHTML = `<div class="grade-number">N/A</div><div class="grade-label">No grades yet</div>`;
+                }
+
+                return `
+                    <div class="card subject-card" id="subject-${subject.id}">
+                        <div class="subject-header">
+                            <div class="subject-info">
+                                <h4>${subject.name}</h4>
+                                <p class="subject-code">${subject.code || 'No Code'} • ${subject.credits} credits</p>
+                                ${subject.instructor ? `<p class="subject-instructor">Instructor: ${subject.instructor}</p>` : ''}
+                                ${subject.semester ? `<p class="subject-instructor">Semester: ${subject.semester}</p>` : ''}
+                            </div>
+                            <div class="subject-grade">${gradeDisplayHTML}</div>
+                        </div>
+                        
+                        <div class="assessments-section">
+                            <div class="assessments-header">
+                                <h4>Assessments</h4>
+                                <button class="btn btn-primary btn-sm" onclick="openAssessmentModal('${subject.id}')">Add Assessment</button>
+                            </div>
+                            <div class="assessment-list">
+                                ${subject.assessments.length === 0 ? 
+                                    '<p class="no-assessments">No assessments added yet for this subject.</p>' :
+                                    subject.assessments.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt)).map(asm => `
+                                        <div class="assessment-item">
+                                            <div class="assessment-info">
+                                                <span class="assessment-name">${asm.name}</span>
+                                                <span class="assessment-details">${asm.type} • Weight: ${asm.weight}% • Max: ${asm.maxScore}</span>
+                                                ${asm.dueDate ? `<span class="assessment-details">Due: ${formatDate(asm.dueDate)}</span>` : ''}
+                                            </div>
+                                            <div class="assessment-score">
+                                                ${asm.score !== null ? `<span class="score-value">${asm.score}/${asm.maxScore}</span>` : '<span class="score-value">Pending</span>'}
+                                                ${asm.score !== null ? `<div class="score-weight">Contrib: ${((asm.score / asm.maxScore) * asm.weight).toFixed(1)}%</div>` : ''}
+                                            </div>
+                                            <div>
+                                                <button class="btn-icon" title="Edit Assessment" onclick="openAssessmentModal('${subject.id}', '${asm.id}')">✏️</button>
+                                                <button class="btn-icon" title="Delete Assessment" onclick="deleteAssessment('${subject.id}', '${asm.id}')">🗑️</button>
+                                            </div>
+                                        </div>
+                                    `).join('')
+                                }
+                            </div>
+                            ${ subject.assessments.length > 0 ? `<p class="assessment-details" style="margin-top: 0.5rem; text-align: right;">Total Weight of Entered Assessments: ${subject.assessments.reduce((sum, a) => sum + a.weight, 0).toFixed(1)}%</p>` : ''}
+                        </div>
+                        <div class="subject-actions">
+                            <button class="btn btn-secondary btn-sm btn-danger" onclick="deleteSubject('${subject.id}')">Delete Subject</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderSchedule() {
+            const container = document.getElementById('scheduleList');
+            let allDueItems = [];
+
+            appData.tasks.forEach(task => {
+                if (task.dueDate) {
+                    allDueItems.push({
+                        id: task.id, type: 'Task', title: task.title, dueDate: task.dueDate, completed: task.completed,
+                        subjectName: task.subjectId ? (appData.subjects.find(s => s.id === task.subjectId)?.name || 'General') : 'General',
+                        details: `Priority: <span class="priority-${task.priority.toLowerCase()}">${task.priority}</span>`,
+                        itemClass: 'task-item'
+                    });
+                }
+            });
+            appData.subjects.forEach(subject => {
+                subject.assessments.forEach(asm => {
+                    if (asm.dueDate) {
+                        allDueItems.push({
+                            id: asm.id, type: 'Assessment', title: asm.name, dueDate: asm.dueDate, completed: asm.score !== null,
+                            subjectName: subject.name,
+                            details: `Type: ${asm.type}, Weight: ${asm.weight}%`,
+                            itemClass: 'assessment-item'
+                        });
+                    }
+                });
+            });
+
+            allDueItems.sort((a, b) => {
+                if (a.completed !== b.completed) return a.completed ? 1 : -1; // Incomplete items first
+                return new Date(a.dueDate) - new Date(b.dueDate);
+            });
+            
+            if (allDueItems.length === 0) {
+                container.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;"><div class="empty-state-icon">📅</div><p>No tasks or assessment due dates with deadlines.</p></div>`;
+                return;
+            }
+            container.innerHTML = allDueItems.map(item => {
+                const isOverdue = new Date(item.dueDate) < new Date() && !item.completed;
+                return `
+                    <div class="card due-item ${item.itemClass} ${item.completed ? 'completed' : ''} ${isOverdue ? 'overdue' : ''}">
+                        <h4>${item.title} (${item.type}) ${item.type === 'Task' ? `<input type="checkbox" style="float:right;" onchange="toggleTask('${item.id}')" ${item.completed ? 'checked' : ''}>` : ''}</h4>
+                        <p><strong>Due:</strong> ${formatDate(item.dueDate)} ${isOverdue ? '(Overdue)' : ''}</p>
+                        <p><strong>Subject:</strong> ${item.subjectName}</p>
+                        <p><small>${item.details}</small></p>
+                        ${item.type === 'Task' ? `<button class="btn-icon" style="position:absolute; bottom:1rem; right:1rem;" title="Delete Task" onclick="deleteTask('${item.id}')">🗑️</button>`:''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderGoals() {
+            const container = document.getElementById('goalsList');
+            if (appData.goals.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🎯</div><p>No goals set. Click "Add Goal" to define your targets.</p></div>`;
+                return;
+            }
+            container.innerHTML = appData.goals.sort((a,b) => a.completed - b.completed || new Date(a.createdAt) - new Date(b.createdAt)).map(goal => {
+                let progress = calculateGoalProgress(goal);
+                let statusMessage = '';
+
+                if (goal.type === 'SubjectGrade' && goal.subjectId) {
+                    const subject = appData.subjects.find(s => s.id === goal.subjectId);
+                    if (subject) {
+                        const targetGrade = parseFloat(goal.target);
+                        if (!isNaN(targetGrade)) {
+                            const neededInfo = calculateWhatsNeeded(subject, targetGrade);
+                            statusMessage = `<p class="goal-status-message">${neededInfo.message}</p>`;
+                            if (neededInfo.achieved && neededInfo.currentMark >= targetGrade && !goal.completed) { // Auto-complete if target reached
+                                // This could be an option, for now manual completion
+                            }
+                        }
+                    } else {
+                        statusMessage = `<p class="goal-status-message">Associated subject not found.</p>`;
+                    }
+                }
+                
+                return `
+                    <div class="card goal-card ${goal.completed ? 'completed' : ''}">
+                        <div class="goal-content">
+                            <div class="goal-info">
+                                <h4 class="goal-title">${goal.title}</h4>
+                                <div class="goal-meta">
+                                    <span>Type: ${goal.type}</span>
+                                    <span>Target: <strong class="goal-target-value">${goal.target} ${goal.type === 'SubjectGrade' ? '%' : goal.type === 'GPA' ? ' GPA' : ''}</strong></span>
+                                    ${goal.subjectId && appData.subjects.find(s => s.id === goal.subjectId) ? `<span>Subject: ${appData.subjects.find(s => s.id === goal.subjectId).name}</span>` : ''}
+                                    ${goal.deadline ? `<span>Deadline: ${formatDate(goal.deadline)}</span>` : ''}
+                                </div>
+                                ${statusMessage}
+                                ${goal.type !== 'SubjectGrade' || !statusMessage ? `
+                                <div class="goal-progress">
+                                    <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
+                                    <span class="progress-text">${progress.toFixed(0)}% Complete</span>
+                                </div>` : ''}
+                            </div>
+                            <div class="goal-actions">
+                                <button class="btn btn-sm ${goal.completed ? 'btn-secondary' : 'btn-primary'}" 
+                                        onclick="toggleGoal('${goal.id}')">
+                                    ${goal.completed ? 'Undo Complete' : 'Mark Complete'}
+                                </button>
+                                <button class="btn-icon" onclick="deleteGoal('${goal.id}')" title="Delete Goal">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // --- Dashboard Updates ---
+        function updateDashboard() {
+            document.getElementById('overallGPA').textContent = calculateOverallGPA().toFixed(2);
+            document.getElementById('creditsEnrolled').textContent = appData.subjects.reduce((sum, s) => sum + (s.credits || 0), 0);
+            document.getElementById('activeTasks').textContent = appData.tasks.filter(t => !t.completed).length;
+            document.getElementById('completedGoals').textContent = appData.goals.filter(g => g.completed).length;
+            
+            updateRecentSubjectsList();
+            updateUpcomingDueDatesList();
+        }
+
+        function updateRecentSubjectsList() {
+            const container = document.getElementById('recentSubjectsList');
+            const recentSubjects = [...appData.subjects].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3);
+            if (recentSubjects.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📚</div><p>No subjects added yet.</p></div>`; return;
+            }
+            container.innerHTML = recentSubjects.map(subject => {
+                const gradeInfo = calculateSubjectGrade(subject);
+                return `
+                    <div style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>${subject.name} (${subject.code || 'N/A'})</span>
+                            <span style="font-weight:bold; color: #4f46e5;">
+                                ${gradeInfo.currentContributionToFinal !== null ? gradeInfo.currentContributionToFinal.toFixed(1) + '%' : 'N/A'}
+                            </span>
+                        </div>
+                        <small style="color: #64748b;">${gradeInfo.totalWeightAchieved.toFixed(1)}% graded</small>
+                    </div>`;
+            }).join('');
+        }
+        
+        function updateUpcomingDueDatesList() {
+            const container = document.getElementById('upcomingDueDatesList');
+            let upcomingItems = [];
+            appData.tasks.filter(t => !t.completed && t.dueDate).forEach(task => upcomingItems.push({type: 'Task', title: task.title, dueDate: task.dueDate}));
+            appData.subjects.forEach(s => s.assessments.filter(a => a.score === null && a.dueDate).forEach(asm => upcomingItems.push({type: 'Assessment', title: asm.name, dueDate: asm.dueDate, subject: s.name})));
+            
+            upcomingItems.sort((a,b) => new Date(a.dueDate) - new Date(b.dueDate));
+            const displayItems = upcomingItems.slice(0, 5);
+
+            if (displayItems.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📅</div><p>No upcoming due dates.</p></div>`; return;
+            }
+            container.innerHTML = displayItems.map(item => `
+                 <div style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>${item.title} <small>(${item.type}${item.subject ? ' - ' + item.subject : ''})</small></span>
+                        <span style="font-size:0.9em; color: #4f46e5;">${formatDate(item.dueDate)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Calculations ---
+        function calculateSubjectGrade(subject) {
+            if (!subject || !subject.assessments) return { currentContributionToFinal: null, totalWeightAchieved: 0, weightedAverageOfGraded: null };
+
+            let totalAchievedScoreContribution = 0; // Sum of (score/maxScore) * weight
+            let totalWeightOfGradedAssessments = 0; // Sum of weights of assessments that have a score
+
+            subject.assessments.forEach(assessment => {
+                if (assessment.score !== null && typeof assessment.score === 'number' && assessment.maxScore > 0 && assessment.weight > 0) {
+                    totalAchievedScoreContribution += (assessment.score / assessment.maxScore) * assessment.weight;
+                    totalWeightOfGradedAssessments += assessment.weight;
+                }
+            });
+            
+            const weightedAverageOfGraded = totalWeightOfGradedAssessments > 0 ? (totalAchievedScoreContribution / totalWeightOfGradedAssessments) * 100 : null;
+
+            return {
+                currentContributionToFinal: subject.assessments.length > 0 ? totalAchievedScoreContribution : null, // This is the sum of contributions to the final 100% mark
+                totalWeightAchieved: totalWeightOfGradedAssessments, // Total weight of assessments that are graded
+                weightedAverageOfGraded: weightedAverageOfGraded // Average percentage on the graded portion
+            };
+        }
+
+        function calculateOverallGPA() {
+            let totalWeightedGPAPoints = 0;
+            let totalCreditsForGPA = 0;
+
+            appData.subjects.forEach(subject => {
+                const gradeInfo = calculateSubjectGrade(subject);
+                // Use weightedAverageOfGraded: the average percentage achieved on the parts of the subject that have been graded.
+                if (gradeInfo.weightedAverageOfGraded !== null && subject.credits > 0) {
+                    const gpaPoints = gradeToGPA(gradeInfo.weightedAverageOfGraded);
+                    totalWeightedGPAPoints += gpaPoints * subject.credits;
+                    totalCreditsForGPA += subject.credits;
+                }
+            });
+            return totalCreditsForGPA > 0 ? totalWeightedGPAPoints / totalCreditsForGPA : 0;
+        }
+
+        function gradeToGPA(percentage) { // Example US 4.0 scale
+            if (percentage === null) return 0;
+            if (percentage >= 93) return 4.0; if (percentage >= 90) return 3.7;
+            if (percentage >= 87) return 3.3; if (percentage >= 83) return 3.0;
+            if (percentage >= 80) return 2.7; if (percentage >= 77) return 2.3;
+            if (percentage >= 73) return 2.0; if (percentage >= 70) return 1.7;
+            if (percentage >= 67) return 1.3; if (percentage >= 60) return 1.0; // Adjusted D range
+            return 0.0; // Failing
+        }
+
+        function calculateWhatsNeeded(subject, targetFinalGrade) {
+            const gradeInfo = calculateSubjectGrade(subject);
+            const currentContribution = gradeInfo.currentContributionToFinal || 0;
+            const weightAchieved = gradeInfo.totalWeightAchieved || 0;
+
+            const totalModuleWeight = subject.assessments.reduce((sum, asm) => sum + (asm.weight || 0), 0);
+            // If all assessments for 100% module weight are not yet defined, this calculation is for defined assessments.
+            // User should aim for assessments to sum to 100 for full accuracy.
+            // Let's assume 100% is the target total weight for a module.
+            const assumedTotalModuleWeight = 100; // Or could be dynamic if user defines this per module
+            
+            const remainingWeight = assumedTotalModuleWeight - weightAchieved;
+
+            if (currentContribution >= targetFinalGrade && weightAchieved >= assumedTotalModuleWeight) {
+                 return { achievable: true, message: `Goal of ${targetFinalGrade}% achieved! Final Mark: ${currentContribution.toFixed(1)}%.`, currentMark: currentContribution };
+            }
+            if (currentContribution >= targetFinalGrade && weightAchieved < assumedTotalModuleWeight) {
+                 return { achievable: true, message: `Target of ${targetFinalGrade}% already met with ${currentContribution.toFixed(1)}% from ${weightAchieved.toFixed(1)}% of assessments. Keep it up!`, currentMark: currentContribution };
+            }
+
+            if (remainingWeight <= 0) { // All assessments (up to 100% or more if over-defined) are graded
+                return {
+                    achievable: currentContribution >= targetFinalGrade,
+                    message: currentContribution >= targetFinalGrade ?
+                             `Goal achieved! Final Mark: ${currentContribution.toFixed(1)}%` :
+                             `Goal of ${targetFinalGrade}% not met. Final Mark: ${currentContribution.toFixed(1)}%. All assessments graded.`,
+                    currentMark: currentContribution
+                };
+            }
+
+            const scorePointsNeededFromRemainingWeight = targetFinalGrade - currentContribution;
+
+            if (scorePointsNeededFromRemainingWeight <= 0) { // Already met target based on current grades, even with remaining assessments
+                 return {
+                    achievable: true,
+                    message: `Goal of ${targetFinalGrade}% already met or exceeded (currently at ${currentContribution.toFixed(1)}%)! You need 0% average on the remaining ${remainingWeight.toFixed(1)}% of assessments.`,
+                    currentMark: currentContribution
+                };
+            }
+            
+            const averagePercentageNeededOnRemaining = (scorePointsNeededFromRemainingWeight / remainingWeight) * 100;
+
+            if (averagePercentageNeededOnRemaining > 100) {
+                return {
+                    achievable: false,
+                    message: `To achieve ${targetFinalGrade}%, you need an average of ${averagePercentageNeededOnRemaining.toFixed(1)}% on the remaining ${remainingWeight.toFixed(1)}% of assessments. This is likely unachievable (>100%). Current contribution: ${currentContribution.toFixed(1)}%.`,
+                    currentMark: currentContribution
+                };
+            } else {
+                return {
+                    achievable: true,
+                    message: `To achieve ${targetFinalGrade}%, an average of ${averagePercentageNeededOnRemaining.toFixed(1)}% is needed on the remaining ${remainingWeight.toFixed(1)}% of assessments. Current contribution: ${currentContribution.toFixed(1)}%.`,
+                    currentMark: currentContribution
+                };
+            }
+        }
+        
+        function calculateGoalProgress(goal) {
+            if (goal.completed) return 100;
+            if (goal.type === 'GPA') {
+                const currentGPA = calculateOverallGPA();
+                const targetGPA = parseFloat(goal.target);
+                return targetGPA > 0 ? Math.min((currentGPA / targetGPA) * 100, 100) : 0;
+            } else if (goal.type === 'SubjectGrade' && goal.subjectId) {
+                const subject = appData.subjects.find(s => s.id === goal.subjectId);
+                if (subject) {
+                    const gradeInfo = calculateSubjectGrade(subject);
+                    const currentMark = gradeInfo.currentContributionToFinal || 0;
+                    const targetMark = parseFloat(goal.target);
+                    return targetMark > 0 ? Math.min((currentMark / targetMark) * 100, 100) : 0;
+                }
+            } else if (goal.type === 'TaskCompletion') {
+                 // Example: target "Complete 5 tasks"
+                 // This would need more complex parsing of goal.target or a different structure
+                 return 0; // Placeholder
+            }
+            return 0; // Default for personal goals or uncalculable
+        }
+
+
+        // --- Delete Functions ---
+        function deleteSubject(subjectId) {
+            if (confirm('Are you sure you want to delete this subject and all its assessments? This cannot be undone.')) {
+                appData.subjects = appData.subjects.filter(s => s.id !== subjectId);
+                // Also remove tasks and goals associated with this subject if desired (cascade delete)
+                appData.tasks = appData.tasks.filter(t => t.subjectId !== subjectId);
+                appData.goals = appData.goals.filter(g => !(g.type === 'SubjectGrade' && g.subjectId === subjectId));
+                saveAndRefresh();
+            }
+        }
+        function deleteAssessment(subjectId, assessmentId) {
+            const subject = appData.subjects.find(s => s.id === subjectId);
+            if (subject && confirm('Delete this assessment?')) {
+                subject.assessments = subject.assessments.filter(a => a.id !== assessmentId);
+                saveAndRefresh();
+            }
+        }
+        function deleteTask(taskId) {
+            if (confirm('Delete this task?')) {
+                appData.tasks = appData.tasks.filter(t => t.id !== taskId);
+                saveAndRefresh();
+            }
+        }
+        function deleteGoal(goalId) {
+            if (confirm('Are you sure you want to delete this goal?')) {
+                appData.goals = appData.goals.filter(g => g.id !== goalId);
+                saveAndRefresh();
+            }
+        }
+
+        // --- Toggle Functions ---
+        function toggleTask(taskId) {
+            const task = appData.tasks.find(t => t.id === taskId);
+            if (task) task.completed = !task.completed;
+            saveAndRefresh();
+        }
+        function toggleGoal(goalId) {
+            const goal = appData.goals.find(g => g.id === goalId);
+            if (goal) goal.completed = !goal.completed;
+            saveAndRefresh();
+        }
+
+        // --- Report Generation ---
+        function generateReportOnTab() { // Renders content for the Report tab
+            const reportContainer = document.getElementById('reportContentContainer');
+            if (!reportContainer) return;
+
+            let html = `<div id="actualReportContent">`; // Wrapper for print styling
+            html += `<h3 style="text-align:center;">Academic Report</h3>`;
+            html += `<p style="text-align:center;"><strong>Student:</strong> ${appData.settings.studentName}</p>`;
+            html += `<p style="text-align:center;"><strong>Date:</strong> ${new Date().toLocaleDateString()}</p><hr style="margin: 1rem 0;">`;
+            
+            const overallGPA = calculateOverallGPA();
+            const totalCredits = appData.subjects.reduce((sum, s) => sum + (s.credits || 0), 0);
+            html += `<h4>Overall Summary:</h4>`;
+            html += `<p><strong>Current GPA:</strong> ${overallGPA.toFixed(2)}</p>`;
+            html += `<p><strong>Total Credits Enrolled:</strong> ${totalCredits}</p>`;
+            // Could add more summary stats here (e.g., modules passed if that logic is added)
+
+            html += `<h4 style="margin-top:1.5rem;">Module Breakdown:</h4>`;
+            if (appData.subjects.length === 0) {
+                html += `<p>No subjects data available.</p>`;
+            }
+            appData.subjects.forEach(subject => {
+                html += `<div class="report-subject-card">`;
+                html += `<h5>${subject.name} (${subject.code || 'N/A'}) - Credits: ${subject.credits}</h5>`;
+                if (subject.instructor) html += `<p><small>Instructor: ${subject.instructor}</small></p>`;
+                if (subject.semester) html += `<p><small>Semester: ${subject.semester}</small></p>`;
+
+                const gradeInfo = calculateSubjectGrade(subject);
+                html += `<p><strong>Current Mark Contribution:</strong> ${gradeInfo.currentContributionToFinal !== null ? gradeInfo.currentContributionToFinal.toFixed(2) + '%' : 'N/A'}</p>`;
+                html += `<p><small> (Based on ${gradeInfo.totalWeightAchieved.toFixed(1)}% of assessments graded)</small></p>`;
+                if (gradeInfo.weightedAverageOfGraded !== null) {
+                    html += `<p><small>Average on Graded Assessments: ${gradeInfo.weightedAverageOfGraded.toFixed(2)}%</small></p>`;
+                }
+
+                html += `<h6 style="margin-top:0.5rem;">Assessments:</h6>`;
+                if (subject.assessments.length > 0) {
+                    html += `<ul style="font-size:0.9em;">`;
+                    subject.assessments.forEach(asm => {
+                        const contribution = (asm.score !== null && asm.maxScore > 0) ? (asm.score / asm.maxScore) * asm.weight : 0;
+                        html += `<li>${asm.name} (${asm.type}): 
+                                    Weight ${asm.weight}%, 
+                                    Max Score ${asm.maxScore}, 
+                                    Score ${asm.score !== null ? asm.score : 'Pending'}
+                                    ${asm.score !== null ? ` (Contributes ${contribution.toFixed(2)}% to final)` : ''}
+                                 </li>`;
+                    });
+                    html += `</ul>`;
+                } else {
+                    html += `<p><small>No assessments recorded for this module.</small></p>`;
+                }
+                html += `</div>`;
+            });
+            html += `</div>`; // End of actualReportContent
+            reportContainer.innerHTML = html;
+        }
+
+        function printReport() {
+            // Ensure the report is generated before printing
+            generateReportOnTab(); 
+            // The @media print CSS will handle styling for printing.
+            // We target #actualReportContent for printing, but window.print prints the whole window.
+            // The CSS hides everything else.
+            // A more robust way is to open a new window with only report content, then print that.
+            // For simplicity with single page app:
+            const reportContentToPrint = document.getElementById('actualReportContent').innerHTML;
+            const originalDocContents = document.body.innerHTML;
+            
+            // Temporarily replace body content if fine-grained print control is needed
+            // document.body.innerHTML = `<div class="app-container"><div class="modal-content" style="max-width:none; box-shadow:none;">${reportContentToPrint}</div></div>`;
+            // For now, rely on @media print CSS
+            
+            window.print();
+            
+            // Restore original content if it was replaced (not doing this for now)
+            // document.body.innerHTML = originalDocContents;
+            // loadData(); // Re-initialize event listeners if body is fully replaced.
+        }
+
+        // --- Utility ---
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString + 'T00:00:00'); // Ensure date is parsed as local
+            return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        // --- Init ---
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData(); // This calls refreshAllData and applyTheme
+             // Initial call for report tab if it's active by default (it's not)
+            if (document.getElementById('report').classList.contains('active')) {
+                 generateReportOnTab();
+            }
+        });
+
+        window.addEventListener('click', function(event) { // Close modals on outside click
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        });
+
+    </script>
+</body>
+</html>

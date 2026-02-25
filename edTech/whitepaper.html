@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Whitepaper for Vylex Nexys's AI-Driven EdTech Platform aimed at addressing educational inequality in South Africa. Learn about our innovative AI-powered solution and business model.">
+    <meta name="keywords" content="AI, EdTech, Education, STEM, South Africa, Personalized Learning, eLearning">
+    <meta name="author" content="Vylex Nexys">
+    <title>AI-Driven EdTech Platform Whitepaper | Vylex Nexys</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <style>
+        :root {
+            --accent-color: #ff5722;
+            --light-bg: #f9f9f9;
+            --dark-bg: #333;
+            --text-color: #333;
+            --link-color: #0066cc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #branding h1 {
+            font-size: 1.5rem;
+        }
+
+        .section {
+            background-color: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .feature-list {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        .feature-list li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-size: 1.5em;
+            position: absolute;
+            left: -20px;
+            top: -5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: #c73e1d;
+        }
+
+        #donation {
+            background-color: var(--light-bg);
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        .donation-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .donation-text, .donation-form {
+            flex: 1 1 300px;
+        }
+
+        .donation-text ul {
+            padding-left: 20px;
+        }
+
+        .donation-text li {
+            margin-bottom: 10px;
+        }
+
+        .donation-amounts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .donation-amount {
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .donation-amount:hover, .donation-amount.selected {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        #custom-amount {
+            padding: 10px;
+            width: 100%;
+            max-width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .donate-button {
+            width: 100%;
+            font-size: 1.1em;
+            padding: 15px;
+        }
+
+        
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                width: 100%;
+                text-align: center;
+                padding-top: 20px;
+            }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .burger {
+                display: block;
+            }
+
+            .donation-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div id="branding">
+                    <h1><span class="highlight">Vylex Nexys</span> EdTech</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="https://avuyilemthembu.co.za/Artificial-Intelligence.html">AI Tools</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <h1 class="text-center">Whitepaper</h1>
+    
+    <div class="container">
+        <section class="section">
+            <h2>Project Overview</h2>
+            <p>The AI-Driven EdTech Platform is designed to tackle educational inequality in South Africa, particularly in underserved rural areas. By leveraging artificial intelligence, we aim to deliver personalized learning experiences tailored to each student's unique needs, with a core focus on STEM subjects.</p>
+        </section>
+
+        <section class="section">
+            <h2>Problem Statement</h2>
+            <div class="highlight">
+                <h3>Educational Inequality</h3>
+                <p>Rural South African learners face significant barriers to accessing quality education, such as insufficient textbooks, lack of digital resources, and overcrowded classrooms.</p>
+            </div>
+            <div class="highlight">
+                <h3>Limited Personalization</h3>
+                <p>The traditional education system often lacks the capability to provide personalized learning paths, which can hinder students' academic development, particularly in critical STEM fields.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Our Solution</h2>
+            <p>We propose an AI-driven e-learning platform that offers adaptive learning experiences with the following features:</p>
+            <ul class="feature-list">
+                <li>Personalized Learning Paths</li>
+                <li>STEM-Focused Courses</li>
+                <li>Scalability (Web and Mobile)</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Key Features</h2>
+            <h3>MVP Features:</h3>
+            <ul class="feature-list">
+                <li>User Profiles</li>
+                <li>STEM Courses and Quizzes</li>
+                <li>AI-Powered Learning</li>
+                <li>Basic Tutoring Support</li>
+            </ul>
+            <h3>Future Features:</h3>
+            <ul class="feature-list">
+                <li>Offline Access</li>
+                <li>Advanced AI Tutors</li>
+                <li>Certifications and Gamified Rewards</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Business Model</h2>
+            <p><strong>Free Basic Access:</strong> Essential courses and features will be available for free to all users.</p>
+            <p><strong>Subscription-Based Premium Features:</strong> Premium services such as advanced tutoring, specialized modules, and official certifications will be offered via a subscription model.</p>
+        </section>
+
+        <section class="section">
+            <h2>Technology Stack</h2>
+            <p><strong>Web Application:</strong> HTML, CSS, JavaScript, React.js/Vue.js, Node.js, MySQL/MongoDB, TensorFlow.js</p>
+            <p><strong>Mobile Application:</strong> React Native/Flutter (for future mobile development)</p>
+        </section>
+     
+        <section class="section">
+            <h2>Next Steps</h2>
+            <ol>
+                <li>Develop MVP</li>
+                <li>Pilot Launch</li>
+                <li>Iterate and Refine</li>
+                <li>Scale and Expand</li>
+            </ol>
+        </section>
+
+        <section class="section">
+            <h2>Get Involved</h2>
+            <p>We invite you to join us in transforming education in rural South Africa. Together, we can empower students with the resources and knowledge they need to excel in an increasingly competitive world.</p>
+            <a href="about.html" class="cta-button">Learn More</a>
+        </section>
+
+        <section class="section" id="donation">
+            <h2>Support Our Mission</h2>
+            <p>Your generous donations help us continue our mission to provide quality education to underserved communities in South Africa. Every contribution, no matter how small, makes a significant impact on a student's life.</p>
+            <div class="donation-options">
+                <div class="donation-text">
+                    <h3>Why Donate?</h3>
+                    <ul>
+                        <li>Empower students with access to quality STEM education</li>
+                        <li>Bridge the digital divide in rural South Africa</li>
+                        <li>Invest in the future of bright young minds</li>
+                        <li>Help us expand our reach and impact more lives</li>
+                    </ul>
+                </div>
+                <div class="donation-form">
+                    <h3>Make a Difference Today</h3>
+                    <p>Choose an amount to donate:</p>
+                    <div class="donation-amounts">
+                        <button class="donation-amount" data-amount="10">$10</button>
+                        <button class="donation-amount" data-amount="25">$25</button>
+                        <button class="donation-amount" data-amount="50">$50</button>
+                        <button class="donation-amount" data-amount="100">$100</button>
+                        <input type="number" id="custom-amount" placeholder="Custom amount" min="1" step="1">
+                    </div>
+                    <form action="https://www.paypal.com/donate" method="post" target="_top">
+                        <input type="hidden" name="hosted_button_id" value="8SZXG2PZTLKBG" />
+                        <input type="hidden" name="amount" id="paypal-amount" value="" />
+                        <button type="submit" class="cta-button donate-button">Donate Now</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Vylex Nexys. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts/common-scripts.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const donationAmounts = document.querySelectorAll('.donation-amount');
+        const customAmount = document.getElementById('custom-amount');
+        const paypalAmount = document.getElementById('paypal-amount');
+        const burger = document.querySelector('.burger');
+        const nav = document.querySelector('.nav-links');
+
+        function updateSelectedAmount(amount) {
+            donationAmounts.forEach(btn => btn.classList.remove('selected'));
+            customAmount.value = '';
+            paypalAmount.value = amount;
+        }
+
+        donationAmounts.forEach(btn => {
+            btn.addEventListener('click', function() {
+                updateSelectedAmount(this.dataset.amount);
+                this.classList.add('selected');
+            });
+        });
+
+        customAmount.addEventListener('input', function() {
+            updateSelectedAmount(this.value);
+        });
+
+        burger.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+    });
+    </script>
+</body>
+</html>

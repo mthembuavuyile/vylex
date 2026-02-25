@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Trigonometry Helper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: relative;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            text-align: center;
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0 1rem;
+        }
+
+        nav a {
+            color: #4a5568;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: #4a5568;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+
+        .diagram {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border: 2px solid #e2e8f0;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            white-space: pre-line;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        .formula {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            border-left: 4px solid #38b2ac;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            display: block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .fraction {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            margin: 0 0.2rem;
+        }
+
+        .fraction .numerator {
+            display: block;
+            border-bottom: 1px solid #333;
+            padding-bottom: 2px;
+            margin-bottom: 2px;
+            font-size: 0.9em;
+        }
+
+        .fraction .denominator {
+            display: block;
+            font-size: 0.9em;
+        }
+
+        .interactive-area {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            border: 2px solid #fc8181;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+            align-items: center;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #2d3748;
+            min-width: 120px;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .solution {
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border-left: 4px solid #48bb78;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .important {
+            color: #e53e3e;
+            font-weight: 700;
+            background: #fed7d7;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        .result-display {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+            min-height: 50px;
+        }
+
+        .step-by-step {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .step-by-step h4 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .step {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                width: 200px;
+                text-align: center;
+            }
+
+            .input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            section {
+                padding: 1rem;
+            }
+        }
+
+        .quick-calculator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .quick-calculator:hover {
+            transform: scale(1.1);
+        }
+
+        .quick-calculator::before {
+            content: "🧮";
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>🔺 Advanced Trigonometry Helper</h1>
+        <nav id="navbar">
+            <a href="#s10_1">Ratios</a>
+            <a href="#s10_2">Quadrants</a>
+            <a href="#s10_3">Solving Triangles</a>
+            <a href="#s10_4">Calculator</a>
+            <a href="#s10_5">Special Angles</a>
+            <a href="#s10_6">Reduction</a>
+            <a href="#s10_7">Identities</a>
+            <a href="#s10_8">Proving Identities</a>
+            <a href="#s10_9">Equations</a>
+            <a href="#s10_11">Compound/Double</a>
+            <a href="#s10_12">Undefined Cases</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <section id="s10_1">
+            <h2>📐 10.1 Trigonometric Ratios</h2>
+            <p>Trigonometry studies the relationship between sides and angles of triangles.</p>
+
+            <div class="diagram">
+                <strong>Right Triangle Diagram:</strong>
+                <pre>
+        A
+        /|\
+       / | \
+      /  |  \ Hypotenuse (AO)
+     /   |   \
+    /    |    \
+   /     |     \
+  /    θ |      \
+ /       |       \
+O--------+--------B
+    Adjacent (OB)
+    
+    Opposite = AB (vertical side)
+    Adjacent = OB (horizontal side)
+    Hypotenuse = AO (longest side)
+            </pre>
+            </div>
+
+            <div class="formula">
+                <strong>Primary Trigonometric Ratios:</strong><br><br>
+
+                <div class="ratio-row">
+                    sin θ = <span class="fraction">
+                        <span class="numerator">Opposite</span>
+                        <span class="denominator">Hypotenuse</span>
+                    </span> = <span class="fraction">
+                        <span class="numerator">AB</span>
+                        <span class="denominator">AO</span>
+                    </span>
+                </div><br>
+
+                <div class="ratio-row">
+                    cos θ = <span class="fraction">
+                        <span class="numerator">Adjacent</span>
+                        <span class="denominator">Hypotenuse</span>
+                    </span> = <span class="fraction">
+                        <span class="numerator">OB</span>
+                        <span class="denominator">AO</span>
+                    </span>
+                </div><br>
+
+                <div class="ratio-row">
+                    tan θ = <span class="fraction">
+                        <span class="numerator">Opposite</span>
+                        <span class="denominator">Adjacent</span>
+                    </span> = <span class="fraction">
+                        <span class="numerator">AB</span>
+                        <span class="denominator">OB</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="memory-aid">
+                <p><strong class="important">Memory Aid: SOH CAH TOA</strong></p>
+                <ul>
+                    <li><strong>S</strong>in = <strong>O</strong>pposite/<strong>H</strong>ypotenuse</li>
+                    <li><strong>C</strong>os = <strong>A</strong>djacent/<strong>H</strong>ypotenuse</li>
+                    <li><strong>T</strong>an = <strong>O</strong>pposite/<strong>A</strong>djacent</li>
+                </ul>
+            </div>
+
+            <h3>Trig Ratios on Cartesian Plane</h3>
+            <div class="diagram">
+                <strong>Coordinate System:</strong>
+                <pre>
+                    y-axis
+                      ↑
+                      |  A(x, y)
+                      | /|
+                      |/r| y
+                    θ |  |
+    ──────────────────O──+──────→ x-axis
+                         x
+                         
+    Where:
+    • r = √(x² + y²) (distance from origin)
+    • sin θ = y/r
+    • cos θ = x/r  
+    • tan θ = y/x
+            </pre>
+            </div>
+
+            <div class="coordinate-formulas">
+                <strong>Coordinate-based Trigonometric Ratios:</strong><br><br>
+
+                <div class="coord-ratio">
+                    sin θ = <span class="fraction">
+                        <span class="numerator">y</span>
+                        <span class="denominator">r</span>
+                    </span>
+                </div><br>
+
+                <div class="coord-ratio">
+                    cos θ = <span class="fraction">
+                        <span class="numerator">x</span>
+                        <span class="denominator">r</span>
+                    </span>
+                </div><br>
+
+                <div class="coord-ratio">
+                    tan θ = <span class="fraction">
+                        <span class="numerator">y</span>
+                        <span class="denominator">x</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="formula">
+        <strong>Cartesian Coordinates:</strong><br>
+        r² = x² + y² (Pythagoras)<br><br>
+        sin θ = <span class="fraction"><span class="numerator">y</span><span class="denominator">r</span></span><br><br>
+        cos θ = <span class="fraction"><span class="numerator">x</span><span class="denominator">r</span></span><br><br>
+        tan θ = <span class="fraction"><span class="numerator">y</span><span class="denominator">x</span></span>
+    </div>
+
+    <div class="interactive-area">
+        <h3>🎯 Interactive Triangle Solver</h3>
+        <p>Triangle MNP with right angle at N. Angle α at M, Angle β at P.</p>
+
+        <div class="input-group">
+            <label for="mn_val">Side MN:</label>
+            <input type="number" id="mn_val" placeholder="e.g., 12" step="any">
+        </div>
+        <div class="input-group">
+            <label for="np_val">Side NP:</label>
+            <input type="number" id="np_val" placeholder="e.g., 5" step="any">
+        </div>
+        <div class="input-group">
+            <label for="mp_val">Hypotenuse MP:</label>
+            <input type="number" id="mp_val" placeholder="e.g., 13" step="any">
+        </div>
+
+        <button onclick="calculateActivity1()">📊 Calculate All Ratios</button>
+        <button onclick="calculateMN()">🔄 Use Example (MP=13, NP=5)</button>
+
+        <div id="activity1_results" class="result-display"></div>
+    </div>
+    </section>
+
+    <section id="s10_2">
+        <h2>🧭 10.2 Trig Ratios in All Quadrants</h2>
+
+        <div class="diagram">
+            <strong>CAST Rule Diagram:</strong>
+
+            II | I
+            (S)in | (A)ll
+            -------+-------
+            (T)an | (C)os
+            III | IV
+        </div>
+
+        <div class="formula">
+            <strong>CAST Rule - Positive Functions by Quadrant:</strong><br>
+            • Quadrant I (0° to 90°): All positive (sin, cos, tan)<br>
+            • Quadrant II (90° to 180°): Sin positive only<br>
+            • Quadrant III (180° to 270°): Tan positive only<br>
+            • Quadrant IV (270° to 360°): Cos positive only
+        </div>
+
+        <div class="interactive-area">
+            <h3>🎯 Quadrant Analyzer</h3>
+            <div class="input-group">
+                <label for="angle_quadrant">Enter angle (°):</label>
+                <input type="number" id="angle_quadrant" placeholder="e.g., 215" step="any">
+                <button onclick="checkAngleQuadrant()">🔍 Analyze</button>
+            </div>
+            <div id="activity2_results" class="result-display"></div>
+
+            <div class="step-by-step">
+                <h4>Practice Questions:</h4>
+                <div class="step">
+                    <strong>Q1:</strong> If sin θ < 0 and cos θ> 0, which quadrant?<br>
+                        <em>Answer: Quadrant IV (270° < θ < 360°)</em>
+                </div>
+                <div class="step">
+                    <strong>Q2:</strong> If tan θ < 0 and cos θ < 0, which quadrant?<br>
+                        <em>Answer: Quadrant II (90° < θ < 180°)</em>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s10_3">
+        <h2>🔺 10.3 Solving Triangles with Trigonometry</h2>
+
+        <div class="interactive-area">
+            <h3>🎯 Advanced Triangle Solver</h3>
+            <p><strong>Example:</strong> Given tan θ = <span class="fraction"><span class="numerator">-√3</span><span
+                        class="denominator">1</span></span>, where 180° < θ < 360°</p>
+
+                    <button onclick="solveTanExample()">🔄 Solve Example</button>
+                    <div id="solveTanExample_results" class="result-display"></div>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <h3>Custom Problem Solver</h3>
+                    <p>Given cos β = <span class="fraction"><span class="numerator">p</span><span
+                                class="denominator">√5</span></span>, where p < 0 and β ∈ [180°; 360°]</p>
+
+                            <div class="input-group">
+                                <label for="pValue">Value of p:</label>
+                                <input type="number" id="pValue" placeholder="e.g., -2" step="any">
+                                <button onclick="solveActivity3()">🧮 Calculate</button>
+                            </div>
+                            <div id="activity3_results" class="result-display"></div>
+        </div>
+    </section>
+
+    <section id="s10_4">
+        <h2>🧮 10.4 Using Scientific Calculator</h2>
+
+        <div class="interactive-area">
+            <h3>🎯 Interactive Calculator</h3>
+            <div class="input-group">
+                <label for="calc_angle">Angle (degrees):</label>
+                <input type="number" id="calc_angle" value="58" step="any">
+                <select id="calc_func">
+                    <option value="sin">sin</option>
+                    <option value="cos">cos</option>
+                    <option value="tan">tan</option>
+                </select>
+                <button onclick="useCalculator()">🔢 Calculate</button>
+            </div>
+
+            <div class="result-display">
+                <div>Result: <span id="calc_main_result">0.8480</span></div>
+            </div>
+
+            <h4>Pre-calculated Examples:</h4>
+            <div class="step-by-step">
+                <div class="step">sin 58° = <span id="calc_result_1">0.8480</span></div>
+                <div class="step">cos 222° = <span id="calc_result_2">-0.7431</span></div>
+                <div class="step">
+                    cos 238° × tan 132° = <span id="calc_result_3"></span>
+                    <button onclick="calculateExpression3()">Calculate</button>
+                </div>
+                <div class="step">
+                    <span class="fraction"><span class="numerator">sin²(327°)</span><span
+                            class="denominator">5</span></span> + tan 37° = <span id="calc_result_4"></span>
+                    <button onclick="calculateExpression4()">Calculate</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s10_5">
+        <h2>⭐ 10.5 Special Angles</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>θ</th>
+                    <th>0°</th>
+                    <th>30°</th>
+                    <th>45°</th>
+                    <th>60°</th>
+                    <th>90°</th>
+                    <th>180°</th>
+                    <th>270°</th>
+                    <th>360°</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>sin θ</strong></td>
+                    <td>0</td>
+                    <td><span class="fraction"><span class="numerator">1</span><span class="denominator">2</span></span>
+                    </td>
+                    <td><span class="fraction"><span class="numerator">√2</span><span
+                                class="denominator">2</span></span></td>
+                    <td><span class="fraction"><span class="numerator">√3</span><span
+                                class="denominator">2</span></span></td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>-1</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td><strong>cos θ</strong></td>
+                    <td>1</td>
+                    <td><span class="fraction"><span class="numerator">√3</span><span
+                                class="denominator">2</span></span></td>
+                    <td><span class="fraction"><span class="numerator">√2</span><span
+                                class="denominator">2</span></span></td>
+                    <td><span class="fraction"><span class="numerator">1</span><span class="denominator">2</span></span>
+                    </td>
+                    <td>0</td>
+                    <td>-1</td>
+                    <td>0</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><strong>tan θ</strong></td>
+                    <td>0</td>
+                    <td><span class="fraction"><span class="numerator">√3</span><span
+                                class="denominator">3</span></span></td>
+                    <td>1</td>
+                    <td>√3</td>
+                    <td>Undefined</td>
+                    <td>0</td>
+                    <td>Undefined</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="interactive-area">
+            <h3>🎯 Special Angle Lookup</h3>
+            <div class="input-group">
+                <label for="special_angle_select">Select Angle:</label>
+                <select id="special_angle_select">
+                    <option value="0">0°</option>
+                    <option value="30">30°</option>
+                    <option value="45">45°</option>
+                    <option value="60">60°</option>
+                    <option value="90">90°</option>
+                    <option value="180">180°</option>
+                    <option value="270">270°</option>
+                    <option value="360">360°</option>
+                </select>
+                <button onclick="lookupSpecialAngle()">📋 Get Values</button>
+            </div>
+            <div id="special_angle_results" class="result-display"></div>
+        </div>
+    </section>
+
+    <section id="s10_6">
+        <h2>🔄 10.6 Reduction Formulae</h2>
+
+        <div class="formula">
+            <strong>Reduction Rules:</strong><br>
+            • Q2: sin(180°-θ) = sin θ; cos(180°-θ) = -cos θ; tan(180°-θ) = -tan θ<br>
+            • Q3: sin(180°+θ) = -sin θ; cos(180°+θ) = -cos θ; tan(180°+θ) = tan θ<br>
+            • Q4: sin(360°-θ) = -sin θ; cos(360°-θ) = cos θ; tan(360°-θ) = -tan θ<br>
+            • Negative: sin(-θ) = -sin θ; cos(-θ) = cos θ; tan(-θ) = -tan θ
+        </div>
+
+        <div class="formula">
+            <strong>Co-function Identities:</strong><br>
+            sin(90° - θ) = cos θ<br>
+            cos(90° - θ) = sin θ<br>
+            sin(90° + θ) = cos θ<br>
+            cos(90° + θ) = -sin θ
+        </div>
+
+        <div class="interactive-area">
+            <h3>🎯 Reduction Practice</h3>
+            <div class="step-by-step">
+                <div class="step">
+                    1. cos 150° = cos(180°-30°) = -cos 30° = -<span class="fraction"><span
+                            class="numerator">√3</span><span class="denominator">2</span></span>
+                    <button onclick="reduceAndSolve('cos', 150)">✓ Verify</button>
+                    <span id="red_act4_1"></span>
+                </div>
+                <div class="step">
+                    2. sin(-45°) = -sin 45° = -<span class="fraction"><span class="numerator">√2</span><span
+                            class="denominator">2</span></span>
+                    <button onclick="reduceAndSolve('sin', -45)">✓ Verify</button>
+                    <span id="red_act4_2"></span>
+                </div>
+                <div class="step">
+                    3. tan 480° = tan(120°) = tan(180°-60°) = -tan 60° = -√3
+                    <button onclick="reduceAndSolve('tan', 480)">✓ Verify</button>
+                    <span id="red_act4_3"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s10_7">
+        <h2>🔗 10.7 Fundamental Identities</h2>
+
+        <div class="formula">
+            <strong>Quotient Identity:</strong><br>
+            tan θ = <span class="fraction"><span class="numerator">sin θ</span><span class="denominator">cos
+                    θ</span></span> (cos θ ≠ 0)
+        </div>
+
+        <div class="formula">
+            <strong>Pythagorean Identity:</strong><br>
+            sin²θ + cos²θ = 1<br><br>
+            <strong>Derived forms:</strong><br>
+            sin²θ = 1 - cos²θ<br>
+            cos²θ = 1 - sin²θ
+        </div>
+
+        <div class="step-by-step">
+            <h4>Example Simplifications:</h4>
+            <div class="step">
+                <strong>Simplify:</strong> cos²θ(1 + tan²θ)<br>
+                = cos²θ(1 + <span class="fraction"><span class="numerator">sin²θ</span><span
+                        class="denominator">cos²θ</span></span>)<br>
+                = cos²θ + sin²θ = 1
+            </div>
+            <div class="step">
+                <strong>Simplify:</strong> <span class="fraction"><span class="numerator">1 - cos²θ</span><span
+                        class="denominator">1 - sin²θ</span></span><br>
+                = <span class="fraction"><span class="numerator">sin²θ</span><span
+                        class="denominator">cos²θ</span></span> = tan²θ
+            </div>
+        </div>
+    </section>
+
+    <section id="s10_8">
+        <h2>✅ 10.8 Proving Identities</h2>
+
+        <div class="formula">
+            <strong>Proof Strategies:</strong><br>
+            • Start with the more complex side<br>
+            • Convert all to sin and cos<br>
+            • Use fundamental identities<br>
+            • Find common denominators<br>
+            • Factor when possible
+        </div>
+
+        <div class="step-by-step">
+            <h4>Example Proof: sin x · tan x + cos x = <span class="fraction"><span class="numerator">1</span><span
+                        class="denominator">cos x</span></span></h4>
+            <div class="step">
+                <strong>LHS:</strong> sin x · tan x + cos x<br>
+                = sin x · <span class="fraction"><span class="numerator">sin x</span><span class="denominator">cos
+                        x</span></span> + cos x
+            </div>
+            <div class="step">
+                = <span class="fraction"><span class="numerator">sin²x</span><span class="denominator">cos
+                        x</span></span> + cos x
+            </div>
+            <div class="step">
+                = <span class="fraction"><span class="numerator">sin²x</span><span class="denominator">cos
+                        x</span></span> + <span class="fraction"><span class="numerator">cos²x</span><span
+                        class="denominator">cos x</span></span>
+            </div>
+            <div class="step">
+                = <span class="fraction"><span class="numerator">sin²x + cos²x</span><span class="denominator">cos
+                        x</span></span> = <span class="fraction"><span class="numerator">1</span><span
+                        class="denominator">cos x</span></span> = <strong>RHS</strong> ✓
+            </div>
+        </div>
+    </section>
+
+    <section id="s10_9">
+        <h2>📐 10.9 Solving Trigonometric Equations</h2>
+
+        <div class="formula">
+            <strong>Solution Steps:</strong><br>
+            1. Isolate the trigonometric function<br>
+            2. Find the reference angle<br>
+            3. Use CAST to determine quadrants<br>
+            4. Write solutions for [0°, 360°)<br>
+            5. Add periodic terms for general solution
+        </div>
+
+        <div class="interactive-area">
+            <h3>🎯 Equation Solver</h3>
+            <div class="input-group">
+                <select id="eq_func">
+                    <option value="sin">sin x =</option>
+                    <option value="cos">cos x =</option>
+                    <option value="tan">tan x =</option>
+                </select>
+                <input type="number" step="any" id="eq_value" placeholder="e.g., 0.5">
+                <button onclick="solveTrigEquation()">🔍 Solve</button>
+            </div>
+
+            <div class="result-display">
+                <div>Reference Angle: <span id="ref_angle_result"></span></div>
+                <div>General Solution: <span id="gen_sol_result"></span></div>
+            </div>
+
+            <div class="step-by-step">
+                <h4>Example: Solve 3 tan x + √3 = 0</h4>
+                <div class="step">Step 1: 3 tan x = -√3</div>
+                <div class="step">Step 2: tan x = -<span class="fraction"><span class="numerator">√3</span><span
+                            class="denominator">3</span></span></div>
+                <div class="step">Step 3: Reference angle = 30°</div>
+                <div class="step">Step 4: tan < 0 in Q2 and Q4</div>
+                        <div class="step">Step 5: x = 150° + k·180°, k ∈ ℤ</div>
+                </div>
+            </div>
+    </section>
+
+    <section id="s10_11">
+        <h2>➕ 10.11 Compound & Double Angle Identities</h2>
+
+        <div class="formula">
+            <strong>Compound Angle Identities:</strong><br>
+            sin(α ± β) = sin α cos β ± cos α sin β<br>
+            cos(α ± β) = cos α cos β ∓ sin α sin β
+        </div>
+
+        <div class="formula">
+            <strong>Double Angle Identities:</strong><br>
+            sin 2α = 2 sin α cos α<br>
+            cos 2α = cos²α - sin²α = 2cos²α - 1 = 1 - 2sin²α
+        </div>
+
+        <div class="interactive-area">
+            <h3>🎯 Example Applications</h3>
+            <div class="step-by-step">
+                <div class="step">
+                    <strong>Simplify:</strong> 2 sin 15° cos 15°<br>
+                    = sin(2 × 15°) = sin 30° = <span class="fraction"><span class="numerator">1</span><span
+                            class="denominator">2</span></span>
+                    <button onclick="alert('2 sin15° cos15° = sin(2×15°) = sin30° = 1/2')">📝 Show Work</button>
+                </div>
+                <div class="step">
+                    <strong>Find:</strong> sin 15°<br>
+                    = sin(45° - 30°) = sin 45° cos 30° - cos 45° sin 30°<br>
+                    = <span class="fraction"><span class="numerator">√6 - √2</span><span
+                            class="denominator">4</span></span>
+                    <button onclick="alert('sin15° = sin(45°-30°) = (√6 - √2)/4')">📝 Show Work</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="s10_12">
+        <h2>⚠️ 10.12 Undefined Cases</h2>
+
+        <div class="formula">
+            <strong>An identity is undefined when:</strong><br>
+            • Any denominator equals zero<br>
+            • tan θ appears and θ = 90° + k·180°<br>
+            • Division by a trigonometric function that equals zero
+        </div>
+
+        <div class="step-by-step">
+            <h4>Example: When is <span class="fraction"><span class="numerator">1</span><span class="denominator">tan
+                        x</span></span> + tan x = <span class="fraction"><span class="numerator">tan x</span><span
+                        class="denominator">sin²x</span></span> undefined?</h4>
+            <div class="step">1. tan x = 0 (denominator in first term): x = k·180°</div>
+            <div class="step">2. sin²x = 0 (denominator in RHS): x = k·180°</div>
+            <div class="step">3. tan x undefined: x = 90° + k·180°</div>
+            <div class="step"><strong>Combined:</strong> x = k·90°, k ∈ ℤ</div>
+        </div>
+    </section>
+    </div>
+
+    <div class="quick-calculator" onclick="document.getElementById('s10_4').scrollIntoView({behavior: 'smooth'})"></div>
+
+    <script>
+        // Enhanced JavaScript with better error handling and fraction support
+
+        // Navigation enhancement
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                document.querySelectorAll('nav a').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Helper functions
+        function toRadians(degrees) {
+            return degrees * (Math.PI / 180);
+        }
+
+        function toDegrees(radians) {
+            return radians * (180 / Math.PI);
+        }
+
+        function round(value, decimals = 4) {
+            return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+        }
+
+        function createFraction(numerator, denominator) {
+            return `<span class="fraction"><span class="numerator">${numerator}</span><span class="denominator">${denominator}</span></span>`;
+        }
+
+        function formatResult(value, exact = null) {
+            if (exact) {
+                return `${exact} ≈ ${round(value)}`;
+            }
+            return round(value).toString();
+        }
+
+        // Enhanced Activity 1
+        function calculateActivity1() {
+            const mn = parseFloat(document.getElementById('mn_val').value);
+            const np = parseFloat(document.getElementById('np_val').value);
+            let mp = parseFloat(document.getElementById('mp_val').value);
+            const resultsDiv = document.getElementById('activity1_results');
+
+            // Input validation
+            if (isNaN(mn) || isNaN(np)) {
+                if (!isNaN(mn) && !isNaN(np) && isNaN(mp)) {
+                    mp = Math.sqrt(mn * mn + np * np);
+                    document.getElementById('mp_val').value = round(mp);
+                } else {
+                    resultsDiv.innerHTML = '<div class="important">⚠️ Please enter valid numbers for at least two sides.</div>';
+                    return;
+                }
+            }
+
+            if (mn <= 0 || np <= 0 || mp <= 0) {
+                resultsDiv.innerHTML = '<div class="important">⚠️ All sides must be positive.</div>';
+                return;
+            }
+
+            // Calculate ratios with proper fraction display
+            const sin_alpha = np / mp;
+            const cos_alpha = mn / mp;
+            const tan_alpha = np / mn;
+            const sin_beta = mn / mp;
+            const cos_beta = np / mp;
+            const tan_beta = mn / np;
+
+            resultsDiv.innerHTML = `
+                <h4>📊 Triangle Analysis Results:</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                    <div>
+                        <strong>Angle α (at M):</strong><br>
+                        sin α = ${createFraction(round(np), round(mp))} = ${round(sin_alpha)}<br>
+                        cos α = ${createFraction(round(mn), round(mp))} = ${round(cos_alpha)}<br>
+                        tan α = ${createFraction(round(np), round(mn))} = ${round(tan_alpha)}
+                    </div>
+                    <div>
+                        <strong>Angle β (at P):</strong><br>
+                        sin β = ${createFraction(round(mn), round(mp))} = ${round(sin_beta)}<br>
+                        cos β = ${createFraction(round(np), round(mp))} = ${round(cos_beta)}<br>
+                        tan β = ${createFraction(round(mn), round(np))} = ${round(tan_beta)}
+                    </div>
+                </div>
+            `;
+
+            if (mp === 13 && np === 5 && mn === 12) {
+                resultsDiv.innerHTML += `
+                    <div class="solution" style="margin-top: 1rem;">
+                        <strong>📚 Textbook Example Verification:</strong><br>
+                        For MP=13, NP=5, MN=12: cos β = ${createFraction('12', '13')} ≈ ${round(12 / 13)}
+                    </div>
+                `;
+            }
+        }
+
+        function calculateMN() {
+            document.getElementById('mp_val').value = 13;
+            document.getElementById('np_val').value = 5;
+            document.getElementById('mn_val').value = 12;
+            calculateActivity1();
+        }
+
+        // Enhanced Activity 2
+        function checkAngleQuadrant() {
+            let angle = parseFloat(document.getElementById('angle_quadrant').value);
+            const resultsDiv = document.getElementById('activity2_results');
+
+            if (isNaN(angle)) {
+                resultsDiv.innerHTML = '<div class="important">⚠️ Please enter a valid angle.</div>';
+                return;
+            }
+
+            let normalizedAngle = angle % 360;
+            if (normalizedAngle < 0) normalizedAngle += 360;
+
+            let quadrant = "On axis";
+            if (normalizedAngle > 0 && normalizedAngle < 90) quadrant = "I";
+            else if (normalizedAngle > 90 && normalizedAngle < 180) quadrant = "II";
+            else if (normalizedAngle > 180 && normalizedAngle < 270) quadrant = "III";
+            else if (normalizedAngle > 270 && normalizedAngle < 360) quadrant = "IV";
+
+            const rad = toRadians(angle);
+            const sinVal = Math.sin(rad);
+            const cosVal = Math.cos(rad);
+            const tanVal = Math.abs(cosVal) < 0.000001 ? "Undefined" : Math.tan(rad);
+
+            const sinSign = Math.abs(sinVal) < 0.000001 ? "0" : (sinVal > 0 ? "+" : "-");
+            const cosSign = Math.abs(cosVal) < 0.000001 ? "0" : (cosVal > 0 ? "+" : "-");
+            const tanSign = tanVal === "Undefined" ? "Undefined" : (tanVal > 0 ? "+" : "-");
+
+            resultsDiv.innerHTML = `
+                <h4>🧭 Angle Analysis: ${angle}°</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>
+                        <strong>Quadrant:</strong> ${quadrant}<br>
+                        <strong>Normalized:</strong> ${round(normalizedAngle, 2)}°
+                    </div>
+                    <div>
+                        <strong>Function Signs:</strong><br>
+                        sin: ${sinSign} (${round(sinVal)})<br>
+                        cos: ${cosSign} (${round(cosVal)})<br>
+                        tan: ${tanSign} ${tanVal === "Undefined" ? "" : `(${round(tanVal)})`}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Enhanced calculator functions
+        function useCalculator() {
+            const angle = parseFloat(document.getElementById('calc_angle').value);
+            const func = document.getElementById('calc_func').value;
+
+            if (isNaN(angle)) {
+                document.getElementById('calc_main_result').textContent = "Invalid angle";
+                return;
+            }
+
+            const rad = toRadians(angle);
+            let result;
+
+            if (func === 'sin') result = Math.sin(rad);
+            else if (func === 'cos') result = Math.cos(rad);
+            else if (func === 'tan') {
+                result = Math.abs(Math.cos(rad)) < 1e-10 ? "Undefined" : Math.tan(rad);
+            }
+
+            document.getElementById('calc_main_result').textContent =
+                typeof result === 'number' ? round(result, 6) : result;
+        }
+
+        // Initialize calculator results
+        document.getElementById('calc_result_1').textContent = round(Math.sin(toRadians(58)), 6);
+        document.getElementById('calc_result_2').textContent = round(Math.cos(toRadians(222)), 6);
+
+        function calculateExpression3() {
+            const result = Math.cos(toRadians(238)) * Math.tan(toRadians(132));
+            document.getElementById('calc_result_3').textContent = round(result, 6);
+        }
+
+        function calculateExpression4() {
+            const sin327 = Math.sin(toRadians(327));
+            const result = (sin327 * sin327) / 5 + Math.tan(toRadians(37));
+            document.getElementById('calc_result_4').textContent = round(result, 6);
+        }
+
+        // Special angles lookup
+        const specialAnglesData = {
+            "0": { sin: "0", cos: "1", tan: "0" },
+            "30": { sin: createFraction("1", "2"), cos: createFraction("√3", "2"), tan: createFraction("√3", "3") },
+            "45": { sin: createFraction("√2", "2"), cos: createFraction("√2", "2"), tan: "1" },
+            "60": { sin: createFraction("√3", "2"), cos: createFraction("1", "2"), tan: "√3" },
+            "90": { sin: "1", cos: "0", tan: "Undefined" },
+            "180": { sin: "0", cos: "-1", tan: "0" },
+            "270": { sin: "-1", cos: "0", tan: "Undefined" },
+            "360": { sin: "0", cos: "1", tan: "0" }
+        };
+
+        function lookupSpecialAngle() {
+            const angle = document.getElementById('special_angle_select').value;
+            const data = specialAnglesData[angle];
+            const resultsDiv = document.getElementById('special_angle_results');
+
+            resultsDiv.innerHTML = `
+                <h4>⭐ Special Angle Values for ${angle}°:</h4>
+                <div style="font-size: 1.2rem; line-height: 2;">
+                    sin ${angle}° = ${data.sin}<br>
+                    cos ${angle}° = ${data.cos}<br>
+                    tan ${angle}° = ${data.tan}
+                </div>
+            `;
+        }
+
+        // Enhanced solving functions with better step-by-step display
+        function solveTanExample() {
+            const resultsDiv = document.getElementById('solveTanExample_results');
+            resultsDiv.innerHTML = `
+                <h4>📐 Solution Steps:</h4>
+                <div class="step-by-step">
+                    <div class="step">Given: tan θ = ${createFraction("-√3", "1")}, 180° < θ < 360°</div>
+                    <div class="step">Since tan < 0 and θ ∈ (180°, 360°), θ must be in Q4</div>
+                    <div class="step">In Q4: x > 0, y < 0. So x = 1, y = -√3</div>
+                    <div class="step">r = √(x² + y²) = √(1 + 3) = 2</div>
+                    <div class="step">
+                        <strong>Results:</strong><br>
+                        sin θ = ${createFraction("y", "r")} = ${createFraction("-√3", "2")} ≈ ${round(-Math.sqrt(3) / 2)}<br>
+                        3cos θ = 3 × ${createFraction("x", "r")} = 3 × ${createFraction("1", "2")} = ${createFraction("3", "2")} = ${1.5}
+                    </div>
+                </div>
+            `;
+        }
+
+        function solveActivity3() {
+            const p = parseFloat(document.getElementById('pValue').value);
+            const resultsDiv = document.getElementById('activity3_results');
+
+            if (isNaN(p) || p >= 0) {
+                resultsDiv.innerHTML = '<div class="important">⚠️ p must be a negative number.</div>';
+                return;
+            }
+
+            if (Math.abs(p) > Math.sqrt(5)) {
+                resultsDiv.innerHTML = '<div class="important">⚠️ |p| must be ≤ √5 ≈ 2.236</div>';
+                return;
+            }
+
+            const r = Math.sqrt(5);
+            const x = p;
+            const y = -Math.sqrt(5 - p * p);
+            const tan_beta = y / x;
+            const two_cos_sq_beta_minus_1 = 2 * Math.pow(x / r, 2) - 1;
+
+            resultsDiv.innerHTML = `
+                <h4>📊 Solution for p = ${p}:</h4>
+                <div class="step-by-step">
+                    <div class="step">Given: cos β = ${createFraction("p", "√5")}, p < 0, β ∈ [180°, 360°]</div>
+                    <div class="step">Since cos β < 0 and β ∈ [180°, 360°], β must be in Q3</div>
+                    <div class="step">In Q3: x = p = ${p}, r = √5, y = -√(5-p²) ≈ ${round(y)}</div>
+                    <div class="step">
+                        <strong>Results:</strong><br>
+                        tan β = ${createFraction("y", "x")} = ${createFraction(`-√(5-${p}²)`, p.toString())} ≈ ${round(tan_beta)}<br>
+                        2cos²β - 1 = 2(${createFraction("p", "√5")})² - 1 = ${createFraction(`2p²`, "5")} - 1 ≈ ${round(two_cos_sq_beta_minus_1)}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Enhanced equation solver
+        function solveTrigEquation() {
+            const func = document.getElementById('eq_func').value;
+            const val = parseFloat(document.getElementById('eq_value').value);
+
+            if (isNaN(val)) {
+                document.getElementById('ref_angle_result').textContent = "Invalid value";
+                document.getElementById('gen_sol_result').textContent = "";
+                return;
+            }
+
+            if ((func === 'sin' || func === 'cos') && (val < -1 || val > 1)) {
+                document.getElementById('ref_angle_result').textContent = "Out of range [-1, 1]";
+                document.getElementById('gen_sol_result').textContent = "No solution";
+                return;
+            }
+
+            let refAngleRad;
+            if (func === 'sin') refAngleRad = Math.asin(Math.abs(val));
+            else if (func === 'cos') refAngleRad = Math.acos(Math.abs(val));
+            else refAngleRad = Math.atan(Math.abs(val));
+
+            const refAngle = round(toDegrees(refAngleRad));
+            document.getElementById('ref_angle_result').textContent = `${refAngle}°`;
+
+            let solutions = [];
+            if (func === 'sin') {
+                if (val >= 0) {
+                    solutions.push(`${refAngle}° + k·360°`);
+                    solutions.push(`${round(180 - refAngle)}° + k·360°`);
+                } else {
+                    solutions.push(`${round(180 + refAngle)}° + k·360°`);
+                    solutions.push(`${round(360 - refAngle)}° + k·360°`);
+                }
+            } else if (func === 'cos') {
+                if (val >= 0) {
+                    solutions.push(`${refAngle}° + k·360°`);
+                    solutions.push(`${round(360 - refAngle)}° + k·360°`);
+                } else {
+                    solutions.push(`${round(180 - refAngle)}° + k·360°`);
+                    solutions.push(`${round(180 + refAngle)}° + k·360°`);
+                }
+            } else {
+                if (val >= 0) {
+                    solutions.push(`${refAngle}° + k·180°`);
+                } else {
+                    solutions.push(`${round(180 - refAngle)}° + k·180°`);
+                }
+            }
+
+            document.getElementById('gen_sol_result').innerHTML = solutions.join("<br>") + "<br>where k ∈ ℤ";
+        }
+
+        // Reduction formula verification
+        function reduceAndSolve(func, angle) {
+            let result;
+            let targetId = "";
+
+            if (angle === 150 && func === 'cos') {
+                result = `= -${createFraction("√3", "2")} ≈ ${round(-Math.sqrt(3) / 2)}`;
+                targetId = "red_act4_1";
+            } else if (angle === -45 && func === 'sin') {
+                result = `= -${createFraction("√2", "2")} ≈ ${round(-Math.sqrt(2) / 2)}`;
+                targetId = "red_act4_2";
+            } else if (angle === 480 && func === 'tan') {
+                result = `= -√3 ≈ ${round(-Math.sqrt(3))}`;
+                targetId = "red_act4_3";
+            }
+
+            if (targetId) {
+                document.getElementById(targetId).innerHTML = ` ✓ ${result}`;
+            }
+        }
+
+        // Initialize some results on load
+        window.addEventListener('load', function () {
+            calculateExpression3();
+            calculateExpression4();
+            lookupSpecialAngle();
+        });
+    </script>
+</body>
+
+</html>

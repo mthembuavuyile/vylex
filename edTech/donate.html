@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Support Vylex Nexys's mission to provide AI-driven education to underserved communities in South Africa. Donate via PayPal or Bitcoin.">
+    <meta name="keywords" content="Donation, EdTech, Education, STEM, South Africa, PayPal, Bitcoin, Cryptocurrency">
+    <meta name="author" content="Vylex Nexys">
+    <title>Support Our Mission - Donate | Vylex Nexys</title>
+    <style>
+        :root {
+            --accent-color: #ff5722;
+            --light-bg: #f9f9f9;
+            --dark-bg: #333;
+            --text-color: #333;
+            --link-color: #0066cc;
+            --success-color: #4caf50;
+            --bitcoin-color: #f7931a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #branding h1 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+
+        .highlight {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .line1, .line2, .line3 {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .hero-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .donation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .donation-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .donation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .donation-card h2 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .paypal-icon {
+            width: 30px;
+            height: 30px;
+            background: #0070ba;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .bitcoin-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--bitcoin-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .donation-amounts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .donation-amount {
+            padding: 15px;
+            background: var(--light-bg);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .donation-amount:hover {
+            border-color: var(--accent-color);
+            background: rgba(255, 87, 34, 0.1);
+        }
+
+        .donation-amount.selected {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        #custom-amount {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            transition: border-color 0.3s ease;
+        }
+
+        #custom-amount:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .donate-button {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .donate-button:hover {
+            background: #c73e1d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+        }
+
+        .bitcoin-donate-button {
+            background: var(--bitcoin-color);
+        }
+
+        .bitcoin-donate-button:hover {
+            background: #e8851f;
+            box-shadow: 0 5px 15px rgba(247, 147, 26, 0.3);
+        }
+
+        .bitcoin-address {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+            margin: 15px 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .copy-button {
+            background: var(--bitcoin-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: #e8851f;
+        }
+
+        .impact-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .impact-section h2 {
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .impact-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .impact-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-placeholder {
+            width: 150px;
+            height: 150px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            border-radius: 10px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                width: 100%;
+                text-align: center;
+                padding-top: 20px;
+            }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .burger {
+                display: block;
+            }
+
+            .donation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .hero-section {
+                padding: 30px 20px;
+            }
+
+            .donation-card {
+                padding: 20px;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div id="branding">
+                    <h1><span class="highlight">Vylex Nexys</span> EdTech</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="https://avuyilemthembu.co.za/Artificial-Intelligence.html">AI Tools</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero-section">
+            <h1>Support Our Mission</h1>
+            <p>Your generous donations help us bridge the educational divide in South Africa. Every contribution empowers students with access to quality AI-driven STEM education and creates opportunities for a brighter future.</p>
+        </section>
+
+        <div class="donation-grid">
+            <!-- PayPal Donation Card -->
+            <div class="donation-card">
+                <h2>
+                    <div class="paypal-icon">P</div>
+                    PayPal Donation
+                </h2>
+                <p>Quick and secure donation through PayPal. Choose from preset amounts or enter a custom amount.</p>
+                
+                <div class="donation-amounts">
+                    <button class="donation-amount" data-amount="10">$10</button>
+                    <button class="donation-amount" data-amount="25">$25</button>
+                    <button class="donation-amount" data-amount="50">$50</button>
+                    <button class="donation-amount" data-amount="100">$100</button>
+                </div>
+                
+                <input type="number" id="custom-amount" placeholder="Enter custom amount ($)" min="1" step="1">
+                
+                <form action="https://www.paypal.com/donate" method="post" target="_blank">
+                    <input type="hidden" name="hosted_button_id" value="8SZXG2PZTLKBG" />
+                    <input type="hidden" name="business" value="mthembuavuyile@gmail.com" />
+                    <input type="hidden" name="amount" id="paypal-amount" value="25" />
+                    <input type="hidden" name="currency_code" value="USD" />
+                    <input type="hidden" name="item_name" value="Vylex Nexys EdTech Platform Donation" />
+                    <button type="submit" class="donate-button">Donate with PayPal</button>
+                </form>
+            </div>
+
+            <!-- Bitcoin Donation Card -->
+            <div class="donation-card">
+                <h2>
+                    <div class="bitcoin-icon">₿</div>
+                    Bitcoin Donation
+                </h2>
+                <p>Support us with cryptocurrency. Send Bitcoin to our wallet address below.</p>
+                
+                <div class="qr-code">
+                    <div class="qr-placeholder">
+                        QR Code<br>
+                        (Generate with<br>Bitcoin address)
+                    </div>
+                </div>
+                
+                <p><strong>Bitcoin Address:</strong></p>
+                <div class="bitcoin-address" id="bitcoin-address">
+                    bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+                </div>
+                
+                <button class="copy-button" onclick="copyBitcoinAddress()">Copy Address</button>
+                
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                    <strong>Note:</strong> After sending Bitcoin, please email us at 
+                    <a href="mailto:mthembuavuyile@gmail.com">mthembuavuyile@gmail.com</a> 
+                    with your transaction ID for confirmation.
+                </p>
+                
+                <button class="donate-button bitcoin-donate-button" onclick="openBitcoinWallet()">
+                    Open Bitcoin Wallet
+                </button>
+            </div>
+        </div>
+
+        <section class="impact-section">
+            <h2>Your Impact</h2>
+            <p style="text-align: center; font-size: 1.1rem; margin-bottom: 20px;">
+                See how your donation makes a difference in the lives of South African students:
+            </p>
+            
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <div class="impact-icon">📚</div>
+                    <h3>$10</h3>
+                    <p>Provides access to basic STEM courses for one student for a month</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon">🎓</div>
+                    <h3>$25</h3>
+                    <p>Funds AI-powered tutoring sessions for a student struggling with mathematics</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon">💻</div>
+                    <h3>$50</h3>
+                    <p>Supports platform development and maintenance for better user experience</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon">🌟</div>
+                    <h3>$100</h3>
+                    <p>Sponsors a complete learning path with certification for an underprivileged student</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Vylex Nexys. All rights reserved. | 
+            <a href="mailto:mthembuavuyile@gmail.com">mthembuavuyile@gmail.com</a> | 
+            Making quality education accessible to all.</p>
+        </footer>
+    </div>
+
+    <div class="notification" id="notification">
+        Address copied to clipboard!
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const donationAmounts = document.querySelectorAll('.donation-amount');
+            const customAmount = document.getElementById('custom-amount');
+            const paypalAmount = document.getElementById('paypal-amount');
+            const burger = document.querySelector('.burger');
+            const nav = document.querySelector('.nav-links');
+
+            // Set default amount
+            document.querySelector('[data-amount="25"]').classList.add('selected');
+
+            function updateSelectedAmount(amount) {
+                donationAmounts.forEach(btn => btn.classList.remove('selected'));
+                paypalAmount.value = amount || 25;
+            }
+
+            donationAmounts.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    updateSelectedAmount(this.dataset.amount);
+                    this.classList.add('selected');
+                    customAmount.value = '';
+                });
+            });
+
+            customAmount.addEventListener('input', function() {
+                updateSelectedAmount(this.value);
+                donationAmounts.forEach(btn => btn.classList.remove('selected'));
+            });
+
+            burger.addEventListener('click', () => {
+                nav.classList.toggle('active');
+            });
+        });
+
+        function copyBitcoinAddress() {
+            const bitcoinAddress = document.getElementById('bitcoin-address').textContent;
+            navigator.clipboard.writeText(bitcoinAddress).then(function() {
+                showNotification();
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = bitcoinAddress;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification();
+            });
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function openBitcoinWallet() {
+            const bitcoinAddress = 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh';
+            const bitcoinUri = `bitcoin:${bitcoinAddress}`;
+            
+            // Try to open Bitcoin wallet app
+            window.location.href = bitcoinUri;
+            
+            // Also copy address as fallback
+            setTimeout(() => {
+                copyBitcoinAddress();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

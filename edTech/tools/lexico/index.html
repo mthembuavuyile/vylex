@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta Tags -->
+  <title>Lexico | Vylex Nexys Language Intelligence - Advanced Language Learning Tools</title>
+  <meta name="title" content="Lexico | Vylex Nexys Language Intelligence - Advanced Language Learning Tools" />
+  <meta name="description" content="Lexico by Vylex Nexys offers intelligent language tools including definitions, synonyms, pronunciation, etymology, and more for smarter learning." />
+  <meta name="keywords" content="language learning, lexico, intelligent dictionary, etymology, synonyms, pronunciation, linguistic tools, Vylex Nexys" />
+  <meta name="author" content="Vylex Nexys" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://vylexnexys.co.za/edTech/tools/lexico/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://vylexnexys.co.za/edTech/tools/lexico/" />
+  <meta property="og:title" content="Lexico | Advanced Language Learning Tools by Vylex Nexys" />
+  <meta property="og:description" content="Discover Lexico by Vylex Nexys – advanced tools for language learners including intelligent definitions, pronunciation guides, and more." />
+  <meta property="og:image" content="https://vylexnexys.co.za/images/lexico-og.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://vylexnexys.co.za/edTech/tools/lexico/" />
+  <meta property="twitter:title" content="Lexico | Advanced Language Learning Tools by Vylex Nexys" />
+  <meta property="twitter:description" content="Explore Lexico by Vylex Nexys – tools for mastering language with intelligent definitions, pronunciation, and etymology." />
+  <meta property="twitter:image" content="https://vylexnexys.co.za/images/lexico-og.jpg" />
+
+  <!-- Favicon & Touch Icon -->
+  <link rel="icon" href="https://vylexnexys.co.za/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://vylexnexys.co.za/apple-touch-icon.png" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalApplication",
+    "name": "Lexico",
+    "applicationCategory": "Language Learning Tool",
+    "url": "https://vylexnexys.co.za/edTech/tools/lexico/",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "ZAR"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "Vylex Nexys",
+      "url": "https://vylexnexys.co.za"
+    }
+  }
+  </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="brand">
+                <h1>Lexico</h1>
+            </div>
+            <nav id="nav">
+                <a href="#"><i class="fas fa-home"></i> Home</a>
+                <a href="../lexico-v2/index.html"><i class="fas fa-book"></i> 2nd version</a>
+                <a href="../../index.html"><i class="fas fa-graduation-cap"></i> Learn</a>
+                <a href="../advanced-text-analysis.html"><i class="fas fa-chart-bar"></i> Analytics</a>
+            </nav>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="wordInput" placeholder="Enter a word to explore..." />
+                <button onclick="fetchWordData()" class="search-btn">
+                    <i class="fas fa-search"></i>
+                    Search
+                </button>
+            </div>
+            <button onclick="openSearchHistory()" class="search-btn">
+                <i class="fas fa-history"></i>
+                History
+            </button>
+        </div>
+
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner fa-spin"></i> Analyzing word...
+        </div>
+        <div id="error" class="error"></div>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <h3><i class="fas fa-book"></i> Definitions</h3>
+                <ul id="definitionList" class="result-list"></ul>
+            </div>
+
+            <div class="result-card">
+                <h3><i class="fas fa-exchange-alt"></i> Synonyms</h3>
+                <ul id="synonymList" class="result-list"></ul>
+            </div>
+
+            <div class="result-card">
+                <h3><i class="fas fa-volume-up"></i> Pronunciation</h3>
+                <div id="pronunciation"></div>
+                <div class="pronunciation-player">
+                    <select id="voiceSelect" class="voice-select"></select>
+                    <button class="play-btn" onclick="playPronunciation()">
+                        <i class="fas fa-play"></i> 
+                    </button>
+                    <span id="phonetic"></span>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <h3><i class="fas fa-music"></i> Rhymes</h3>
+                <ul id="rhymeList" class="result-list"></ul>
+            </div>
+
+            <div class="result-card">
+                <h3><i class="fas fa-language"></i> Etymology</h3>
+                <div id="etymology" class="etymology"></div>
+            </div>
+
+            <div class="result-card">
+                <h3><i class="fas fa-book-open"></i> Usage Examples</h3>
+                <div id="examples" class="examples"></div>
+            </div>
+        </div>
+    </main>
+
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Vylex Nexys</h4>
+                <p>Empowering language learning through innovative technology and comprehensive linguistic tools.</p>
+                <div class="social-links">
+                    <a href="https://twitter.com/vylexnexys" title="Follow us on Twitter" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com/company/vylex-nexys" title="Connect on LinkedIn" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/vylex-nexys" title="Visit our GitHub" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="https://vylexnexys.co.za" title="Visit Vylex Nexys">Parent Company</a></li>
+                    <li><a href="https://vylexnexys.co.za/portfolio" title="Our Products">Products</a></li>
+                    <li><a href="https://vylexnexys.co.za/services" title="Our Services">Services</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://vylexnexys.co.za/edTech" title="Learning platform">Learning</a></li>
+                    <li><a href="https://vylexnexys.co.za/ai" title="AI Tools aggregator">AI Tools</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><a href="mailto:info@vylexnexys.com"><i class="fas fa-envelope"></i> info@vylexnexys.com</a></li>
+                    <li><a href="tel:+27648784287"><i class="fas fa-phone"></i> +27 (0) 64-878-4287</a></li>
+                    <li><a href="https://vylexnexys.co.za/contact" title="Our Location"><i class="fas fa-map-marker-alt"></i> Durban, SA</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 <a href="https://vylexnexys.co.za">Vylex Nexys</a>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

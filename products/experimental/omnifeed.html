@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vylex Nexus — Society of APIs</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Vylex Brand Palette */
+      --vylex-navy: #051B38;
+      --light-navy: #0A2E5C;
+      --vylex-orange: #FBA919;
+      --slate: #E2E8F0;
+      --white: #FFFFFF;
+      --bg-gray: #F8FAFC;
+      
+      /* App-specific variations */
+      --panel-bg: #0A2E5C;
+      --panel-hover: #0c366b;
+      --text-main: #FFFFFF;
+      --text-muted: #94a3b8;
+      --border-color: rgba(226, 232, 240, 0.15);
+      
+      /* Status Colors */
+      --good: #22c55e;
+      --bad: #ef4444;
+      --warn: #f59e0b;
+      
+      --cardShadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --liftShadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+      --radius: 16px;
+      
+      --sans: 'DM Sans', sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background-color: var(--vylex-navy);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    a { color: inherit; text-decoration: none; }
+    
+    /* Layout */
+    .app {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 720px) 320px;
+      gap: 24px;
+      padding: 24px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 1150px){
+      .app { grid-template-columns: 1fr 320px; }
+      .sidebar { display: none; }
+    }
+    
+    @media (max-width: 850px){
+      .app { grid-template-columns: 1fr; }
+      .rightbar { order: 3; }
+      .sidebar { display: block; order: 2; }
+    }
+
+    /* Topbar & Branding */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(5, 27, 56, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .topbar-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .vylex-logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+    }
+    
+    .icon-svg {
+      fill: var(--vylex-orange);
+      height: 32px;
+      width: auto;
+      margin-right: 10px;
+    }
+    
+    .vylex-text {
+      font-size: 24px;
+      letter-spacing: -1px;
+    }
+    
+    .dot { color: var(--vylex-orange); }
+
+    .brand-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-left: 42px;
+      margin-top: -4px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Pulse Pill */
+    .pill {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      background: var(--light-navy);
+    }
+    .pill strong { font-size: 13px; color: var(--vylex-orange); }
+    .pill span { font-size: 13px; color: var(--text-muted); }
+
+    /* Buttons */
+    .btn {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      font-size: 12px;
+      transition: all 0.2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      user-select: none;
+    }
+    
+    .btn:active { transform: scale(0.98); }
+    
+    .btn-primary { 
+      background-color: var(--vylex-orange); 
+      color: var(--vylex-navy); 
+    }
+    .btn-primary:hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(251, 169, 25, 0.3); }
+    
+    .btn-secondary { 
+      background-color: var(--light-navy); 
+      color: var(--white);
+      border-color: var(--border-color);
+    }
+    .btn-secondary:hover { background-color: var(--panel-hover); border-color: var(--slate); }
+
+    .btn-small { padding: 6px 12px; font-size: 11px; border-radius: 6px; }
+
+    /* Panels / Cards */
+    .panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: var(--cardShadow);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    
+    .panel-hd {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    
+    .panel-hd h2 {
+      margin: 0;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel-hd h2::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 16px;
+      background: var(--vylex-orange);
+      border-radius: 2px;
+    }
+    
+    .panel-bd { padding: 20px; }
+    
+    .smallnote { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* Feed & Stream Cards */
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 40vh;
+    }
+
+    .variant-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .variant-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--liftShadow);
+      border-color: rgba(251, 169, 25, 0.3);
+    }
+
+    .card-top {
+      padding: 16px 20px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    
+    .avatar {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border-color);
+      display: grid; place-items: center;
+      flex: 0 0 auto;
+      overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar span { font-size: 24px; }
+    
+    .meta { min-width: 0; flex: 1 1 auto; }
+    
+    .line1 {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px;
+    }
+    
+    .who { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+    .name { font-weight: 700; font-size: 15px; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .handle { font-size: 13px; color: var(--vylex-orange); white-space: nowrap; }
+    .time { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+    
+    .text {
+      line-height: 1.6;
+      font-size: 15px;
+      color: var(--slate);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    
+    /* Rich Media Injection */
+    .rich-media {
+      margin-top: 12px;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    .rich-media img {
+      width: 100%;
+      max-height: 400px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .tags {
+      margin-top: 12px;
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .tag {
+      font-size: 11px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+    .tag.accent { color: var(--vylex-orange); border-color: rgba(251, 169, 25, 0.3); background: rgba(251, 169, 25, 0.05); }
+    .tag.good { color: var(--good); border-color: rgba(34, 197, 94, 0.3); }
+    .tag.bad { color: var(--bad); border-color: rgba(239, 68, 68, 0.3); }
+    .tag.warn { color: var(--warn); border-color: rgba(245, 158, 11, 0.3); }
+
+    .card-media {
+      border-top: 1px solid var(--border-color);
+      background: rgba(0,0,0,0.15);
+      padding: 12px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    
+    .media-left { flex: 1 1 auto; min-width: 200px; }
+    .link {
+      color: var(--vylex-orange);
+      font-weight: 500;
+      font-size: 13px;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .link:hover { text-decoration: underline; }
+    
+    .kv {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px; font-size: 13px; color: var(--text-muted); margin-top: 8px;
+    }
+    .kv div strong { color: var(--white); display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;}
+
+    /* Forms & Inputs */
+    .input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: rgba(0,0,0,0.2);
+      color: var(--white);
+      outline: none;
+      font-family: var(--sans);
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+    .input:focus { border-color: var(--vylex-orange); }
+    .row { display: flex; gap: 12px; }
+    .row > * { flex: 1 1 auto; }
+    .row .btn { flex: 0 0 auto; }
+
+    .status {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      margin-top: 12px; font-size: 12px; color: var(--text-muted);
+    }
+    .dot-indicator {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--text-muted);
+      display: inline-block; margin-right: 6px;
+    }
+    .dot-indicator.ok { background: var(--good); box-shadow: 0 0 8px var(--good); }
+    .dot-indicator.bad { background: var(--bad); }
+
+    .loadmore { margin: 24px 0 40px; display: flex; justify-content: center; }
+    
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+      background: var(--vylex-orange); color: var(--vylex-navy);
+      padding: 12px 24px; border-radius: 8px;
+      box-shadow: var(--liftShadow); font-weight: 700; font-family: 'Inter', sans-serif;
+      font-size: 14px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    .mono { font-family: var(--mono); }
+    .muted { color: var(--text-muted); }
+    
+    /* Utility */
+    .mt-14 { margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <a href="#" class="vylex-logo">
+          <svg class="icon-svg" viewBox="0 0 100 100">
+            <path d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+            <rect x="42" y="10" width="16" height="30" />
+          </svg>
+          <span class="vylex-text">vylex<span class="dot">.</span> nexus</span>
+        </a>
+        <div class="brand-sub">Autonomous API driven Omnifeed</div>
+      </div>
+
+      <div class="controls">
+        <div class="pill" title="Live crypto + market pulse">
+          <strong id="pulseLabel">PULSE</strong>
+          <span id="pulseValue" class="mono">Syncing...</span>
+        </div>
+        <button class="btn btn-primary" id="btnFresh">↻ Refresh Feed</button>
+        <button class="btn btn-secondary" id="btnClear">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="app">
+    <aside class="sidebar">
+      <section class="panel">
+        <div class="panel-hd"><h2>Oracle Arena</h2></div>
+        <div class="panel-bd">
+          <div class="smallnote">
+            Ask anything. Nexus routes your prompt to the fastest relevant APIs in parallel.
+          </div>
+          <div style="height:16px"></div>
+          <div class="row">
+            <input id="oracleInput" class="input" placeholder="e.g. Weather in Johannesburg, BTC price, random dog, define serendipity" />
+            <button id="oracleGo" class="btn btn-primary">Ask</button>
+          </div>
+          <div class="status">
+            <div><span id="netDot" class="dot-indicator"></span><span id="netText">Network: checking...</span></div>
+          </div>
+          <div style="height:16px"></div>
+          <div id="oracleResults" class="feed" style="gap:12px"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-hd"><h2>Stream Memory</h2></div>
+        <div class="panel-bd">
+          <div class="smallnote">
+            Deduplicated live session. No repeats.
+          </div>
+          <div style="height:16px"></div>
+          <div class="kv" style="grid-template-columns: 1fr 1fr;">
+            <div><strong id="memPosts" style="font-size: 20px; color: var(--vylex-orange);">0</strong><div class="muted">Posts Rendered</div></div>
+            <div><strong id="memSeen" style="font-size: 20px; color: var(--vylex-orange);">0</strong><div class="muted">Unique Nodes</div></div>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <section>
+      <div class="panel">
+        <div class="panel-hd">
+          <h2>Living Stream</h2>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-secondary btn-small" id="btnJhb">🇿🇦 Local Bias</button>
+            <button class="btn btn-secondary btn-small" id="btnGlobal">🌍 Global Bias</button>
+          </div>
+        </div>
+        <div class="panel-bd" style="padding: 24px;">
+          <div id="feed" class="feed"></div>
+          <div class="loadmore">
+            <button id="btnMore" class="btn btn-primary" style="padding: 12px 32px;">Load More Nodes</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="rightbar">
+      <section class="panel">
+        <div class="panel-hd"><h2>Data Sources (15 live)</h2></div>
+        <div class="panel-bd">
+          <div class="tags">
+            <span class="tag accent">IdentityForge</span>
+            <span class="tag accent">DoggoFetch</span>
+            <span class="tag accent">CatFactNinja</span>
+            <span class="tag accent">AdviceAlly</span>
+            <span class="tag accent">JokeMaster</span>
+            <span class="tag accent">QuoteSage</span>
+            <span class="tag accent">SkyWatch</span>
+            <span class="tag accent">CryptoPulse</span>
+            <span class="tag accent">ChainLink</span>
+            <span class="tag accent">BuzzCrypto</span>
+            <span class="tag accent">CurrencyCaster</span>
+            <span class="tag accent">WordWizard</span>
+            <span class="tag accent">VerseVibe</span>
+            <span class="tag accent">FactFrenzy</span>
+            <span class="tag accent">DecisionOracle</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-hd"><h2>Dev Actions</h2></div>
+        <div class="panel-bd">
+          <div style="display:flex; flex-direction: column; gap: 12px;">
+            <button class="btn btn-secondary" id="btnSynergy" style="width: 100%;">🧪 Generate Synergy</button>
+            <button class="btn btn-secondary" id="btnOneOfEach" style="width: 100%;">🌐 Query All APIs</button>
+          </div>
+          <div style="height:16px"></div>
+          <div class="smallnote">
+            Synergy = random word + quote + dictionary or market mood.
+          </div>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const $ = (sel, el = document) => el.querySelector(sel);
+    const feedEl = $("#feed");
+    const toastEl = $("#toast");
+    const oracleResults = $("#oracleResults");
+
+    const state = {
+      bias: "JHB",
+      loading: false,
+      postCount: 0,
+      seen: new Set(),
+      lastTwoCategories: [],
+      pulse: { btc: null, fg: null, updatedAt: null }
+    };
+
+    function toast(msg, ms = 2200) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastEl._t);
+      toastEl._t = setTimeout(() => toastEl.classList.remove("show"), ms);
+    }
+
+    function nowISO() { return new Date().toISOString(); }
+
+    function relTime(ts) {
+      const diff = Math.max(1, Math.floor((Date.now() - new Date(ts).getTime()) / 1000));
+      if (diff < 60) return `${diff}s ago`;
+      if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+      return `${Math.floor(diff / 86400)}d ago`;
+    }
+
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function chance(p) { return Math.random() < p; }
+    function safeUrl(u) { try { return new URL(u).toString(); } catch { return null; } }
+
+    function updateMemoryUI() {
+      $("#memPosts").textContent = String(state.postCount);
+      $("#memSeen").textContent = String(state.seen.size);
+    }
+
+    function updatePulseUI() {
+      const parts = [];
+      if (state.pulse.btc) parts.push(`BTC $${Number(state.pulse.btc).toLocaleString()}`);
+      if (state.pulse.fg) parts.push(`F&G ${state.pulse.fg.value} ${state.pulse.fg.classification}`);
+      $("#pulseValue").textContent = parts.length ? parts.join(" · ") : "Syncing...";
+    }
+
+    function setNetworkStatus() {
+      const dot = $("#netDot");
+      const txt = $("#netText");
+      const ok = navigator.onLine;
+      dot.className = `dot-indicator ${ok ? "ok" : "bad"}`;
+      txt.textContent = ok ? "System Online" : "System Offline";
+    }
+    window.addEventListener("online", setNetworkStatus);
+    window.addEventListener("offline", setNetworkStatus);
+
+    /* Unified Card Builder (supports images, avatars, "More like this", everything) */
+    function createCard(data) {
+      const card = document.createElement("article");
+      card.className = "variant-card";
+
+      const top = document.createElement("div");
+      top.className = "card-top";
+
+      const avatarDiv = document.createElement("div");
+      avatarDiv.className = "avatar";
+      if (data.avatarUrl) {
+        const img = document.createElement("img");
+        img.src = data.avatarUrl;
+        img.loading = "lazy";
+        avatarDiv.appendChild(img);
+      } else {
+        const sp = document.createElement("span");
+        sp.textContent = data.emoji || "🟦";
+        avatarDiv.appendChild(sp);
+      }
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+
+      const line1 = document.createElement("div");
+      line1.className = "line1";
+      const who = document.createElement("div");
+      who.className = "who";
+      who.innerHTML = `<div class="name">${data.botName}</div><div class="handle">${data.handle}</div>`;
+      const timeEl = document.createElement("div");
+      timeEl.className = "time";
+      timeEl.textContent = relTime(data.time || nowISO());
+      line1.appendChild(who);
+      line1.appendChild(timeEl);
+
+      const textEl = document.createElement("div");
+      textEl.className = "text";
+      textEl.textContent = data.text;
+
+      meta.appendChild(line1);
+      meta.appendChild(textEl);
+
+      // Rich image
+      if (data.imageUrl) {
+        const rm = document.createElement("div");
+        rm.className = "rich-media";
+        const img = document.createElement("img");
+        img.src = data.imageUrl;
+        img.loading = "lazy";
+        rm.appendChild(img);
+        meta.appendChild(rm);
+      }
+
+      // Tags
+      if (data.tags && data.tags.length) {
+        const tagsDiv = document.createElement("div");
+        tagsDiv.className = "tags";
+        data.tags.forEach(t => {
+          const sp = document.createElement("span");
+          sp.className = `tag ${t.kind || ""}`;
+          sp.textContent = t.label;
+          tagsDiv.appendChild(sp);
+        });
+        meta.appendChild(tagsDiv);
+      }
+
+      top.appendChild(avatarDiv);
+      top.appendChild(meta);
+      card.appendChild(top);
+
+      const hasMediaContent = data.link || data.kv || data.footer || data.category;
+      if (hasMediaContent) {
+        const media = document.createElement("div");
+        media.className = "card-media";
+
+        const left = document.createElement("div");
+        left.className = "media-left";
+
+        if (data.link) {
+          const a = document.createElement("a");
+          a.className = "link";
+          a.href = data.link;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.innerHTML = `${data.linkLabel || "Open Link"} <span style="font-size:11px">↗</span>`;
+          left.appendChild(a);
+        }
+
+        if (data.kv) {
+          const kvEl = document.createElement("div");
+          kvEl.className = "kv";
+          data.kv.forEach(([k, v]) => {
+            const d = document.createElement("div");
+            d.innerHTML = `<strong>${k}</strong><span>${v}</span>`;
+            kvEl.appendChild(d);
+          });
+          left.appendChild(kvEl);
+        }
+
+        if (data.footer) {
+          const f = document.createElement("div");
+          f.className = "smallnote";
+          f.style.marginTop = "8px";
+          f.textContent = data.footer;
+          left.appendChild(f);
+        }
+
+        media.appendChild(left);
+
+        // "More like this" button
+        if (data.category) {
+          const right = document.createElement("div");
+          right.style.marginLeft = "auto";
+          right.style.alignSelf = "flex-start";
+          const btn = document.createElement("button");
+          btn.className = "btn btn-secondary btn-small";
+          btn.textContent = "🔄 More";
+          btn.title = `More ${data.category}`;
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            addPosts(1, { forceCategory: data.category });
+            toast(`Spawning more ${data.category}...`);
+          });
+          right.appendChild(btn);
+          media.appendChild(right);
+        }
+
+        card.appendChild(media);
+      }
+
+      return card;
+    }
+
+    /* Fetch helper */
+    async function fetchJSON(url, { timeoutMs = 9000 } = {}) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, { signal: ctrl.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+      } finally {
+        clearTimeout(t);
+      }
+    }
+
+    function viaCorsProxy(rawUrl) {
+      return "https://corsproxy.io/?" + encodeURIComponent(rawUrl);
+    }
+
+    /* ====================== ALL BOTS ====================== */
+
+    // 1. IdentityForge
+    async function botIdentity() {
+      const j = await fetchJSON("https://randomuser.me/api/");
+      const u = j.results[0];
+      const name = `${u.name.first} ${u.name.last}`;
+      const text = `Synthetic identity generated.\n${u.location.city}, ${u.location.country}\nAge ${u.dob.age} • ${u.login.username}`;
+      return {
+        key: `id:${u.login.uuid}`,
+        card: {
+          botName: "IdentityForge",
+          handle: "@idforge",
+          emoji: "👤",
+          avatarUrl: u.picture.medium,
+          text,
+          tags: [{label:"synthetic", kind:"accent"}, {label:"persona", kind:"good"}],
+          kv: [["Email", u.email], ["Phone", u.phone]],
+          category: "IDENTITY"
+        }
+      };
+    }
+
+    // 2. DoggoFetch
+    async function botDog() {
+      const j = await fetchJSON("https://dog.ceo/api/breeds/image/random");
+      const url = j.message;
+      const breed = url.split('/')[4].replace(/-/g, ' ');
+      return {
+        key: `dog:${url}`,
+        card: {
+          botName: "DoggoFetch",
+          handle: "@doggo",
+          emoji: "🐶",
+          text: `Random ${breed} just dropped.`,
+          imageUrl: url,
+          tags: [{label:"dog", kind:"accent"}, {label:breed.toUpperCase(), kind:"good"}],
+          category: "DOG"
+        }
+      };
+    }
+
+    // 3. CatFactNinja
+    async function botCatFact() {
+      const j = await fetchJSON("https://catfact.ninja/fact");
+      return {
+        key: `cat:${j.fact.substring(0,60)}`,
+        card: {
+          botName: "CatFactNinja",
+          handle: "@catfacts",
+          emoji: "🐱",
+          text: j.fact,
+          tags: [{label:"catfact", kind:"accent"}],
+          category: "CATFACT"
+        }
+      };
+    }
+
+    // 4-14 from comprehensive set (Advice, Joke, Quote, Fact, Bible, Word, Weather, YesNo, Country, Crypto, Mempool, Reddit, FX, Synergy)
+    async function botAdvice() {
+      const j = await fetchJSON("https://api.adviceslip.com/advice");
+      return {
+        key: `advice:${j.slip.id}`,
+        card: {
+          botName: "AdviceAlly",
+          handle: "@AdviceAlly",
+          emoji: "🧭",
+          text: j.slip.advice,
+          tags: [{label:"advice", kind:"accent"}],
+          category: "ADVICE"
+        }
+      };
+    }
+
+    async function botJoke() {
+      const j = await fetchJSON("https://v2.jokeapi.dev/joke/Any?safe-mode&type=single,twopart");
+      let text = j.type === "single" ? j.joke : `${j.setup}\n\n${j.delivery}`;
+      return {
+        key: `joke:${j.id}`,
+        card: {
+          botName: "JokeMaster",
+          handle: "@JokeMaster",
+          emoji: "🤣",
+          text,
+          tags: [{label:"joke", kind:"accent"}, {label:j.category, kind:"good"}],
+          category: "JOKE"
+        }
+      };
+    }
+
+    async function botQuote() {
+      const j = await fetchJSON("https://api.quotable.io/random");
+      const text = `“${j.content}”\n— ${j.author}`;
+      return {
+        key: `quote:${j._id}`,
+        card: {
+          botName: "QuoteSage",
+          handle: "@QuoteSage",
+          emoji: "🪶",
+          text,
+          tags: [{label:"quote", kind:"accent"}],
+          category: "QUOTE"
+        }
+      };
+    }
+
+    async function botFact() {
+      const j = await fetchJSON("https://uselessfacts.jsph.pl/api/v2/facts/random");
+      return {
+        key: `fact:${j.text}`,
+        card: {
+          botName: "FactFrenzy",
+          handle: "@FactFrenzy",
+          emoji: "🧠",
+          text: j.text,
+          tags: [{label:"fact", kind:"accent"}],
+          link: j.source_url ? safeUrl(j.source_url) : null,
+          linkLabel: j.source || "Source",
+          category: "FACT"
+        }
+      };
+    }
+
+    async function botBible() {
+      const refs = ["John 3:16","Psalm 23:1","Proverbs 3:5-6","Romans 8:28","Philippians 4:6-7","Isaiah 41:10","Matthew 11:28","1 Corinthians 13:4-7"];
+      const ref = pick(refs);
+      const j = await fetchJSON(`https://bible-api.com/${encodeURIComponent(ref)}`);
+      const text = `${j.reference}\n${j.text}`;
+      return {
+        key: `bible:${j.reference}`,
+        card: {
+          botName: "VerseVibe",
+          handle: "@VerseVibe",
+          emoji: "📖",
+          text,
+          tags: [{label:"bible", kind:"accent"}],
+          footer: `Translation: ${j.translation_name || "WEB"}`,
+          category: "BIBLE"
+        }
+      };
+    }
+
+    async function botWord() {
+      const w = await fetchJSON("https://random-word-api.herokuapp.com/word?number=1");
+      const word = w[0];
+      const d = await fetchJSON(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+      const entry = d[0];
+      const phon = entry.phonetic || "—";
+      const meaning = entry.meanings[0];
+      const def = meaning.definitions[0].definition;
+      const ex = meaning.definitions[0].example || "";
+      const text = `Word: ${word}\nPhonetic: ${phon}\n(${meaning.partOfSpeech}) ${def}${ex ? `\nExample: ${ex}` : ""}`;
+      return {
+        key: `word:${word}`,
+        card: {
+          botName: "WordWizard",
+          handle: "@WordWizard",
+          emoji: "📚",
+          text,
+          tags: [{label:"word", kind:"accent"}, {label:"dictionary", kind:"good"}],
+          link: entry.sourceUrls?.[0] ? safeUrl(entry.sourceUrls[0]) : null,
+          linkLabel: "Source",
+          category: "WORD"
+        },
+        word
+      };
+    }
+
+    const cities = [
+      { name: "Johannesburg", lat: -26.2041, lon: 28.0473, bias: "JHB" },
+      { name: "Soweto", lat: -26.2485, lon: 27.8540, bias: "JHB" },
+      { name: "Pretoria", lat: -25.7479, lon: 28.2293, bias: "JHB" },
+      { name: "Cape Town", lat: -33.9249, lon: 18.4241, bias: "GLOBAL" },
+      { name: "Durban", lat: -29.8587, lon: 31.0218, bias: "GLOBAL" },
+      { name: "London", lat: 51.5072, lon: -0.1276, bias: "GLOBAL" },
+      { name: "New York", lat: 40.7128, lon: -74.0060, bias: "GLOBAL" },
+      { name: "Tokyo", lat: 35.6762, lon: 139.6503, bias: "GLOBAL" }
+    ];
+
+    function pickCity() {
+      const jhb = cities.filter(c => c.bias === "JHB");
+      const glb = cities.filter(c => c.bias === "GLOBAL");
+      return state.bias === "JHB" && chance(0.75) ? pick(jhb) : pick(glb);
+    }
+
+    async function botWeather() {
+      const city = pickCity();
+      const j = await fetchJSON(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code`);
+      const cur = j.current;
+      const text = `Weather in ${city.name}\nTemp: ${cur.temperature_2m}°C (feels ${cur.apparent_temperature}°C)\nWind: ${cur.wind_speed_10m} km/h`;
+      return {
+        key: `weather:${city.name}:${cur.temperature_2m}`,
+        card: {
+          botName: "SkyWatch",
+          handle: "@SkyWatch",
+          emoji: "🌦️",
+          text,
+          tags: [{label:"weather", kind:"accent"}, {label: state.bias === "JHB" ? "JHB" : "global", kind:"warn"}],
+          category: "WEATHER"
+        }
+      };
+    }
+
+    async function botYesNo() {
+      const j = await fetchJSON("https://yesno.wtf/api");
+      return {
+        key: `yesno:${j.answer}`,
+        card: {
+          botName: "DecisionOracle",
+          handle: "@DecisionOracle",
+          emoji: "🎲",
+          text: `The universe says: ${j.answer.toUpperCase()}.`,
+          tags: [{label:"yes/no", kind:"accent"}],
+          link: j.image,
+          linkLabel: "View GIF",
+          category: "YESNO"
+        }
+      };
+    }
+
+    async function botCountry() {
+      const j = await fetchJSON("https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,cca2");
+      const c = pick(j);
+      const flag = c.flags.emoji || "🌍";
+      const text = `${flag} ${c.name.common}\nCapital: ${c.capital?.[0] || "—"}\nRegion: ${c.region}\nPop: ${c.population.toLocaleString()}`;
+      return {
+        key: `country:${c.cca2}`,
+        card: {
+          botName: "GlobeTrot",
+          handle: "@GlobeTrot",
+          emoji: flag,
+          text,
+          tags: [{label:"country", kind:"accent"}],
+          category: "COUNTRY"
+        }
+      };
+    }
+
+    async function botCrypto() {
+      const j = await fetchJSON("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd,zar&include_24hr_change=true");
+      let fg = null;
+      try {
+        const fgJ = await fetchJSON("https://api.alternative.me/fng/?limit=1");
+        const d = fgJ.data[0];
+        fg = { value: d.value, classification: d.value_classification };
+      } catch {}
+      const btcCh = j.bitcoin.usd_24h_change;
+      const text = `BTC $${j.bitcoin.usd.toLocaleString()} (${btcCh.toFixed(1)}%)\nETH $${j.ethereum.usd.toLocaleString()}\n${fg ? `Fear & Greed: ${fg.value} (${fg.classification})` : ""}`;
+      return {
+        key: `crypto:${j.bitcoin.usd}`,
+        card: {
+          botName: "CryptoPulse",
+          handle: "@CryptoPulse",
+          emoji: "₿",
+          text,
+          tags: [{label:"crypto", kind:"accent"}, {label: btcCh >= 0 ? "bullish" : "bearish", kind: btcCh >= 0 ? "good" : "bad"}],
+          kv: [["BTC ZAR", `R${Math.round(j.bitcoin.zar).toLocaleString()}`], ["ETH ZAR", `R${Math.round(j.ethereum.zar).toLocaleString()}`]],
+          category: "CRYPTO"
+        },
+        pulse: { btcUsd: j.bitcoin.usd, fg }
+      };
+    }
+
+    async function botMempool() {
+      const fees = await fetchJSON("https://mempool.space/api/v1/fees/recommended");
+      const height = await fetchJSON("https://mempool.space/api/blocks/tip/height");
+      const text = `Mempool fees\nFast: ${fees.fastestFee} sat/vB\nMedium: ${fees.halfHourFee} sat/vB\nSlow: ${fees.hourFee} sat/vB\nBlock #${height}`;
+      return {
+        key: `mempool:${fees.fastestFee}`,
+        card: {
+          botName: "ChainLink",
+          handle: "@ChainLink",
+          emoji: "⛓️",
+          text,
+          tags: [{label:"mempool", kind:"accent"}],
+          kv: [["Fast", `${fees.fastestFee}`], ["Medium", `${fees.halfHourFee}`], ["Slow", `${fees.hourFee}`], ["Height", String(height)]],
+          category: "MEMPOOL"
+        }
+      };
+    }
+
+    async function botReddit() {
+      const subs = ["Bitcoin", "CryptoCurrency", "southafrica", "Johannesburg"];
+      const sub = pick(subs);
+      const j = await fetchJSON(viaCorsProxy(`https://www.reddit.com/r/${sub}/hot.json?limit=8`));
+      const post = pick(j.data.children).data;
+      const url = "https://reddit.com" + post.permalink;
+      return {
+        key: `reddit:${post.id}`,
+        card: {
+          botName: "BuzzCrypto",
+          handle: "@BuzzCrypto",
+          emoji: "👀",
+          text: `[r/${sub}] ${post.title}`,
+          tags: [{label:"reddit", kind:"accent"}],
+          link: safeUrl(url),
+          linkLabel: "Open Thread",
+          kv: [["Score", post.score], ["Comments", post.num_comments]],
+          footer: "Live from Reddit",
+          category: "REDDIT"
+        }
+      };
+    }
+
+    async function botFX() {
+      const j = await fetchJSON("https://api.frankfurter.app/latest?from=USD&to=ZAR,EUR,GBP");
+      const r = j.rates;
+      const text = `USD → ZAR ${r.ZAR.toFixed(2)}\nUSD → EUR ${r.EUR.toFixed(2)}\nUSD → GBP ${r.GBP.toFixed(2)}`;
+      return {
+        key: `fx:${j.date}`,
+        card: {
+          botName: "CurrencyCaster",
+          handle: "@CurrencyCaster",
+          emoji: "💱",
+          text,
+          tags: [{label:"fx", kind:"accent"}, {label:"ZAR", kind:"warn"}],
+          footer: `ECB • ${j.date}`,
+          category: "FX"
+        }
+      };
+    }
+
+    async function botSynergy() {
+      const wordData = await botWord();
+      const word = wordData.word;
+      let q = await fetchJSON(`https://api.quotable.io/search/quotes?query=${encodeURIComponent(word)}&limit=15`);
+      if (q.results && q.results.length > 0) {
+        const hit = pick(q.results);
+        const text = `Synergy: WORD × QUOTE\n\n"${word}"\n\n“${hit.content}”\n— ${hit.author}`;
+        return {
+          key: `syn:${word}:${hit._id}`,
+          card: {
+            botName: "OmniMixer",
+            handle: "@OmniMixer",
+            emoji: "🧪",
+            text,
+            tags: [{label:"synergy", kind:"accent"}, {label:"word×quote", kind:"good"}],
+            footer: "Random word + matching quote",
+            category: "SYNERGY"
+          }
+        };
+      }
+      // fallback
+      let fg = null;
+      try { const fgJ = await fetchJSON("https://api.alternative.me/fng/?limit=1"); fg = fgJ.data[0]; } catch {}
+      const text = `Synergy: WORD × MOOD\n\nWord: ${word}\nMood: ${fg ? `${fg.value} (${fg.value_classification})` : "unknown"}`;
+      return {
+        key: `syn:${word}`,
+        card: {
+          botName: "OmniMixer",
+          handle: "@OmniMixer",
+          emoji: "🧪",
+          text,
+          tags: [{label:"synergy", kind:"accent"}],
+          category: "SYNERGY"
+        }
+      };
+    }
+
+    /* Categories with smart weighting */
+    const categories = [
+      { id: "ADVICE", weight: 9, fn: botAdvice },
+      { id: "JOKE", weight: 11, fn: botJoke },
+      { id: "QUOTE", weight: 10, fn: botQuote },
+      { id: "FACT", weight: 8, fn: botFact },
+      { id: "BIBLE", weight: 6, fn: botBible },
+      { id: "WORD", weight: 8, fn: botWord },
+      { id: "WEATHER", weight: 10, fn: botWeather },
+      { id: "YESNO", weight: 7, fn: botYesNo },
+      { id: "COUNTRY", weight: 7, fn: botCountry },
+      { id: "CRYPTO", weight: 12, fn: botCrypto },
+      { id: "MEMPOOL", weight: 7, fn: botMempool },
+      { id: "REDDIT", weight: 6, fn: botReddit },
+      { id: "FX", weight: 8, fn: botFX },
+      { id: "SYNERGY", weight: 5, fn: botSynergy },
+      { id: "IDENTITY", weight: 7, fn: botIdentity },
+      { id: "DOG", weight: 9, fn: botDog },
+      { id: "CATFACT", weight: 7, fn: botCatFact }
+    ];
+
+    function weightedPickCategory() {
+      const avoid = (state.lastTwoCategories.length === 2 && state.lastTwoCategories[0] === state.lastTwoCategories[1]) ? state.lastTwoCategories[1] : null;
+      let pool = [];
+      for (const c of categories) {
+        let w = c.weight;
+        if (avoid && c.id === avoid) w = Math.max(1, Math.floor(w * 0.3));
+        if (c.id === "SYNERGY" && chance(0.3)) w += 4;
+        pool.push([c, w]);
+      }
+      const sum = pool.reduce((a, [, w]) => a + w, 0);
+      let r = Math.random() * sum;
+      for (const [c, w] of pool) {
+        r -= w;
+        if (r <= 0) return c;
+      }
+      return pool[0][0];
+    }
+
+    async function generatePost({ forceCategory = null } = {}) {
+      for (let attempt = 0; attempt < 6; attempt++) {
+        const cat = forceCategory ? categories.find(x => x.id === forceCategory) : weightedPickCategory();
+        try {
+          const out = await cat.fn();
+          if (state.seen.has(out.key)) continue;
+          state.seen.add(out.key);
+
+          state.lastTwoCategories.push(cat.id);
+          if (state.lastTwoCategories.length > 2) state.lastTwoCategories.shift();
+
+          if (out.pulse) {
+            if (out.pulse.btcUsd) state.pulse.btc = out.pulse.btcUsd;
+            if (out.pulse.fg) state.pulse.fg = out.pulse.fg;
+            updatePulseUI();
+          }
+
+          return { ...out.card, category: cat.id };
+        } catch (e) {
+          console.warn(`Bot ${cat.id} failed:`, e.message);
+          continue;
+        }
+      }
+      throw new Error("All sources quiet. Try again.");
+    }
+
+    async function addPosts(n = 5, opts = {}) {
+      if (state.loading) return;
+      state.loading = true;
+      $("#btnMore").textContent = "Syncing nodes...";
+      $("#btnMore").disabled = true;
+
+      try {
+        for (let i = 0; i < n; i++) {
+          const cardData = await generatePost(opts);
+          feedEl.appendChild(createCard(cardData));
+          state.postCount++;
+          updateMemoryUI();
+          await new Promise(r => setTimeout(r, 60));
+        }
+      } catch (e) {
+        toast(e.message || "Network hiccup");
+      } finally {
+        state.loading = false;
+        $("#btnMore").textContent = "Load More Nodes";
+        $("#btnMore").disabled = false;
+      }
+    }
+
+    /* Oracle — parallel agents */
+    function classifyPrompt(q) {
+      const s = q.toLowerCase();
+      const agents = [];
+      if (/weather|temp|rain|forecast|jhb|joburg/.test(s)) agents.push("WEATHER");
+      if (/btc|bitcoin|eth|crypto|fear|greed/.test(s)) agents.push("CRYPTO");
+      if (/dog|pup|woof/.test(s)) agents.push("DOG");
+      if (/cat|kitten|meow/.test(s)) agents.push("CATFACT");
+      if (/person|who|identity|name/.test(s)) agents.push("IDENTITY");
+      if (/define|meaning|word|pronounce/.test(s)) agents.push("WORD");
+      if (/should|will|can|is it|am i/.test(s) || s.endsWith("?")) agents.push("YESNO");
+      if (/rand|zar|exchange|fx/.test(s)) agents.push("FX");
+      agents.push("ADVICE", "QUOTE", "JOKE", "FACT", "BIBLE");
+      return [...new Set(agents)].slice(0, 8);
+    }
+
+    async function runOracle() {
+      const q = $("#oracleInput").value.trim();
+      if (!q) return;
+
+      oracleResults.innerHTML = `<div class="smallnote">Routing “${q}” to agents...</div>`;
+
+      const list = classifyPrompt(q);
+      const tasks = list.map(async (catId) => {
+        const cat = categories.find(x => x.id === catId);
+        if (!cat) return null;
+        const start = performance.now();
+        try {
+          const out = await cat.fn();
+          const ms = Math.round(performance.now() - start);
+          const cardData = { ...out.card, category: cat.id };
+          cardData.text += `\n\n[Agent latency: ${ms} ms]`;
+          return cardData;
+        } catch (e) {
+          return {
+            botName: `Agent ${catId}`,
+            handle: "@oracle",
+            emoji: "⚠️",
+            text: `Failed (${catId})\n${e.message}`,
+            tags: [{label:"error", kind:"bad"}],
+            category: null
+          };
+        }
+      });
+
+      for (const p of tasks) {
+        const cardData = await p;
+        if (cardData) oracleResults.appendChild(createCard(cardData));
+      }
+    }
+
+    /* Event wiring */
+    $("#btnMore").addEventListener("click", () => addPosts(5));
+    $("#btnFresh").addEventListener("click", async () => {
+      feedEl.innerHTML = "";
+      state.postCount = 0;
+      state.seen.clear();
+      state.lastTwoCategories = [];
+      updateMemoryUI();
+      await addPosts(8);
+      toast("Stream refreshed");
+    });
+    $("#btnClear").addEventListener("click", () => {
+      feedEl.innerHTML = "";
+      state.postCount = 0;
+      state.seen.clear();
+      state.lastTwoCategories = [];
+      updateMemoryUI();
+      toast("Feed cleared");
+    });
+
+    $("#btnJhb").addEventListener("click", () => { state.bias = "JHB"; toast("Bias locked to Johannesburg cluster"); });
+    $("#btnGlobal").addEventListener("click", () => { state.bias = "GLOBAL"; toast("Bias set to global cities"); });
+
+    $("#btnSynergy").addEventListener("click", () => addPosts(1, { forceCategory: "SYNERGY" }));
+    $("#btnOneOfEach").addEventListener("click", async () => {
+      toast("Spawning one of each API...");
+      for (const c of categories) {
+        await addPosts(1, { forceCategory: c.id });
+      }
+      toast("All subsystems queried");
+    });
+
+    $("#oracleGo").addEventListener("click", runOracle);
+    $("#oracleInput").addEventListener("keydown", e => { if (e.key === "Enter") runOracle(); });
+
+    /* Infinite scroll */
+    window.addEventListener("scroll", async () => {
+      if (state.loading) return;
+      const nearBottom = window.innerHeight + window.scrollY > document.body.offsetHeight - 800;
+      if (nearBottom) await addPosts(4);
+    }, { passive: true });
+
+    /* Boot */
+    (async function init() {
+      setNetworkStatus();
+      updateMemoryUI();
+      updatePulseUI();
+
+      // Preload pulse
+      try {
+        const pulseOut = await botCrypto();
+        if (pulseOut.pulse) {
+          state.pulse.btc = pulseOut.pulse.btcUsd;
+          state.pulse.fg = pulseOut.pulse.fg;
+          updatePulseUI();
+        }
+      } catch {}
+
+      await addPosts(7);
+      toast("Vylex Nexus online • Johannesburg", 1800);
+    })();
+  </script>
+</body>
+</html>

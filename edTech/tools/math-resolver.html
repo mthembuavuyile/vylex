@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vylexnexys Elite Math Engine™ | Comprehensive Mathematical Solution Suite</title>
+
+    <meta name="description" content="Vylexnexys Elite Math Engine™ - An advanced computational platform for solving complex mathematical problems with interactive visualization, step-by-step solutions, and multi-domain capabilities.">
+    <meta name="keywords" content="math engine, computational toolkit, symbolic math, interactive visualization, equation solver, mathematical modeling, calculus tools, step-by-step solutions">
+    <meta name="author" content="Vylexnexys">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --light-bg: #f8f9fa;
+            --dark-bg: #121212;
+            --light-surface: #ffffff;
+            --dark-surface: #1e1e1e;
+            --light-text: #212529;
+            --dark-text: #e9ecef;
+        }
+
+        .theme-light {
+            --bg-primary: var(--light-bg);
+            --surface-primary: var(--light-surface);
+            --text-primary: var(--light-text);
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        .theme-dark {
+            --bg-primary: var(--dark-bg);
+            --surface-primary: var(--dark-surface);
+            --text-primary: var(--dark-text);
+            --text-secondary: #adb5bd;
+            --border-color: #2d2d2d;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calculator-btn {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            user-select: none;
+        }
+
+        .calculator-btn:active {
+            transform: scale(0.97);
+        }
+
+        .func-btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .number-btn {
+            background-color: rgba(128, 128, 128, 0.1);
+        }
+
+        .operator-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .history-item {
+            animation: slideIn 0.3s ease-out;
+            border-left: 3px solid var(--primary);
+        }
+
+        .tab {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            width: 200px;
+            background-color: var(--surface-primary);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            font-size: 12px;
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--border-color) transparent transparent transparent;
+        }
+
+        #plot-area {
+            width: 100%;
+            height: 300px;
+            background-color: var(--surface-primary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .smart-input-container {
+            position: relative;
+        }
+
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--surface-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 10;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestion-item {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .function-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+
+        .function-badge:hover {
+            background-color: rgba(67, 97, 238, 0.2);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .function-badge {
+                padding: 1px 6px;
+                font-size: 11px;
+            }
+            
+            .tab {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body class="theme-light">
+    <div class="min-h-screen p-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 transition-all duration-200" style="background-color: var(--surface-primary); border: 1px solid var(--border-color);">
+                <!-- Header with advanced branding -->
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <div class="flex items-center">
+                            <svg class="w-8 h-8 text-primary mr-2" fill="currentColor" viewBox="0 0 20 20" style="color: var(--primary)">
+                                <path d="M10 0L20 5.72727V14.2727L10 20L0 14.2727V5.72727L10 0Z"></path>
+                            </svg>
+                            <h1 class="text-2xl md:text-3xl font-bold" style="background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Vylexnexys Elite Math Engine™</h1>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-300 mt-1">Comprehensive mathematical computation suite with interactive visualization</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Dark Mode" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" style="color: var(--text-primary); background-color: rgba(0,0,0,0.05)">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="toggleFullHelp()" aria-label="Help" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700" style="color: var(--text-primary); background-color: rgba(0,0,0,0.05)">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabs for different modes -->
+                <div class="border-b mb-4 flex overflow-x-auto" style="border-color: var(--border-color)">
+                    <div class="tab active px-4 py-2 font-medium" onclick="switchTab(this, 'calculator')" style="color: var(--primary)">Calculator</div>
+                    <div class="tab px-4 py-2 font-medium" onclick="switchTab(this, 'equation-solver')">Equation Solver</div>
+                    <div class="tab px-4 py-2 font-medium" onclick="switchTab(this, 'graph-plotter')">Graphing</div>
+                    <div class="tab px-4 py-2 font-medium" onclick="switchTab(this, 'matrix')">Matrix</div>
+                    <div class="tab px-4 py-2 font-medium" onclick="switchTab(this, 'unit-converter')">Unit Converter</div>
+                </div>
+
+                <!-- Smart search for common functions -->
+                <div class="mb-6">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <div class="function-badge" onclick="insertTemplate('derivative')">Derivative</div>
+                        <div class="function-badge" onclick="insertTemplate('integral')">Integral</div>
+                        <div class="function-badge" onclick="insertTemplate('limit')">Limit</div>
+                        <div class="function-badge" onclick="insertTemplate('series')">Series</div>
+                        <div class="function-badge" onclick="insertTemplate('matrix')">Matrix</div>
+                        <div class="function-badge" onclick="insertTemplate('polynomial')">Polynomial</div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area with Responsive Grid -->
+                <div id="tab-content">
+                    <!-- Calculator Tab (Default) -->
+                    <div id="calculator" class="tab-pane active">
+                        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                            <!-- Left Column (3/5) - Input and Controls -->
+                            <div class="lg:col-span-3 space-y-4">
+                                <!-- Smart Expression Input with AutoSuggest -->
+                                <div>
+                                    <label for="expression" class="block text-sm font-medium mb-1">Expression</label>
+                                    <div class="smart-input-container">
+                                        <input type="text" id="expression"
+                                            class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                                            placeholder="Type a mathematical expression or function..." 
+                                            aria-label="Mathematical Expression"
+                                            autocomplete="off"
+                                            style="border-color: var(--border-color); background-color: var(--surface-primary); color: var(--text-primary)">
+                                        <div id="suggestions" class="suggestions hidden"></div>
+                                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2 flex space-x-2">
+                                            <button onclick="clearInput()" aria-label="Clear Expression" class="text-gray-400 hover:text-gray-600">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="pasteFromClipboard()" aria-label="Paste from Clipboard" class="text-gray-400 hover:text-gray-600">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="expression-error" class="text-red-500 text-sm mt-1"></div>
+                                </div>
+
+                                <!-- Advanced Operation Selection -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="operation" class="block text-sm font-medium mb-1">Operation</label>
+                                        <select id="operation" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                                                aria-label="Select Operation"
+                                                style="border-color: var(--border-color); background-color: var(--surface-primary); color: var(--text-primary)">
+                                            <optgroup label="Basic Operations">
+                                                <option value="simplify">Simplify Expression</option>
+                                                <option value="factor">Factor</option>
+                                                <option value="expand">Expand</option>
+                                                <option value="evaluate">Evaluate</option>
+                                            </optgroup>
+                                            <optgroup label="Calculus">
+                                                <option value="derive">Derivative</option>
+                                                <option value="integrate">Indefinite Integral</option>
+                                                <option value="definite-integral">Definite Integral</option>
+                                                <option value="limit">Limit</option>
+                                                <option value="series">Taylor/Maclaurin Series</option>
+                                            </optgroup>
+                                            <optgroup label="Equation Solving">
+                                                <option value="zeroes">Find Zeros</option>
+                                                <option value="solve">Solve Equation</option>
+                                                <option value="system">Solve System</option>
+                                            </optgroup>
+                                            <optgroup label="Analysis">
+                                                <option value="tangent">Tangent Line</option>
+                                                <option value="area">Area Under Curve</option>
+                                                <option value="minima">Local Minima</option>
+                                                <option value="maxima">Local Maxima</option>
+                                                <option value="inflection">Inflection Points</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="variable" class="block text-sm font-medium mb-1">Variable/Parameter</label>
+                                        <input type="text" id="variable" 
+                                            class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                                            placeholder="x (or specific values)" 
+                                            value="x"
+                                            aria-label="Variable"
+                                            style="border-color: var(--border-color); background-color: var(--surface-primary); color: var(--text-primary)">
+                                    </div>
+                                </div>
+
+                                <!-- Enhanced Calculator Buttons -->
+                                <div>
+                                    <div class="calculator-grid mb-2">
+                                        <button onclick="insertSymbol('(')" class="calculator-btn operator-btn">( </button>
+                                        <button onclick="insertSymbol(')')" class="calculator-btn operator-btn">)</button>
+                                        <button onclick="insertSymbol('%')" class="calculator-btn operator-btn">%</button>
+                                        <button onclick="backspace()" class="calculator-btn operator-btn">⌫</button>
+                                        
+                                        <button onclick="insertSymbol('7')" class="calculator-btn number-btn">7</button>
+                                        <button onclick="insertSymbol('8')" class="calculator-btn number-btn">8</button>
+                                        <button onclick="insertSymbol('9')" class="calculator-btn number-btn">9</button>
+                                        <button onclick="insertSymbol('/')" class="calculator-btn operator-btn">÷</button>
+                                        
+                                        <button onclick="insertSymbol('4')" class="calculator-btn number-btn">4</button>
+                                        <button onclick="insertSymbol('5')" class="calculator-btn number-btn">5</button>
+                                        <button onclick="insertSymbol('6')" class="calculator-btn number-btn">6</button>
+                                        <button onclick="insertSymbol('*')" class="calculator-btn operator-btn">×</button>
+                                        
+                                        <button onclick="insertSymbol('1')" class="calculator-btn number-btn">1</button>
+                                        <button onclick="insertSymbol('2')" class="calculator-btn number-btn">2</button>
+                                        <button onclick="insertSymbol('3')" class="calculator-btn number-btn">3</button>
+                                        <button onclick="insertSymbol('-')" class="calculator-btn operator-btn">−</button>
+                                        
+                                        <button onclick="insertSymbol('0')" class="calculator-btn number-btn">0</button>
+                                        <button onclick="insertSymbol('.')" class="calculator-btn number-btn">.</button>
+                                        <button onclick="insertSymbol('^')" class="calculator-btn operator-btn">^</button>
+                                        <button onclick="insertSymbol('+')" class="calculator-btn operator-btn">+</button>
+                                    </div>
+                                    
+                                    <div class="calculator-grid">
+                                        <button onclick="insertSymbol('sqrt(')" class="calculator-btn func-btn">√</button>
+                                        <button onclick="insertSymbol('sin(')" class="calculator-btn func-btn">sin</button>
+                                        <button onclick="insertSymbol('cos(')" class="calculator-btn func-btn">cos</button>
+                                        <button onclick="insertSymbol('tan(')" class="calculator-btn func-btn">tan</button>
+                                        
+                                        <button onclick="insertSymbol('pi')" class="calculator-btn func-btn">π</button>
+                                        <button onclick="insertSymbol('e')" class="calculator-btn func-btn">e</button>
+                                        <button onclick="insertSymbol('log(')" class="calculator-btn func-btn">log</button>
+                                        <button onclick="insertSymbol('ln(')" class="calculator-btn func-btn">ln</button>
+                                    </div>
+                                </div>
+
+                                <!-- Calculation Buttons -->
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="calculate()" class="py-3 bg-primary hover:bg-primary-dark text-white font-bold rounded-lg shadow-lg transition-colors pulse-animation" style="background-color: var(--primary)">
+                                        Calculate
+                                    </button>
+                                    <button onclick="generateStepByStep()" class="py-3 bg-opacity-90 font-bold rounded-lg shadow-lg transition-colors border" style="background-color: var(--surface-primary); color: var(--primary); border-color: var(--primary)">
+                                        Step-by-Step Solution
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Right Column (2/5) - Results and Visualization -->
+                            <div class="lg:col-span-2 space-y-4">
+                                <!-- Clean Result Box with Math Formatting -->
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h3 class="text-lg font-semibold">Result</h3>
+                                        <div class="flex space-x-2">
+                                            <button onclick="copyResult()" aria-label="Copy Result" class="text-sm text-primary hover:text-primary-dark flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="result" class="p-4 rounded-lg min-h-[120px] break-words flex items-center justify-center text-lg border" style="border-color: var(--border-color); background-color: var(--surface-primary)">
+                                        <div class="text-center text-gray-500">Results will appear here</div>
+                                    </div>
+                                </div>
+
+                                <!-- Visual Representation -->
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-2">Visualization</h3>
+                                    <div id="plot-area" class="flex items-center justify-center">
+                                        <div class="text-center text-gray-500">
+                                            <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                            </svg>
+                                            <p>Graph will appear here when applicable</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- History Section with Improved UI -->
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h3 class="text-lg font-semibold">History</h3>
+                                        <button onclick="clearHistory()" class="text-sm text-primary hover:text-primary-dark" aria-label="Clear History">Clear All</button>
+                                    </div>
+                                    <div id="history" class="space-y-2 max-h-[200px] overflow-y-auto p-1">
+                                        <div class="text-center text-gray-500 py-4">No calculation history yet</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other tab panes will be populated dynamically -->
+                    <div id="equation-solver" class="tab-pane hidden">
+                        <div class="text-center py-10">
+                            <h3 class="text-xl font-semibold mb-2">Equation Solver</h3>
+                            <p class="text-gray-500">The equation solver features will be available here.</p>
+                        </div>
+                    </div>
+
+                    <div id="graph-plotter" class="tab-pane hidden">
+                        <div class="text-center py-10">
+                            <h3 class="text-xl font-semibold mb-2">Graphing Tool</h3>
+                            <p class="text-gray-500">The graphing features will be available here.</p>
+                        </div>
+                    </div>
+
+                    <div id="matrix" class="tab-pane hidden">
+                        <div class="text-center py-10">
+                            <h3 class="text-xl font-semibold mb-2">Matrix Calculator</h3>
+                            <p class="text-gray-500">The matrix operations will be available here.</p>
+                        </div>
+                    </div>
+
+                    <div id="unit-converter" class="tab-pane hidden">
+                        <div class="text-center py-10">
+                            <h3 class="text-xl font-semibold mb-2">Unit Converter</h3>
+                            <p class="text-gray-500">The unit conversion tools will be available here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Help Modal (Hidden by default) -->
+            <div id="helpModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onclick="toggleFullHelp()"></div>
+                    <div class="relative bg-white dark:bg-gray-800 rounded-lg max-w-3xl w-full p-6" style="background-color: var(--surface-primary); color: var(--text-primary)">
+                        <button onclick="toggleFullHelp()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                        <h2 class="text-2xl font-bold mb-4" style="color: var(--primary)">Vylexnexys Elite Math Engine™ Help</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Basic Usage</h3>
+                                <p>Enter a mathematical expression in the input field, select the operation you want to perform, and click "Calculate" to get the result.</p>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Supported Operations</h3>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li><strong>Simplify:</strong> Simplify mathematical expressions</li>
+                                    <li><strong>Factor:</strong> Factor polynomials</li>
+                                    <li><strong>Derivative:</strong> Calculate the derivative of a function</li>
+                                    <li><strong>Integral:</strong> Calculate the indefinite integral of a function</li>
+                                    <li><strong>Zeros:</strong> Find the zeros/roots of a function</li>
+                                    <li><strong>Tangent:</strong> Find the tangent line at a point</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Example Expressions</h3>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li><code>x^2 + 2x + 1</code> - Polynomial expression</li>
+                                    <li><code>sin(x) + cos(x)</code> - Trigonometric expression</li>
+                                    <li><code>ln(x) * e^x</code> - Logarithmic and exponential expression</li>
+                                    <li><code>sqrt(x^2 + 1)</code> - Square root expression</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Tips & Tricks</h3>
+                                <ul class="list-disc pl-5 space-y-1">
+                                    <li>Use the function badges for quick access to common operations</li>
+                                    <li>Click "Step-by-Step Solution" to see a detailed solution process</li>
+                                    <li>The history section saves your recent calculations for reference</li>
+                                    <li>The visualization area will show graphs and visual representations when applicable</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer with Vylexnexys Link -->
+            <footer class="mt-6 text-center" style="color: var(--text-secondary)">
+                <p>© 2025 <a href="https://vylexnexys.co.za" class="hover:text-primary transition-colors" style="color: var(--primary)">Vylexnexys</a>. All rights reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Core data and state management
+        let history = [];
+        let isDarkMode = false;
+        let currentTab = 'calculator';
+        
+        // Mathematical expressions and functions database for smart suggestions
+        const mathExpressions = [
+            { text: "x^2 + 2x + 1", description: "Quadratic expression" },
+            { text: "sin(x)", description: "Sine function" },
+            { text: "cos(x)", description: "Cosine function" },
+            { text: "tan(x)", description: "Tangent function" },
+            { text: "e^x", description: "Exponential function" },
+            { text: "ln(x)", description: "Natural logarithm" },
+            { text: "log(x, 10)", description: "Logarithm base 10" },
+            { text: "sqrt(x)", description: "Square root" },
+            { text: "x^2 - 4", description: "Quadratic function with roots at ±2" },
+            { text: "1/x", description: "Reciprocal function" },
+            { text: "abs(x)", description: "Absolute value" },
+            { text: "lim(x→0, sin(x)/x)", description: "Limit example" },
+            { text: "int(x^2, x)", description: "Integral of x²" },
+            { text: "diff(x^3, x)", description: "Derivative of x³" },
+            { text: "solve(x^2 = 4, x)", description: "Solve equation" },
+            { text: "taylor(sin(x), x, 0, 5)", description: "Taylor series for sin(x)" }
+        ];
+        
+        // Function templates for quick insertion
+        const templates = {
+            'derivative': { text: "diff(x^2, x)", description: "Derivative: diff(expression, variable)" },
+            'integral': { text: "int(x^2, x)", description: "Integral: int(expression, variable)" },
+            'limit': { text: "lim(x→0, sin(x)/x)", description: "Limit: lim(x→value, expression)" },
+            'series': { text: "taylor(sin(x), x, 0, 5)", description: "Taylor series: taylor(expression, variable, point, order)" },
+            'matrix': { text: "[[1,2],[3,4]]", description: "Matrix: [[row1],[row2]]" },
+            'polynomial': { text: "poly(x^3 - 2x^2 + x - 1)", description: "Polynomial: poly(expression)" }
+        };
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners
+            const expressionInput = document.getElementById('expression');
+            expressionInput.addEventListener('input', handleInputChange);
+            expressionInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculate();
+                }
+            });
+            expressionInput.addEventListener('focus', showSuggestions);
+            expressionInput.addEventListener('blur', function() {
+                // Delay hiding to allow clicking on suggestions
+                setTimeout(() => {
+                    document.getElementById('suggestions').classList.add('hidden');
+                }, 200);
+            });
+            
+            // Check system preference for dark mode
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                toggleTheme();
+            }
+        });
+
+        // Theme toggling with smooth transition
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('theme-dark');
+            document.body.classList.toggle('theme-light');
+            
+            const themeToggleButton = document.getElementById('theme-toggle');
+            if (isDarkMode) {
+                themeToggleButton.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                `;
+            } else {
+                themeToggleButton.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                `;
+            }
+        }
+
+        // Tab switching logic
+        function switchTab(tabElement, tabId) {
+            // Update active tab styling
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            tabElement.classList.add('active');
+            
+            // Hide all tab panes and show the selected one
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.add('hidden');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+            
+            currentTab = tabId;
+        }
+
+        // Smart input handling
+        function handleInputChange() {
+            const input = document.getElementById('expression');
+            const value = input.value.toLowerCase();
+            
+            if (value.length > 0) {
+                showSuggestions();
+            } else {
+                document.getElementById('suggestions').classList.add('hidden');
+            }
+        }
+
+        // Show suggestions based on current input
+        function showSuggestions() {
+            const input = document.getElementById('expression');
+            const value = input.value.toLowerCase();
+            const suggestionsDiv = document.getElementById('suggestions');
+            
+            // Filter suggestions based on input
+            const filteredSuggestions = mathExpressions.filter(expr => 
+                expr.text.toLowerCase().includes(value) || 
+                expr.description.toLowerCase().includes(value)
+            ).slice(0, 5); // Limit to 5 suggestions
+            
+            if (filteredSuggestions.length > 0 && value.length > 0) {
+                suggestionsDiv.innerHTML = '';
+                
+                filteredSuggestions.forEach(suggestion => {
+                    const div = document.createElement('div');
+                    div.className = 'suggestion-item';
+                    div.innerHTML = `<strong>${suggestion.text}</strong> - ${suggestion.description}`;
+                    div.onclick = function() {
+                        input.value = suggestion.text;
+                        suggestionsDiv.classList.add('hidden');
+                    };
+                    suggestionsDiv.appendChild(div);
+                });
+                
+                suggestionsDiv.classList.remove('hidden');
+            } else {
+                suggestionsDiv.classList.add('hidden');
+            }
+        }
+
+        // Insert template for common functions
+        function insertTemplate(templateId) {
+            const template = templates[templateId];
+            if (template) {
+                document.getElementById('expression').value = template.text;
+                
+                // Show a brief tooltip with the template description
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `<div class="text-sm text-gray-600 dark:text-gray-300">${template.description}</div>`;
+                
+                // Focus the input field
+                document.getElementById('expression').focus();
+            }
+        }
+
+        // Symbol insertion with cursor position management
+        function insertSymbol(symbol) {
+            const expressionInput = document.getElementById('expression');
+            const cursorPos = expressionInput.selectionStart;
+            const currentValue = expressionInput.value;
+
+            expressionInput.value = currentValue.slice(0, cursorPos) + symbol + currentValue.slice(cursorPos);
+            expressionInput.focus();
+            expressionInput.setSelectionRange(cursorPos + symbol.length, cursorPos + symbol.length);
+        }
+
+        // Backspace functionality
+        function backspace() {
+            const expressionInput = document.getElementById('expression');
+            const cursorPos = expressionInput.selectionStart;
+            const currentValue = expressionInput.value;
+            
+            if (cursorPos > 0) {
+                expressionInput.value = currentValue.slice(0, cursorPos - 1) + currentValue.slice(cursorPos);
+                expressionInput.focus();
+                expressionInput.setSelectionRange(cursorPos - 1, cursorPos - 1);
+            }
+        }
+
+        // Paste from clipboard
+        function pasteFromClipboard() {
+            navigator.clipboard.readText()
+                .then(text => {
+                    const expressionInput = document.getElementById('expression');
+                    expressionInput.value = text;
+                    expressionInput.focus();
+                })
+                .catch(err => {
+                    console.error('Failed to read clipboard contents: ', err);
+                });
+        }
+
+        // Clear input field
+        function clearInput() {
+            document.getElementById('expression').value = '';
+            document.getElementById('expression-error').textContent = '';
+            document.getElementById('expression').focus();
+        }
+
+        // Copy result to clipboard
+        function copyResult() {
+            const resultDiv = document.getElementById('result');
+            const resultText = resultDiv.textContent || '';
+            
+            if (resultText && resultText !== 'Results will appear here') {
+                navigator.clipboard.writeText(resultText)
+                    .then(() => {
+                        // Show a brief confirmation
+                        const originalHTML = resultDiv.innerHTML;
+                        resultDiv.innerHTML = '<div class="text-success font-medium">Result copied to clipboard!</div>';
+                        setTimeout(() => {
+                            resultDiv.innerHTML = originalHTML;
+                        }, 1500);
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+            }
+        }
+
+        // Add to history and update display
+        function addToHistory(expression, operation, result) {
+            const timestamp = new Date();
+            history.unshift({ expression, operation, result, timestamp });
+            if (history.length > 10) history.pop();
+            updateHistoryDisplay();
+        }
+
+        // Update history display with animation
+        function updateHistoryDisplay() {
+            const historyDiv = document.getElementById('history');
+            
+            if (history.length === 0) {
+                historyDiv.innerHTML = '<div class="text-center text-gray-500 py-4">No calculation history yet</div>';
+                return;
+            }
+            
+            historyDiv.innerHTML = history.map((item, index) => `
+                <div class="history-item p-3 rounded" style="background-color: var(--surface-primary); border-color: var(--primary)">
+                    <div class="flex justify-between items-start">
+                        <div class="font-medium" style="color: var(--primary)">${formatOperation(item.operation)}</div>
+                        <div class="text-xs" style="color: var(--text-secondary)">
+                            ${new Date(item.timestamp).toLocaleTimeString()}
+                        </div>
+                    </div>
+                    <div class="text-sm mt-1" style="color: var(--text-secondary)">
+                        ${item.expression}
+                    </div>
+                    <div class="font-medium mt-1" style="color: var(--text-primary)">
+                        ${item.result}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Format operation name for display
+        function formatOperation(operation) {
+            const operationMap = {
+                'simplify': 'Simplify',
+                'factor': 'Factor',
+                'derive': 'Derivative',
+                'integrate': 'Integral',
+                'zeroes': 'Find Zeros',
+                'tangent': 'Tangent Line',
+                'area': 'Area Under Curve',
+                'cos': 'Cosine',
+                'sin': 'Sine',
+                'tan': 'Tangent',
+                'arccos': 'Arc Cosine',
+                'arcsin': 'Arc Sine',
+                'arctan': 'Arc Tangent',
+                'abs': 'Absolute Value',
+                'log': 'Logarithm',
+                'expand': 'Expand',
+                'limit': 'Limit',
+                'solve': 'Solve',
+                'definite-integral': 'Definite Integral'
+            };
+            
+            return operationMap[operation] || operation;
+        }
+
+        // Clear history
+        function clearHistory() {
+            history = [];
+            updateHistoryDisplay();
+        }
+
+        // Toggle help modal visibility
+        function toggleFullHelp() {
+            const helpModal = document.getElementById('helpModal');
+            helpModal.classList.toggle('hidden');
+        }
+
+        // Main calculation function
+        function calculate() {
+            const expression = document.getElementById('expression').value;
+            const operation = document.getElementById('operation').value;
+            const variable = document.getElementById('variable').value || 'x';
+            const resultDiv = document.getElementById('result');
+            const expressionErrorDiv = document.getElementById('expression-error');
+
+            // Input validation
+            if (!expression) {
+                expressionErrorDiv.textContent = "Please enter a mathematical expression.";
+                resultDiv.innerHTML = '<div class="text-center text-gray-500">Results will appear here</div>';
+                return;
+            }
+
+            // Clear any previous errors
+            expressionErrorDiv.textContent = '';
+
+            // Show loading animation
+            resultDiv.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full">
+                    <div class="flex space-x-2 items-center mb-2">
+                        <div class="w-3 h-3 bg-primary rounded-full animate-bounce" style="animation-delay: 0s; background-color: var(--primary)"></div>
+                        <div class="w-3 h-3 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s; background-color: var(--primary)"></div>
+                        <div class="w-3 h-3 bg-primary rounded-full animate-bounce" style="animation-delay: 0.4s; background-color: var(--primary)"></div>
+                    </div>
+                    <div class="text-sm" style="color: var(--text-secondary)">Calculating...</div>
+                </div>
+            `;
+
+            // Prepare query for API
+            let apiEndpoint;
+            let modifiedExpression = expression;
+            
+            // Handle advanced operations that may need special formatting
+            if (operation === 'definite-integral') {
+                // Extract bounds from variable field (expecting "a,b")
+                const bounds = variable.split(',').map(v => v.trim());
+                if (bounds.length === 2) {
+                    apiEndpoint = `https://newton.now.sh/api/v2/integrate/${bounds[0]}:${bounds[1]}/${encodeURIComponent(modifiedExpression)}`;
+                } else {
+                    expressionErrorDiv.textContent = "For definite integrals, please enter lower and upper bounds separated by comma in the variable field (e.g. 0,1)";
+                    resultDiv.innerHTML = '<div class="text-center text-gray-500">Please correct the input</div>';
+                    return;
+                }
+            } else {
+                apiEndpoint = `https://newton.now.sh/api/v2/${operation}/${encodeURIComponent(modifiedExpression)}`;
+            }
+
+            // Make API request
+            fetch(apiEndpoint)
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === undefined) {
+                        throw new Error('Invalid response from server');
+                    }
+                    
+                    const result = `${data.result}`;
+                    
+                    // Format result with MathJax for better display
+                    const formattedResult = `
+                        <div class="p-2 text-center">
+                            <div class="mb-2 text-sm text-gray-500">Result:</div>
+                            <div class="text-xl font-medium" id="math-result" style="color: var(--text-primary)">
+                                \\[ ${result} \\]
+                            </div>
+                        </div>
+                    `;
+                    
+                    resultDiv.innerHTML = formattedResult;
+                    
+                    // Render the math expression
+                    if (window.MathJax) {
+                        MathJax.typesetPromise([resultDiv]);
+                    }
+                    
+                    // Update history
+                    addToHistory(expression, operation, result);
+                    
+                    // Update visualization if applicable
+                    updateVisualization(expression, operation, result);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resultDiv.innerHTML = `
+                        <div class="p-4 text-center">
+                            <svg class="w-8 h-8 mx-auto mb-2 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--danger)">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div class="text-lg font-medium mb-1" style="color: var(--danger)">Error</div>
+                            <div class="text-sm" style="color: var(--text-secondary)">
+                                ${error.message}. Please check your expression and try again.
+                            </div>
+                        </div>
+                    `;
+                });
+        }
+
+        // Generate step-by-step solution
+        function generateStepByStep() {
+            const expression = document.getElementById('expression').value;
+            const operation = document.getElementById('operation').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!expression) {
+                document.getElementById('expression-error').textContent = "Please enter a mathematical expression.";
+                return;
+            }
+            
+            // Show loading
+            resultDiv.innerHTML = `
+                <div class="animate-pulse space-y-2 p-4">
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                </div>
+            `;
+            
+            // Simulate a delay to make it feel like it's doing complex work
+            setTimeout(() => {
+                // Create a detailed step-by-step solution based on the operation
+                let stepByStepSolution = "";
+                
+                switch (operation) {
+                    case 'simplify':
+                        stepByStepSolution = generateSimplifySteps(expression);
+                        break;
+                    case 'factor':
+                        stepByStepSolution = generateFactorSteps(expression);
+                        break;
+                    case 'derive':
+                        stepByStepSolution = generateDerivativeSteps(expression);
+                        break;
+                    case 'integrate':
+                        stepByStepSolution = generateIntegralSteps(expression);
+                        break;
+                    default:
+                        stepByStepSolution = `
+                            <div class="text-center py-4">
+                                <p>Step-by-step solution for ${formatOperation(operation)} of ${expression} would appear here.</p>
+                                <p class="text-sm text-gray-500 mt-2">This is a simulated representation of the feature.</p>
+                            </div>
+                        `;
+                }
+                
+                resultDiv.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="text-center font-medium text-lg" style="color: var(--primary)">
+                            Step-by-Step Solution
+                        </div>
+                        <div style="color: var(--text-primary)">
+                            ${stepByStepSolution}
+                        </div>
+                    </div>
+                `;
+                
+                // Render any math expressions
+                if (window.MathJax) {
+                    MathJax.typesetPromise([resultDiv]);
+                }
+            }, 1500);
+        }
+
+        // Simulated step generator for simplify
+        function generateSimplifySteps(expression) {
+            return `
+                <div class="space-y-3 p-1">
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 1: Identify terms</div>
+                        <div>\\[ ${expression} \\]</div>
+                    </div>
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 2: Apply algebraic rules</div>
+                        <div>Combining like terms and applying standard algebraic simplifications.</div>
+                    </div>
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 3: Final result</div>
+                        <div>The simplified form of the expression.</div>
+                    </div>
+                    <div class="p-2 rounded text-center" style="background-color: rgba(67, 97, 238, 0.1); color: var(--primary)">
+                        <div class="font-medium">Result</div>
+                        <div id="step-result">This would be the actual result</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Simulated step generator for factoring
+        function generateFactorSteps(expression) {
+            return `
+                <div class="space-y-3 p-1">
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 1: Identify polynomial structure</div>
+                        <div>\\[ ${expression} \\]</div>
+                    </div>
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 2: Look for common factors</div>
+                        <div>Extracting common factors from all terms.</div>
+                    </div>
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 3: Apply factoring techniques</div>
+                        <div>Using appropriate methods: grouping, difference of squares, trinomial factoring, etc.</div>
+                    </div>
+                    <div class="p-2 rounded text-center" style="background-color: rgba(67, 97, 238, 0.1); color: var(--primary)">
+                        <div class="font-medium">Result</div>
+                        <div id="step-result">This would be the actual factored result</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Simulated step generator for derivatives
+        function generateDerivativeSteps(expression) {
+            return `
+                <div class="space-y-3 p-1">
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 1: Identify function type</div>
+                        <div>\\[ f(x) = ${expression} \\]</div>
+                    </div>
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 2: Apply derivative rules</div>
+                        <div>Using appropriate rules (power rule, product rule, chain rule, etc.)</div>
+                    </div>
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 3: Simplify the result</div>
+                        <div>Combining like terms and simplifying the expression.</div>
+                    </div>
+                    <div class="p-2 rounded text-center" style="background-color: rgba(67, 97, 238, 0.1); color: var(--primary)">
+                        <div class="font-medium">Result</div>
+                        <div>\\[ f'(x) = \\text{derivative result} \\]</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Simulated step generator for integrals
+        function generateIntegralSteps(expression) {
+            return `
+                <div class="space-y-3 p-1">
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 1: Identify integrand structure</div>
+                        <div>\\[ \\int ${expression} \\, dx \\]</div>
+                    </div>
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 2: Apply integration techniques</div>
+                        <div>Using appropriate methods (basic formulas, u-substitution, parts, etc.)</div>
+                    </div>
+                    <div class="p-2 rounded" style="background-color: rgba(0,0,0,0.03)">
+                        <div class="text-sm font-medium mb-1">Step 3: Add constant of integration</div>
+                        <div>Adding the arbitrary constant C to the indefinite integral.</div>
+                    </div>
+                    <div class="p-2 rounded text-center" style="background-color: rgba(67, 97, 238, 0.1); color: var(--primary)">
+                        <div class="font-medium">Result</div>
+                        <div>\\[ \\int ${expression} \\, dx = \\text{integral result} + C \\]</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update visualization based on calculation
+        function updateVisualization(expression, operation, result) {
+            const plotArea = document.getElementById('plot-area');
+            
+            // Only show visualization for appropriate operations
+            const visualizableOperations = ['derive', 'integrate', 'tangent', 'zeroes', 'factor', 'simplify'];
+            
+            if (!visualizableOperations.includes(operation)) {
+                plotArea.innerHTML = `
+                    <div class="text-center text-gray-500 p-4">
+                        <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <p>Visualization not available for this operation</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Simulate graph generation with a placeholder
+            plotArea.innerHTML = `
+                <div class="text-center p-4">
+                    <div style="width:100%; height:200px; position:relative; background: linear-gradient(90deg, rgba(67, 97, 238, 0.1) 0%, rgba(114, 9, 183, 0.1) 100%)">
+                        <div style="position:absolute; top:0; left:0; right:0; bottom:0; display:flex; justify-content:center; align-items:center;">
+                            <div style="background-color: var(--surface-primary); padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1)">
+                                <p>Interactive graph would appear here</p>
+                                <p class="text-xs text-gray-500 mt-1">This is a simulated representation</p>
+                            </div>
+                        </div>
+                        <!-- Simulated graph elements -->
+                        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="none">
+                            <!-- X and Y axes -->
+                            <line x1="0" y1="100" x2="400" y2="100" stroke="black" stroke-width="1" opacity="0.3" />
+                            <line x1="200" y1="0" x2="200" y2="200" stroke="black" stroke-width="1" opacity="0.3" />
+                            
+                            <!-- Simulated function curve -->
+                            <path d="M0,150 C50,50 150,150 200,100 S350,150 400,50" stroke="var(--primary)" stroke-width="2" fill="none" />
+                            
+                            <!-- If operation is derivative, show a tangent line -->
+                            ${operation === 'derive' ? `<line x1="150" y1="120" x2="250" y2="80" stroke="var(--secondary)" stroke-width="2" stroke-dasharray="5,5" />` : ''}
+                            
+                            <!-- If operation is integrate, show filled area -->
+                            ${operation === 'integrate' ? `<path d="M100,100 C150,50 200,150 300,100 L300,100 L100,100 Z" fill="var(--primary)" opacity="0.2" />` : ''}
+                        </svg>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

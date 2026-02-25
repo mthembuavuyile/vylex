@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Introduction to Computers - Vylex Nexys</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div id="branding">
+                    <h1><span class="highlight">Vylex Nexys</span> EdTech</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../courses.html">Courses</a></li>
+                    <li><a href="../https://vylexnexys.co.za/ai-tools">AI Tools</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <h1 class="text-center"><span class="highlight">Lesson 1:<br></span> Introduction to Computers</h1>
+
+        <div class="container">
+            <div class="section">
+                <h2>What is a Computer?</h2>
+                <p>A computer is an electronic device that processes data according to a set of instructions (called a program). It can store, retrieve, and process data, making it an essential tool in today's digital world.</p>
+            </div>
+
+            <div class="section">
+                <h2>Main Components of a Computer</h2>
+                <p>A computer system consists of both hardware and software. Let's explore the main hardware components:</p>
+                
+                <h3>1. Central Processing Unit (CPU)</h3>
+                <p>The CPU is the "brain" of the computer. It performs calculations and executes instructions.</p>
+                
+                <h3>2. Random Access Memory (RAM)</h3>
+                <p>RAM is the computer's short-term memory. It temporarily stores data that the CPU needs to quickly access.</p>
+                
+                <h3>3. Storage Devices</h3>
+                <p>These include hard drives (HDD) and solid-state drives (SSD). They store data permanently, even when the computer is turned off.</p>
+                
+                <h3>4. Motherboard</h3>
+                <p>The motherboard connects all the components of a computer and allows them to communicate with each other.</p>
+                
+                <h3>5. Power Supply Unit (PSU)</h3>
+                <p>The PSU provides electrical power to all the components in the computer.</p>
+                
+                <div class="exercise">
+                    <h3>Exercise: Identify Computer Components</h3>
+                    <p>Match the component to its description:</p>
+                    <select id="componentSelect">
+                        <option value="">Select a component</option>
+                        <option value="cpu">CPU</option>
+                        <option value="ram">RAM</option>
+                        <option value="storage">Storage Devices</option>
+                        <option value="motherboard">Motherboard</option>
+                        <option value="psu">Power Supply Unit</option>
+                    </select>
+                    <input type="text" id="componentDescription" placeholder="Enter the component's function">
+                    <button onclick="checkComponent()" class="btn">Check</button>
+                    <div id="componentResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Input and Output Devices</h2>
+                <p>Computers interact with the outside world through input and output devices:</p>
+                
+                <h3>Input Devices:</h3>
+                <ul>
+                    <li>Keyboard</li>
+                    <li>Mouse</li>
+                    <li>Microphone</li>
+                    <li>Camera</li>
+                </ul>
+                
+                <h3>Output Devices:</h3>
+                <ul>
+                    <li>Monitor</li>
+                    <li>Speakers</li>
+                    <li>Printer</li>
+                </ul>
+                
+                <div class="exercise">
+                    <h3>Exercise: Classify Devices</h3>
+                    <p>Classify the following device as input or output:</p>
+                    <select id="deviceSelect">
+                        <option value="">Select a device</option>
+                        <option value="keyboard">Keyboard</option>
+                        <option value="monitor">Monitor</option>
+                        <option value="mouse">Mouse</option>
+                        <option value="speakers">Speakers</option>
+                        <option value="microphone">Microphone</option>
+                        <option value="printer">Printer</option>
+                    </select>
+                    <select id="deviceType">
+                        <option value="">Select type</option>
+                        <option value="input">Input Device</option>
+                        <option value="output">Output Device</option>
+                    </select>
+                    <button onclick="classifyDevice()" class="btn">Classify</button>
+                    <div id="deviceResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>How Computers Work</h2>
+                <p>Computers work by following these basic steps:</p>
+                <ol>
+                    <li>Input: Data is entered into the computer through input devices.</li>
+                    <li>Processing: The CPU processes the data according to instructions from software.</li>
+                    <li>Storage: Processed data can be stored in RAM or permanent storage devices.</li>
+                    <li>Output: Results are displayed or transmitted through output devices.</li>
+                </ol>
+                <p>This process is known as the Input-Process-Output (IPO) cycle.</p>
+            </div>
+
+            <div class="section">
+                <h2>AI Interaction</h2>
+                <input type="text" id="userPrompt" placeholder="Ask AI about computers...">
+                <button onclick="askAI()" class="btn">Ask AI</button>
+                <div id="aiResponse"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyright &copy; 2025 Vylex Nexys. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../scripts/common-scripts.js"></script>
+
+    <script>
+        function checkComponent() {
+            const component = document.getElementById('componentSelect').value;
+            const description = document.getElementById('componentDescription').value.toLowerCase();
+            let result = "";
+
+            switch(component) {
+                case 'cpu':
+                    result = description.includes('brain') || description.includes('process') || description.includes('calculate') ? "Correct!" : "Not quite. The CPU is the 'brain' of the computer that processes data and performs calculations.";
+                    break;
+                case 'ram':
+                    result = description.includes('memory') || description.includes('temporary') ? "Correct!" : "Close, but not quite. RAM is the computer's short-term memory for quick data access.";
+                    break;
+                case 'storage':
+                    result = description.includes('store') || description.includes('permanent') ? "Correct!" : "Not exactly. Storage devices store data permanently, even when the computer is off.";
+                    break;
+                case 'motherboard':
+                    result = description.includes('connect') || description.includes('communicate') ? "Correct!" : "Not quite right. The motherboard connects all components and allows them to communicate.";
+                    break;
+                case 'psu':
+                    result = description.includes('power') || description.includes('electrical') ? "Correct!" : "Not quite. The PSU provides electrical power to all components in the computer.";
+                    break;
+                default:
+                    result = "Please select a component and enter a description.";
+            }
+
+            document.getElementById('componentResult').innerHTML = result;
+        }
+
+        function classifyDevice() {
+            const device = document.getElementById('deviceSelect').value;
+            const type = document.getElementById('deviceType').value;
+            let result = "";
+
+            const inputDevices = ['keyboard', 'mouse', 'microphone'];
+            const outputDevices = ['monitor', 'speakers', 'printer'];
+
+            if (device && type) {
+                if ((inputDevices.includes(device) && type === 'input') || (outputDevices.includes(device) && type === 'output')) {
+                    result = "Correct! You've classified the device correctly.";
+                } else {
+                    result = "Not quite right. Try again!";
+                }
+            } else {
+                result = "Please select both a device and a type.";
+            }
+
+            document.getElementById('deviceResult').innerHTML = result;
+        }
+
+        function askAI() {
+            const userPrompt = document.getElementById('userPrompt').value;
+            const responseDiv = document.getElementById('aiResponse');
+
+            if (!userPrompt) {
+                responseDiv.innerHTML = "Please enter a question about computers.";
+                return;
+            }
+
+            // Simulate AI response
+            responseDiv.innerHTML = "I apologize, but the AI service is currently unavailable. Please try again later or contact support if the issue persists.";
+        }
+    </script>
+</body>
+</html>

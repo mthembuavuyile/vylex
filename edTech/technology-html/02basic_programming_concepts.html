@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology Lesson 2: Basic Programming Concepts - Vylex Nexys</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div id="branding">
+                    <h1><span class="highlight">Vylex Nexys</span> EdTech</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../courses.html">Courses</a></li>
+                    <li><a href="../https://vylexnexys/ai-tools">AI Tools</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <h1 class="text-center"><span class="highlight">Technology Lesson 2:<br></span> Basic Programming Concepts</h1>
+
+        <div class="container">
+            <div class="section">
+                <h2>Introduction to Basic Programming Concepts</h2>
+                <p>In this lesson, we'll learn about four fundamental programming concepts: variables, conditionals, loops, and functions. These concepts form the building blocks of most programming languages.</p>
+            </div>
+
+            <div class="section">
+                <h2>Variables</h2>
+                <p>Variables are used to store data in a program. They can hold different types of data, such as numbers, text, or boolean values (true/false).</p>
+                <div class="exercise">
+                    <h3>Exercise: Variables</h3>
+                    <p>Declare a variable and assign it a value:</p>
+                    <input type="text" id="varName" placeholder="Variable name">
+                    <input type="text" id="varValue" placeholder="Variable value">
+                    <button onclick="declareVariable()" class="btn">Declare</button>
+                    <div id="varResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Conditionals</h2>
+                <p>Conditionals allow programs to make decisions based on certain conditions. The most common form is the if-else statement.</p>
+                <div class="exercise">
+                    <h3>Exercise: Conditionals</h3>
+                    <p>Check if a number is positive or negative:</p>
+                    <input type="number" id="condNumber">
+                    <button onclick="checkCondition()" class="btn">Check</button>
+                    <div id="condResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Loops</h2>
+                <p>Loops allow you to repeat a block of code multiple times. Common types include for loops and while loops.</p>
+                <div class="exercise">
+                    <h3>Exercise: Loops</h3>
+                    <p>Print numbers from 1 to N:</p>
+                    <input type="number" id="loopNumber">
+                    <button onclick="runLoop()" class="btn">Run Loop</button>
+                    <div id="loopResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Functions</h2>
+                <p>Functions are reusable blocks of code that perform specific tasks. They help in organizing and modularizing code.</p>
+                <div class="exercise">
+                    <h3>Exercise: Functions</h3>
+                    <p>Create a function to calculate the area of a rectangle:</p>
+                    <input type="number" id="rectLength" placeholder="Length">
+                    <input type="number" id="rectWidth" placeholder="Width">
+                    <button onclick="calculateArea()" class="btn">Calculate Area</button>
+                    <div id="funcResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>AI Interaction</h2>
+                <input type="text" id="userPrompt" placeholder="Ask AI about programming...">
+                <button onclick="askAI()" class="btn">Ask AI</button>
+                <div id="aiResponse"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyright &copy; 2025 Vylex Nexys. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../scripts/common-scripts.js"></script>
+
+    <script>
+        function declareVariable() {
+            var name = document.getElementById('varName').value;
+            var value = document.getElementById('varValue').value;
+            document.getElementById('varResult').innerHTML = `Variable "${name}" declared with value: ${value}`;
+        }
+
+        function checkCondition() {
+            var num = parseInt(document.getElementById('condNumber').value);
+            var result = num > 0 ? "positive" : num < 0 ? "negative" : "zero";
+            document.getElementById('condResult').innerHTML = `The number is ${result}.`;
+        }
+
+        function runLoop() {
+            var n = parseInt(document.getElementById('loopNumber').value);
+            var output = "";
+            for (var i = 1; i <= n; i++) {
+                output += i + " ";
+            }
+            document.getElementById('loopResult').innerHTML = output;
+        }
+
+        function calculateArea() {
+            var length = parseFloat(document.getElementById('rectLength').value);
+            var width = parseFloat(document.getElementById('rectWidth').value);
+            var area = length * width;
+            document.getElementById('funcResult').innerHTML = `The area of the rectangle is: ${area.toFixed(2)}`;
+        }
+
+        function askAI() {
+            const userPrompt = document.getElementById('userPrompt').value;
+            const responseDiv = document.getElementById('aiResponse');
+
+            if (!userPrompt) {
+                responseDiv.innerHTML = "Please enter a prompt about programming.";
+                return;
+            }
+
+            // Simulate AI response
+            responseDiv.innerHTML = "I apologize, but the AI service is currently unavailable. Please try again later or contact support if the issue persists.";
+        }
+    </script>
+</body>
+</html>

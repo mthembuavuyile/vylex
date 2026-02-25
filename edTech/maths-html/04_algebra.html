@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math lesson 4: Algebra - Vylex Nexys</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div id="branding">
+                    <h1><span class="highlight">Vylex Nexys</span> EdTech</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../courses.html">Courses</a></li>
+                    <li><a href="https://vylexnexys.co.za/ai-tools">AI Tools</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="text-center"><span class="highlight">Math Lesson 4:<br></span> Algebra</h1>
+
+        <div class="container">
+            <div class="section">
+                <h2>4.1 Algebraic Expressions</h2>
+                <p>Welcome to the exciting world of algebra! In this section, we'll introduce you to the building blocks of algebraic expressions: variables and constants.</p>
+                <p>A <strong>variable</strong> is a symbol (usually a letter) that represents an unknown value. For example, 'x' could represent any number.</p>
+                <p>A <strong>constant</strong> is a fixed value that doesn't change. For example, 5 is a constant.</p>
+                <p>An <strong>algebraic expression</strong> is a combination of variables, constants, and mathematical operations (+, -, ×, ÷).</p>
+                <p>Example: 3x + 2 is an algebraic expression where 'x' is a variable and 3 and 2 are constants.</p>
+                <div class="exercise">
+                    <h3>Exercise: Identifying Variables and Constants</h3>
+                    <p>Identify the variables and constants in the following expressions:</p>
+                    <ol>
+                        <li>4y - 7</li>
+                        <li>2a + 3b</li>
+                        <li>5 + z</li>
+                    </ol>
+                    <button onclick="showAlgebra1Solution()" class="btn">Show Solution</button>
+                    <div id="algebra1Solution"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>4.2 Addition and Subtraction</h2>
+                <p>Adding and subtracting algebraic expressions is just like adding and subtracting numbers, but we have to pay attention to the variables.</p>
+                <p><strong>Rule:</strong> We can only combine terms with the same variable and exponent.</p>
+                <p>Example: 2x + 3x = 5x, but 2x + 3y cannot be simplified.</p>
+                <div class="exercise">
+                    <h3>Exercise: Addition and Subtraction</h3>
+                    <p>Simplify the following expressions:</p>
+                    <ol>
+                        <li>5a + 2a - 3a</li>
+                        <li>4x + 2y - x</li>
+                        <li>7m - 2m + 3n</li>
+                    </ol>
+                    <button onclick="showAlgebra2Solution()" class="btn">Show Solution</button>
+                    <div id="algebra2Solution"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>4.3 Multiplication and Division</h2>
+                <p>Multiplying and dividing algebraic expressions involves applying the rules of exponents and distributing.</p>
+                <p><strong>Rule:</strong> When multiplying terms with the same variable, we add their exponents.</p>
+                <p>Example: x^2 * x^3 = x^(2+3) = x^5</p>
+                <p><strong>Rule:</strong> When dividing terms with the same variable, we subtract their exponents.</p>
+                <p>Example: x^5 / x^2 = x^(5-2) = x^3</p>
+                <div class="exercise">
+                    <h3>Exercise: Multiplication and Division</h3>
+                    <p>Simplify the following expressions:</p>
+                    <ol>
+                        <li>2x^2 * 3x</li>
+                        <li>y^4 / y^2</li>
+                        <li>(6a^3 * b) / (2ab)</li>
+                    </ol>
+                    <button onclick="showAlgebra3Solution()" class="btn">Show Solution</button>
+                    <div id="algebra3Solution"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>4.4 Factorising</h2>
+                <p>Factorising is the process of breaking down an expression into a product of its factors. It's the reverse of expanding.</p>
+                <p><strong>Common factor:</strong> When all terms share a common factor, we can factor it out.</p>
+                <p>Example: 2x + 4 = 2(x + 2)</p>
+                <p><strong>Difference of squares:</strong> a^2 - b^2 can be factored as (a+b)(a-b)</p>
+                <p>Example: x^2 - 9 = (x+3)(x-3)</p>
+                <div class="exercise">
+                    <h3>Exercise: Factorising</h3>
+                    <p>Factorise the following expressions:</p>
+                    <ol>
+                        <li>3x + 6</li>
+                        <li>x^2 - 16</li>
+                        <li>6a^2 + 12a</li>
+                    </ol>
+                    <button onclick="showAlgebra4Solution()" class="btn">Show Solution</button>
+                    <div id="algebra4Solution"></div>
+                </div>
+            </div>
+            <a href="05_number_patterns_sequences_series.html"><p class="btn">Next lesson</p></a>
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyright &copy; 2024 Vylex Nexys. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../scripts/common-scripts.js"></script>
+
+    <script>
+        // Solutions for exercises (example):
+        function showAlgebra1Solution() {
+            document.getElementById('algebra1Solution').innerHTML = 
+                "<ol><li>Variable: y; Constants: 4, -7</li>" +
+                "<li>Variables: a, b; Constants: 2, 3</li>" +
+                "<li>Variable: z; Constants: 5</li></ol>";
+        }
+
+        function showAlgebra2Solution() {
+            document.getElementById('algebra2Solution').innerHTML = 
+                "<ol><li>4a</li>" +
+                "<li>3x + 2y</li>" +
+                "<li>5m + 3n</li></ol>";
+        }
+
+        function showAlgebra3Solution() {
+            document.getElementById('algebra3Solution').innerHTML = 
+                "<ol><li>6x^3</li>" +
+                "<li>y^2</li>" +
+                "<li>3a^2</li></ol>";
+        }
+
+        function showAlgebra4Solution() {
+            document.getElementById('algebra4Solution').innerHTML = 
+                "<ol><li>3(x + 2)</li>" +
+                "<li>(x + 4)(x - 4)</li>" +
+                "<li>6a(a + 2)</li></ol>";
+        }
+    </script>
+</body>
+</html>

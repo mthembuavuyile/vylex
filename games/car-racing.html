@@ -141,6 +141,56 @@
             transform: scale(1.05);
         }
 
+        /* --- Instructions Panel (Compact) --- */
+        .instructions-panel {
+            margin-top: 25px;
+            background: var(--glass);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 90%;
+            max-width: 480px;
+        }
+
+        .inst-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .inst-label {
+            color: var(--neon-pink);
+            font-family: 'Orbitron', sans-serif;
+            margin-right: 5px;
+        }
+
+        .key {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .dim-text {
+            color: rgba(255, 255, 255, 0.3);
+            margin: 0 5px;
+        }
+
         #game-over-screen { display: none; }
         
         /* Mobile Controls */
@@ -180,8 +230,35 @@
         <h1>NEON RACER</h1>
         <p style="letter-spacing: 5px; color: var(--neon-blue)">VYLEX GAME LAB</p>
         <button class="btn" id="start-btn">Initialize Race</button>
-        <div style="margin-top: 40px; opacity: 0.6; font-size: 0.9rem;">
-            A/D or ARROWS to Steer • Hold both for NITRO
+
+        <div class="instructions-panel">
+            <div class="instruction-column">
+                <div class="instruction-title">Desktop</div>
+                <div class="key-wrap">
+                    <span class="key">A</span> / <span class="key">D</span> &nbsp;or&nbsp; <span class="key">←</span> / <span class="key">→</span>
+                </div>
+                <div class="action-text">To Steer</div>
+                
+                <div class="key-wrap" style="margin-top: 5px;">
+                    <span class="key">A</span> + <span class="key">D</span> &nbsp;or&nbsp; <span class="key">←</span> + <span class="key">→</span>
+                </div>
+                <div class="action-text">Engage Nitro</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="instruction-column">
+                <div class="instruction-title">Mobile</div>
+                <div class="key-wrap">
+                    <span class="key">←Tap Sides→</span>
+                </div>
+                <div class="action-text">To Steer</div>
+                
+                <div class="key-wrap" style="margin-top: 5px;">
+                    <span class="key">Hold Both</span>
+                </div>
+                <div class="action-text">Engage Nitro</div>
+            </div>
         </div>
     </div>
 

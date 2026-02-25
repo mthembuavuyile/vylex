@@ -1,0 +1,384 @@
+/* Variables */
+:root {
+    --primary-color: #4682b4;
+    --secondary-color: #5f9ea0;
+    --accent-color: #e8491d;
+    --bg-color: #f0f8ff;
+    --text-color: #333;
+    --light-bg: #e6f3ff;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.section {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Typography */
+h2 {
+    color: var(--primary-color);
+}
+
+.highlight {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Header and Navigation */
+header {
+    background: var(--primary-color);
+    color: #ffffff;
+    padding: 1rem 0;
+    position: relative;
+}
+
+#branding {
+    display: flex;
+    align-items: center;
+}
+
+#branding h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    padding: 0 15px;
+}
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--accent-color);
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* Showcase */
+#showcase {
+    min-height: 400px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../images/AI-learning-background.jpg);
+    text-align: center;
+    color: #ffffff;
+    padding: 100px 0;
+}
+
+#showcase h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+#showcase p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background: var(--accent-color);
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.1s;
+}
+
+.btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Cards */
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Forms */
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Exercises */
+.exercise {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--light-bg);
+    border-radius: 5px;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 8px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#result {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Code Examples */
+.code-example {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.code-example pre {
+    margin: 0;
+    font-family: monospace;
+}
+
+/* AI Tools */
+.ai-tools {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.ai-tool {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: calc(33.33% - 20px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.ai-tool:hover {
+    transform: translateY(-5px);
+}
+
+.ai-tool h4 {
+    color: var(--primary-color);
+}
+
+/* Coming Soon Overlay */
+.coming-soon-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.coming-soon-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.coming-soon-content h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.coming-soon-content p {
+    margin-bottom: 30px;
+}
+
+/* Footer */
+footer {
+    background: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+footer nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;  /* Ensure items wrap */
+}
+
+footer nav a {
+    color: var(--accent-color);
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer nav a:hover {
+    text-decoration: underline;
+}
+
+footer p {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+
+
+/* For mobile devices */
+@media (max-width: 768px) {
+    h1.text-center {
+        text-align: center;
+        font-size: 1.2em; /* Adjust the font size for smaller screens if necessary */
+        padding: 5px;
+        margin: 4px;
+    }
+
+    .text-center span.highlight {
+        display: block; /* Makes the span block-level, so it starts on a new line */
+    }
+}
+
+/* For larger devices */
+h1.text-center {
+    text-align: center;
+    font-size: 2.5em; /* You can adjust this to make it bigger on larger screens */
+}
+
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    .burger {
+        display: block;
+        z-index: 2;
+    }
+
+    nav ul {
+        position: fixed;
+        right: -100%;
+        height: 100vh;
+        top: 0;
+        background-color: var(--primary-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        transition: right 0.5s ease-in;
+        padding-top: 60px;
+    }
+
+    nav ul li {
+        opacity: 0;
+        margin: 15px 0;
+    }
+
+    .nav-active {
+        right: 0;
+    }
+
+    @keyframes navLinkFade {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0px);
+        }
+    }
+
+    .toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .toggle .line2 {
+        opacity: 0;
+    }
+
+    .toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    .ai-tool {
+        width: calc(70% - 20px);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .ai-tool {
+        width: 100%;
+    }
+}

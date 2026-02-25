@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyHub - Your Academic Resource Directory</title>
+    <style>
+        :root {
+            --primary: #3a6ea5;
+            --secondary: #004e98;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://source.unsplash.com/random/1200x600/?library') no-repeat center center/cover;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .search-bar {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        .search-bar button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .search-bar button:hover {
+            background: #ff5252;
+        }
+        
+        .resources {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            display: inline-block;
+            padding-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-body p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .tag {
+            background: #e9ecef;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #495057;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+        }
+        
+        .categories {
+            padding: 60px 0;
+            background: #eef2f7;
+        }
+        
+        .category-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .category-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .tools {
+            padding: 60px 0;
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .tool-card {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-icon {
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .tool-content {
+            padding: 20px;
+            flex: 1;
+        }
+        
+        .tool-content h3 {
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #495057;
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            background: #495057;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Mobile menu adjustments */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 600px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                flex-direction: column;
+                background: var(--secondary);
+                padding: 20px;
+                gap: 10px;
+                transition: left 0.3s ease;
+                z-index: 1000;
+            }
+            
+            nav ul.active {
+                left: 0;
+            }
+            
+            .resource-grid, .category-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>StudyHub</span>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="mainMenu">
+                    <li><a href="#resources">Digital Libraries</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#tools">Study Tools</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Find Any Academic Resource You Need</h1>
+            <p>Access millions of books, articles, and study materials from the best digital libraries and educational platforms.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for books, articles, or study materials...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="resources" id="resources">
+        <div class="container">
+            <div class="section-title">
+                <h2>Digital Libraries</h2>
+            </div>
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="card-header">
+                        <h3>PDF Drive</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Access over 75 million free eBooks without ads or download limits.</p>
+                        <div class="tag-list">
+                            <span class="tag">Books</span>
+                            <span class="tag">eBooks</span>
+                            <span class="tag">Free</span>
+                        </div>
+                        <a href="https://www.pdfdrive.com/" class="btn" target="_blank">Visit Site</a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="card-header">
+                        <h3>Library Genesis</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Find academic books, textbooks, and scientific articles organized by topic.</p>
+                        <div class="tag-list">
+                            <span class="tag">Academic</span>
+                            <span class="tag">Scientific</span>
+                            <span class="tag">Research</span>
+                        </div>
+                        <a href="https://libgen.is/" class="btn" target="_blank">Visit Site</a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="card-header">
+                        <h3>Z-Library</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>The world's largest e-book library with millions of books and articles.</p>
+                        <div class="tag-list">
+                            <span class="tag">eBooks</span>
+                            <span class="tag">Articles</span>
+                            <span class="tag">Journals</span>
+                        </div>
+                        <a href="https://z-lib.id/" class="btn" target="_blank">Visit Site</a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="card-header">
+                        <h3>StudyLib</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Educational platform with flashcards, worksheets, lesson plans, and study materials.</p>
+                        <div class="tag-list">
+                            <span class="tag">Flashcards</span>
+                            <span class="tag">Worksheets</span>
+                            <span class="tag">Study Tools</span>
+                        </div>
+                        <a href="https://studylib.net/" class="btn" target="_blank">Visit Site</a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="card-header">
+                        <h3>Google Scholar</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Search across academic literature, journal articles, patents, and court opinions.</p>
+                        <div class="tag-list">
+                            <span class="tag">Academic</span>
+                            <span class="tag">Research</span>
+                            <span class="tag">Citations</span>
+                        </div>
+                        <a href="https://scholar.google.com/" class="btn" target="_blank">Visit Site</a>
+                    </div>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="card-header">
+                        <h3>Open Library</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>An open, editable library catalog with millions of book records from sources worldwide.</p>
+                        <div class="tag-list">
+                            <span class="tag">Books</span>
+                            <span class="tag">Lending</span>
+                            <span class="tag">Public Domain</span>
+                        </div>
+                        <a href="https://openlibrary.org/" class="btn" target="_blank">Visit Site</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories" id="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular Categories</h2>
+            </div>
+            <div class="category-list">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Mathematics</h3>
+                    <p>Algebra, Calculus, Statistics</p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3>Physics</h3>
+                    <p>Mechanics, Quantum Physics, Astrophysics</p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Chemistry</h3>
+                    <p>Organic, Inorganic, Biochemistry</p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h3>Biology</h3>
+                    <p>Genetics, Ecology, Molecular Biology</p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Computer Science</h3>
+                    <p>Programming, AI, Data Structures</p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Psychology</h3>
+                    <p>Cognitive, Clinical, Social</p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <h3>History</h3>
+                    <p>World History, Ancient Civilizations</p>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Languages</h3>
+                    <p>English, Spanish, French</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tools" id="tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>Study Tools</h2>
+            </div>
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-clone"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3>Flashcard System</h3>
+                        <p>Create custom flashcards with images and audio using StudyLib's spaced repetition system to improve retention.</p>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3>Document Sharing</h3>
+                        <p>Upload and share educational materials with classmates to collaborate effectively on projects and study sessions.</p>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3>Collection Management</h3>
+                        <p>Organize resources into study collections for easy access and efficient learning across multiple subjects.</p>
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-highlighter"></i>
+                    </div>
+                    <div class="tool-content">
+                        <h3>Digital Highlighting</h3>
+                        <p>Highlight and annotate digital texts with notes and comments to improve comprehension and retention.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About StudyHub</h2>
+            </div>
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <p style="margin-bottom: 20px;">StudyHub is a comprehensive directory of digital libraries and educational resources designed to help students, researchers, and lifelong learners access the information they need.</p>
+                
+                <p style="margin-bottom: 20px;">Our mission is to make knowledge accessible to everyone by providing easy access to the best educational platforms available online.</p>
+                
+                <p>We don't host any content ourselves - we simply connect you to the resources that can help you succeed in your academic journey.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>StudyHub</h3>
+                    <p>Your gateway to academic resources and educational platforms worldwide.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#resources">Digital Libraries</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="#tools">Study Tools</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="https://www.pdfdrive.com/" target="_blank">PDF Drive</a></li>
+                        <li><a href="https://libgen.is/" target="_blank">Library Genesis</a></li>
+                        <li><a href="https://z-lib.id/" target="_blank">Z-Library</a></li>
+                        <li><a href="https://studylib.net/" target="_blank">StudyLib</a></li>
+                        <li><a href="https://scholar.google.com/" target="_blank">Google Scholar</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@studyhub.com</li>
+                        <li><i class="fas fa-question-circle"></i> Help & Support</li>
+                        <li><i class="fas fa-exclamation-circle"></i> Report an Issue</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 StudyHub. All rights reserved. StudyHub is an educational resource directory.</p>
+                <p>Disclaimer: StudyHub doesn't host any content. We direct users to external educational resources.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on links
+        const menuLinks = mainMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mainMenu.classList.remove('active');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Search functionality (placeholder)
+        const searchBar = document.querySelector('.search-bar input');
+        const searchButton = document.querySelector('.search-bar button');
+        
+        searchButton.addEventListener('click', () => {
+            const searchTerm = searchBar.value.trim();
+            if (searchTerm) {
+                alert(`Search functionality would search for: "${searchTerm}" across all platforms simultaneously.`);
+            } else {
+                alert('Please enter a search term.');
+            }
+        });
+        
+        // Allow Enter key to trigger search
+        searchBar.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchButton.click();
+            }
+        });
+        
+        // Simple animation for category cards
+        const categoryCards = document.querySelectorAll('.category-card');
+        
+        const observerOptions = {
+            threshold: 0.2
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        categoryCards.forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

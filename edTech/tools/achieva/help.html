@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Achieva & Help</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        header p {
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        h2 {
+            color: #4f46e5;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #6a4eae;
+            margin-top: 1.5rem;
+        }
+
+        p, ul, li {
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        code, kbd {
+            background-color: #eef1f3;
+            padding: 0.2em 0.4em;
+            margin: 0 0.2em;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #d63384; /* Bootstrap-like color for code */
+        }
+
+        .note {
+            background-color: #e9ecef;
+            border-left: 4px solid #7c3aed;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .note strong {
+            color: #4f46e5;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 1.5rem;
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+            header p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Achieva</h1>
+        <p>Smart Academic Planner – About & Help</p>
+    </header>
+
+    <div class="container">
+        <a href="./index.html" class="back-link" title="Go back to the Achieva application">← Back to Achieva App</a>
+
+        <h2>Welcome to Achieva!</h2>
+        <p>Achieva is your personal Smart Academic Planner, designed to help you organize your studies, track your progress, and achieve your academic goals. It runs entirely in your web browser, meaning your data stays private and on your device.</p>
+
+        <h2>Key Features & How to Use</h2>
+
+        <h3>Dashboard Tab</h3>
+        <p>The Dashboard provides a quick overview of your academic standing:</p>
+        <ul>
+            <li><strong>Current GPA:</strong> Your calculated Grade Point Average (based on a 4.0 scale).</li>
+            <li><strong>Credits Enrolled:</strong> Total credits for all subjects you've added.</li>
+            <li><strong>Active Tasks:</strong> Number of tasks that are not yet marked as completed.</li>
+            <li><strong>Goals Achieved:</strong> Number of goals you've marked as completed.</li>
+            <li><strong>Recent Subjects:</strong> A quick look at your most recently added subjects and their current marks.</li>
+            <li><strong>Upcoming Due Dates:</strong> Lists upcoming tasks and assessments to help you stay on top of deadlines.</li>
+        </ul>
+
+        <h3>Subjects Tab</h3>
+        <p>This is where you manage your courses/modules:</p>
+        <ul>
+            <li><strong>Adding a Subject:</strong> Click the <kbd>Add Subject</kbd> button. Fill in details like Subject Name, Code, Credits, Instructor, and Semester. Credits are important for GPA calculation.</li>
+            <li><strong>Managing Assessments:</strong>
+                <ul>
+                    <li>For each subject, you can add assessments by clicking <kbd>Add Assessment</kbd>.</li>
+                    <li>Enter the Assessment Name, Type (e.g., Exam, Quiz, Project), Weight (its percentage contribution to the final subject grade), your Score (optional until graded), Max Possible Score, and Due Date (optional).</li>
+                    <li><strong>Important:</strong> The total weight of assessments for a subject ideally should sum to 100% for the most accurate grade tracking. The app will show you the "Total Weight of Entered Assessments."</li>
+                    <li>You can edit or delete assessments using the ✏️ and 🗑️ icons.</li>
+                </ul>
+            </li>
+            <li><strong>Understanding Subject Grades:</strong> The card for each subject displays:
+                <ul>
+                    <li><strong>Current Mark:</strong> Your calculated mark for the subject so far, out of 100%. This is based on the scores and weights of your graded assessments.</li>
+                    <li><strong>Percentage of assessments graded:</strong> Shows how much of the subject's total weight (from entered assessments) has been graded.</li>
+                    <li><strong>Average on graded:</strong> Your average percentage score on the assessments that have been graded.</li>
+                </ul>
+            </li>
+            <li><strong>Deleting a Subject:</strong> Click the <kbd>Delete Subject</kbd> button on a subject card. This will also remove associated tasks and subject-specific goals.</li>
+        </ul>
+
+        <h3>Schedule Tab</h3>
+        <p>Manage your general tasks and view all upcoming deadlines:</p>
+        <ul>
+            <li><strong>Adding a General Task:</strong> Click <kbd>Add General Task</kbd>. Provide a Title, optionally link it to a Subject, set a Due Date, and assign a Priority (Low, Medium, High).</li>
+            <li><strong>Viewing Due Items:</strong> This tab lists both your general tasks and any assessments from the Subjects tab that have a due date.
+                <ul>
+                    <li>Tasks are shown with an orange left border.</li>
+                    <li>Assessments are shown with a blue left border.</li>
+                </ul>
+            </li>
+            <li><strong>Task Completion:</strong> Mark general tasks as complete using the checkbox. Completed items are visually distinct.</li>
+            <li><strong>Overdue Items:</strong> Items past their due date and not completed are highlighted in red.</li>
+            <li><strong>Deleting a Task:</strong> Click the 🗑️ icon on a task card.</li>
+        </ul>
+
+        <h3>Goals Tab</h3>
+        <p>Set and track your academic ambitions:</p>
+        <ul>
+            <li><strong>Adding a Goal:</strong> Click <kbd>Add Goal</kbd>.
+                <ul>
+                    <li>Enter a <strong>Goal Title</strong>.</li>
+                    <li>Select a <strong>Goal Type</strong>:
+                        <ul>
+                            <li><code>Overall GPA Target</code>: Aim for a specific GPA.</li>
+                            <li><code>Subject Grade Target</code>: Aim for a specific percentage in a particular subject. You'll need to select the subject.</li>
+                            <li><code>Task Completion</code>: (Progress for this type is manually tracked for now).</li>
+                            <li><code>Personal Development</code>: (Progress for this type is manually tracked for now).</li>
+                        </ul>
+                    </li>
+                    <li>Set a <strong>Target Value</strong> (e.g., "3.5" for GPA, "85" for Subject Grade %).</li>
+                    <li>Optionally, add a <strong>Target Date</strong>.</li>
+                </ul>
+            </li>
+            <li><strong>Tracking Progress:</strong>
+                <ul>
+                    <li>For GPA and Subject Grade goals, a progress bar shows how close you are to your target based on current data.</li>
+                    <li><strong>"What's Needed" for Subject Grade Goals:</strong> If you set a Subject Grade Target, Achieva will display a message indicating what average score you need on remaining assessments for that subject to reach your target grade. This is a powerful tool for planning!</li>
+                </ul>
+            </li>
+            <li><strong>Completing Goals:</strong> Manually mark goals as complete using the <kbd>Mark Complete</kbd> button.</li>
+            <li><strong>Deleting a Goal:</strong> Click the 🗑️ icon on a goal card.</li>
+        </ul>
+
+        <h3>Report Tab</h3>
+        <p>Generate a summary of your academic performance:</p>
+        <ul>
+            <li>The report includes your name (from Settings), generation date, overall GPA, total credits, and a detailed breakdown for each subject (including its assessments and current marks).</li>
+            <li>Click <kbd>Print Report</kbd> to get a printable version of this summary.</li>
+        </ul>
+
+        <h3>Analytics Tab</h3>
+        <p>This section is planned for future enhancements.</p>
+        <ul>
+            <li>Currently, it shows placeholders for "Grade Distribution" and "Performance Trends."</li>
+            <li>Full functionality will require integrating a charting library and having sufficient data.</li>
+        </ul>
+
+        <h3>Settings (⚙️ Gear Icon)</h3>
+        <p>Customize Achieva to your preferences:</p>
+        <ul>
+            <li><strong>Your Name (for Reports):</strong> Set the name that will appear on generated reports.</li>
+            <li><strong>Target Total Credits for Program:</strong> Enter the total credits required for your academic program. This is for your reference.</li>
+            <li>Changes are saved when you click <kbd>Save Settings</kbd>.</li>
+        </ul>
+
+        <h3>Theme Toggle (🌓/☀️ Icon)</h3>
+        <p>Easily switch between light and dark visual themes for comfortable viewing.</p>
+
+
+        <h2>Data Management</h2>
+        <div class="note">
+            <p><strong>Important:</strong> Achieva stores all your data directly in your web browser's <strong>Local Storage</strong> (under the key <code>academiaTrackData_v2</code>). This means:</p>
+            <ul>
+                <li><strong>Your data is private and local:</strong> It is not sent to any server and remains on the device and browser you used to enter it.</li>
+                <li><strong>No cloud sync:</strong> Data entered in one browser (e.g., Chrome on your laptop) will not automatically appear in another browser or on another device (e.g., Safari on your phone).</li>
+                <li><strong>Risk of data loss:</strong> If you clear your browser's cache, cookies, site data, or specifically its Local Storage, <strong>your Achieva data will be permanently deleted.</strong> Be cautious when clearing browser data.</li>
+                <li>Consider manually backing up important information if needed, for example, by regularly printing reports.</li>
+            </ul>
+        </div>
+
+        <h2>Tips for Best Results</h2>
+        <ul>
+            <li><strong>Keep Information Updated:</strong> Regularly add new subjects, assessments, and update scores as you receive them for the most accurate tracking.</li>
+            <li><strong>Accurate Assessment Weights:</strong> Ensure the weights for assessments within a subject correctly reflect their contribution to the final grade. For full accuracy, weights for all assessments in a subject should ideally sum to 100%.</li>
+            <li><strong>Use the "What's Needed" Feature:</strong> For subject grade goals, pay attention to the "what's needed" messages to understand the performance required in future assessments.</li>
+            <li><strong>Set Realistic Goals:</strong> Use the Goals tab to set achievable targets and monitor your progress towards them.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        <dl>
+            <dt><strong>Why is my GPA / Subject Grade calculated this way?</strong></dt>
+            <dd>
+                <p>GPA is calculated based on a standard 4.0 scale, converting your average percentage in graded portions of subjects (weighted by credits) to GPA points. Subject grades are based on the sum of (your score / max score) * weight for each graded assessment.</p>
+            </dd>
+
+            <dt><strong>What happens if I clear my browser's cache/data?</strong></dt>
+            <dd>
+                <p>As mentioned in "Data Management," clearing your browser's site data or Local Storage will likely delete all your Achieva data. Please be careful.</p>
+            </dd>
+
+            <dt><strong>Can I use Achieva on multiple devices or browsers and sync my data?</strong></dt>
+            <dd>
+                <p>No, Achieva currently stores data locally in the browser you use. There is no automatic syncing feature across devices or browsers.</p>
+            </dd>
+
+            <dt><strong>The Analytics tab is empty or shows placeholders. When will it work?</strong></dt>
+            <dd>
+                <p>The Analytics tab is a feature planned for future development. It currently serves as a placeholder for visual charts and trends which require more data and a charting library integration.</p>
+            </dd>
+            <dt><strong>How is the "Current GPA" on the dashboard calculated if not all my subjects are fully graded?</strong></dt>
+            <dd>
+                <p>The "Current GPA" considers the subjects you've added and their credits. For each subject, it uses the <em>average percentage achieved on the parts of the subject that have already been graded</em> to estimate that subject's contribution to your GPA. As more assessments are graded, the GPA will become more representative of your final standing.</p>
+            </dd>
+        </dl>
+
+        <p>We hope Achieva helps you succeed in your academic endeavors!</p>
+
+        <a href="./index.html" class="back-link" title="Go back to the Achieva application">← Back to Achieva App</a>
+    </div>
+</body>
+</html>

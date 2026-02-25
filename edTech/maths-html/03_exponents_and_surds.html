@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="text-center">Math lesson 3: Exponents and Surds - Vylex Nexys</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div id="branding">
+                    <h1><span class="highlight">Vylex Nexys</span> EdTech</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../courses.html">Courses</a></li>
+                    <li><a href="https://vylexnexys.co.za/ai-tools">AI Tools</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1 class="text-center"><span class="highlight">Math Lesson 3:<br> </span> Exponents and Surds</h1>
+
+        <div class="container">
+            <div class="section">
+                <h2>3.1 The Number System</h2>
+                <p>This section will cover the fundamental concepts of the number system, including natural numbers, integers, rational numbers, and irrational numbers. We will explore how these different types of numbers are related and how they are represented on the number line.</p>
+
+                <div class="exercise">
+                    <h3>Exercise: Number Classification</h3>
+                    <p>Classify the following numbers as natural, integer, rational, or irrational:</p>
+                    <ul>
+                        <li>5</li>
+                        <li>-3</li>
+                        <li>2/3</li>
+                        <li>√2</li>
+                        <li>π</li>
+                    </ul>
+                    <button onclick="checkNumberClassification()" class="btn">Check</button>
+                    <div id="numberClassificationResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3.2 Working with Irrational Numbers</h2>
+                <p>This section will delve into the properties of irrational numbers, specifically square roots. We will learn how to simplify surds, perform operations (addition, subtraction, multiplication, and division) with surds, and rationalize denominators.</p>
+
+                <div class="exercise">
+                    <h3>Exercise: Simplifying Surds</h3>
+                    <p>Simplify the following surds:</p>
+                    <ul>
+                        <li>√12</li>
+                        <li>√27</li>
+                        <li>√48</li>
+                    </ul>
+                    <button onclick="checkSurdSimplification()" class="btn">Check</button>
+                    <div id="surdSimplificationResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3.3 Exponents</h2>
+                <p>This section will introduce the concept of exponents and the laws of exponents. We will learn how to work with exponents in various situations, including multiplication, division, raising to a power, and negative exponents.</p>
+
+                <div class="exercise">
+                    <h3>Exercise: Exponent Laws</h3>
+                    <p>Simplify the following expressions using the laws of exponents:</p>
+                    <ul>
+                        <li>x<sup>3</sup> * x<sup>5</sup></li>
+                        <li>y<sup>8</sup> / y<sup>2</sup></li>
+                        <li>(z<sup>4</sup>)<sup>2</sup></li>
+                    </ul>
+                    <button onclick="checkExponentLaws()" class="btn">Check</button>
+                    <div id="exponentLawsResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3.4 Exponential Equations</h2>
+                <p>This section will explore how to solve equations involving exponents. We will learn different methods for solving these equations, including isolating the exponential term, using logarithms, and applying the properties of exponents.</p>
+
+                <div class="exercise">
+                    <h3>Exercise: Exponential Equation</h3>
+                    <p>Solve the following exponential equation for x:</p>
+                    <p>2<sup>x</sup> = 16</p>
+                    <input type="number" id="exponentialInput">
+                    <button onclick="checkExponentialEquation()" class="btn">Check</button>
+                    <div id="exponentialEquationResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3.5 Equations with Rational Exponents</h2>
+                <p>This section will cover equations with rational exponents (fractional exponents). We will learn how to solve these equations using various methods, including isolating the term with the rational exponent, raising both sides of the equation to the reciprocal of the exponent, and simplifying the result.</p>
+
+                <div class="exercise">
+                    <h3>Exercise: Rational Exponent Equation</h3>
+                    <p>Solve the following equation for x:</p>
+                    <p>x<sup>3/2</sup> = 27</p>
+                    <input type="number" id="rationalExponentInput">
+                    <button onclick="checkRationalExponentEquation()" class="btn">Check</button>
+                    <div id="rationalExponentEquationResult"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3.6 Exam Type Examples</h2>
+                <p>This section will provide a collection of exam-style problems related to exponents and surds. These problems will test your understanding of the concepts covered in the previous sections and prepare you for real-world applications of these topics.</p>
+            </div>
+
+            <a href="04_algebra.html"><p class="btn">Next lesson</p></a>
+
+        </div>
+
+
+    </main>
+
+    <footer>
+        <p>Copyright © 2024 Vylex Nexys. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../scripts/common-scripts.js"></script>
+
+    <script>
+        function checkNumberClassification() {
+            const correctAnswers = ['natural', 'integer', 'rational', 'irrational', 'irrational'];
+            const userAnswers = prompt("Enter your answers separated by commas (e.g., natural,integer,rational,irrational,irrational)").split(',');
+            
+            let score = 0;
+            for (let i = 0; i < correctAnswers.length; i++) {
+                if (userAnswers[i].trim().toLowerCase() === correctAnswers[i]) {
+                    score++;
+                }
+            }
+            
+            const result = `You got ${score} out of ${correctAnswers.length} correct.`;
+            document.getElementById('numberClassificationResult').innerHTML = result;
+        }
+
+        function checkSurdSimplification() {
+            const correctAnswers = ['2√3', '3√3', '4√3'];
+            const userAnswers = prompt("Enter your simplified surds separated by commas (e.g., 2√3,3√3,4√3)").split(',');
+            
+            let score = 0;
+            for (let i = 0; i < correctAnswers.length; i++) {
+                if (userAnswers[i].trim() === correctAnswers[i]) {
+                    score++;
+                }
+            }
+            
+            const result = `You got ${score} out of ${correctAnswers.length} correct.`;
+            document.getElementById('surdSimplificationResult').innerHTML = result;
+        }
+
+        function checkExponentLaws() {
+            const correctAnswers = ['x^8', 'y^6', 'z^8'];
+            const userAnswers = prompt("Enter your simplified expressions separated by commas (e.g., x^8,y^6,z^8)").split(',');
+            
+            let score = 0;
+            for (let i = 0; i < correctAnswers.length; i++) {
+                if (userAnswers[i].trim() === correctAnswers[i]) {
+                    score++;
+                }
+            }
+            
+            const result = `You got ${score} out of ${correctAnswers.length} correct.`;
+            document.getElementById('exponentLawsResult').innerHTML = result;
+        }
+
+        function checkExponentialEquation() {
+            const userAnswer = parseFloat(document.getElementById('exponentialInput').value);
+            const correctAnswer = 4;
+            
+            if (userAnswer === correctAnswer) {
+                document.getElementById('exponentialEquationResult').innerHTML = "Correct! x = 4";
+            } else {
+                document.getElementById('exponentialEquationResult').innerHTML = "Incorrect. Try again.";
+            }
+        }
+
+        function checkRationalExponentEquation() {
+            const userAnswer = parseFloat(document.getElementById('rationalExponentInput').value);
+            const correctAnswer = 9;
+            
+            if (userAnswer === correctAnswer) {
+                document.getElementById('rationalExponentEquationResult').innerHTML = "Correct! x = 9";
+            } else {
+                document.getElementById('rationalExponentEquationResult').innerHTML = "Incorrect. Try again.";
+            }
+        }
+
+        function askAI() {
+            const question = document.getElementById('aiQuestion').value;
+            // In a real implementation, this would send the question to an AI service
+            // and receive a response. For this example, we'll just provide a placeholder response.
+            const aiResponse = "I'm sorry, but I don't have access to an AI service at the moment. In a real implementation, this function would send your question to an AI and provide you with a helpful response.";
+            document.getElementById('aiResponse').innerHTML = aiResponse;
+        }
+    </script>
+</body>
+</html>

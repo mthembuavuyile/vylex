@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Lesson 2: Fractions and Decimals - Vylex Nexys</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div id="branding">
+                    <h1><span class="highlight">Vylex Nexys</span> EdTech</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../courses.html">Courses</a></li>
+                    <li><a href="https://vylexnexys.co.za/ai-tools">AI Tools</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <h1 class="text-center"><span class="highlight">Math Lesson 2:<br></span> Fractions and Decimals</h1>
+
+
+
+    <div class="container">
+        <div class="section">
+            <h2>Introduction to Fractions and Decimals</h2>
+            <p>In this lesson, we'll learn about fractions and decimal numbers. These concepts are important for representing parts of a whole and for precise measurements.</p>
+        </div>
+
+        <div class="section">
+            <h2>Fractions</h2>
+            <p>A fraction represents a part of a whole. It consists of a numerator (top number) and a denominator (bottom number). For example, in 3/4, 3 is the numerator and 4 is the denominator.</p>
+            <div class="exercise">
+                <h3>Exercise: Identifying Fractions</h3>
+                <p>Enter the numerator and denominator of the fraction 5/8:</p>
+                Numerator: <input type="number" id="numerator">
+                Denominator: <input type="number" id="denominator">
+                <button onclick="checkFraction()" class="btn">Check</button>
+                <div id="fractionResult"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Decimals</h2>
+            <p>Decimals are another way to represent parts of a whole. They use a decimal point to show tenths, hundredths, and so on. For example, 0.75 is equivalent to 75/100 or 3/4.</p>
+            <div class="exercise">
+                <h3>Exercise: Converting Fractions to Decimals</h3>
+                <p>Convert the fraction 1/4 to a decimal:</p>
+                <input type="text" id="decimalAnswer">
+                <button onclick="checkDecimal()" class="btn">Check</button>
+                <div id="decimalResult"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Comparing Fractions and Decimals</h2>
+            <p>We can compare fractions and decimals to see which is greater. For example, 1/2 is equal to 0.5, and both are less than 3/4 or 0.75.</p>
+            <div class="exercise">
+                <h3>Exercise: Comparing Numbers</h3>
+                <p>Which is greater: 2/3 or 0.6?</p>
+                <input type="text" id="compareAnswer">
+                <button onclick="checkComparison()" class="btn">Check</button>
+                <div id="compareResult"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Adding Fractions and Decimals</h2>
+            <p>We can add fractions with the same denominator, and we can add decimals by lining up the decimal points.</p>
+            <div class="exercise">
+                <h3>Exercise: Addition</h3>
+                <p>Add 1/4 and 0.5:</p>
+                <input type="text" id="addAnswer">
+                <button onclick="checkAddition()" class="btn">Check</button>
+                <div id="addResult"></div>
+            </div>
+        </div>
+
+        <a href="03_exponents_and_surds.html"><p class="btn">Next lesson</p></a>
+
+        <div class="section">
+            <h2>AI Interaction</h2>
+            <input type="text" id="userPrompt" placeholder="Ask AI anything...">
+            <button onclick="askAI()" class="btn">Ask AI</button>
+            <div id="aiResponse"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Copyright &copy; 2024 Vylex Nexys. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../scripts/common-scripts.js"></script>
+
+    <script>
+        function checkFraction() {
+            var num = parseInt(document.getElementById('numerator').value);
+            var den = parseInt(document.getElementById('denominator').value);
+            if (num === 5 && den === 8) {
+                document.getElementById('fractionResult').innerHTML = "Correct! 5/8 is the right fraction.";
+            } else {
+                document.getElementById('fractionResult').innerHTML = "Not quite. The fraction should be 5/8.";
+            }
+        }
+
+        function checkDecimal() {
+            var answer = parseFloat(document.getElementById('decimalAnswer').value);
+            if (answer === 0.25) {
+                document.getElementById('decimalResult').innerHTML = "Correct! 1/4 is equal to 0.25.";
+            } else {
+                document.getElementById('decimalResult').innerHTML = "Not quite. 1/4 is equal to 0.25.";
+            }
+        }
+
+        function checkComparison() {
+            var answer = document.getElementById('compareAnswer').value.toLowerCase();
+            if (answer === "2/3" || answer === "2/3 is greater") {
+                document.getElementById('compareResult').innerHTML = "Correct! 2/3 (approximately 0.667) is greater than 0.6.";
+            } else {
+                document.getElementById('compareResult').innerHTML = "Not quite. 2/3 (approximately 0.667) is greater than 0.6.";
+            }
+        }
+
+        function checkAddition() {
+            var answer = parseFloat(document.getElementById('addAnswer').value);
+            if (answer === 0.75) {
+                document.getElementById('addResult').innerHTML = "Correct! 1/4 (0.25) + 0.5 = 0.75";
+            } else {
+                document.getElementById('addResult').innerHTML = "Not quite. 1/4 (0.25) + 0.5 = 0.75";
+            }
+        }
+
+        function askAI() {
+            const userPrompt = document.getElementById('userPrompt').value;
+            const responseDiv = document.getElementById('aiResponse');
+
+            if (!userPrompt) {
+                responseDiv.innerHTML = "Please enter a prompt.";
+                return;
+            }
+
+            // Simulate AI response
+            responseDiv.innerHTML = "I apologize, but the AI service is currently unavailable. Please try again later or contact support if the issue persists.";
+        }
+    </script>
+</body>
+</html>

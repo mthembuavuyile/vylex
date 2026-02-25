@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequence & Series Solver</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            transform: translateY(-1px);
+        }
+
+        button {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .results-area {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .results-area h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .results-area p {
+            margin: 8px 0;
+            font-size: 1.05em;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-weight: 600;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        #interactive-tools {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed #bdc3c7;
+        }
+
+        #interactive-tools h3 {
+            color: #27ae60;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+
+        #interactive-tools .tool {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        #interactive-tools .tool label {
+            margin-right: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        #interactive-tools .tool input[type="number"] {
+            width: auto;
+            max-width: 120px;
+            margin-right: 15px;
+            display: inline-block;
+        }
+
+        #interactive-tools .tool p {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+            min-height: 20px;
+        }
+
+        .formula-display {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .next-terms {
+            background: rgba(155, 89, 182, 0.1);
+            border-left: 4px solid #9b59b6;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            font-size: 1em;
+            color: #7f8c8d;
+        }
+
+        hr {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #bdc3c7, transparent);
+            margin: 40px 0;
+        }
+
+        .sigma-section {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .sigma-section h2 {
+            color: white;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .sigma-section label {
+            color: white !important;
+        }
+
+        .sigma-section input {
+            background: rgba(255,255,255,0.9);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .sigma-section button {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+
+        .sigma-section button:hover {
+            background: linear-gradient(135deg, #d35400, #a04000);
+        }
+
+        .sigma-section .results-area {
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                width: 98%;
+                padding: 20px;
+                margin: 10px auto;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            button {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            #interactive-tools .tool {
+                padding: 12px;
+            }
+
+            #interactive-tools .tool input[type="number"] {
+                display: block;
+                width: 100%;
+                max-width: none;
+                margin: 10px 0;
+            }
+
+            #interactive-tools .tool button {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .formula-display {
+                font-size: 0.9em;
+                word-break: break-all;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+        }
+
+        /* Enhanced animations */
+        .results-area {
+            animation: slideInUp 0.3s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tool {
+            transition: transform 0.2s ease;
+        }
+
+        .tool:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔢 Sequence & Series Solver</h1>
+            <p>Advanced pattern recognition and mathematical sequence analysis</p>
+        </header>
+
+        <section id="sequence-solver">
+            <h2>📊 Analyze a Sequence</h2>
+            <div class="input-group">
+                <label for="sequenceInput">Enter Sequence (at least 3 numbers, 4+ for quadratic):</label>
+                <input type="text" id="sequenceInput" placeholder="e.g., 2, 4, 6, 8 or 1 4 9 16 or 3, 6, 12, 24">
+            </div>
+            <button id="analyzeBtn">🔍 Analyze Sequence</button>
+
+            <div id="sequenceResults" class="results-area" style="display:none;">
+                <!-- Results will be populated here by JavaScript -->
+            </div>
+
+            <div id="interactive-tools" style="display:none;">
+                <h3>🛠️ Interactive Tools:</h3>
+                <div class="tool">
+                    <label for="findNthTerm">Find Term Number (n):</label>
+                    <input type="number" id="findNthTermInput" placeholder="e.g., 10" min="1">
+                    <button id="calculateNthTermBtn">Get T<sub>n</sub></button>
+                    <p id="nthTermResult"></p>
+                </div>
+                <div class="tool" id="findTermValueTool" style="display:none;">
+                    <label for="findTermValue">Find n for T<sub>n</sub> = </label>
+                    <input type="number" id="findTermValueInput" placeholder="e.g., 100">
+                    <button id="calculateTermValueBtn">Find n</button>
+                    <p id="termValueResult"></p>
+                </div>
+                <div class="tool" id="sumNTermsTool" style="display:none;">
+                    <label for="sumNTerms">Sum of first n terms (S<sub>n</sub>):</label>
+                    <input type="number" id="sumNTermsInput" placeholder="e.g., 5" min="1">
+                    <button id="calculateSumNBtn">Get S<sub>n</sub></button>
+                    <p id="sumNResult"></p>
+                </div>
+                <div class="tool" id="sumToInfinityTool" style="display:none;">
+                    <button id="calculateSumInfinityBtn">Sum to Infinity (S<sub>∞</sub>)</button>
+                    <p id="sumInfinityResult"></p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="sigma-solver" class="sigma-section">
+            <h2>∑ Sigma Notation Solver</h2>
+            <div class="input-group">
+                <label for="sigmaFormula">Formula (use 'k' as variable):</label>
+                <input type="text" id="sigmaFormula" placeholder="e.g., 2*k - 1, k^2, k*(k+1)/2">
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <div class="input-group" style="flex: 1; min-width: 120px;">
+                    <label for="sigmaStart">Start (k=):</label>
+                    <input type="number" id="sigmaStart" value="1">
+                </div>
+                <div class="input-group" style="flex: 1; min-width: 120px;">
+                    <label for="sigmaEnd">End (up to):</label>
+                    <input type="number" id="sigmaEnd" placeholder="e.g., 10">
+                </div>
+            </div>
+            <button id="evaluateSigmaBtn">🧮 Evaluate Σ</button>
+            <div id="sigmaResults" class="results-area" style="display:none;">
+                <!-- Sigma results here -->
+            </div>
+        </section>
+
+        <footer>
+            <p>✨ Advanced mathematical sequence analysis tool ✨</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sequenceInput = document.getElementById('sequenceInput');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const sequenceResultsDiv = document.getElementById('sequenceResults');
+            const interactiveToolsDiv = document.getElementById('interactive-tools');
+
+            // Interactive tool elements
+            const findNthTermInput = document.getElementById('findNthTermInput');
+            const calculateNthTermBtn = document.getElementById('calculateNthTermBtn');
+            const nthTermResultP = document.getElementById('nthTermResult');
+
+            const findTermValueTool = document.getElementById('findTermValueTool');
+            const findTermValueInput = document.getElementById('findTermValueInput');
+            const calculateTermValueBtn = document.getElementById('calculateTermValueBtn');
+            const termValueResultP = document.getElementById('termValueResult');
+
+            const sumNTermsTool = document.getElementById('sumNTermsTool');
+            const sumNTermsInput = document.getElementById('sumNTermsInput');
+            const calculateSumNBtn = document.getElementById('calculateSumNBtn');
+            const sumNResultP = document.getElementById('sumNResult');
+
+            const sumToInfinityTool = document.getElementById('sumToInfinityTool');
+            const calculateSumInfinityBtn = document.getElementById('calculateSumInfinityBtn');
+            const sumInfinityResultP = document.getElementById('sumInfinityResult');
+
+            // Sigma notation elements
+            const sigmaFormulaInput = document.getElementById('sigmaFormula');
+            const sigmaStartInput = document.getElementById('sigmaStart');
+            const sigmaEndInput = document.getElementById('sigmaEnd');
+            const evaluateSigmaBtn = document.getElementById('evaluateSigmaBtn');
+            const sigmaResultsDiv = document.getElementById('sigmaResults');
+
+            let currentSequence = [];
+            let sequenceType = null;
+            let params = {}; // To store a, d, r, or quadratic coeffs
+
+            const EPSILON = 1e-9; // For float comparisons
+
+            // Utility function to format numbers without unnecessary decimals
+            function formatNumber(num, maxDecimals = 4) {
+                if (Number.isInteger(num)) {
+                    return num.toString();
+                }
+                
+                const rounded = Number(num.toFixed(maxDecimals));
+                if (Number.isInteger(rounded)) {
+                    return rounded.toString();
+                }
+                
+                return rounded.toString().replace(/\.?0+$/, '');
+            }
+
+            function displayResults(htmlContent) {
+                sequenceResultsDiv.innerHTML = htmlContent;
+                sequenceResultsDiv.style.display = 'block';
+            }
+
+            function displayError(message) {
+                sequenceResultsDiv.innerHTML = `<p class="error">❌ ${message}</p>`;
+                sequenceResultsDiv.style.display = 'block';
+                interactiveToolsDiv.style.display = 'none';
+            }
+
+            function parseSequence(inputStr) {
+                return inputStr.split(/[\s,]+/)
+                               .filter(s => s.trim() !== '')
+                               .map(Number)
+                               .filter(n => !isNaN(n));
+            }
+
+            function arraysAlmostEqual(arr1, arr2, epsilon = EPSILON) {
+                if (arr1.length !== arr2.length) return false;
+                for (let i = 0; i < arr1.length; i++) {
+                    if (Math.abs(arr1[i] - arr2[i]) > epsilon) return false;
+                }
+                return true;
+            }
+
+            function allElementsAlmostEqual(arr, epsilon = EPSILON) {
+                if (arr.length === 0) return true;
+                const first = arr[0];
+                for (let i = 1; i < arr.length; i++) {
+                    if (Math.abs(arr[i] - first) > epsilon) return false;
+                }
+                return true;
+            }
+            
+            analyzeBtn.addEventListener('click', () => {
+                const rawInput = sequenceInput.value;
+                currentSequence = parseSequence(rawInput);
+                sequenceResultsDiv.style.display = 'none';
+                clearResults();
+                
+                if (currentSequence.length < 3) {
+                    displayError("Please enter at least 3 numbers to identify a pattern.");
+                    return;
+                }
+
+                identifyPattern();
+            });
+
+            function clearResults() {
+                nthTermResultP.textContent = '';
+                termValueResultP.textContent = '';
+                sumNResultP.textContent = '';
+                sumInfinityResultP.textContent = '';
+                interactiveToolsDiv.style.display = 'none';
+                sumToInfinityTool.style.display = 'none';
+                sumNTermsTool.style.display = 'none';
+                findTermValueTool.style.display = 'none';
+            }
+
+            function identifyPattern() {
+                let n = currentSequence.length;
+                params = {}; // Reset params
+
+                // Check for Arithmetic
+                let firstDifferences = [];
+                for (let i = 0; i < n - 1; i++) {
+                    firstDifferences.push(currentSequence[i+1] - currentSequence[i]);
+                }
+
+                if (allElementsAlmostEqual(firstDifferences)) {
+                    sequenceType = 'arithmetic';
+                    params.a = currentSequence[0];
+                    params.d = firstDifferences[0];
+                    renderArithmeticResults();
+                    return;
+                }
+
+                // Check for Geometric
+                let ratios = [];
+                let canBeGeometric = true;
+                for (let i = 0; i < n - 1; i++) {
+                    if (Math.abs(currentSequence[i]) < EPSILON) {
+                        if (Math.abs(currentSequence[i+1]) > EPSILON) {
+                            canBeGeometric = false;
+                            break;
+                        }
+                        ratios.push(0);
+                    } else {
+                        ratios.push(currentSequence[i+1] / currentSequence[i]);
+                    }
+                }
+                
+                if (canBeGeometric && allElementsAlmostEqual(ratios)) {
+                    sequenceType = 'geometric';
+                    params.a = currentSequence[0];
+                    params.r = ratios[0];
+                    renderGeometricResults();
+                    return;
+                }
+
+                // Check for Quadratic
+                if (n >= 3 && firstDifferences.length >= 2) {
+                    let secondDifferences = [];
+                    for (let i = 0; i < firstDifferences.length - 1; i++) {
+                        secondDifferences.push(firstDifferences[i+1] - firstDifferences[i]);
+                    }
+
+                    if (allElementsAlmostEqual(secondDifferences)) {
+                        if (n < 4) {
+                            displayError("Potentially quadratic, but more terms (at least 4) are needed for confident analysis. Showing differences only.");
+                            let html = `<h3>🤔 Potential Quadratic Sequence</h3>`;
+                            html += `<p><strong>First Differences:</strong> ${firstDifferences.map(d => formatNumber(d)).join(', ')}</p>`;
+                            if (secondDifferences.length > 0) {
+                                html += `<p><strong>Second Differences:</strong> ${secondDifferences.map(d => formatNumber(d)).join(', ')} (Constant: ${formatNumber(secondDifferences[0])})</p>`;
+                            }
+                            displayResults(html);
+                            return;
+                        }
+                        sequenceType = 'quadratic';
+                        const s_diff = secondDifferences[0];
+                        params.qa = s_diff / 2;
+                        params.qb = firstDifferences[0] - 3 * params.qa;
+                        params.qc = currentSequence[0] - params.qa - params.qb;
+                        renderQuadraticResults();
+                        return;
+                    }
+                }
+                
+                sequenceType = 'unknown';
+                displayError(`Could not identify a common arithmetic, geometric, or quadratic pattern.<br>
+                    <strong>First differences:</strong> ${firstDifferences.map(d => formatNumber(d)).join(', ')}<br>
+                    Try adding more terms or check if the sequence follows a different pattern.`);
+            }
+
+            function getNextTerms(count = 3) {
+                let next = [];
+                let n_last = currentSequence.length;
+
+                for (let i = 1; i <= count; i++) {
+                    let term;
+                    if (sequenceType === 'arithmetic') {
+                        term = params.a + (n_last + i - 1) * params.d;
+                    } else if (sequenceType === 'geometric') {
+                        term = params.a * Math.pow(params.r, n_last + i - 1);
+                    } else if (sequenceType === 'quadratic') {
+                        const n_val = n_last + i;
+                        term = params.qa * n_val * n_val + params.qb * n_val + params.qc;
+                    } else {
+                        return ["N/A"];
+                    }
+                    next.push(formatNumber(term));
+                }
+                return next;
+            }
+
+            function renderArithmeticResults() {
+                let html = `<h3>📈 Arithmetic Sequence Detected</h3>`;
+                html += `<p><strong>First Term (a):</strong> ${formatNumber(params.a)}</p>`;
+                html += `<p><strong>Common Difference (d):</strong> ${formatNumber(params.d)}</p>`;
+                
+                const aFormatted = formatNumber(params.a);
+                const dFormatted = formatNumber(params.d);
+                const linearCoeff = formatNumber(params.d);
+                const constant = formatNumber(params.a - params.d);
+                
+                html += `<div class="formula-display">T<sub>n</sub> = ${aFormatted} + (n-1) × ${dFormatted}</div>`;
+                html += `<div class="formula-display">Simplified: T<sub>n</sub> = ${linearCoeff}n + ${constant}</div>`;
+                html += `<div class="next-terms"><strong>Next 3 terms:</strong> ${getNextTerms().join(', ')}</div>`;
+                
+                displayResults(html);
+                showInteractiveTools();
+                sumNTermsTool.style.display = 'block';
+                findTermValueTool.style.display = 'block';
+                sumToInfinityTool.style.display = 'none';
+            }
+
+            function renderGeometricResults() {
+                let html = `<h3>📊 Geometric Sequence Detected</h3>`;
+                html += `<p><strong>First Term (a):</strong> ${formatNumber(params.a)}</p>`;
+                html += `<p><strong>Common Ratio (r):</strong> ${formatNumber(params.r)}</p>`;
+                
+                const aFormatted = formatNumber(params.a);
+                const rFormatted = formatNumber(params.r);
+                
+                html += `<div class="formula-display">T<sub>n</sub> = ${aFormatted} × (${rFormatted})<sup>n-1</sup></div>`;
+                html += `<div class="next-terms"><strong>Next 3 terms:</strong> ${getNextTerms().join(', ')}</div>`;
+                
+                displayResults(html);
+                showInteractiveTools();
+                sumNTermsTool.style.display = 'block';
+                findTermValueTool.style.display = 'block';
+                
+                if (Math.abs(params.r) < 1 && Math.abs(params.r) > EPSILON) {
+                    sumToInfinityTool.style.display = 'block';
+                } else {
+                    sumToInfinityTool.style.display = 'none';
+                }
+            }
+
+            function renderQuadraticResults() {
+                let html = `<h3>📈 Quadratic Sequence Detected</h3>`;
+                
+                const qaFormatted = formatNumber(params.qa);
+                const qbFormatted = formatNumber(params.qb);
+                const qcFormatted = formatNumber(params.qc);
+                
+                html += `<p><strong>Coefficients:</strong> a = ${qaFormatted}, b = ${qbFormatted}, c = ${qcFormatted}</p>`;
+                html += `<div class="formula-display">T<sub>n</sub> = ${qaFormatted}n² + ${qbFormatted}n + ${qcFormatted}</div>`;
+                html += `<div class="next-terms"><strong>Next 3 terms:</strong> ${getNextTerms().join(', ')}</div>`;
+                
+                displayResults(html);
+                showInteractiveTools();
+                sumNTermsTool.style.display = 'none'; // Sum for quadratic is complex
+                findTermValueTool.style.display = 'block';
+                sumToInfinityTool.style.display = 'none';
+            }
+
+            function showInteractiveTools() {
+                interactiveToolsDiv.style.display = 'block';
+            }
+
+            // Interactive Tool Calculations
+            calculateNthTermBtn.addEventListener('click', () => {
+                const n = parseInt(findNthTermInput.value);
+                if (isNaN(n) || n < 1) {
+                    nthTermResultP.textContent = "❌ Invalid term number.";
+                    return;
+                }
+                let termValue;
+                if (sequenceType === 'arithmetic') {
+                    termValue = params.a + (n - 1) * params.d;
+                } else if (sequenceType === 'geometric') {
+                    termValue = params.a * Math.pow(params.r, n - 1);
+                } else if (sequenceType === 'quadratic') {
+                    termValue = params.qa * n * n + params.qb * n + params.qc;
+                } else {
+                    nthTermResultP.textContent = "❌ Analyze a sequence first.";
+                    return;
+                }
+                nthTermResultP.textContent = `✅ T₍${n}₎ = ${formatNumber(termValue)}`;
+            });
+
+            calculateTermValueBtn.addEventListener('click', () => {
+                const Tn_val = parseFloat(findTermValueInput.value);
+                if (isNaN(Tn_val)) {
+                    termValueResultP.textContent = "❌ Invalid Tₙ value.";
+                    return;
+                }
+                let n_result = "Not found or not applicable.";
+
+                if (sequenceType === 'arithmetic') {
+                    if (Math.abs(params.d) < EPSILON) {
+                        n_result = (Math.abs(params.a - Tn_val) < EPSILON) ? "✅ Any n (constant sequence)" : "❌ Not possible";
+                    } else {
+                        const n = (Tn_val - params.a) / params.d + 1;
+                        if (n > 0 && Math.abs(n - Math.round(n)) < EPSILON) {
+                            n_result = `✅ n = ${Math.round(n)}`;
+                        } else {
+                            n_result = "❌ Not a term in this sequence (n is not a positive integer).";
+                        }
+                    }
+                } else if (sequenceType === 'geometric') {
+                    if (Math.abs(params.a) < EPSILON) {
+                        n_result = (Math.abs(Tn_val) < EPSILON) ? "✅ n > 1 (if r ≠ 0)" : "❌ Not possible";
+                    } else if (Math.abs(params.r) < EPSILON) {
+                        if (Math.abs(Tn_val - params.a) < EPSILON) n_result = "✅ n = 1";
+                        else if (Math.abs(Tn_val) < EPSILON) n_result = "✅ n > 1";
+                        else n_result = "❌ Not possible";
+                    } else if (Math.abs(params.r - 1) < EPSILON) {
+                        n_result = (Math.abs(Tn_val - params.a) < EPSILON) ? "✅ Any n" : "❌ Not possible";
+                    } else {
+                        try {
+                            const n_minus_1 = Math.log(Tn_val / params.a) / Math.log(params.r);
+                            const n = n_minus_1 + 1;
+                            if (n > 0 && Math.abs(n - Math.round(n)) < EPSILON) {
+                                n_result = `✅ n = ${Math.round(n)}`;
+                            } else {
+                                n_result = "❌ Not a term in this sequence.";
+                            }
+                        } catch {
+                            n_result = "❌ Not a term in this sequence.";
+                        }
+                    }
+                } else if (sequenceType === 'quadratic') {
+                    const a_quad = params.qa;
+                    const b_quad = params.qb;
+                    const c_quad = params.qc - Tn_val;
+                    const discriminant = b_quad * b_quad - 4 * a_quad * c_quad;
+
+                    if (discriminant < -EPSILON) {
+                        n_result = "❌ No real solution for n.";
+                    } else {
+                        const n1 = (-b_quad + Math.sqrt(Math.max(0, discriminant))) / (2 * a_quad);
+                        const n2 = (-b_quad - Math.sqrt(Math.max(0, discriminant))) / (2 * a_quad);
+                        let solutions = [];
+                        if (n1 > 0 && Math.abs(n1 - Math.round(n1)) < EPSILON) solutions.push(Math.round(n1));
+                        if (n2 > 0 && Math.abs(n2 - Math.round(n2)) < EPSILON && Math.abs(n1-n2) > EPSILON) solutions.push(Math.round(n2));
+                        
+                        if (solutions.length > 0) n_result = `✅ n = ${solutions.join(' or ')}`;
+                        else n_result = "❌ Not a term in this sequence.";
+                    }
+                }
+                termValueResultP.textContent = n_result;
+            });
+
+            calculateSumNBtn.addEventListener('click', () => {
+                const numTerms = parseInt(sumNTermsInput.value);
+                if (isNaN(numTerms) || numTerms < 1) {
+                    sumNResultP.textContent = "❌ Invalid number of terms.";
+                    return;
+                }
+                let sum;
+                if (sequenceType === 'arithmetic') {
+                    sum = (numTerms / 2) * (2 * params.a + (numTerms - 1) * params.d);
+                } else if (sequenceType === 'geometric') {
+                    if (Math.abs(params.r - 1) < EPSILON) {
+                        sum = params.a * numTerms;
+                    } else {
+                        sum = params.a * (Math.pow(params.r, numTerms) - 1) / (params.r - 1);
+                    }
+                } else {
+                    sumNResultP.textContent = "❌ Sum calculation not applicable for this sequence type.";
+                    return;
+                }
+                sumNResultP.textContent = `✅ S₍${numTerms}₎ = ${formatNumber(sum)}`;
+            });
+
+            calculateSumInfinityBtn.addEventListener('click', () => {
+                if (sequenceType === 'geometric' && Math.abs(params.r) < 1 && Math.abs(params.r) > EPSILON) {
+                    const sumInf = params.a / (1 - params.r);
+                    sumInfinityResultP.textContent = `✅ S∞ = ${formatNumber(sumInf)}`;
+                } else {
+                    sumInfinityResultP.textContent = "❌ Not a convergent geometric series.";
+                }
+            });
+
+            // Sigma Notation Solver
+            evaluateSigmaBtn.addEventListener('click', () => {
+                const formulaStr = sigmaFormulaInput.value.trim();
+                const startK = parseInt(sigmaStartInput.value);
+                const endK = parseInt(sigmaEndInput.value);
+                sigmaResultsDiv.innerHTML = '';
+
+                if (!formulaStr) {
+                    sigmaResultsDiv.innerHTML = `<p class="error">❌ Please enter a formula.</p>`;
+                    sigmaResultsDiv.style.display = 'block';
+                    return;
+                }
+                if (isNaN(startK) || isNaN(endK)) {
+                    sigmaResultsDiv.innerHTML = `<p class="error">❌ Start and End values must be numbers.</p>`;
+                    sigmaResultsDiv.style.display = 'block';
+                    return;
+                }
+                if (startK > endK) {
+                    sigmaResultsDiv.innerHTML = `<p class="error">❌ Start value cannot be greater than End value.</p>`;
+                    sigmaResultsDiv.style.display = 'block';
+                    return;
+                }
+
+                let totalSum = 0;
+                let terms = [];
+                try {
+                    const executableFormula = formulaStr.replace(/\^/g, '**');
+                    const termFunction = new Function('k', `return ${executableFormula};`);
+
+                    for (let k = startK; k <= endK; k++) {
+                        const termVal = termFunction(k);
+                        if (isNaN(termVal)) {
+                            throw new Error(`Formula produced NaN for k=${k}`);
+                        }
+                        terms.push(formatNumber(termVal));
+                        totalSum += termVal;
+                    }
+                    
+                    let html = `<h3>✅ Sigma Evaluation Result</h3>`;
+                    html += `<p><strong>Formula:</strong> ${formulaStr}</p>`;
+                    html += `<p><strong>Range:</strong> k = ${startK} to ${endK}</p>`;
+                    if (terms.length <= 10) {
+                        html += `<p><strong>Terms:</strong> ${terms.join(' + ')}</p>`;
+                    } else {
+                        html += `<p><strong>First 5 terms:</strong> ${terms.slice(0, 5).join(' + ')} + ...</p>`;
+                        html += `<p><strong>Last 5 terms:</strong> ... + ${terms.slice(-5).join(' + ')}</p>`;
+                    }
+                    html += `<div class="formula-display">Total Sum = ${formatNumber(totalSum)}</div>`;
+                    
+                    sigmaResultsDiv.innerHTML = html;
+                    sigmaResultsDiv.style.display = 'block';
+
+                } catch (e) {
+                    sigmaResultsDiv.innerHTML = `<p class="error">❌ Error evaluating formula: ${e.message}<br>Ensure 'k' is used correctly (e.g., 2*k, k^2, k/2).</p>`;
+                    sigmaResultsDiv.style.display = 'block';
+                }
+            });
+
+            // Enter key support
+            sequenceInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') analyzeBtn.click();
+            });
+
+            findNthTermInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') calculateNthTermBtn.click();
+            });
+
+            findTermValueInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') calculateTermValueBtn.click();
+            });
+
+            sumNTermsInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') calculateSumNBtn.click();
+            });
+
+            sigmaEndInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') evaluateSigmaBtn.click();
+            });
+        });
+    </script>
+</body>
+</html>
