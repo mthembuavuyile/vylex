@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DodgeSurvive Ultimate by Vylex Nexys</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            touch-action: manipulation;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        #gameCanvas {
+            width: 100%;
+            height: 60vh;
+            background: radial-gradient(circle at center, #0f3460 0%, #16213e 100%);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(233, 69, 96, 0.2);
+            touch-action: none;
+        }
+
+        .header {
+            color: #e94560;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 0 0 15px rgba(233, 69, 96, 0.4);
+        }
+
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            color: #fff;
+            margin: 15px 0;
+            font-size: 1.3em;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        #dodge-start-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #e94560 0%, #d64157 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            cursor: pointer;
+            margin: 15px 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+        }
+
+        #dodge-start-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(233, 69, 96, 0.3);
+        }
+
+        .instructions {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1em;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        footer {
+            width: 100%;
+            padding: 15px 0;
+            background: rgba(22, 33, 62, 0.9);
+            text-align: center;
+            margin-top: auto;
+            color: #e94560;
+            backdrop-filter: blur(5px);
+            border-top: 1px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .branding {
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        a {
+            color: #e94560;
+            text-decoration: none;
+            transition: text-shadow 0.3s;
+        }
+
+        a:hover {
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+        }
+
+        .mobile-controls {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            justify-content: center;
+            gap: 20px;
+            touch-action: none;
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(233, 69, 96, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            touch-action: none;
+            user-select: none;
+        }
+
+        .game-over {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(22, 33, 62, 0.95);
+            padding: 30px 50px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 0 30px rgba(233, 69, 96, 0.3);
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: flex;
+            }
+
+            #gameCanvas {
+                height: 50vh;
+            }
+
+            .header {
+                font-size: 2em;
+            }
+
+            .score-container {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="header">DODGESURVIVE</h1>
+        <div class="score-container">
+            <span id="dodge-score">SCORE: 0</span>
+            <span id="dodge-high-score">HIGH SCORE: 0</span>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div class="mobile-controls">
+            <div class="control-btn">←</div>
+            <div class="control-btn">→</div>
+        </div>
+        <button id="dodge-start-button">START GAME</button>
+        <div class="instructions">
+            <p>AVOID THE ORBS!<br>
+            DESKTOP: USE ARROW KEYS<br>
+            MOBILE: TOUCH TO MOVE OR USE CONTROLS</p>
+        </div>
+    </div>
+
+    <div class="game-over" id="gameOver">
+        <h2>GAME OVER!</h2>
+        <p>Final Score: <span id="finalScore">0</span></p>
+        <p>High Score: <span id="finalHighScore">0</span></p>
+        <button id="restartButton" style="margin-top: 15px;">PLAY AGAIN</button>
+    </div>
+
+    <footer>
+        <div class="branding">
+            © 2024 BY <a href="https://mthembuavuyile.github.io/VylexNexys/" target="_blank">VYLEX NEXYS™</a>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        let isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        let aspectRatio = 16/9;
+
+        // Canvas sizing
+        function resizeCanvas() {
+            const containerWidth = canvas.parentElement.offsetWidth;
+            const containerHeight = window.innerHeight * 0.6;
+            
+            let newWidth = containerWidth;
+            let newHeight = containerWidth / aspectRatio;
+            
+            if (newHeight > containerHeight) {
+                newHeight = containerHeight;
+                newWidth = containerHeight * aspectRatio;
+            }
+            
+            canvas.style.width = `${newWidth}px`;
+            canvas.style.height = `${newHeight}px`;
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', () => {
+            setTimeout(resizeCanvas, 100);
+        });
+
+        let player = { x: 200, y: 200, size: 20, color: "#e94560", glow: 0 };
+        let obstacles = [];
+        let particles = [];
+        let dodgeScore = 0;
+        let dodgeHighScore = localStorage.getItem('dodgeHighScore') || 0;
+        let isGameRunning = false;
+        let difficulty = 1;
+        let touchX = null, touchY = null;
+
+        // Game elements
+        function createParticles(x, y) {
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    size: Math.random() * 3 + 2,
+                    color: `hsl(${Math.random() * 360}, 70%, 50%)`,
+                    angle: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 5 + 2,
+                    life: 1
+                });
+            }
+        }
+
+        function gameLoop(timestamp) {
+            if (!isGameRunning) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw player with glow effect
+            ctx.shadowColor = player.color;
+            ctx.shadowBlur = player.glow;
+            ctx.fillStyle = player.color;
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Update particles
+            particles.forEach((particle, index) => {
+                particle.x += Math.cos(particle.angle) * particle.speed;
+                particle.y += Math.sin(particle.angle) * particle.speed;
+                particle.life -= 0.02;
+
+                ctx.fillStyle = particle.color;
+                ctx.globalAlpha = particle.life;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (particle.life <= 0) particles.splice(index, 1);
+            });
+            ctx.globalAlpha = 1;
+
+            // Update obstacles
+            obstacles.forEach((obstacle, index) => {
+                obstacle.x += obstacle.speedX;
+                obstacle.y += obstacle.speedY;
+
+                // Bounce with damping
+                if (obstacle.x <= 0 || obstacle.x >= canvas.width) {
+                    obstacle.speedX *= -0.98;
+                    obstacle.x = Math.max(0, Math.min(canvas.width, obstacle.x));
+                }
+                if (obstacle.y <= 0 || obstacle.y >= canvas.height) {
+                    obstacle.speedY *= -0.98;
+                    obstacle.y = Math.max(0, Math.min(canvas.height, obstacle.y));
+                }
+
+                // Draw obstacle with gradient
+                const gradient = ctx.createRadialGradient(
+                    obstacle.x, obstacle.y, 0,
+                    obstacle.x, obstacle.y, obstacle.size/2
+                );
+                gradient.addColorStop(0, obstacle.color);
+                gradient.addColorStop(1, 'rgba(0,0,0,0.3)');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(obstacle.x, obstacle.y, obstacle.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Collision detection
+                const dx = player.x - obstacle.x;
+                const dy = player.y - obstacle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < (player.size/2 + obstacle.size/2)) {
+                    endGame();
+                }
+            });
+
+            // Player movement
+            if (!isMobile) {
+                if (keyboard.ArrowUp) player.y = Math.max(player.size/2, player.y - 5);
+                if (keyboard.ArrowDown) player.y = Math.min(canvas.height - player.size/2, player.y + 5);
+                if (keyboard.ArrowLeft) player.x = Math.max(player.size/2, player.x - 5);
+                if (keyboard.ArrowRight) player.x = Math.min(canvas.width - player.size/2, player.x + 5);
+            } else if (touchX !== null) {
+                player.x += (touchX - player.x) * 0.3;
+                player.y += (touchY - player.y) * 0.3;
+                player.x = Math.max(player.size/2, Math.min(canvas.width - player.size/2, player.x));
+                player.y = Math.max(player.size/2, Math.min(canvas.height - player.size/2, player.y));
+            }
+
+            // Score and difficulty
+            dodgeScore++;
+            document.getElementById("dodge-score").textContent = `SCORE: ${dodgeScore}`;
+            
+            if (dodgeScore % 100 === 0) {
+                difficulty = 1 + (dodgeScore / 1000);
+                player.glow = Math.min(30, difficulty * 5);
+                addObstacle();
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function addObstacle() {
+            const types = ['normal', 'homing'];
+            const type = types[Math.random() > 0.8 ? 1 : 0];
+            
+            obstacles.push({
+                type: type,
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: 15 + Math.random() * 25,
+                speedX: (Math.random() - 0.5) * 4 * difficulty,
+                speedY: (Math.random() - 0.5) * 4 * difficulty,
+                color: `hsl(${Math.random() * 360}, 70%, 50%)`,
+                life: 1
+            });
+        }
+
+        function endGame() {
+            isGameRunning = false;
+            createParticles(player.x, player.y);
+            document.getElementById("gameOver").style.display = 'block';
+            document.getElementById("finalScore").textContent = dodgeScore;
+            
+            if (dodgeScore > dodgeHighScore) {
+                dodgeHighScore = dodgeScore;
+                localStorage.setItem('dodgeHighScore', dodgeHighScore);
+                document.getElementById("dodge-high-score").textContent = `HIGH SCORE: ${dodgeHighScore}`;
+            }
+            
+            document.getElementById("finalHighScore").textContent = dodgeHighScore;
+        }
+
+        // Input handling
+        const keyboard = {};
+        document.addEventListener("keydown", (e) => keyboard[e.key] = true);
+        document.addEventListener("keyup", (e) => keyboard[e.key] = false);
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            touchX = e.touches[0].clientX - rect.left;
+            touchY = e.touches[0].clientY - rect.top;
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            touchX = e.touches[0].clientX - rect.left;
+            touchY = e.touches[0].clientY - rect.top;
+        });
+
+        canvas.addEventListener('touchend', () => {
+            touchX = null;
+            touchY = null;
+        });
+
+        // Game controls
+        document.getElementById("dodge-start-button").addEventListener("click", startGame);
+        document.getElementById("restartButton").addEventListener("click", () => {
+            document.getElementById("gameOver").style.display = 'none';
+            startGame();
+        });
+
+        function startGame() {
+            player = { 
+                x: canvas.width/2, 
+                y: canvas.height/2, 
+                size: 20, 
+                color: "#e94560",
+                glow: 0
+            };
+            obstacles = [];
+            particles = [];
+            dodgeScore = 0;
+            difficulty = 1;
+            document.getElementById("dodge-score").textContent = `SCORE: ${dodgeScore}`;
+            document.getElementById("dodge-high-score").textContent = `HIGH SCORE: ${dodgeHighScore}`;
+
+            for (let i = 0; i < 5; i++) addObstacle();
+            
+            isGameRunning = true;
+            requestAnimationFrame(gameLoop);
+        }
+    </script>
+</body>
+</html>

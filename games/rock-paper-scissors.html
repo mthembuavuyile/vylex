@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+
+    <meta property="og:title" content="Rock Paper Scissors Game">
+    <meta property="og:description" content="Play Rock Paper Scissors against the computer">
+    <meta property="og:type" content="website">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-gradient: linear-gradient(135deg, #1e293b, #0f172a);
+            --surface: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            line-height: 1.5;
+        }
+
+        header {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--surface);
+        }
+
+        main {
+            max-width: min(90%, 40rem);
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--surface);
+            border-radius: 1rem;
+            backdrop-filter: blur(8px);
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .choices {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .game-state {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .choices-display {
+            font-size: clamp(2rem, 8vw, 4rem);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .result {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+
+        .score {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        footer {
+            padding: 1rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Rock Paper Scissors</h1>
+    </header>
+
+    <main>
+        <div class="choices">
+            <button onclick="play('rock')">👊 Rock</button>
+            <button onclick="play('paper')">✋ Paper</button>
+            <button onclick="play('scissors')">✌️ Scissors</button>
+        </div>
+
+        <div class="game-state">
+            <div class="choices-display">
+                <div id="playerChoice"></div>
+                <div id="computerChoice"></div>
+            </div>
+            <div id="result" class="result"></div>
+        </div>
+
+        <div class="score">
+            <div>
+                <div>Player</div>
+                <div id="playerScore">0</div>
+            </div>
+            <div>
+                <div>Computer</div>
+                <div id="computerScore">0</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Created with ❤️ by <a href="https://mthembuavuyile.github.io/VylexNexys/">Vylex Nexys</a></p>
+    </footer>
+
+    <script>
+        const state = {
+            playerScore: 0,
+            computerScore: 0,
+            choices: {
+                rock: '👊',
+                paper: '✋',
+                scissors: '✌️'
+            }
+        };
+
+        function getComputerChoice() {
+            const choices = Object.keys(state.choices);
+            return choices[Math.floor(Math.random() * choices.length)];
+        }
+
+        function getWinner(player, computer) {
+            if (player === computer) return 'tie';
+            const wins = {
+                rock: 'scissors',
+                paper: 'rock',
+                scissors: 'paper'
+            };
+            return wins[player] === computer ? 'player' : 'computer';
+        }
+
+        function updateDisplay(playerChoice, computerChoice, winner) {
+            const playerElement = document.getElementById('playerChoice');
+            const computerElement = document.getElementById('computerChoice');
+            const resultElement = document.getElementById('result');
+
+            playerElement.textContent = state.choices[playerChoice];
+            computerElement.textContent = state.choices[computerChoice];
+
+            playerElement.classList.add('bounce');
+            computerElement.classList.add('bounce');
+
+            setTimeout(() => {
+                playerElement.classList.remove('bounce');
+                computerElement.classList.remove('bounce');
+            }, 500);
+
+            const messages = {
+                tie: "It's a tie!",
+                player: 'You win! 🎉',
+                computer: 'Computer wins! 🤖'
+            };
+            resultElement.textContent = messages[winner];
+        }
+
+        function updateScore(winner) {
+            if (winner === 'player') state.playerScore++;
+            if (winner === 'computer') state.computerScore++;
+            
+            document.getElementById('playerScore').textContent = state.playerScore;
+            document.getElementById('computerScore').textContent = state.computerScore;
+        }
+
+        function play(playerChoice) {
+            const computerChoice = getComputerChoice();
+            const winner = getWinner(playerChoice, computerChoice);
+            
+            updateDisplay(playerChoice, computerChoice, winner);
+            updateScore(winner);
+        }
+    </script>
+</body>
+</html>

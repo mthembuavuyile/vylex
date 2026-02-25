@@ -1,0 +1,3737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D Zombie Shooter - Enhanced - Vylex nexys</title>
+    <meta name="description" content="Survive the waves! An enhanced 3D zombie shooter game by Avuyile Mthembu (Vylex nexys). Move, aim, and shoot your way through hordes of the undead.">
+    <meta name="keywords" content="zombie shooter, 3d game, web game, html5 game, three.js, survival, shooter, Vylex nexys, Avuyile Mthembu, enhanced">
+    <meta name="author" content="Avuyile Mthembu, Vylex nexys">
+    <!-- Open Graph / Social Media Meta Tags (Update URLs) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="[YOUR_GAME_URL_HERE]">
+    <meta property="og:title" content="Zombie Shooter - Enhanced - Vylex nexys">
+    <meta property="og:description" content="Survive the waves! An enhanced 3D zombie shooter game by Avuyile Mthembu (Vylex nexys).">
+    <meta property="og:image" content="[URL_TO_YOUR_GAME_PREVIEW_IMAGE_HERE]">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="[YOUR_GAME_URL_HERE]">
+    <meta property="twitter:title" content="Zombie Shooter - Enhanced - Vylex nexys">
+    <meta property="twitter:description" content="Survive the waves! An enhanced 3D zombie shooter game by Avuyile Mthembu (Vylex nexys).">
+    <meta property="twitter:image" content="[URL_TO_YOUR_GAME_PREVIEW_IMAGE_HERE]">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            touch-action: none; /* Prevent default touch actions like scroll/zoom */
+            background-color: #000; /* Ensure black background on load */
+        }
+
+        #gameCanvas {
+            display: block;
+            cursor: pointer;
+        }
+
+        #ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Increased shadow visibility */
+            user-select: none;
+            display: none; /* Hidden initially */
+            z-index: 6; /* Ensure UI is above overlay */
+        }
+
+        .screen-overlay {
+            position: absolute;
+            inset: 0; /* Replaces top/left/width/height: 0/100% */
+            background: linear-gradient(to bottom right, #111, #000);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 1s ease-in-out;
+            transition: opacity 0.5s ease-out; /* For smooth hiding */
+        }
+
+        .screen-overlay.hidden { /* Class to fade out overlays */
+             opacity: 0;
+             pointer-events: none; /* Disable interaction when hidden */
+        }
+
+
+        .screen-overlay h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 10px rgba(255, 0, 0, 0.8);
+        }
+
+        .screen-overlay p {
+            font-size: clamp(1rem, 2.2vw, 1.5rem);
+            margin-bottom: 2rem;
+            max-width: 90%;
+            line-height: 1.7;
+        }
+
+        .branding {
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            color: #cccccc;
+            margin-bottom: 2rem;
+            font-style: italic;
+            text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        button {
+            border: none;
+            color: white;
+            padding: 12px 28px;
+            font-size: 1.2rem;
+            margin: 8px;
+            cursor: pointer;
+            border-radius: 12px;
+            background-color: #333;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            user-select: none; /* Prevent text selection on buttons */
+        }
+
+        button:hover {
+            transform: scale(1.07);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+        }
+
+        button:active {
+            transform: scale(1.02); /* Add active state feedback */
+        }
+
+        #startButton { background-color: #4CAF50; }
+        #restartButtonGameOver,
+        #restartButtonPause { background-color: #f44336; }
+        #resumeButton { background-color: #2196F3; }
+        #viewToggleButton { background-color: #9c27b0; }
+
+        /* Style adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .screen-overlay p {
+                font-size: 1rem; /* Slightly smaller text */
+            }
+            button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+            #ui { font-size: 18px; } /* Smaller UI text */
+             #minimap {
+                 width: 100px !important; /* Force minimap size */
+                 height: 100px !important;
+             }
+            #startScreen h1 {
+                 font-size: clamp(2.5rem, 8vw, 4rem);
+             }
+             #startButton {
+                 padding: 12px 30px;
+                 font-size: 1.2rem;
+             }
+             /* Hide desktop instructions on mobile */
+             #startScreen p span#desktop-instructions { display: none; }
+        }
+
+         /* Show mobile instructions only if touch is likely */
+        @media (hover: none) and (pointer: coarse) {
+            #startScreen p span#mobile-instructions { display: block; }
+            #startScreen p span#desktop-instructions { display: none; } /* Ensure desktop hidden */
+        }
+        /* Default: show desktop, hide mobile */
+        #startScreen p span#mobile-instructions { display: none; }
+
+
+        #startScreen, #gameOver, #pauseScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Slightly more opaque background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: white;
+            text-align: center;
+        }
+
+        /* Enhanced Start Screen */
+        #startScreen {
+            background: radial-gradient(circle at center, #300, #000);
+            overflow: hidden; /* Hide overflow from pseudo-elements */
+            position: relative;
+        }
+
+        #startScreen::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            /* Subtle pattern background */
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" width="100" height="100"/><path fill="rgba(255,0,0,0.02)" d="M0 0L100 100ZM100 0L0 100Z"/></svg>');
+            opacity: 0.5;
+            z-index: -1; /* Behind content */
+            animation: subtlePatternShift 20s linear infinite; /* Slow movement */
+        }
+
+        #startScreen h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            text-transform: uppercase;
+            margin: 0 0 20px;
+            letter-spacing: 4px;
+            text-shadow:
+                0 0 10px rgba(255,0,0,0.8),
+                0 0 20px rgba(255,0,0,0.5),
+                0 0 30px rgba(255,0,0,0.3),
+                0 0 40px rgba(255,0,0,0.1);
+            animation: pulse 4s infinite alternate;
+            position: relative; /* Needed for ::after */
+        }
+
+        #startScreen h1::after {
+            content: 'ZOMBIE SHOOTER';
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.05); /* More subtle blur */
+            z-index: -1;
+            filter: blur(10px);
+            font: inherit; /* Match parent font */
+        }
+
+        #startScreen .branding {
+            font-size: calc(14px + 0.5vw);
+            color: #e0dd2f; /* Brighter yellow */
+            margin: 5px 0 25px;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 5px 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        #startScreen p.instructions {
+            background-color: rgba(0,0,0,0.5); /* More contrast */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            max-width: min(600px, 90%);
+            border-left: 4px solid #f44336; /* Thicker border */
+            border-right: 4px solid #4CAF50;
+            margin-bottom: 35px;
+            line-height: 1.6; /* Improve readability */
+        }
+
+        #startScreen p.instructions b {
+            color: #ff6666; /* Slightly softer red */
+            text-shadow: 0 0 5px rgba(255,0,0,0.3);
+        }
+
+        #startButton {
+            background: linear-gradient(to bottom, #5cb85c, #449d44);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 15px 40px;
+            border-radius: 50px; /* Fully rounded */
+            box-shadow:
+                0 6px 0 #2d662d,
+                0 6px 10px rgba(0,0,0,0.5);
+            position: relative; /* Needed for ::after */
+            overflow: hidden; /* Hide sheen overflow */
+        }
+
+        #startButton:hover {
+            background: linear-gradient(to bottom, #6cd96c, #49a549); /* Brighter hover */
+            transform: translateY(2px) scale(1.07); /* Combine transforms */
+            box-shadow:
+                0 4px 0 #2d662d,
+                0 4px 6px rgba(0,0,0,0.5);
+        }
+
+        #startButton:active {
+            transform: translateY(6px) scale(1.02); /* Combine active transforms */
+            box-shadow: 0 0 0 #2d662d;
+        }
+
+        #startButton::after { /* Sheen effect */
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+            transform: rotate(45deg);
+            animation: sheen 3s infinite;
+        }
+
+        /* Standard Screen Titles */
+        #gameOver h1, #pauseScreen h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem); /* Responsive title size */
+            margin-bottom: 20px;
+        }
+        #gameOver p, #pauseScreen p {
+            font-size: clamp(1rem, 2vw, 1.3rem); /* Responsive text size */
+            margin-bottom: 30px;
+            max-width: 80%;
+        }
+
+        #gameOver { display: none; }
+        #pauseScreen { display: none; }
+
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            display: none; /* Controlled by JS */
+            z-index: 5;
+            transform: translate(-50%, -50%);
+        }
+
+        #crosshair::before, #crosshair::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.85); /* Slightly more opaque */
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.5); /* Subtle shadow for definition */
+        }
+        /* Thinner crosshair lines */
+        #crosshair::before {
+            width: 100%;
+            height: 1.5px;
+            top: 50%; left: 0;
+            transform: translateY(-50%);
+        }
+        #crosshair::after {
+            width: 1.5px;
+            height: 100%;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #touchControls {
+            position: absolute;
+            bottom: 20px; /* Closer to bottom edge */
+            width: 100%;
+            display: none; /* Controlled by JS */
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 5;
+            pointer-events: none; /* Container doesn't block clicks */
+        }
+
+        .joystick, #shootButtonTouch, #viewToggleTouchButton {
+            width: 100px; height: 100px;
+            background-color: rgba(200, 200, 200, 0.25); /* Lighter, less intrusive */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7); /* Dimmer text */
+            font-size: 16px;
+            font-weight: bold;
+            user-select: none;
+            touch-action: none;
+            pointer-events: auto; /* Buttons are interactive */
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+        }
+
+        .joystick-thumb {
+            position: absolute;
+            width: 40px; height: 40px;
+            background-color: rgba(255, 255, 255, 0.4); /* Slightly more opaque thumb */
+            border-radius: 50%;
+            transform: translate(0, 0);
+            transition: transform 0.05s linear; /* Smooth thumb movement */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #shootButtonTouch {
+            width: 80px; height: 80px;
+            background-color: rgba(255, 0, 0, 0.4);
+            transition: background-color 0.1s ease; /* Smooth color change on press */
+        }
+        #shootButtonTouch:active { /* Visual feedback on press */
+            background-color: rgba(255, 0, 0, 0.7);
+        }
+
+        #viewToggleTouchButton {
+            width: 60px; height: 60px;
+            background-color: rgba(156, 39, 176, 0.5);
+            position: absolute;
+            right: 20px;
+            top: 20px; /* Position at top right */
+            z-index: 6; /* Ensure it's above other elements if needed */
+            pointer-events: auto; /* Make sure it's clickable */
+        }
+         #viewToggleTouchButton:active {
+             background-color: rgba(156, 39, 176, 0.8);
+         }
+
+        #levelInfo {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: clamp(2rem, 5vw, 3rem); /* Responsive font size */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8); /* Stronger shadow */
+            display: none; /* Controlled by JS */
+            text-align: center;
+            z-index: 5;
+            line-height: 1.2;
+            background-color: rgba(0,0,0,0.3); /* Slight background for readability */
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        #damageOverlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(255, 0, 0, 0); /* Start transparent */
+            pointer-events: none;
+            z-index: 4; /* Below UI, above game */
+            transition: background-color 0.5s ease-out; /* Control fade out */
+        }
+
+        #minimap {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 150px; /* Default size */
+            height: 150px;
+            background-color: rgba(0, 0, 0, 0.6); /* More opaque */
+            border: 2px solid rgba(255, 255, 255, 0.4); /* Less bright border */
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: 5;
+            display: none; /* Controlled by JS */
+            box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Add shadow */
+        }
+        #minimap canvas { /* Ensure canvas fills the div */
+             display: block;
+             width: 100%;
+             height: 100%;
+        }
+
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 10px rgba(255,0,0,0.8), 0 0 20px rgba(255,0,0,0.5), 0 0 30px rgba(255,0,0,0.3); }
+            100% { text-shadow: 0 0 15px rgba(255,0,0,0.9), 0 0 25px rgba(255,0,0,0.6), 0 0 35px rgba(255,0,0,0.4), 0 0 45px rgba(255,0,0,0.2); }
+        }
+
+        @keyframes sheen {
+            0% { transform: translateX(-150%) rotate(45deg); }
+            50% { transform: translateX(150%) rotate(45deg); } /* Pass through */
+            100% { transform: translateX(150%) rotate(45deg); } /* Stay off screen */
+        }
+
+        @keyframes subtlePatternShift {
+             0% { background-position: 0 0; }
+             100% { background-position: 200px 200px; } /* Adjust distance for speed */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen-overlay visible">
+        <h1>ZOMBIE SHOOTER</h1>
+        <div class="branding">By Avuyile Mthembu | Vylex nexys</div>
+        <p class="instructions">
+            <span id="desktop-instructions">
+                <b>Desktop:</b> Use <b>WASD</b> or <b>Arrow Keys</b> to move.<br>
+                Use <b>Mouse</b> to aim and <b>Left Click</b> or <b>Space</b> to shoot.<br>
+                Press <b>V</b> to toggle view (1st/3rd Person). Press <b>ESC</b> to pause.
+            </span>
+            <span id="mobile-instructions">
+                <b>Mobile:</b> Use the <b>left joystick</b> to move.<br>
+                Use the <b>right joystick</b> to aim.<br>
+                Tap the red <b>SHOOT</b> button to fire.<br>
+                Tap the purple <b>VIEW</b> button (top right) to toggle camera view.
+            </span>
+        </p>
+        <button id="startButton">START GAME</button>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameOver" class="screen-overlay" style="display: none;">
+        <h1>GAME OVER</h1>
+        <div id="finalScore" style="color: white; font-size: 24px; margin-bottom: 20px;"></div>
+        <button id="restartButtonGameOver">PLAY AGAIN</button>
+    </div>
+
+    <!-- Pause Screen -->
+    <div id="pauseScreen" class="screen-overlay" style="display: none;">
+        <h1>PAUSED</h1>
+        <p>Game paused. Take a break!</p>
+        <button id="resumeButton">RESUME</button>
+        <button id="viewToggleButton">TOGGLE VIEW</button>
+        <button id="restartButtonPause">RESTART</button>
+    </div>
+
+    <!-- In-Game UI -->
+    <div id="ui">
+        <div>Score: <span id="score">0</span></div>
+        <div>Level: <span id="level">1</span></div>
+        <div>Health: <span id="health">100</span></div>
+        <div>Zombies: <span id="enemies">0</span></div>
+    </div>
+
+    <!-- Level Transition Info -->
+    <div id="levelInfo"></div>
+
+    <!-- Crosshair -->
+    <div id="crosshair"></div>
+
+    <!-- Damage Effect Overlay -->
+    <div id="damageOverlay"></div>
+
+    <!-- Minimap Container -->
+    <div id="minimap"></div>
+
+    <!-- Touch Controls -->
+    <div id="touchControls" style="display: none;">
+        <!-- Move Joystick (Left) -->
+        <div id="moveJoystick" class="joystick">
+            <div class="joystick-thumb"></div>
+            <span>MOVE</span>
+        </div>
+        <!-- Right Side Controls (Look + Shoot) -->
+        <div style="display: flex; align-items: center; pointer-events: none;">
+             <div id="lookJoystick" class="joystick">
+                <div class="joystick-thumb"></div>
+                <span>LOOK</span>
+            </div>
+            <div id="shootButtonTouch" style="margin-left: 15px;">SHOOT</div>
+        </div>
+    </div>
+    <!-- View Toggle Button (Top Right for Mobile) -->
+    <div id="viewToggleTouchButton" style="display: none;">VIEW</div>
+
+
+    <!-- Game Canvas -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Three.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/build/three.min.js"></script>
+    <!-- GLTFLoader is removed as it's not currently used for models -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/three@0.140.0/examples/js/loaders/GLTFLoader.js"></script> -->
+
+    <script>
+        // --- Game Variables ---
+        let scene, camera, renderer, player, playerBody, bullets = [], enemies = [], particles = [];
+        let score = 0, level = 1, health = 100, gameActive = false, isPaused = false;
+        let clock = new THREE.Clock();
+        let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
+        const playerSpeed = 8.0;
+        let isShooting = false;
+        let lastShootTime = 0;
+        const shootCooldown = 250; // Slightly faster shoot cooldown
+        let enemiesKilled = 0;
+        let totalEnemies = 5;
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        let audioContext;
+        let soundEffects = {}; // For procedural or loaded sounds
+        let powerUps = [];
+        let difficultyMultiplier = 1.0;
+        let thirdPersonView = false;
+        let gameLoop; // Stores requestAnimationFrame ID
+        let zombieModels = []; // Stores pre-created zombie model variations
+        let defaultWeaponModel = null;
+
+        // --- Controls & Camera Variables ---
+        const mouseSensitivity = 0.002;
+        const touchSensitivity = 0.01;
+        const minPitch = -Math.PI / 2 + 0.1;
+        const maxPitch = Math.PI / 2 - 0.1;
+        let lookJoystickActive = false;
+        let lookJoystickPosition = { x: 0, y: 0 };
+        let moveJoystickActive = false;
+        let moveJoystickPosition = { x: 0, y: 0 };
+
+        // --- Map & Minimap Variables ---
+        let minimapContext;
+        let minimapSize = 150; // Default size, adjusted later
+        let obstacles = []; // Stores all collision obstacles (walls, crates, etc.)
+        const groundSize = 100; // Logical size of the playable area
+
+        // --- Initialization ---
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a2a); // Dark blueish background
+            scene.fog = new THREE.FogExp2(0x1a1a2a, 0.035); // Slightly denser fog
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById('gameCanvas'),
+                antialias: true,
+                powerPreference: "high-performance"
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Softer shadows
+
+            setupLighting();
+            createEnvironment();
+            createPlayer();
+            initMinimap(); // Needs player created first
+            preloadZombieModels(); // Create zombie variations
+            preloadDefaultWeaponModel(); // Create default weapon visual
+
+            initAudio();
+            // Enemies are spawned in startGame()
+            setupEventListeners();
+            updateUI(); // Set initial UI state (score 0, etc.)
+
+            // Show touch controls and specific buttons if mobile
+            if (isMobile) {
+                document.getElementById('touchControls').style.display = 'flex';
+                document.getElementById('viewToggleTouchButton').style.display = 'flex';
+                 // Hide desktop instructions, show mobile (redundant with CSS but safe)
+                 const desktopInstructions = document.getElementById('desktop-instructions');
+                 const mobileInstructions = document.getElementById('mobile-instructions');
+                 if (desktopInstructions) desktopInstructions.style.display = 'none';
+                 if (mobileInstructions) mobileInstructions.style.display = 'block';
+            } else {
+                 // Ensure touch-specific buttons are hidden on desktop
+                document.getElementById('touchControls').style.display = 'none';
+                document.getElementById('viewToggleTouchButton').style.display = 'none';
+            }
+        }
+
+        function setupLighting() {
+            // Softer ambient light
+            const ambientLight = new THREE.AmbientLight(0x606080, 0.6);
+            scene.add(ambientLight);
+
+            // Main directional light (sun/moon)
+            const directionalLight = new THREE.DirectionalLight(0xffffee, 0.7);
+            directionalLight.position.set(15, 25, 20);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+
+            directionalLight.shadow.bias = -0.0005;
+            // Adjust shadow camera bounds to fit the ground area better
+            directionalLight.shadow.camera.near = 0.5;
+            directionalLight.shadow.camera.far = 80; // Increased far plane
+            directionalLight.shadow.camera.left = -groundSize / 2 - 10;
+            directionalLight.shadow.camera.right = groundSize / 2 + 10;
+            directionalLight.shadow.camera.top = groundSize / 2 + 10;
+            directionalLight.shadow.camera.bottom = -groundSize / 2 - 10;
+            scene.add(directionalLight);
+            // Optional: Visualize shadow camera
+            // const shadowCamHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+            // scene.add(shadowCamHelper);
+
+            // Subtle point lights for atmosphere
+            const pointLight1 = new THREE.PointLight(0x88aaff, 0.5, 50); // Cooler light
+            pointLight1.position.set(25, 8, 25);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0xffaa88, 0.4, 50); // Warmer light
+            pointLight2.position.set(-25, 8, -25);
+            scene.add(pointLight2);
+        }
+
+        function createEnvironment() {
+            const groundTexture = createGroundTexture();
+            const groundMaterial = new THREE.MeshStandardMaterial({
+                map: groundTexture,
+                roughness: 0.9, // More rough ground
+                metalness: 0.1 // Less metallic
+            });
+            const groundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = -0.5; // Ground level
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            // Subtle grid helper
+            const gridHelper = new THREE.GridHelper(groundSize, 50, 0x000000, 0x222222); // Darker grid
+            gridHelper.position.y = -0.49; // Slightly above ground mesh
+            scene.add(gridHelper);
+
+            createWalls(groundSize);
+            createObstacles(); // Add random obstacles
+        }
+
+        function createGroundTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512; canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            // Base color with noise
+            ctx.fillStyle = '#3a3a3a'; // Darker base
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < 20000; i++) { // More noise particles
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 1.5;
+                const alpha = Math.random() * 0.15;
+                const shade = Math.random() > 0.5 ? 'rgba(0, 0, 0, ${alpha})' : 'rgba(255, 255, 255, ${alpha * 0.5})'; // Black and white noise
+                ctx.fillStyle = shade;
+                ctx.fillRect(x, y, size, size);
+            }
+
+            // Optional: Add subtle cracks/lines
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 15; i++) {
+                ctx.beginPath();
+                ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.stroke();
+            }
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(5, 5); // Slightly larger repeat for texture scale
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy(); // Improve texture filtering
+            return texture;
+        }
+
+        function createPlayer() {
+            player = new THREE.Group();
+            player.position.set(0, 0.5, 0); // Player group origin at feet level
+            scene.add(player);
+
+            // --- Player Visual Body (for 3rd person) ---
+            playerBody = new THREE.Group();
+            const bodyHeight = 1.8;
+            const headRadius = 0.3;
+            const bodyColor = 0x4477cc; // Player color
+            const headColor = 0xffccaa; // Skin tone
+
+            const bodyGeometry = new THREE.CapsuleGeometry(0.4, bodyHeight - 0.8, 8); // Capsule for smoother shape
+            const bodyMaterial = new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.6 });
+            const bodyMesh = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            bodyMesh.position.y = bodyHeight / 2; // Center body
+            bodyMesh.castShadow = true;
+            playerBody.add(bodyMesh);
+
+            const headGeometry = new THREE.SphereGeometry(headRadius, 16, 12);
+            const headMaterial = new THREE.MeshStandardMaterial({ color: headColor, roughness: 0.7 });
+            const headMesh = new THREE.Mesh(headGeometry, headMaterial);
+            headMesh.position.y = bodyHeight; // Position head top correctly
+            headMesh.castShadow = true;
+            playerBody.add(headMesh);
+
+            // Basic Arms (similar to zombies for consistency, but player color)
+            const armGeometry = new THREE.CylinderGeometry(0.1, 0.08, 0.7, 8);
+            const armMaterial = new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.6 });
+            const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+            leftArm.position.set(-0.5, bodyHeight * 0.6, 0); // Adjust position
+            leftArm.rotation.z = Math.PI / 5; // Less raised
+            leftArm.castShadow = true;
+            playerBody.add(leftArm);
+
+            const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+            rightArm.position.set(0.5, bodyHeight * 0.6, 0);
+            rightArm.rotation.z = -Math.PI / 5;
+            rightArm.castShadow = true;
+            playerBody.add(rightArm);
+
+            playerBody.visible = false; // Hidden initially (1st person default)
+            player.add(playerBody); // Add visual body to the main player group
+
+            // --- Camera ---
+            camera.position.set(0, 1.7, 0); // Camera at eye level relative to player group
+            player.add(camera); // Attach camera to player group
+
+            // --- Weapon Holder (for 1st person view) ---
+            const weaponHolder = new THREE.Group();
+            weaponHolder.position.set(0.3, -0.3, -0.5); // Position relative to camera
+            camera.add(weaponHolder); // Attach to camera
+            weaponHolder.name = "weaponHolder"; // For easy access
+            // Store base position for bobbing reset
+            weaponHolder.userData.basePosition = weaponHolder.position.clone();
+            // Add the visual representation of the single weapon immediately
+            const defaultWeaponVisual = createDefaultWeapon(); // Using basic shapes
+            weaponHolder.add(defaultWeaponVisual);
+        }
+
+        function createDefaultWeapon() {
+            // Simple pistol-like shape
+            const weaponGroup = new THREE.Group();
+            const gunMaterial = new THREE.MeshStandardMaterial({
+                 color: 0x222222, // Dark grey
+                 roughness: 0.4,
+                 metalness: 0.6 // More metallic
+            });
+
+            const bodyGeo = new THREE.BoxGeometry(0.1, 0.12, 0.3);
+            const body = new THREE.Mesh(bodyGeo, gunMaterial);
+            body.position.z = -0.15;
+            weaponGroup.add(body);
+
+            const barrelGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.2, 8); // Slightly thicker barrel
+            const barrel = new THREE.Mesh(barrelGeo, gunMaterial);
+            barrel.rotation.x = Math.PI / 2;
+            barrel.position.z = -0.3; // Position at front of body
+            weaponGroup.add(barrel);
+
+            const handleGeo = new THREE.BoxGeometry(0.08, 0.2, 0.08);
+            const handle = new THREE.Mesh(handleGeo, gunMaterial);
+            handle.position.y = -0.15; // Position below body
+            handle.rotation.z = -0.1; // Slight angle
+            weaponGroup.add(handle);
+
+            // Add a small sight
+            const sightGeo = new THREE.BoxGeometry(0.02, 0.02, 0.03);
+            const sight = new THREE.Mesh(sightGeo, gunMaterial);
+            sight.position.set(0, 0.07, -0.1); // On top towards the back
+            weaponGroup.add(sight);
+
+            weaponGroup.castShadow = true; // Weapon casts shadow
+            return weaponGroup;
+        }
+
+        function preloadZombieModels() {
+            // Pre-create model variations to clone later
+            zombieModels = []; // Clear existing before preload
+            for (let i = 0; i < 3; i++) { // 0: Normal, 1: Fast, 2: Tank
+                const zombieModel = createBasicZombieModel(i);
+                zombieModels.push(zombieModel);
+            }
+             console.log("Preloaded zombie models:", zombieModels.length);
+        }
+
+        function createBasicZombieModel(type) {
+            const zombie = new THREE.Group();
+            let bodyColor, headColor, speedFactor, sizeFactor;
+
+            // Type variations
+            switch(type) {
+                case 0: // Normal
+                     bodyColor = 0x538c50; headColor = 0x6ea86a; speedFactor = 1.0; sizeFactor = 1.0;
+                     break;
+                case 1: // Fast
+                     bodyColor = 0x8c5050; headColor = 0xa86a6a; speedFactor = 1.5; sizeFactor = 0.9;
+                     break;
+                case 2: // Tank
+                     bodyColor = 0x50618c; headColor = 0x6a7ba8; speedFactor = 0.7; sizeFactor = 1.3;
+                     break;
+                default: // Fallback to Normal
+                     bodyColor = 0x538c50; headColor = 0x6ea86a; speedFactor = 1.0; sizeFactor = 1.0;
+            }
+
+            const bodyHeight = 1.8 * sizeFactor;
+            const headRadius = 0.3 * sizeFactor;
+
+            // Body (Capsule for smoother look)
+            const bodyGeometry = new THREE.CapsuleGeometry(0.4 * sizeFactor, bodyHeight - (0.8 * sizeFactor), 8);
+            const bodyMaterial = new THREE.MeshStandardMaterial({
+                color: bodyColor,
+                roughness: 0.85, // More rough
+                metalness: 0.05 // Less metallic
+            });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = bodyHeight / 2; // Center geometry
+            body.castShadow = true;
+            body.receiveShadow = true; // Receive shadows too
+            zombie.add(body);
+
+            // Head
+            const headGeometry = new THREE.SphereGeometry(headRadius, 12, 8); // Lower poly head
+            const headMaterial = new THREE.MeshStandardMaterial({
+                 color: headColor,
+                 roughness: 0.8,
+                 metalness: 0.1
+            });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = bodyHeight; // Top of body + adjusted radius origin
+            head.castShadow = true;
+            head.receiveShadow = true;
+            zombie.add(head);
+
+            // Eyes (Slightly emissive red dots)
+            const eyeGeometry = new THREE.SphereGeometry(0.05 * sizeFactor, 6, 6);
+            const eyeMaterial = new THREE.MeshStandardMaterial({
+                color: 0xff0000,
+                emissive: 0x550000, // Dark red glow
+                emissiveIntensity: 0.8
+             });
+            const eyeOffsetZ = 0.25 * sizeFactor; // Position eyes forward
+            const eyeOffsetX = 0.15 * sizeFactor;
+            const eyeOffsetY = head.position.y; // Eyes centered on head vertically
+
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-eyeOffsetX, eyeOffsetY, eyeOffsetZ);
+            zombie.add(leftEye);
+
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(eyeOffsetX, eyeOffsetY, eyeOffsetZ);
+            zombie.add(rightEye);
+
+            // Arms (Cylinders)
+            const armLength = 0.7 * sizeFactor;
+            const armRadius = 0.1 * sizeFactor;
+            const armGeometry = new THREE.CylinderGeometry(armRadius, armRadius * 0.8, armLength, 6); // Slightly tapered
+            const armMaterial = new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.8 });
+
+            const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+            leftArm.name = 'leftArm'; // For animation targeting
+            leftArm.position.set(-0.5 * sizeFactor, bodyHeight * 0.6, 0); // Position relative to body size
+            leftArm.rotation.z = Math.PI / 3; // More raised arms
+            leftArm.castShadow = true;
+            zombie.add(leftArm);
+
+            const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+            rightArm.name = 'rightArm';
+            rightArm.position.set(0.5 * sizeFactor, bodyHeight * 0.6, 0);
+            rightArm.rotation.z = -Math.PI / 3;
+            rightArm.castShadow = true;
+            zombie.add(rightArm);
+
+            // User data for animation state
+            zombie.userData = {
+                walkTime: Math.random() * Math.PI * 2,
+                 walkSpeed: (1.5 + Math.random() * 1.5) * speedFactor, // Base walk cycle speed, adjusted by type
+                 bobHeight: 0.03 + Math.random() * 0.02 // How much the body bobs
+            };
+
+            // Set zombie group position at feet level (y=0)
+            zombie.position.y = 0;
+
+             // Make sure all children also cast/receive shadows
+             zombie.traverse(child => {
+                 if (child.isMesh) {
+                     child.castShadow = true;
+                     child.receiveShadow = true;
+                 }
+             });
+
+            return zombie;
+        }
+
+
+        function preloadDefaultWeaponModel() {
+            // Creates the basic weapon shape defined in createDefaultWeapon
+            defaultWeaponModel = createDefaultWeapon();
+            // If using GLTFLoader, you would load your model here instead.
+        }
+
+        function initMinimap() {
+            const minimapElement = document.getElementById('minimap');
+            // Clear previous canvas if resizing
+            while (minimapElement.firstChild) {
+                minimapElement.removeChild(minimapElement.firstChild);
+            }
+
+            const canvas = document.createElement('canvas');
+            minimapSize = isMobile ? 100 : 150; // Adjust size based on device
+            canvas.width = minimapSize;
+            canvas.height = minimapSize;
+
+            // Set container size explicitly to match canvas
+            minimapElement.style.width = `${minimapSize}px`;
+            minimapElement.style.height = `${minimapSize}px`;
+
+            minimapElement.appendChild(canvas);
+            minimapContext = canvas.getContext('2d');
+             console.log("Minimap Initialized with size:", minimapSize);
+        }
+
+        function drawMinimap() {
+            if (!minimapContext || !player || !gameActive) return; // Don't draw if paused or game over
+
+            minimapContext.clearRect(0, 0, minimapSize, minimapSize);
+
+            // Background circle
+            minimapContext.fillStyle = 'rgba(0, 0, 0, 0.6)';
+            minimapContext.beginPath();
+            minimapContext.arc(minimapSize / 2, minimapSize / 2, minimapSize / 2, 0, Math.PI * 2);
+            minimapContext.fill();
+
+            // Clip drawing to the circle
+            minimapContext.save();
+            minimapContext.beginPath();
+            minimapContext.arc(minimapSize / 2, minimapSize / 2, minimapSize / 2 - 2, 0, Math.PI * 2); // Slightly smaller clip radius
+            minimapContext.clip();
+
+            const mapScale = minimapSize / 60; // How many world units fit across the minimap diameter (adjust for zoom)
+            const centerX = minimapSize / 2;
+            const centerY = minimapSize / 2;
+
+            // Calculate player's offset for drawing elements relative to center
+            const playerOffsetX = player.position.x * mapScale;
+            const playerOffsetY = player.position.z * mapScale; // Use Z for map Y
+
+            // Draw obstacles (relative to player)
+            minimapContext.fillStyle = '#666'; // Obstacle color
+            obstacles.forEach(obstacle => {
+                 if (!obstacle.scale || !obstacle.visible) return; // Skip invisible or invalid
+                const obsScale = obstacle.scale;
+                const obsMapX = centerX - playerOffsetX + obstacle.position.x * mapScale;
+                const obsMapY = centerY - playerOffsetY + obstacle.position.z * mapScale; // Use Z for Y
+                const obsWidth = (obsScale.x || 1) * mapScale; // Use scale X/Z for size
+                const obsHeight = (obsScale.z || 1) * mapScale;
+
+                // Basic culling (only draw if potentially visible within the circle)
+                 if (Math.abs(obsMapX - centerX) < centerX + obsWidth && Math.abs(obsMapY - centerY) < centerY + obsHeight) {
+                    minimapContext.fillRect(
+                        obsMapX - obsWidth / 2,
+                        obsMapY - obsHeight / 2,
+                        obsWidth,
+                        obsHeight
+                    );
+                 }
+            });
+
+            // Draw powerups (relative to player)
+            powerUps.forEach(powerUp => {
+                if (!powerUp.visible) return;
+                const puMapX = centerX - playerOffsetX + powerUp.position.x * mapScale;
+                const puMapY = centerY - playerOffsetY + powerUp.position.z * mapScale;
+                 // Culling
+                 if (Math.abs(puMapX - centerX) < centerX + 5 && Math.abs(puMapY - centerY) < centerY + 5) {
+                    minimapContext.fillStyle = '#00ff00'; // Green for health
+                    minimapContext.beginPath();
+                    minimapContext.arc(puMapX, puMapY, 3, 0, Math.PI * 2); // Slightly larger dot
+                    minimapContext.fill();
+                }
+            });
+
+            // Draw enemies (relative to player)
+            minimapContext.fillStyle = '#ff4444'; // Brighter red
+            enemies.forEach(enemy => {
+                 if (!enemy.visible || enemy.userData.isDying) return; // Skip invisible or dying
+                const enemyMapX = centerX - playerOffsetX + enemy.position.x * mapScale;
+                const enemyMapY = centerY - playerOffsetY + enemy.position.z * mapScale; // Use Z for Y
+                // Culling
+                 if (Math.abs(enemyMapX - centerX) < centerX + 3 && Math.abs(enemyMapY - centerY) < centerY + 3) {
+                    minimapContext.beginPath();
+                    minimapContext.arc(enemyMapX, enemyMapY, 3, 0, Math.PI * 2); // Enemy dot size
+                    minimapContext.fill();
+                 }
+            });
+
+            // Restore context after clipping
+            minimapContext.restore();
+
+            // Draw Player marker (always at the center)
+            minimapContext.fillStyle = '#66aaff'; // Player color
+            minimapContext.beginPath();
+            minimapContext.arc(centerX, centerY, 4, 0, Math.PI * 2); // Player dot size
+            minimapContext.fill();
+
+            // Draw player direction indicator (triangle)
+            const direction = new THREE.Vector3(0, 0, -1);
+            direction.applyQuaternion(player.quaternion); // Use player's world rotation
+            minimapContext.fillStyle = '#66aaff';
+            minimapContext.beginPath();
+            minimapContext.moveTo(centerX + direction.x * 8, centerY + direction.z * 8); // Point of triangle
+            minimapContext.lineTo(centerX - direction.z * 4 - direction.x * 4, centerY + direction.x * 4 - direction.z*4); // Bottom left
+            minimapContext.lineTo(centerX + direction.z * 4 - direction.x * 4, centerY - direction.x * 4- direction.z*4); // Bottom right
+            minimapContext.closePath();
+            minimapContext.fill();
+
+             // Draw minimap border circle
+            minimapContext.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            minimapContext.lineWidth = 2;
+            minimapContext.beginPath();
+            minimapContext.arc(minimapSize / 2, minimapSize / 2, minimapSize / 2 - 1, 0, Math.PI * 2);
+            minimapContext.stroke();
+        }
+
+        function initAudio() {
+            try {
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioContext = new AudioContext();
+
+                // Attempt to resume context if suspended (browser policy)
+                const resumeAudio = () => {
+                    if (audioContext && audioContext.state === 'suspended') {
+                        audioContext.resume().then(() => {
+                            console.log("AudioContext resumed successfully.");
+                        }).catch(e => console.error("Error resuming AudioContext:", e));
+                    }
+                    // Remove listeners after first interaction
+                    document.body.removeEventListener('click', resumeAudio);
+                    document.body.removeEventListener('touchstart', resumeAudio);
+                };
+                // Need user interaction to start/resume AudioContext
+                document.body.addEventListener('click', resumeAudio);
+                document.body.addEventListener('touchstart', resumeAudio);
+
+                // --- Sound Effect Definitions ---
+                // Enhanced procedural sounds (replace with loaded buffers for realism)
+                 soundEffects = {
+                     // More complex procedural shot sound
+                     shoot: createProceduralSound({
+                         attack: 0.01, decay: 0.1, sustain: 0.05, release: 0.1, // Envelope
+                         type: 'noise', // Noise source
+                         noiseType: 'white', // White noise
+                         filterType: 'bandpass', filterFreq: 1500, filterQ: 5, // Filter for 'crack'
+                         pitchDecay: 0.1, // Optional: pitch drop
+                         volume: 0.6 // Base volume for this sound type
+                     }),
+                     // Simpler hit sound
+                     hit: createProceduralSound({
+                         attack: 0.01, decay: 0.15, sustain: 0, release: 0.1,
+                         type: 'triangle', freq: 330,
+                         pitchDecay: 0.3,
+                         volume: 0.5
+                     }),
+                     // Explosion sound
+                     explode: createProceduralSound({
+                         attack: 0.02, decay: 0.4, sustain: 0.1, release: 0.3,
+                         type: 'noise', noiseType: 'pink', // Pink noise for rumble
+                         filterType: 'lowpass', filterFreq: 400, filterQ: 2,
+                         volume: 0.8
+                     }),
+                     powerUp: createProceduralSound({
+                         attack: 0.05, decay: 0.2, sustain: 0.1, release: 0.2,
+                         type: 'sine', freq: 600,
+                         freq2: 900, // Second oscillator for harmony
+                         type2: 'triangle',
+                         volume: 0.6
+                     }),
+                     zombie: createProceduralSound({ // Low groan/rumble
+                         attack: 0.1, decay: 0.5, sustain: 0.2, release: 0.4,
+                         type: 'sawtooth', freq: 80,
+                         filterType: 'lowpass', filterFreq: 300, filterQ: 1,
+                         pitchModFreq: 0.5, pitchModAmount: 10, // Slow pitch wobble
+                         volume: 0.35
+                     }),
+                     pain: createProceduralSound({ // Player hit sound
+                         attack: 0.01, decay: 0.2, sustain: 0, release: 0.1,
+                         type: 'square', freq: 400,
+                         pitchDecay: 0.5,
+                         volume: 0.5
+                     })
+                 };
+
+                 // --- Example: How to load real audio files ---
+                 /*
+                 const loadSound = async (url) => {
+                     if (!audioContext) return null;
+                     try {
+                         const response = await fetch(url);
+                         const arrayBuffer = await response.arrayBuffer();
+                         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                         return audioBuffer;
+                     } catch (error) {
+                         console.error(`Failed to load sound: ${url}`, error);
+                         return null;
+                     }
+                 };
+
+                 // Load sounds asynchronously and store buffers
+                 Promise.all([
+                     loadSound('sounds/shoot.wav'),
+                     loadSound('sounds/hit.wav'),
+                     // ... load other sounds
+                 ]).then(([shootBuffer, hitBuffer]) => {
+                     if (shootBuffer) soundEffects.shoot = shootBuffer; // Replace procedural with buffer
+                     if (hitBuffer) soundEffects.hit = hitBuffer;
+                     console.log("Loaded external audio files.");
+                 });
+                 */
+
+            } catch (e) {
+                console.warn('Web Audio API is not supported or failed to initialize:', e);
+                audioContext = null;
+                // Create dummy sound players if AudioContext fails
+                soundEffects = new Proxy({}, { get: () => ({ play: () => {}, buffer: null }) });
+            }
+        }
+
+        // Updated function to handle more complex procedural sounds or play AudioBuffers
+        function createProceduralSound(params) {
+             // Default parameters
+             const p = {
+                 attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2, volume: 0.7,
+                 type: 'sine', freq: 440,
+                 type2: null, freq2: 660, // Optional second oscillator
+                 filterType: null, filterFreq: 1000, filterQ: 1,
+                 noiseType: 'white', // For noise type
+                 pitchDecay: 0, // How fast pitch drops (0 = none)
+                 pitchModFreq: 0, pitchModAmount: 0, // For vibrato/tremolo like effects
+                 ...params // Override defaults with provided params
+             };
+             const totalDuration = p.attack + p.decay + p.release + p.sustain; // Rough total time
+
+             return {
+                 play: function(playVolume = 1.0) {
+                     if (!audioContext || audioContext.state !== 'running') return;
+
+                     const now = audioContext.currentTime;
+                     const gainNode = audioContext.createGain();
+                     gainNode.connect(audioContext.destination);
+
+                     // Main Gain Envelope (ADSR)
+                     gainNode.gain.setValueAtTime(0, now);
+                     gainNode.gain.linearRampToValueAtTime(p.volume * playVolume, now + p.attack);
+                     gainNode.gain.linearRampToValueAtTime(p.volume * p.sustain * playVolume, now + p.attack + p.decay);
+                     // Sustain level is held implicitly until release
+                     gainNode.gain.setValueAtTime(p.volume * p.sustain * playVolume, now + p.attack + p.decay + p.sustain ); // Ensure sustain level is held before release starts
+                    gainNode.gain.linearRampToValueAtTime(0, now + p.attack + p.decay + p.sustain + p.release);
+
+
+                      // --- Oscillator Setup ---
+                     const setupOscillator = (type, freq, baseFreqParam, typeParam) => {
+                         let osc;
+                         if (type === 'noise') {
+                             const bufferSize = audioContext.sampleRate * (totalDuration > 0.1 ? totalDuration : 0.1); // Min buffer length
+                             const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+                             const output = buffer.getChannelData(0);
+                             if (p.noiseType === 'pink') {
+                                 // Simple pink noise approximation
+                                 let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+                                 for (let i = 0; i < bufferSize; i++) {
+                                     const white = Math.random() * 2 - 1;
+                                     b0 = 0.99886 * b0 + white * 0.0555179;
+                                     b1 = 0.99332 * b1 + white * 0.0750759;
+                                     b2 = 0.96900 * b2 + white * 0.1538520;
+                                     b3 = 0.86650 * b3 + white * 0.3104856;
+                                     b4 = 0.55000 * b4 + white * 0.5329522;
+                                     b5 = -0.7616 * b5 - white * 0.0168980;
+                                     output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                                     output[i] *= 0.11; // Gain compensation
+                                     b6 = white * 0.115926;
+                                 }
+                             } else { // White noise
+                                 for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+                             }
+                             osc = audioContext.createBufferSource();
+                             osc.buffer = buffer;
+                             osc.loop = false; // Play noise buffer once
+                         } else {
+                             osc = audioContext.createOscillator();
+                             osc.type = type;
+                             if (osc.frequency) { // Check if frequency is available (not for BufferSource)
+                                 osc.frequency.setValueAtTime(freq, now);
+                                 // Pitch Decay
+                                 if (p.pitchDecay > 0) {
+                                    osc.frequency.exponentialRampToValueAtTime(Math.max(1, freq * (1 - p.pitchDecay)), now + p.attack + p.decay + p.sustain);
+                                }
+                                 // Pitch Modulation (Vibrato)
+                                 if (p.pitchModFreq > 0 && p.pitchModAmount > 0) {
+                                     const modOsc = audioContext.createOscillator();
+                                     modOsc.type = 'sine';
+                                     modOsc.frequency.setValueAtTime(p.pitchModFreq, now);
+                                     const modGain = audioContext.createGain();
+                                     modGain.gain.setValueAtTime(p.pitchModAmount, now);
+                                     modOsc.connect(modGain);
+                                     modGain.connect(osc.frequency);
+                                     modOsc.start(now);
+                                      modOsc.stop(now + totalDuration);
+                                 }
+                             }
+                         }
+                         return osc;
+                     };
+
+                     const osc1 = setupOscillator(p.type, p.freq, 'freq', 'type');
+
+                     // --- Filter Setup (Optional) ---
+                     let outputNode = osc1; // Start connection chain
+                     if (p.filterType) {
+                         const filter = audioContext.createBiquadFilter();
+                         filter.type = p.filterType;
+                         filter.frequency.setValueAtTime(p.filterFreq, now);
+                         filter.Q.setValueAtTime(p.filterQ, now);
+                         osc1.connect(filter);
+                         outputNode = filter; // Output is now from filter
+                     }
+
+                     // --- Second Oscillator (Optional) ---
+                     if (p.type2) {
+                         const osc2 = setupOscillator(p.type2, p.freq2, 'freq2', 'type2');
+                         const osc2Gain = audioContext.createGain();
+                         osc2Gain.gain.setValueAtTime(0.5, now); // Mix volume for second osc
+                         osc2.connect(osc2Gain);
+                         // Connect osc2 to the same point as osc1 (before or after filter)
+                         if (p.filterType) {
+                            osc2Gain.connect(outputNode); // Connect to filter if exists
+                         } else {
+                            osc2Gain.connect(gainNode); // Connect directly to main gain otherwise
+                         }
+                          osc2.start(now);
+                          osc2.stop(now + totalDuration);
+                     }
+
+                     // Connect the final node in the chain to the main gain envelope
+                     outputNode.connect(gainNode);
+
+                     // Start and Stop Oscillator(s)
+                     osc1.start(now);
+                     osc1.stop(now + totalDuration); // Stop after calculated duration
+
+                 },
+                 buffer: null // Indicate it's procedural
+             };
+         }
+
+        function createWalls(size) {
+            const wallHeight = 6; // Taller walls
+            const wallThickness = 1;
+            const halfSize = size / 2;
+            const wallMaterial = new THREE.MeshStandardMaterial({
+                 color: 0x6a6a6a, // Slightly lighter grey
+                 roughness: 0.85,
+                 metalness: 0.15
+            });
+
+            // Create walls using BoxGeometry directly sized, avoids scaling issues
+            const createWallMesh = (width, height, depth, mat) => {
+                const geometry = new THREE.BoxGeometry(width, height, depth);
+                const wall = new THREE.Mesh(geometry, mat);
+                 // Explicitly set scale to 1,1,1 because geometry defines size
+                 wall.scale.set(1, 1, 1);
+                 wall.castShadow = true;
+                 wall.receiveShadow = true;
+                 // Add wall texture
+                 const texture = createWallTexture(width, depth); // Use dimensions for repeat calc
+                 mat.map = texture;
+                 mat.needsUpdate = true;
+                 return wall;
+            };
+
+            // North Wall
+            const northWall = createWallMesh(size, wallHeight, wallThickness, wallMaterial.clone());
+            northWall.position.set(0, wallHeight / 2 - 0.5, -halfSize);
+            scene.add(northWall);
+            obstacles.push(northWall); // Add walls to obstacles for collision
+
+            // South Wall
+            const southWall = createWallMesh(size, wallHeight, wallThickness, wallMaterial.clone());
+            southWall.position.set(0, wallHeight / 2 - 0.5, halfSize);
+            scene.add(southWall);
+            obstacles.push(southWall);
+
+            // East Wall
+            const eastWall = createWallMesh(wallThickness, wallHeight, size, wallMaterial.clone()); // Width=Thickness, Depth=Size
+            eastWall.position.set(halfSize, wallHeight / 2 - 0.5, 0);
+            scene.add(eastWall);
+            obstacles.push(eastWall);
+
+            // West Wall
+            const westWall = createWallMesh(wallThickness, wallHeight, size, wallMaterial.clone()); // Width=Thickness, Depth=Size
+            westWall.position.set(-halfSize, wallHeight / 2 - 0.5, 0);
+            scene.add(westWall);
+            obstacles.push(westWall);
+        }
+
+
+        function createWallTexture(wallWidth, wallDepth) {
+             // Determine the longer dimension for texture scaling
+            const textureScaleDim = Math.max(wallWidth, wallDepth);
+
+            const canvas = document.createElement('canvas');
+            canvas.width = 512; canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#777777';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Simplified 'panel' or 'tile' look
+            ctx.strokeStyle = '#555555';
+            ctx.lineWidth = 4; // Thicker lines
+            const tileSize = 128;
+            for (let x = 0; x < canvas.width; x += tileSize) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += tileSize) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
+            // Add some random grunge/dirt spots
+            for (let i = 0; i < 500; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 5 + 2;
+                const alpha = Math.random() * 0.2 + 0.1;
+                ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            // Adjust repeat based on the longer dimension of the wall segment
+            const repeatFactor = Math.max(1, textureScaleDim / 8); // Adjust divisor for desired scale
+            texture.repeat.set(repeatFactor, repeatFactor * (canvas.height / canvas.width)); // Maintain aspect ratio
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            return texture;
+        }
+
+        function createObstacles() {
+            // Clear existing obstacles *before* adding walls (which are also obstacles)
+             // This function is called *after* createWalls, so walls are already in `obstacles`.
+             // We only need to clear non-wall obstacles if we are re-generating them.
+             // For initial setup, just add new ones.
+
+            const numObstacles = 15 + Math.floor(level / 2); // More obstacles in later levels
+            const placementArea = groundSize * 0.8; // Place within 80% of ground area
+            const playerClearance = 10; // Min distance from player start (0,0)
+            const obstacleClearance = 2.0; // Min distance between obstacles
+
+            for (let i = 0; i < numObstacles; i++) {
+                const size = 1 + Math.random() * 3;
+                const height = 1 + Math.random() * 4; // More height variation
+                const obstacle = createObstacleMesh(size, height, i); // Get the mesh/group
+
+                if (!obstacle || !obstacle.scale) {
+                    console.warn("Failed to create obstacle mesh or scale for index", i);
+                    continue; // Skip if creation failed
+                }
+
+                let x, z;
+                let validPosition = false;
+                let attempts = 0;
+                const maxAttempts = 100;
+
+                while (!validPosition && attempts < maxAttempts) {
+                    x = (Math.random() - 0.5) * placementArea;
+                    z = (Math.random() - 0.5) * placementArea;
+                    const distFromPlayer = Math.sqrt(x*x + z*z);
+
+                    // Check 1: Player clearance
+                    if (distFromPlayer <= playerClearance) {
+                        attempts++;
+                        continue;
+                    }
+
+                    // Check 2: Collision with existing obstacles (including walls)
+                    validPosition = true; // Assume valid initially
+                    const thisObstacleRadius = Math.max(obstacle.scale.x, obstacle.scale.z) / 2;
+
+                    for (const otherObstacle of obstacles) {
+                        if (!otherObstacle.scale) continue; // Skip invalid obstacles in array
+                        const dx = x - otherObstacle.position.x;
+                        const dz = z - otherObstacle.position.z;
+                        const distSq = dx*dx + dz*dz; // Use squared distance for efficiency
+
+                        const otherObstacleRadius = Math.max(otherObstacle.scale.x, otherObstacle.scale.z) / 2;
+                        const minSeparation = thisObstacleRadius + otherObstacleRadius + obstacleClearance;
+
+                        if (distSq < minSeparation * minSeparation) {
+                            validPosition = false;
+                            break; // Collision found, try new position
+                        }
+                    }
+                    attempts++;
+                }
+
+                if (validPosition) {
+                    // Position base at ground level (-0.5) + half height
+                    obstacle.position.set(x, obstacle.scale.y / 2 - 0.5, z);
+                    obstacle.castShadow = true;
+                    obstacle.receiveShadow = true;
+                     // Ensure all children inherit shadow properties
+                     obstacle.traverse(child => {
+                         if (child.isMesh) {
+                             child.castShadow = true;
+                             child.receiveShadow = true;
+                         }
+                     });
+                    scene.add(obstacle);
+                    obstacles.push(obstacle); // Add successfully placed obstacle
+                } else {
+                     console.warn(`Could not find valid position for obstacle ${i} after ${maxAttempts} attempts.`);
+                     // Optional: Clean up the unused obstacle mesh? (Three.js might GC it if not added to scene)
+                }
+            }
+             console.log("Total obstacles (incl walls):", obstacles.length);
+        }
+
+        function createObstacleMesh(size, height, index) {
+            let geometry, material, obstacle;
+             // Base scale for unit geometry before applying size/height multipliers
+            let unitScale = new THREE.Vector3(1, 1, 1);
+
+            // Choose obstacle type
+            const type = index % 5; // Cycle through 5 types
+
+            switch (type) {
+                case 0: // Crate
+                    geometry = new THREE.BoxGeometry(unitScale.x, unitScale.y, unitScale.z);
+                    material = new THREE.MeshStandardMaterial({ color: 0xaa7744, roughness: 0.8, metalness: 0.1 }); // Wood color
+                    obstacle = new THREE.Mesh(geometry, material);
+                    obstacle.scale.set(size, height, size); // Apply final scale
+                    break;
+                case 1: // Barrel (Metal)
+                    geometry = new THREE.CylinderGeometry(unitScale.x / 2, unitScale.x / 2, unitScale.y, 12); // Radius, Height
+                    material = new THREE.MeshStandardMaterial({ color: 0x777788, roughness: 0.5, metalness: 0.8 }); // Metal color
+                    obstacle = new THREE.Mesh(geometry, material);
+                     obstacle.scale.set(size, height, size); // Apply final scale (radius scales with size)
+                    break;
+                case 2: // Rock
+                    geometry = new THREE.SphereGeometry(unitScale.x / 2, 8, 6); // Less detail
+                     // Add displacement for bumpy rock look
+                     const positionAttribute = geometry.getAttribute('position');
+                     const vertex = new THREE.Vector3();
+                     for (let i = 0; i < positionAttribute.count; i++) {
+                         vertex.fromBufferAttribute(positionAttribute, i);
+                         const noise = 0.1 + Math.random() * 0.2; // Random displacement factor
+                         vertex.normalize().multiplyScalar(unitScale.x / 2 + noise * (unitScale.x / 2)); // Displace along normal
+                         positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+                     }
+                     geometry.computeVertexNormals(); // Recalculate normals
+
+                    material = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.9, metalness: 0.1 });
+                    obstacle = new THREE.Mesh(geometry, material);
+                    obstacle.scale.set(size, size, size); // Rocks are roughly spherical, use size for all axes
+                     obstacle.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI); // Random rotation
+                     // Height for rocks is determined by size
+                     obstacle.scale.y = size; // Ensure scale matches bounding box expectation
+                    break;
+                 case 3: // Concrete Barrier
+                    obstacle = new THREE.Group();
+                    const barrierLength = 2.5;
+                    const barrierHeight = 1.0;
+                    const barrierWidth = 0.8;
+                     unitScale.set(barrierLength, barrierHeight, barrierWidth); // Base proportions
+
+                    const barrierGeo = new THREE.BoxGeometry(unitScale.x, unitScale.y, unitScale.z);
+                    // Taper the top vertices inward for a barrier shape
+                    const pos = barrierGeo.attributes.position;
+                    for (let i = 0; i < pos.count; i++) {
+                        if (pos.getY(i) > 0) { // If it's a top vertex
+                             pos.setX(i, pos.getX(i) * 0.7); // Taper X
+                             pos.setZ(i, pos.getZ(i) * 0.7); // Taper Z
+                         }
+                     }
+                    barrierGeo.attributes.position.needsUpdate = true;
+                    barrierGeo.computeVertexNormals();
+
+                    material = new THREE.MeshStandardMaterial({ color: 0xaaaaaa, roughness: 0.9, metalness: 0.05 }); // Concrete color
+                    const barrierMesh = new THREE.Mesh(barrierGeo, material);
+                    obstacle.add(barrierMesh);
+                    obstacle.scale.set(size / unitScale.x, height / unitScale.y, size / unitScale.x); // Scale based on desired size/height
+                    break;
+                case 4: // Sandbags (Group of spheres)
+                    obstacle = new THREE.Group();
+                     unitScale.set(1.5, 0.8, 1.5); // Rough bounding box proportions
+                    material = new THREE.MeshStandardMaterial({ color: 0xC19A6B, roughness: 0.95, metalness: 0 }); // Burlap color
+
+                    const bagRadius = 0.3;
+                    const bagGeo = new THREE.SphereGeometry(bagRadius, 6, 4); // Low poly sphere
+                    // Create a small pile
+                    const positions = [ [0, bagRadius, 0], [-0.5, bagRadius, -0.3], [0.5, bagRadius, -0.2], [0.1, bagRadius, 0.6], [-0.3, bagRadius*2.5, 0.2], [0.2, bagRadius*2.5, -0.4] ];
+                    positions.forEach(pos => {
+                        const bag = new THREE.Mesh(bagGeo, material);
+                        bag.position.set(pos[0], pos[1], pos[2]);
+                         bag.scale.set(1, 0.8, 1.2 + (Math.random()-0.5)*0.2); // Squish and vary bags
+                         bag.rotation.y = Math.random() * Math.PI;
+                        obstacle.add(bag);
+                    });
+                    obstacle.scale.set(size / unitScale.x, height / unitScale.y, size / unitScale.z); // Scale the whole group
+                    break;
+                default: // Fallback: Simple Box
+                    geometry = new THREE.BoxGeometry(1, 1, 1);
+                    material = new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.7, metalness: 0.2 });
+                    obstacle = new THREE.Mesh(geometry, material);
+                    obstacle.scale.set(size, height, size);
+            }
+
+            // Store the final computed scale in userData for consistent collision checks
+            if (obstacle) {
+                 obstacle.userData.computedScale = obstacle.scale.clone(); // Store the applied scale
+                 // Ensure position is calculated based on this scale
+                 obstacle.position.y = obstacle.scale.y / 2 - 0.5;
+            } else {
+                 console.error("Obstacle mesh is null for type:", type);
+                 // Create a dummy group to avoid errors later, though it won't be added
+                 obstacle = new THREE.Group();
+                 obstacle.scale.set(1,1,1);
+                 obstacle.userData.computedScale = obstacle.scale.clone();
+            }
+
+            return obstacle;
+        }
+
+
+        function spawnEnemies(count) {
+            const placementArea = groundSize * 0.9; // Spawn within 90% of ground
+            const playerSafeZone = 15; // Min distance from player start (0,0) or current position
+            const obstacleClearance = 1.5; // Min distance from obstacle centers
+            const enemyClearance = 1.0; // Min distance between enemies
+
+            let spawnedCount = 0;
+            let attemptsTotal = 0;
+            const maxTotalAttempts = count * 100; // Limit total attempts to prevent infinite loops
+
+            while (spawnedCount < count && attemptsTotal < maxTotalAttempts) {
+                attemptsTotal++;
+                // Choose type: 65% normal, 25% fast, 10% tank
+                const typeRoll = Math.random();
+                const type = typeRoll < 0.65 ? 0 : (typeRoll < 0.90 ? 1 : 2);
+                const enemyModel = createZombie(type); // Creates the visual model and sets userData
+
+                if (!enemyModel || !enemyModel.userData) {
+                    console.warn("Failed to create enemy model or userData for type", type);
+                    continue; // Skip this attempt if creation failed
+                }
+                const enemyRadius = (enemyModel.userData.size || 1.0) * 0.5; // Approx radius
+
+                let x, z;
+                let validPosition = false;
+                let positionAttempts = 0;
+                const maxPositionAttempts = 50; // Attempts per enemy
+
+                while (!validPosition && positionAttempts < maxPositionAttempts) {
+                    positionAttempts++;
+                    x = (Math.random() - 0.5) * placementArea;
+                    z = (Math.random() - 0.5) * placementArea;
+
+                    // 1. Check player distance (current pos if player exists, else 0,0)
+                    const playerCheckPos = player ? player.position : new THREE.Vector3(0, 0.5, 0);
+                    const dxP = x - playerCheckPos.x;
+                    const dzP = z - playerCheckPos.z;
+                    if (dxP*dxP + dzP*dzP < playerSafeZone * playerSafeZone) {
+                        continue; // Too close to player
+                    }
+
+                    // 2. Check obstacle distance
+                    let obstacleCollision = false;
+                    for (const obstacle of obstacles) {
+                         if (!obstacle.scale) continue;
+                        const dxO = x - obstacle.position.x;
+                        const dzO = z - obstacle.position.z;
+                        const distSqO = dxO*dxO + dzO*dzO;
+                        const obsRadius = Math.max(obstacle.scale.x, obstacle.scale.z) / 2;
+                        const minSep = enemyRadius + obsRadius + obstacleClearance;
+                        if (distSqO < minSep * minSep) {
+                            obstacleCollision = true;
+                            break;
+                        }
+                    }
+                    if (obstacleCollision) continue; // Collides with obstacle
+
+                    // 3. Check distance from already spawned enemies
+                    let enemyCollision = false;
+                    for (const existingEnemy of enemies) {
+                        if (!existingEnemy.userData) continue;
+                        const dxE = x - existingEnemy.position.x;
+                        const dzE = z - existingEnemy.position.z;
+                        const distSqE = dxE*dxE + dzE*dzE;
+                        const existingRadius = (existingEnemy.userData.size || 1.0) * 0.5;
+                        const minSepE = enemyRadius + existingRadius + enemyClearance;
+                        if (distSqE < minSepE * minSepE) {
+                            enemyCollision = true;
+                            break;
+                        }
+                    }
+                    if (enemyCollision) continue; // Collides with other enemy
+
+                    // If all checks pass, position is valid
+                    validPosition = true;
+                }
+
+                if (validPosition) {
+                    enemyModel.position.set(x, 0, z); // Set position at feet level
+                    enemyModel.rotation.y = Math.random() * Math.PI * 2; // Random initial facing
+                    scene.add(enemyModel);
+                    enemies.push(enemyModel);
+                    spawnedCount++;
+                } else {
+                    // Failed to find position for this enemy, discard model?
+                    // (Three.js might GC it if not added to scene/arrays)
+                    console.warn(`Could not find valid position for enemy ${spawnedCount+1} (type ${type})`);
+                }
+            }
+
+             if (spawnedCount < count) {
+                 console.warn(`Spawned only ${spawnedCount} out of ${count} requested enemies.`);
+             }
+
+            updateUI(); // Update enemy count on UI
+        }
+
+
+        function createZombie(type) {
+             if (type < 0 || type >= zombieModels.length || !zombieModels[type]) {
+                 console.error("Invalid zombie type or model not preloaded:", type);
+                 type = 0; // Fallback to normal type
+                 if (!zombieModels[0]) return null; // Critical error if even normal isn't loaded
+             }
+             
+
+            // Clone the preloaded model to avoid modifying the original
+            const zombie = zombieModels[type].clone(true); // Deep clone
+
+            let healthVal, speedVal, damageVal, sizeVal, attackCd, soundCd;
+            let typeName;
+
+            switch(type) {
+                case 0: // Normal
+                     healthVal=100; speedVal=0.035; damageVal=5; sizeVal=1.0; attackCd=1200; soundCd=5500; typeName='normal';
+                     break;
+                case 1: // Fast
+                     healthVal=75;  speedVal=0.055; damageVal=4; sizeVal=0.9; attackCd=900; soundCd=4500; typeName='fast';
+                     break;
+                case 2: // Tank
+                     healthVal=220; speedVal=0.025; damageVal=12; sizeVal=1.3; attackCd=1800; soundCd=7000; typeName='tank';
+                     break;
+                default: // Fallback
+                     healthVal=100; speedVal=0.035; damageVal=5; sizeVal=1.0; attackCd=1200; soundCd=5500; typeName='normal';
+            }
+
+             // Apply scaling *after* cloning if size differs from base model (though base models already incorporate size)
+             // If the base models weren't pre-scaled, you'd do: zombie.scale.setScalar(sizeVal);
+
+            // --- User Data ---
+            zombie.userData = {
+                 ...zombie.userData, // Preserve walkTime, walkSpeed, bobHeight from cloned model
+                health: healthVal,
+                maxHealth: healthVal, // Store max health for potential future use (e.g., health bars)
+                 // Adjust base speed by level and difficulty
+                 // Increased level impact, capped difficulty multiplier effect
+                speed: (speedVal * (1 + level * 0.08)) * Math.min(1.5, difficultyMultiplier),
+                damage: Math.round(damageVal * difficultyMultiplier), // Ensure integer damage
+                type: typeName,
+                size: sizeVal, // Store the base size multiplier
+                lastAttackTime: 0,
+                attackCooldown: attackCd * (0.9 + Math.random() * 0.2), // Slight variation in attack speed
+                lastSoundTime: 0,
+                soundCooldown: soundCd * (0.8 + Math.random() * 0.4), // Randomize sound cooldown more
+                isDying: false // Flag for death animation state
+            };
+
+            // Ensure visibility and correct starting state
+            zombie.visible = true;
+            zombie.position.y = 0; // Ensure feet are at y=0
+
+            return zombie;
+        }
+
+
+        function spawnPowerUp(position) {
+            // Currently only health power-ups
+            const type = 'health';
+            const color = 0x00ff00; // Bright green
+            const size = 0.4;
+
+            const powerUpGroup = new THREE.Group();
+
+             // Glowing Core
+             const coreGeo = new THREE.SphereGeometry(size * 0.6, 8, 6);
+             const coreMat = new THREE.MeshBasicMaterial({
+                 color: color,
+                 transparent: true,
+                 opacity: 0.6
+             });
+             const core = new THREE.Mesh(coreGeo, coreMat);
+             powerUpGroup.add(core);
+
+            // Outer Ring/Shell (slightly transparent)
+             const shellGeo = new THREE.TorusGeometry(size * 0.8, size * 0.15, 6, 12);
+             const shellMat = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                emissive: color,
+                emissiveIntensity: 0.4,
+                roughness: 0.3,
+                metalness: 0.1,
+                transparent: true,
+                opacity: 0.5
+             });
+            const shell = new THREE.Mesh(shellGeo, shellMat);
+            shell.rotation.x = Math.PI / 2; // Rotate torus flat
+            powerUpGroup.add(shell);
+
+            // Subtle light source attached
+            const light = new THREE.PointLight(color, 0.8, 4); // Intensity, Range
+             light.userData.initialIntensity = light.intensity; // Store for pulsing
+            powerUpGroup.add(light);
+
+
+            // Determine spawn position
+            let spawnPos = new THREE.Vector3();
+             const baseHeight = 0.6; // Spawn height above ground
+            if (position) {
+                spawnPos.copy(position);
+                spawnPos.y = baseHeight; // Ensure consistent height if position provided
+            } else {
+                // Find a random valid position if none provided
+                let x, z;
+                const placementArea = groundSize * 0.7; // Place further from edges
+                const minPlayerDist = 8;
+                const maxPlayerDist = 40;
+                const obstacleClearance = 1.5;
+                let valid = false;
+                let attempts = 0;
+                const maxAttempts = 50;
+
+                 while (!valid && attempts < maxAttempts) {
+                     attempts++;
+                     x = (Math.random() - 0.5) * placementArea;
+                     z = (Math.random() - 0.5) * placementArea;
+                     const spawnCheckPos = new THREE.Vector3(x, baseHeight, z); // Check at spawn height
+
+                     // Check player distance
+                     const distPlayer = player ? player.position.distanceTo(spawnCheckPos) : minPlayerDist + 1;
+                     if (distPlayer < minPlayerDist || distPlayer > maxPlayerDist) continue;
+
+                     // Check obstacle distance
+                     let obsCollision = false;
+                     for (const obs of obstacles) {
+                         if (!obs.scale) continue;
+                         const dx = x - obs.position.x;
+                         const dz = z - obs.position.z;
+                         const distSq = dx*dx + dz*dz;
+                         const obsRadius = Math.max(obs.scale.x, obs.scale.z) / 2;
+                         const minSep = obsRadius + obstacleClearance;
+                         if (distSq < minSep * minSep) {
+                             obsCollision = true; break;
+                         }
+                     }
+                     if (obsCollision) continue;
+
+                     valid = true; // All checks passed
+                 }
+
+                 if (valid) {
+                     spawnPos.set(x, baseHeight, z);
+                 } else {
+                     // Fallback: spawn near player origin if random fails
+                     console.warn("Failed to find random valid position for powerup, spawning near origin.");
+                     spawnPos.set((Math.random()-0.5)*5, baseHeight, (Math.random()-0.5)*5);
+                 }
+            }
+            powerUpGroup.position.copy(spawnPos);
+
+
+            powerUpGroup.userData = {
+                type: type,
+                created: Date.now(),
+                rotationSpeed: 0.03 + Math.random() * 0.02, // Vary rotation speed
+                hoverBaseHeight: baseHeight, // Store base height
+                hoverAmplitude: 0.2, // How much it bobs
+                hoverFrequency: 0.0025, // Speed of bobbing
+                isFading: false // For fade-out effect
+            };
+            scene.add(powerUpGroup);
+            powerUps.push(powerUpGroup);
+            return powerUpGroup;
+        }
+
+        function collectPowerUp(powerUp) {
+            if (!powerUp || !powerUp.userData) return;
+
+            if (powerUp.userData.type === 'health') {
+                 const healAmount = 50; // Amount to heal
+                health = Math.min(health + healAmount, 100); // Heal up to max 100
+                playSound('powerUp');
+                // Use the powerup's position for the effect - green burst
+                createExplosion(powerUp.position.clone(), new THREE.Color(0x33ff33), 25, 0.08);
+                updateUI();
+                 console.log(`Collected health powerup. Health: ${health}`);
+            }
+            // Add other power-up types here later (e.g., ammo, speed boost)
+            // else if (powerUp.userData.type === 'ammo') { ... }
+        }
+
+
+        function setupEventListeners() {
+            window.addEventListener('resize', onWindowResize, false);
+            // Keyboard events
+            document.addEventListener('keydown', onKeyDown, false);
+            document.addEventListener('keyup', onKeyUp, false);
+
+            const canvas = document.getElementById('gameCanvas');
+
+            // Pointer Lock Handling
+            canvas.addEventListener('click', () => {
+                // Request pointer lock only if game is active, not paused, and not on mobile
+                if (gameActive && !isPaused && !isMobile) {
+                     // Resume audio context on user interaction (important!)
+                     if (audioContext && audioContext.state === 'suspended') {
+                         audioContext.resume();
+                     }
+                     canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+                     if (canvas.requestPointerLock) {
+                         canvas.requestPointerLock();
+                     } else {
+                         console.warn("Pointer Lock API not supported by this browser.");
+                     }
+                }
+                 // On mobile, a click might just be aiming/shooting via touch, don't lock.
+                 // Also ensure audio context resumes on first touch
+                 if (isMobile && audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                 }
+            });
+
+            document.addEventListener('pointerlockchange', handlePointerLockChange, false);
+            document.addEventListener('mozpointerlockchange', handlePointerLockChange, false);
+            document.addEventListener('webkitpointerlockchange', handlePointerLockChange, false);
+            document.addEventListener('pointerlockerror', handlePointerLockError, false);
+            document.addEventListener('mozpointerlockerror', handlePointerLockError, false);
+            document.addEventListener('webkitpointerlockerror', handlePointerLockError, false);
+
+            // Mouse shooting (down/up for hold-to-shoot)
+            document.addEventListener('mousedown', onMouseDown, false);
+            document.addEventListener('mouseup', onMouseUp, false);
+            // Mouse aiming
+            document.addEventListener('mousemove', onMouseMove, false);
+
+            // Single key press actions (handled in onKeyDown now)
+            // document.addEventListener('keydown', function(event) { ... }); // Combined into onKeyDown
+
+            // Touch Controls Setup (if mobile)
+            if (isMobile) {
+                 setupTouchControls();
+            }
+
+            // Button Listeners (Screens)
+            document.getElementById('startButton').addEventListener('click', startGame);
+            document.getElementById('restartButtonGameOver').addEventListener('click', restartGame);
+            document.getElementById('restartButtonPause').addEventListener('click', restartGame);
+            document.getElementById('resumeButton').addEventListener('click', togglePause);
+            // Pause screen view toggle button (non-touch)
+            document.getElementById('viewToggleButton').addEventListener('click', () => {
+                 if (gameActive) toggleView(); // Toggle even if paused
+            });
+            // Touch view toggle button (top right)
+            document.getElementById('viewToggleTouchButton').addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent click event firing after touch
+                if (gameActive && !isPaused) toggleView();
+            }, { passive: false });
+        }
+
+
+        function toggleView() {
+            thirdPersonView = !thirdPersonView;
+            const weaponHolder = camera.getObjectByName("weaponHolder");
+            const crosshair = document.getElementById('crosshair');
+
+            if (thirdPersonView) {
+                // --- Switch to Third Person ---
+                 // Smoothly move camera behind (using a target object if complex movement needed, or simple lerp)
+                // Simple immediate positioning for now:
+                const offset = new THREE.Vector3(0, 2.5, 4.5); // Behind and slightly above
+                 // Rotate offset by player's current rotation
+                 // offset.applyQuaternion(player.quaternion); // Keep camera behind player even if they turn
+                 // camera.position.copy(player.position).add(offset); // Apply offset from player world pos
+
+                 // Alternative: Keep camera attached but change its local position
+                 camera.position.set(0, 2.5, 5.0); // Set relative to player group
+
+                // Point camera towards player model's center (approx head/chest)
+                 const lookAtTarget = new THREE.Vector3(0, 1.2, 0); // Target point relative to player group
+                 camera.lookAt(lookAtTarget); // Make camera look at this point within the player group space
+
+                playerBody.visible = true; // Show player model
+                if (weaponHolder) weaponHolder.visible = false; // Hide 1st person weapon
+                if (crosshair) crosshair.style.display = 'none'; // Hide crosshair
+
+                 console.log("Switched to 3rd Person View");
+
+            } else {
+                // --- Switch to First Person ---
+                // Reset camera to 1st person position (relative to player group)
+                camera.position.set(0, 1.7, 0);
+                 // Reset camera's local rotation (aiming is controlled by mouse/touch)
+                camera.rotation.set(0, 0, 0);
+                // Player rotation is handled separately by input
+
+                playerBody.visible = false; // Hide player model
+                if (weaponHolder) weaponHolder.visible = true; // Show 1st person weapon
+
+                // Show crosshair only if pointer is locked (on desktop)
+                 const pointerLocked = document.pointerLockElement === renderer.domElement ||
+                                    document.mozPointerLockElement === renderer.domElement ||
+                                    document.webkitPointerLockElement === renderer.domElement;
+                 if (crosshair && pointerLocked && !isMobile) {
+                     crosshair.style.display = 'block';
+                 } else if (crosshair) {
+                     crosshair.style.display = 'none'; // Ensure hidden otherwise
+                 }
+                 console.log("Switched to 1st Person View");
+            }
+        }
+
+
+        function setupTouchControls() {
+            const moveJoystick = document.getElementById('moveJoystick');
+            const lookJoystick = document.getElementById('lookJoystick');
+            const shootButton = document.getElementById('shootButtonTouch');
+            const moveThumb = moveJoystick.querySelector('.joystick-thumb');
+            const lookThumb = lookJoystick.querySelector('.joystick-thumb');
+
+            let moveTouchId = null;
+            let lookTouchId = null;
+             let shootTouchId = null; // Track touch for shoot button
+
+            // Helper to find the correct touch within the event's changedTouches
+            const findTouch = (event, targetId) => {
+                 if (targetId === null) return null; // No target ID to find
+                for (let i = 0; i < event.changedTouches.length; i++) {
+                    if (event.changedTouches[i].identifier === targetId) {
+                        return event.changedTouches[i];
+                    }
+                }
+                return null; // Touch with that ID not found in this event
+            };
+
+            // --- Move Joystick ---
+            moveJoystick.addEventListener('touchstart', (e) => {
+                 e.preventDefault();
+                 // Only capture the first touch that lands on the joystick
+                 if (!gameActive || isPaused || moveTouchId !== null) return;
+                 moveTouchId = e.changedTouches[0].identifier;
+                 moveJoystickActive = true;
+                 moveJoystick.style.opacity = 0.6; // Visual feedback
+                 handleJoystickMove(e.changedTouches[0], 'move', moveThumb);
+            }, { passive: false });
+
+            document.addEventListener('touchmove', (e) => { // Listen on document for moves outside joystick
+                 // e.preventDefault(); // Careful: prevents scrolling on page if needed elsewhere
+                 if (!gameActive || isPaused || moveTouchId === null) return;
+                 const touch = findTouch(e, moveTouchId);
+                 if (touch) {
+                    e.preventDefault(); // Prevent scroll only if handling the move touch
+                     handleJoystickMove(touch, 'move', moveThumb);
+                 }
+            }, { passive: false });
+
+            const moveEndHandler = (e) => {
+                 // e.preventDefault(); // Prevent potential click event?
+                 if (moveTouchId === null) return;
+                 const touch = findTouch(e, moveTouchId);
+                 if (touch) { // Only end if the correct touch is lifted/cancelled
+                    e.preventDefault();
+                     handleJoystickEnd('move', moveThumb);
+                     moveTouchId = null;
+                     moveJoystick.style.opacity = 1.0; // Restore visual
+                 }
+            };
+            document.addEventListener('touchend', moveEndHandler, { passive: false });
+            document.addEventListener('touchcancel', moveEndHandler, { passive: false });
+
+
+            // --- Look Joystick (Similar logic) ---
+            lookJoystick.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (!gameActive || isPaused || lookTouchId !== null) return;
+                lookTouchId = e.changedTouches[0].identifier;
+                lookJoystickActive = true;
+                 lookJoystick.style.opacity = 0.6;
+                handleJoystickMove(e.changedTouches[0], 'look', lookThumb);
+            }, { passive: false });
+
+            document.addEventListener('touchmove', (e) => {
+                // e.preventDefault();
+                 if (!gameActive || isPaused || lookTouchId === null) return;
+                const touch = findTouch(e, lookTouchId);
+                if (touch) {
+                    e.preventDefault();
+                     handleJoystickMove(touch, 'look', lookThumb);
+                 }
+            }, { passive: false });
+
+            const lookEndHandler = (e) => {
+                 // e.preventDefault();
+                 if (lookTouchId === null) return;
+                 const touch = findTouch(e, lookTouchId);
+                 if (touch) {
+                    e.preventDefault();
+                     handleJoystickEnd('look', lookThumb);
+                     lookTouchId = null;
+                     lookJoystick.style.opacity = 1.0;
+                 }
+            };
+            document.addEventListener('touchend', lookEndHandler, { passive: false });
+            document.addEventListener('touchcancel', lookEndHandler, { passive: false });
+
+
+            // --- Shoot Button ---
+            shootButton.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                 // Only activate if no other touch is already activating it
+                 if(gameActive && !isPaused && shootTouchId === null) {
+                    shootTouchId = e.changedTouches[0].identifier; // Track this touch
+                    isShooting = true;
+                    shootButton.style.backgroundColor = 'rgba(255, 0, 0, 0.7)'; // Visual feedback
+                 }
+            }, { passive: false });
+
+             const shootEndHandler = (e) => {
+                 // Only deactivate if the specific touch ID is lifted/cancelled
+                 if (shootTouchId !== null) {
+                    const touch = findTouch(e, shootTouchId);
+                    if (touch) {
+                        e.preventDefault();
+                        isShooting = false;
+                        shootButton.style.backgroundColor = 'rgba(255, 0, 0, 0.4)'; // Reset visual
+                        shootTouchId = null; // Release the lock
+                    }
+                 }
+             };
+             // Listen on the button itself for touchend/cancel
+            shootButton.addEventListener('touchend', shootEndHandler, { passive: false });
+            shootButton.addEventListener('touchcancel', shootEndHandler, { passive: false });
+        }
+
+
+        function handleJoystickMove(touch, type, thumbElement) {
+            if (!touch || !gameActive || isPaused) return;
+
+            // Ensure the correct joystick is considered active
+            if ((type === 'move' && !moveJoystickActive) || (type === 'look' && !lookJoystickActive)) return;
+
+            const joystickElement = document.getElementById(type === 'move' ? 'moveJoystick' : 'lookJoystick');
+            const rect = joystickElement.getBoundingClientRect();
+            // Calculate center relative to viewport
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // Calculate vector from center to touch position
+            let rawX = touch.clientX - centerX;
+            let rawY = touch.clientY - centerY;
+
+            const maxDist = rect.width / 2; // Max distance from center
+            const dist = Math.sqrt(rawX * rawX + rawY * rawY);
+
+            // Normalize the vector
+            let normX = rawX / maxDist;
+            let normY = rawY / maxDist;
+
+            // Clamp magnitude to 1 if distance exceeds maxDist
+             let clampedX = rawX;
+             let clampedY = rawY;
+             const thumbMaxDist = maxDist - (thumbElement.offsetWidth / 2); // Max distance thumb center can move
+
+            if (dist > maxDist) {
+                normX = rawX / dist; // Keep direction, magnitude 1
+                normY = rawY / dist;
+                 // Clamp visual thumb position
+                 clampedX = normX * thumbMaxDist;
+                 clampedY = normY * thumbMaxDist;
+            } else {
+                 // Allow thumb to move freely within bounds
+                 clampedX = rawX;
+                 clampedY = rawY;
+                 // Normalize based on actual position within maxDist
+                 normX = rawX / maxDist;
+                 normY = rawY / maxDist;
+            }
+
+
+            // Update thumb position visually
+            if (thumbElement) {
+                thumbElement.style.transform = `translate(${clampedX}px, ${clampedY}px)`;
+            }
+
+            // Apply normalized values to game logic
+            if (type === 'move') {
+                moveJoystickPosition.x = normX;
+                moveJoystickPosition.y = normY; // Y is screen coords (down is positive)
+                const deadzone = 0.15; // Sensitivity threshold
+                // Negative Y means moving thumb UP (forward)
+                moveForward = moveJoystickPosition.y < -deadzone;
+                moveBackward = moveJoystickPosition.y > deadzone;
+                moveLeft = moveJoystickPosition.x < -deadzone;
+                moveRight = moveJoystickPosition.x > deadzone;
+            } else if (type === 'look') {
+                lookJoystickPosition.x = normX;
+                lookJoystickPosition.y = normY;
+                 // No deadzone needed for look, use raw normalized values in updatePlayer
+            }
+        }
+
+        function handleJoystickEnd(type, thumbElement) {
+            if (type === 'move') {
+                moveJoystickActive = false;
+                moveJoystickPosition = { x: 0, y: 0 };
+                moveForward = moveBackward = moveLeft = moveRight = false;
+            } else if (type === 'look') {
+                lookJoystickActive = false;
+                lookJoystickPosition = { x: 0, y: 0 };
+            }
+            // Reset visual thumb position
+            if (thumbElement) {
+                thumbElement.style.transform = 'translate(0px, 0px)';
+            }
+        }
+
+        function handlePointerLockChange() {
+            const canvas = renderer.domElement;
+            const crosshair = document.getElementById('crosshair');
+             const pointerLocked = document.pointerLockElement === canvas ||
+                                document.mozPointerLockElement === canvas ||
+                                document.webkitPointerLockElement === canvas;
+
+            if (pointerLocked) {
+                console.log('Pointer Lock active');
+                 // Show crosshair only if in first person view and game is running
+                 if (!thirdPersonView && crosshair && gameActive && !isPaused) {
+                     crosshair.style.display = 'block';
+                 } else if (crosshair) {
+                     crosshair.style.display = 'none';
+                 }
+            } else {
+                console.log('Pointer Lock inactive');
+                // If lock is lost during active gameplay, pause the game
+                if (gameActive && !isPaused) {
+                     console.log("Pointer lock lost during gameplay, pausing.");
+                    togglePause(); // Auto-pause
+                }
+                // Always hide crosshair when lock is lost
+                if (crosshair) {
+                    crosshair.style.display = 'none';
+                }
+                // Reset movement/shooting states when pointer lock is lost
+                moveForward = moveBackward = moveLeft = moveRight = isShooting = false;
+            }
+        }
+
+
+        function handlePointerLockError(e) {
+             console.error('Pointer Lock Error:', e);
+             // Optional: Display a user message (e.g., "Could not lock cursor. Click the game window again?")
+        }
+
+        function shoot() {
+            const now = Date.now();
+            if (now - lastShootTime < shootCooldown) return; // Check cooldown
+
+            lastShootTime = now;
+
+            // Apply visual feedback
+            addRecoil();
+            createMuzzleFlash();
+
+            // Create and fire bullet
+            createAndAddBullet();
+
+            // Play sound
+            playSound('shoot');
+        }
+
+        function addRecoil() {
+            const weaponHolder = camera.getObjectByName("weaponHolder");
+            // No recoil effect in 3rd person or if weapon holder isn't found/visible
+            if (!weaponHolder || thirdPersonView || !weaponHolder.visible) return;
+
+            const recoilPitchAmount = 0.03; // Less vertical kick
+            const recoilYawAmount = (Math.random() - 0.5) * 0.01; // Small random horizontal kick
+            const recoilPushBack = 0.06; // Slightly more push back
+            const recoilDuration = 70; // Faster return
+
+            // Apply camera kick (pitch and yaw)
+             // Important: Apply yaw to the PLAYER group for horizontal recoil, pitch to the CAMERA
+            player.rotation.y += recoilYawAmount; // Horizontal recoil on player
+            camera.rotation.x -= recoilPitchAmount; // Vertical recoil on camera
+            // Clamp camera pitch
+            camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, minPitch, maxPitch);
+
+            // Apply weapon model push back
+            const basePos = weaponHolder.userData.basePosition;
+            if (!basePos) return; // Should be set in createPlayer
+
+            // Target position for recoil
+            const recoilTargetZ = basePos.z + recoilPushBack;
+
+             // Clear existing recoil timeout to prevent jitter if firing rapidly
+            if (weaponHolder.userData.recoilTimeout) clearTimeout(weaponHolder.userData.recoilTimeout);
+
+            // Animate recoil using a simple LERP approach or timeout
+            // Immediate push back:
+             weaponHolder.position.z = recoilTargetZ;
+             // Schedule return using timeout:
+            weaponHolder.userData.recoilTimeout = setTimeout(() => {
+                if (weaponHolder && !thirdPersonView && weaponHolder.userData.basePosition) {
+                     // Lerp back smoothly? Or just snap back? Snap back is simpler.
+                    weaponHolder.position.z = weaponHolder.userData.basePosition.z;
+                 }
+                weaponHolder.userData.recoilTimeout = null; // Clear timeout reference
+            }, recoilDuration);
+
+             // Alternative: Could use a small animation loop with LERP for smoother return
+        }
+
+
+        function createMuzzleFlash() {
+            const weaponHolder = camera.getObjectByName("weaponHolder");
+            // No flash in 3rd person or if holder/weapon not visible/found
+            if (!weaponHolder || weaponHolder.children.length === 0 || thirdPersonView || !weaponHolder.visible) return;
+
+            const flashColor = 0xffcc66; // Orangey-yellow
+            const flashIntensity = 2.5; // Brighter flash
+            const flashDistance = 3; // Smaller range, more focused
+            const flashDuration = 50; // Very short duration (ms)
+
+            // Remove previous flash if exists
+            const existingFlash = weaponHolder.getObjectByName("muzzleFlash");
+            if (existingFlash) {
+                 weaponHolder.remove(existingFlash);
+            }
+
+            // Create new flash light
+            const flash = new THREE.PointLight(flashColor, flashIntensity, flashDistance);
+            flash.name = "muzzleFlash";
+            // Position roughly at the end of the default weapon visual's barrel
+            flash.position.set(0, 0.02, -0.35); // Adjust based on weapon model visual
+            weaponHolder.add(flash);
+
+            // Remove the flash after duration
+            setTimeout(() => {
+                 const currentFlash = weaponHolder.getObjectByName("muzzleFlash");
+                if (currentFlash) { // Check if it still exists
+                     weaponHolder.remove(currentFlash);
+                 }
+            }, flashDuration);
+        }
+
+
+        function createAndAddBullet() {
+            const bullet = createBullet(); // Gets the bullet mesh with userData
+
+            // Calculate direction based on camera's current world orientation
+            const direction = new THREE.Vector3(0, 0, -1);
+            const worldQuaternion = new THREE.Quaternion();
+            camera.getWorldQuaternion(worldQuaternion); // Get current world rotation
+            direction.applyQuaternion(worldQuaternion); // Apply rotation to get direction vector
+
+            bullet.userData.direction = direction; // Store the direction vector
+            bullet.userData.worldQuaternion = worldQuaternion; // Store spawn rotation
+
+            // Calculate start position based on camera's world position
+            const startPosition = new THREE.Vector3();
+            camera.getWorldPosition(startPosition);
+            // Offset slightly forward from camera to avoid hitting player model, more if 3rd person?
+            const offsetDistance = thirdPersonView ? 1.5 : 0.8;
+            bullet.position.copy(startPosition).addScaledVector(direction, offsetDistance);
+
+            // Align bullet mesh to face the direction of travel
+            bullet.quaternion.copy(worldQuaternion);
+
+            scene.add(bullet);
+            bullets.push(bullet);
+        }
+
+
+        function createBullet() {
+            const bulletColor = 0xffffaa;
+            const bulletSize = 0.06; // Smaller bullet
+            const bulletSpeed = 2.0; // Faster bullet
+            const bulletPower = 35; // Adjusted damage
+            const bulletLifetime = 2000; // Max age in ms
+
+             // Simple sphere or small capsule for bullet shape
+            // const bulletGeometry = new THREE.SphereGeometry(bulletSize, 4, 2); // Low poly sphere
+            const bulletGeometry = new THREE.CapsuleGeometry(bulletSize * 0.5, bulletSize * 2, 4, 8); // Tiny capsule
+            const bulletMaterial = new THREE.MeshBasicMaterial({ color: bulletColor });
+            const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+
+             // Rotate capsule to align with Z forward if needed
+             bullet.rotation.x = Math.PI / 2;
+
+            // Add a subtle trail light attached to the bullet
+            const trailLight = new THREE.PointLight(bulletColor, 0.6, 1.8); // Dimmer light
+            trailLight.position.set(0, 0, 0); // At bullet center
+            bullet.add(trailLight); // Attach light
+
+            bullet.userData = {
+                speed: bulletSpeed,
+                created: Date.now(),
+                lifetime: bulletLifetime,
+                power: bulletPower,
+                direction: new THREE.Vector3(), // Set in createAndAddBullet
+                worldQuaternion: new THREE.Quaternion() // Set in createAndAddBullet
+            };
+            return bullet;
+        }
+
+
+        function updateBullets(delta) {
+            const speedFactor = delta * 60; // Adjust speed based on frame time (assuming target 60fps)
+            const halfGroundSize = groundSize / 2;
+            const now = Date.now();
+
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                const bullet = bullets[i];
+                const bulletData = bullet.userData;
+
+                // Move bullet based on its stored direction and speed
+                const moveStep = bulletData.speed * speedFactor;
+                bullet.position.addScaledVector(bulletData.direction, moveStep);
+
+                let hit = false;
+                let hitObject = null;
+
+                // --- Check Enemy Collision ---
+                 // Use a bounding box or sphere around the enemy for collision
+                for (let j = enemies.length - 1; j >= 0; j--) {
+                    const enemy = enemies[j];
+                    // Skip invalid, dying, or already hit by this bullet in a previous check (unlikely but safe)
+                    if (!enemy || !enemy.visible || !enemy.userData || enemy.userData.isDying || enemy.userData.hitByBullet === bullet.id) continue;
+
+                     // Calculate distance from bullet to enemy's approximate center (adjust Y pos)
+                     const enemyCenterY = (enemy.userData.size || 1.0) * 0.9; // Mid-body height approx
+                     const enemyCheckPos = enemy.position.clone().setY(enemyCenterY);
+                    const distanceSq = bullet.position.distanceToSquared(enemyCheckPos);
+
+                    // Collision radius based on enemy size
+                    const collisionRadius = (enemy.userData.size || 1.0) * 0.8; // Enemy approx radius
+                    const bulletRadius = 0.1; // Bullet approx radius
+                    const totalRadius = collisionRadius + bulletRadius;
+
+                    if (distanceSq < totalRadius * totalRadius) {
+                        hit = true;
+                        hitObject = enemy;
+                         enemy.userData.hitByBullet = bullet.id; // Mark enemy as hit by this bullet for this frame
+
+                        enemy.userData.health -= bulletData.power;
+                        playSound('hit');
+                        // Create smaller, red impact spark effect at hit location
+                        createExplosion(bullet.position.clone(), new THREE.Color(0xcc0000), 8, 0.05);
+
+                        // Trigger enemy hit visual feedback
+                        flashEnemyOnHit(enemy);
+
+                        // --- Enemy Death Check ---
+                        if (enemy.userData.health <= 0 && !enemy.userData.isDying) {
+                             enemy.userData.isDying = true; // Mark as dying immediately
+                             animateEnemyDeath(enemy); // Start death animation/effects
+
+                             // Schedule removal from array/scene AFTER animation completes
+                             setTimeout(() => {
+                                 // Double-check if enemy still exists and is in the array
+                                 const index = enemies.indexOf(enemy);
+                                 if (index > -1) {
+                                     // Remove from scene first
+                                     if (enemy.parent) {
+                                         scene.remove(enemy);
+                                     }
+                                     // Then remove from array
+                                     enemies.splice(index, 1);
+
+                                     // Update score, check level completion etc. only AFTER confirming removal
+                                     score += enemy.userData.type === 'fast' ? 20 : (enemy.userData.type === 'tank' ? 30 : 10);
+                                     enemiesKilled++;
+                                     updateUI(); // Update score/enemy count
+
+                                     // Chance to spawn health power-up
+                                     if (Math.random() < 0.18) { // Slightly higher chance
+                                         spawnPowerUp(enemy.position.clone().setY(0)); // Spawn at enemy's ground position
+                                     }
+
+                                     // Check if level is complete
+                                     if (enemies.length === 0) {
+                                         levelComplete();
+                                     }
+                                 }
+                             }, 1100); // Delay matching death animation duration + buffer
+                        }
+                        break; // Bullet hits one enemy and is consumed
+                    }
+                }
+
+                // --- Check Obstacle Collision ---
+                if (!hit) {
+                     for (const obstacle of obstacles) {
+                          if (!obstacle || !obstacle.scale || !obstacle.visible) continue;
+
+                         // Simple AABB collision check using bounding box helper if available, or manual check
+                         const obsPos = obstacle.position;
+                         const obsScale = obstacle.scale; // Use actual scale
+                         const halfScaleX = obsScale.x / 2;
+                         const halfScaleY = obsScale.y / 2;
+                         const halfScaleZ = obsScale.z / 2;
+                         const bulletPos = bullet.position;
+
+                         // Check if bullet is within the obstacle's bounds (Axis-Aligned)
+                         if ( bulletPos.x >= obsPos.x - halfScaleX && bulletPos.x <= obsPos.x + halfScaleX &&
+                              bulletPos.y >= obsPos.y - halfScaleY && bulletPos.y <= obsPos.y + halfScaleY && // Check Y axis too
+                              bulletPos.z >= obsPos.z - halfScaleZ && bulletPos.z <= obsPos.z + halfScaleZ )
+                         {
+                             hit = true;
+                             hitObject = obstacle;
+                             // Create smaller, grey spark effect for hitting inanimate object
+                             createExplosion(bullet.position.clone(), new THREE.Color(0xaaaaaa), 5, 0.04);
+                             // Maybe play a ricochet sound?
+                             break; // Bullet hits one obstacle and is consumed
+                         }
+                     }
+                }
+
+                // --- Remove Bullet ---
+                const age = now - bulletData.created;
+                // Remove if hit, too old, or out of bounds
+                const outOfBounds = Math.abs(bullet.position.x) > halfGroundSize + 10 || // Generous bounds check
+                                    Math.abs(bullet.position.z) > halfGroundSize + 10 ||
+                                    bullet.position.y < -5 || bullet.position.y > 50;
+
+                if (hit || age > bulletData.lifetime || outOfBounds) {
+                    // Clean up attached light first
+                    const light = bullet.getObjectByProperty('isLight', true);
+                    if (light) bullet.remove(light);
+
+                    scene.remove(bullet); // Remove from scene
+                    bullets.splice(i, 1); // Remove from array
+                } else if (hitObject && hitObject.userData) {
+                     // Clear the hit marker for the next frame/bullet
+                     hitObject.userData.hitByBullet = null;
+                 }
+            }
+        }
+
+
+        function flashEnemyOnHit(enemy) {
+             if (!enemy || enemy.userData.isFlashing) return; // Prevent overlapping flashes
+
+             enemy.userData.isFlashing = true; // Set flag
+
+             const originalMaterials = new Map(); // Use Map to store original material state
+
+             enemy.traverseVisible(child => {
+                 if (child.isMesh && child.material) {
+                     const materials = Array.isArray(child.material) ? child.material : [child.material];
+                     materials.forEach((mat, index) => {
+                         const matId = `${child.uuid}-${index}`; // Unique ID for multi-materials
+                         if (!originalMaterials.has(matId)) {
+                             originalMaterials.set(matId, {
+                                 color: mat.color.clone(),
+                                 emissive: mat.emissive ? mat.emissive.clone() : new THREE.Color(0x000000),
+                                 emissiveIntensity: mat.emissiveIntensity || 0
+                             });
+                         }
+                         mat.color.set(0xffffff); // Flash white
+                         mat.emissive.set(0xffffff);
+                         mat.emissiveIntensity = 1.0;
+                     });
+                 }
+             });
+
+             // Set timeout to revert colors
+             setTimeout(() => {
+                 enemy.traverseVisible(child => {
+                     if (child.isMesh && child.material) {
+                         const materials = Array.isArray(child.material) ? child.material : [child.material];
+                         materials.forEach((mat, index) => {
+                             const matId = `${child.uuid}-${index}`;
+                             if (originalMaterials.has(matId)) {
+                                 const original = originalMaterials.get(matId);
+                                 mat.color.copy(original.color);
+                                 mat.emissive.copy(original.emissive);
+                                 mat.emissiveIntensity = original.emissiveIntensity;
+                             } else {
+                                 // Fallback if original wasn't stored (shouldn't happen)
+                                 mat.color.set(0x888888);
+                                 mat.emissive.set(0x000000);
+                                 mat.emissiveIntensity = 0;
+                             }
+                         });
+                     }
+                 });
+                 enemy.userData.isFlashing = false; // Clear flag
+             }, 100); // Duration of the flash (ms)
+         }
+
+
+        function animateEnemyDeath(enemy) {
+             // Ensure flag is set
+             enemy.userData.isDying = true;
+             enemy.visible = true; // Ensure visible for animation start
+
+             // Choose death effect color based on type
+             const deathColor = enemy.userData.type === 'tank' ? new THREE.Color(0x6688ff) :
+                                (enemy.userData.type === 'fast' ? new THREE.Color(0xff6666) : new THREE.Color(0x66ff66));
+             // Create a larger explosion effect at the enemy's base
+             createExplosion(enemy.position.clone().add(new THREE.Vector3(0, 0.5, 0)), deathColor, 35, 0.12); // Larger particles, slightly higher pos
+             playSound('explode');
+
+             const startTime = Date.now();
+             const duration = 1000; // Animation duration in ms
+             const originalScale = enemy.scale.clone();
+             const originalPosition = enemy.position.clone();
+
+             function animateDeathFrame() {
+                 // Stop animation if enemy removed prematurely or flag cleared
+                 if (!enemy.userData.isDying || !enemy.parent) return;
+
+                 const elapsed = Date.now() - startTime;
+                 const progress = Math.min(elapsed / duration, 1); // Normalized progress (0 to 1)
+                 const easeOutProgress = 1 - Math.pow(1 - progress, 3); // Ease-out cubic
+
+                 // --- Animation Effects ---
+                 // 1. Sink into the ground
+                 enemy.position.y = originalPosition.y - easeOutProgress * 1.5; // Sink faster at the end
+
+                 // 2. Scale down slightly
+                 enemy.scale.copy(originalScale).multiplyScalar(1 - progress * 0.7); // Shrink more
+
+                 // 3. Rotate randomly while sinking
+                 enemy.rotation.x += 0.15 * (1 - progress) * delta * 60; // Use delta for frame-rate independence? Or fixed rate? Fixed is simpler here.
+                 enemy.rotation.z += 0.12 * (1 - progress) * delta * 60;
+                 enemy.rotation.y += 0.05 * (1 - progress) * delta * 60;
+
+
+                 // 4. Fade out using material opacity
+                 enemy.traverseVisible(child => {
+                     if (child.isMesh && child.material) {
+                         const materials = Array.isArray(child.material) ? child.material : [child.material];
+                         materials.forEach(mat => {
+                             if (!mat.transparent) mat.transparent = true; // Ensure transparency is enabled
+                             mat.opacity = Math.max(0, 1.0 - progress); // Fade out linearly
+                         });
+                     }
+                 });
+
+                 // Continue animation or finalize
+                 if (progress < 1) {
+                     requestAnimationFrame(animateDeathFrame);
+                 } else {
+                      // Animation finished. Actual removal is handled by the setTimeout in updateBullets.
+                      // Just ensure it's hidden.
+                      enemy.visible = false;
+                      // Optional: Reset opacity/scale/position here if the object might be reused (unlikely for enemies)
+                 }
+             }
+             // Need delta for rotation, get it from the clock or pass it in?
+             // Simpler to just use a fixed rotation speed for the death anim.
+             const delta = clock.getDelta(); // Get delta once for this animation frame call
+             animateDeathFrame(); // Start the animation loop
+         }
+
+
+
+        function updateEnemies(delta) {
+            if (!player || !gameActive || isPaused) return;
+            const speedFactor = delta * 60; // Frame-rate independent speed adjustment
+            const now = Date.now();
+
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                const enemy = enemies[i];
+
+                // Skip processing if enemy is invalid, already dying, or somehow invisible
+                if (!enemy || !enemy.userData || enemy.userData.isDying || !enemy.visible) {
+                    continue;
+                }
+
+                // Animate basic walk/idle cycle
+                animateEnemy(enemy, delta);
+
+                // --- Play Zombie Sound ---
+                if (now - enemy.userData.lastSoundTime > enemy.userData.soundCooldown) {
+                    enemy.userData.lastSoundTime = now;
+                    // Recalculate next sound time randomly
+                    const baseCooldown = enemy.userData.type === 'fast' ? 4500 : (enemy.userData.type === 'tank' ? 7000 : 5500);
+                    enemy.userData.soundCooldown = baseCooldown * (0.75 + Math.random() * 0.5);
+
+                    // Play sound only if reasonably close to player
+                    const distanceToPlayerSound = enemy.position.distanceTo(player.position);
+                    if (distanceToPlayerSound < 35) { // Increased sound range
+                        playSound('zombie');
+                    }
+                }
+
+                // --- Movement and Targeting ---
+                const distanceToPlayer = enemy.position.distanceTo(player.position);
+                // Attack range based on enemy size, slightly larger
+                const attackRange = 1.8 * (enemy.userData.size || 1.0);
+                // Detection range (optional - currently always detects player)
+                // const detectionRange = 50;
+
+                // if (distanceToPlayer < detectionRange) { // Only act if player is close enough
+                    if (distanceToPlayer > attackRange) {
+                        // --- Move Towards Player ---
+                        const pathDirection = calculatePathToPlayer(enemy); // Get direction considering avoidance
+                        // If pathDirection is zero (e.g., blocked), maybe stop or jitter? For now, just normalize if possible.
+                        if (pathDirection.lengthSq() > 0.001) {
+                             pathDirection.normalize();
+
+                            const enemySpeed = enemy.userData.speed * speedFactor;
+                            const proposedMove = pathDirection.multiplyScalar(enemySpeed);
+
+                            // --- Collision with Other Enemies during Movement ---
+                            // Check proposed move against other enemies to prevent overlap
+                            let canMove = true;
+                            const proposedPos = enemy.position.clone().add(proposedMove);
+                            const enemyRadius = (enemy.userData.size || 1.0) * 0.5;
+
+                            for(const other of enemies) {
+                                if (enemy === other || !other.userData || other.userData.isDying || !other.visible) continue;
+                                const otherRadius = (other.userData.size || 1.0) * 0.5;
+                                const distSq = proposedPos.distanceToSquared(other.position);
+                                const minSepSq = Math.pow(enemyRadius + otherRadius + 0.1, 2); // Small buffer
+                                if (distSq < minSepSq) {
+                                    canMove = false;
+                                    break;
+                                }
+                            }
+
+                            // Apply movement if possible
+                            if (canMove) {
+                                enemy.position.add(proposedMove);
+                            }
+                             // Else: Enemy is blocked by another enemy, doesn't move this frame.
+
+                        }
+                        // Make enemy look towards the player (only Y rotation)
+                         // Smooth rotation towards player? Or instant lookAt? Instant is simpler.
+                         enemy.lookAt(player.position.x, enemy.position.y, player.position.z); // Keep enemy upright
+
+
+                    } else {
+                        // --- Attack Player ---
+                        if (now - enemy.userData.lastAttackTime > enemy.userData.attackCooldown) {
+                            enemy.userData.lastAttackTime = now; // Reset attack timer
+
+                             // Player takes damage
+                             health -= enemy.userData.damage;
+                             showDamageEffect(); // Visual feedback for player getting hit
+                             playSound('pain'); // Player pain sound
+                             updateUI(); // Update health display
+
+                             // Check for game over
+                             if (health <= 0) {
+                                 gameOver();
+                                 return; // Exit enemy update loop immediately if game over
+                             }
+                        }
+                         // Optional: Make the enemy stop moving or just jitter slightly when attacking
+                    }
+                // } // End detectionRange check
+
+                // --- Ground Clamp ---
+                // Ensure enemy stays on the ground plane (y=0) after all movements
+                enemy.position.y = 0;
+            }
+        }
+
+
+        function showDamageEffect() {
+            const overlay = document.getElementById('damageOverlay');
+            if (!overlay) return;
+
+             // Immediate flash
+            overlay.style.transition = 'none'; // Disable transition for immediate effect
+            overlay.style.backgroundColor = 'rgba(255, 0, 0, 0.45)'; // More visible red flash
+
+             // Clear previous timeout if damage taken rapidly
+             if (overlay.damageTimeout) clearTimeout(overlay.damageTimeout);
+
+            // Use a timeout to fade it back to transparent
+            overlay.damageTimeout = setTimeout(() => {
+                 overlay.style.transition = 'background-color 0.6s ease-out'; // Slower fade out
+                overlay.style.backgroundColor = 'rgba(255, 0, 0, 0)';
+                 overlay.damageTimeout = null; // Clear timeout reference
+            }, 100); // Duration of the intense flash before fading starts
+        }
+
+
+        function animateEnemy(enemy, delta) {
+             // Skip if invalid, dying, or missing animation data
+            if (!enemy || !enemy.userData || enemy.userData.isDying || !enemy.userData.walkTime === undefined) return;
+
+            const speedFactor = delta * 60; // Adjust animation speed relative to frame rate
+            enemy.userData.walkTime += delta * enemy.userData.walkSpeed;
+            const walkCycle = enemy.userData.walkTime;
+
+            // Arm swing animation
+            const leftArm = enemy.getObjectByName('leftArm');
+            const rightArm = enemy.getObjectByName('rightArm');
+            const armSwingAmount = 0.8; // More pronounced swing
+
+            if (leftArm) {
+                leftArm.rotation.x = Math.sin(walkCycle) * armSwingAmount;
+            }
+            if (rightArm) {
+                rightArm.rotation.x = -Math.sin(walkCycle) * armSwingAmount; // Opposite swing
+            }
+
+            // Body bobbing (applied before ground clamping in updateEnemies)
+             // This causes jitter if ground clamp is strict. Let's remove direct Y pos modification here.
+             // Instead, maybe apply a slight rotation or use an offset within the group if needed.
+             // enemy.position.y = Math.abs(Math.sin(walkCycle * 0.5)) * enemy.userData.bobHeight; // ** Removed **
+
+             // Optional: Add subtle torso twist? (More complex)
+             // const body = enemy.children[0]; // Assuming body is first child
+             // if (body) {
+             //    body.rotation.y = Math.sin(walkCycle * 0.8) * 0.1;
+             // }
+        }
+
+
+        function calculatePathToPlayer(enemy) {
+             if (!player || !enemy || !enemy.userData) return new THREE.Vector3(0, 0, 0);
+
+            // 1. Direct vector towards player
+            const directPath = new THREE.Vector3().subVectors(player.position, enemy.position);
+            directPath.y = 0; // Ignore vertical difference
+            const distanceToPlayerSq = directPath.lengthSq();
+             if (distanceToPlayerSq < 0.01) return new THREE.Vector3(0,0,0); // Already at target
+
+            // 2. Avoidance Vector Calculation
+            let avoidanceVector = new THREE.Vector3();
+            const enemyRadius = (enemy.userData.size || 1.0) * 0.5;
+            const avoidanceLookAhead = 2.0; // How far ahead to check for obstacles/enemies relative to radius
+            const avoidanceStrength = 2.5; // How strongly to push away
+
+             // --- Combine Obstacle and Enemy Avoidance ---
+             const thingsToAvoid = [...obstacles, ...enemies];
+
+             thingsToAvoid.forEach(other => {
+                 // Skip self, invalid objects, dying enemies, or invisible things
+                 if (!other || enemy === other || !other.visible || (other.userData && other.userData.isDying)) return;
+
+                 let otherRadius = 0.5; // Default radius
+                 if (other.userData && other.userData.size) { // If it's an enemy
+                     otherRadius = (other.userData.size || 1.0) * 0.5;
+                 } else if (other.scale) { // If it's an obstacle
+                     otherRadius = Math.max(other.scale.x, other.scale.z) / 2 * 0.8; // Use 80% of max scale dim as radius (approx)
+                 } else {
+                     return; // Skip if no size info
+                 }
+
+                 const vecToOther = new THREE.Vector3().subVectors(other.position, enemy.position);
+                 vecToOther.y = 0; // Ignore height difference
+                 const distToOtherSq = vecToOther.lengthSq();
+                 const minSeparation = enemyRadius + otherRadius + 0.5; // Desired buffer space
+
+                 // Only consider avoidance if the object is relatively close
+                 if (distToOtherSq > 0 && distToOtherSq < (minSeparation + avoidanceLookAhead) * (minSeparation + avoidanceLookAhead)) {
+                     // Calculate how much to push away, stronger when closer
+                     const distToOther = Math.sqrt(distToOtherSq);
+                      // Inverse relationship: push harder when distance is less than minSeparation
+                     const avoidanceScale = Math.max(0, (1.0 - (distToOther / minSeparation))) * avoidanceStrength;
+
+                     if (avoidanceScale > 0) {
+                         // Push directly away from the center of the obstacle/enemy
+                         vecToOther.normalize().multiplyScalar(-avoidanceScale);
+                         avoidanceVector.add(vecToOther);
+                     }
+                 }
+             });
+
+            // 3. Combine Direct Path and Avoidance
+             // Normalize direct path if it has length
+             if (distanceToPlayerSq > 0.001) directPath.normalize();
+
+             // Add avoidance vector (which might be zero)
+             directPath.add(avoidanceVector);
+
+             // Final normalization for the combined direction vector
+             if (directPath.lengthSq() > 0.001) directPath.normalize();
+
+            return directPath;
+        }
+
+
+
+        function updateParticles(delta) {
+            const now = Date.now();
+            const speedFactor = delta * 60;
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                const data = p.userData;
+
+                if (!data || !p.parent) { // Safety check & check if already removed
+                    if (p.parent) scene.remove(p); // Ensure removal if somehow still present
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                // Apply velocity and gravity
+                p.position.addScaledVector(data.direction, data.speed * speedFactor);
+                data.direction.y -= data.gravity * delta * 60; // Gravity adjusted by delta * 60 (consistent effect)
+
+                // Update lifetime and calculate life ratio (clamped 0-1)
+                const age = now - data.created;
+                const lifeRatio = Math.max(0, Math.min(1, 1 - (age / data.lifetime)));
+
+                // --- Update Visuals based on Life Ratio ---
+                // Scale (shrink over time, ease-out optional)
+                const scale = Math.max(0.01, lifeRatio * data.initialScale);
+                p.scale.setScalar(scale);
+
+                // Opacity (fade out)
+                if (p.material && p.material.transparent) {
+                    p.material.opacity = lifeRatio * data.initialOpacity;
+                }
+
+                // Attached Light Intensity
+                if (data.light) {
+                    data.light.intensity = lifeRatio * data.initialLightIntensity;
+                }
+
+                // Remove particle if lifetime exceeded
+                if (lifeRatio <= 0) {
+                    if (data.light) p.remove(data.light); // Remove light first
+                    scene.remove(p);
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+
+        function updatePowerUps(delta) {
+            const now = Date.now();
+            const pickupRadiusSq = 1.8 * 1.8; // Use squared distance for efficiency
+            const lifetime = 25000; // 25 seconds in ms
+            const fadeDuration = 1000; // Fade out over 1 second
+
+            for (let i = powerUps.length - 1; i >= 0; i--) {
+                const powerUp = powerUps[i];
+                const data = powerUp.userData;
+
+                if (!data || !powerUp.parent) { // Safety check
+                    if (powerUp.parent) scene.remove(powerUp);
+                    powerUps.splice(i, 1);
+                    continue;
+                }
+
+                // --- Animation ---
+                powerUp.rotation.y += data.rotationSpeed * delta * 60; // Frame-rate independent rotation
+                // Bobbing using sine wave based on time
+                const hoverOffset = Math.sin(now * data.hoverFrequency * Math.PI * 2) * data.hoverAmplitude; // Use full sine cycle
+                powerUp.position.y = data.hoverBaseHeight + hoverOffset;
+
+                // Light pulsing effect
+                const light = powerUp.getObjectByProperty('isLight', true);
+                if (light && light.userData.initialIntensity) {
+                    light.intensity = light.userData.initialIntensity * (0.8 + Math.abs(Math.sin(now * 0.004)) * 0.4); // Pulse intensity
+                }
+
+                // --- Check Lifetime & Fade ---
+                const age = now - data.created;
+                 if (age > lifetime && !data.isFading) {
+                     // Start fading out if lifetime exceeded
+                     data.isFading = true;
+                     data.fadeStartTime = now; // Record when fading starts
+                 }
+
+                 // Apply fading if active
+                 if (data.isFading) {
+                     const fadeElapsed = now - data.fadeStartTime;
+                     const fadeProgress = Math.min(fadeElapsed / fadeDuration, 1);
+                     const remaining = 1.0 - fadeProgress;
+
+                     // Fade opacity of materials
+                     powerUp.traverseVisible(child => {
+                         if (child.isMesh && child.material) {
+                             const materials = Array.isArray(child.material) ? child.material : [child.material];
+                             materials.forEach(mat => {
+                                 if (!mat.transparent) mat.transparent = true;
+                                  // Assuming initial opacity was stored or default is 1.0
+                                 mat.opacity = Math.max(0, (mat.userData.initialOpacity || 1.0) * remaining);
+                             });
+                         }
+                         // Fade light intensity
+                          if (child.isLight && child.userData.initialIntensity) {
+                              child.intensity = child.userData.initialIntensity * remaining;
+                          }
+                     });
+
+                     // Remove after fade completes
+                     if (fadeProgress >= 1) {
+                         if (light) powerUp.remove(light); // Clean up light
+                         scene.remove(powerUp);
+                         powerUps.splice(i, 1);
+                         continue; // Skip to next powerup
+                     }
+                 }
+
+
+                // --- Check Player Collision (only if not fading) ---
+                if (!data.isFading && player && player.position.distanceToSquared(powerUp.position) < pickupRadiusSq) {
+                    collectPowerUp(powerUp);
+                    // Remove immediately on collection (no fade needed)
+                    if (light) powerUp.remove(light);
+                    scene.remove(powerUp);
+                    powerUps.splice(i, 1);
+                    // continue; // Skip to next powerup (already done by splice logic)
+                }
+            }
+        }
+
+
+        // Generic fade-out function (kept for potential use, but updatePowerUps handles its own fading now)
+        /* function fadeOutAndRemove(object, duration = 500) { ... } */
+
+
+        function createExplosion(position, color, count = 20, particleBaseScale = 0.1, particleSpeedMult = 1.0) {
+            const baseLifetime = 500 + Math.random() * 500; // Base duration 500-1000ms
+            const baseSpeed = 0.08;
+            const gravity = 0.008; // Slightly stronger gravity
+
+            for (let i = 0; i < count; i++) {
+                // Simple, performant geometry (plane or low-poly sphere)
+                const particleGeometry = new THREE.SphereGeometry(0.5, 4, 2); // Unit size sphere
+                const particleMaterial = new THREE.MeshBasicMaterial({
+                    color: color,
+                    transparent: true,
+                    opacity: 0.95, // Start almost opaque
+                    // blending: THREE.AdditiveBlending, // Optional: additive makes bright spots brighter
+                    // depthWrite: false,             // Needed for additive blending
+                });
+                const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+                particle.position.copy(position).add(new THREE.Vector3(
+                    (Math.random()-0.5)*0.1, (Math.random()-0.5)*0.1, (Math.random()-0.5)*0.1 // Start slightly spread out
+                ));
+
+                // Random outward direction (biased slightly upwards initially?)
+                const direction = new THREE.Vector3(
+                    (Math.random() - 0.5),
+                    (Math.random() * 0.5 + 0.2), // Bias slightly upwards (0.2 to 0.7 range)
+                    (Math.random() - 0.5)
+                ).normalize();
+
+                // Store data for simulation
+                particle.userData = {
+                    direction: direction,
+                    speed: (baseSpeed + Math.random() * baseSpeed * 0.8) * particleSpeedMult, // Vary speed
+                    gravity: gravity,
+                    created: Date.now(),
+                    lifetime: baseLifetime * (0.7 + Math.random() * 0.6), // Vary lifetime significantly
+                    initialScale: particleBaseScale * (0.6 + Math.random() * 0.8), // Vary initial scale more
+                    initialOpacity: particleMaterial.opacity, // Store initial opacity
+                    light: null, // Placeholder for optional light
+                    initialLightIntensity: 0
+                };
+
+                // Apply initial scale
+                particle.scale.setScalar(particle.userData.initialScale);
+
+                // Add very infrequent, very dim lights for subtle effect
+                if (count > 15 && Math.random() < 0.05) { // 5% chance on larger explosions
+                    const light = new THREE.PointLight(color, 0.3, 1.0); // Very dim, short range
+                    particle.userData.light = light;
+                    particle.userData.initialLightIntensity = light.intensity;
+                    particle.add(light); // Attach light to particle
+                }
+
+                scene.add(particle);
+                particles.push(particle);
+            }
+        }
+
+        function playSound(type) {
+            if (!audioContext || audioContext.state !== 'running' || !soundEffects[type]) {
+                 // console.warn(`Audio not ready or sound type "${type}" unknown.`);
+                return;
+            }
+
+            const sound = soundEffects[type];
+             const baseVolume = sound.volume || 1.0; // Use volume defined in sound object or default to 1
+
+            // --- Play Audio Buffer (If loaded) ---
+            if (sound instanceof AudioBuffer) {
+                const source = audioContext.createBufferSource();
+                source.buffer = sound;
+                 const gainNode = audioContext.createGain();
+                 gainNode.gain.setValueAtTime(baseVolume, audioContext.currentTime); // Use defined volume
+                source.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                source.start();
+             }
+            // --- Play Procedural Sound ---
+             else if (typeof sound.play === 'function') {
+                 // The procedural sound's play function handles its own volume based on definition + argument
+                 sound.play(1.0); // Pass master volume multiplier (1.0 means use defined base volume)
+             } else {
+                 console.warn(`Sound type "${type}" is not playable (not a buffer or procedural object).`);
+             }
+        }
+
+
+        function updatePlayer(delta) {
+            if (!player) return; // Should not happen after init, but safety first
+
+            const moveSpeed = playerSpeed * delta;
+            const touchLookSpeed = touchSensitivity * delta * 60; // Frame-rate adjust touch look speed
+            const mouseLookSensitivity = mouseSensitivity * (thirdPersonView ? 0.7 : 1.0); // Slightly less sensitive in 3rd person
+
+            // --- Touch Look (Right Joystick) ---
+            if (lookJoystickActive) {
+                 // Horizontal rotation (around Y axis) - affects player group
+                player.rotation.y -= lookJoystickPosition.x * touchLookSpeed * 1.2; // Slightly faster touch yaw
+
+                // Vertical rotation (around X axis) - affects camera directly
+                 // Allow vertical look in 3rd person too, but maybe clamp differently?
+                 if (!thirdPersonView) {
+                    camera.rotation.x -= lookJoystickPosition.y * touchLookSpeed;
+                    camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, minPitch, maxPitch);
+                 } else {
+                     // In 3rd person, maybe adjust camera offset instead of rotating camera directly?
+                     // Or allow limited pitch rotation:
+                    // camera.rotation.x -= lookJoystickPosition.y * touchLookSpeed * 0.5; // Slower pitch in 3rd person
+                    // camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -0.5, 0.8); // Different clamp for 3rd person
+                     // For now, keep 3rd person look fixed by lookAt in toggleView
+                 }
+            }
+
+            // --- Movement Calculation (Keyboard / Left Joystick) ---
+            const forwardVector = new THREE.Vector3();
+            const rightVector = new THREE.Vector3();
+            player.getWorldDirection(forwardVector); // Get player's forward direction in world space
+            forwardVector.y = 0; // Project onto XZ plane
+            forwardVector.normalize();
+            // Calculate right vector based on forward vector and world up axis
+            rightVector.crossVectors(new THREE.Vector3(0, 1, 0), forwardVector).normalize();
+
+            // Determine movement input sum (from keyboard or joystick)
+            let moveZ = 0;
+            let moveX = 0;
+            if (moveForward) moveZ -= 1;
+            if (moveBackward) moveZ += 1;
+            if (moveLeft) moveX -= 1;
+            if (moveRight) moveX += 1;
+
+            // Calculate combined movement direction vector
+            const moveDirection = new THREE.Vector3();
+            moveDirection.addScaledVector(forwardVector, moveZ); // Add forward/backward component
+            moveDirection.addScaledVector(rightVector, moveX); // Add left/right component
+
+            // Normalize diagonal movement to prevent faster speed (if moving diagonally)
+            if (moveDirection.lengthSq() > 0.1) { // Check length squared avoids sqrt
+                moveDirection.normalize();
+            }
+
+            // --- Collision Detection and Application ---
+            if (moveDirection.lengthSq() > 0) { // Only check collisions if trying to move
+                const proposedMovement = moveDirection.clone().multiplyScalar(moveSpeed);
+                const proposedPosition = player.position.clone().add(proposedMovement);
+
+                // Perform collision check with the proposed final position
+                 const canMove = checkPlayerCollision(proposedPosition);
+
+                if (canMove) {
+                    // No collision detected, move the player
+                    player.position.copy(proposedPosition);
+                } else {
+                    // Collision detected! Try sliding along the obstacle.
+                    // Simplified slide: try moving only on X, then only on Z.
+
+                    // Try X-only movement
+                     const proposedX = player.position.clone().add(new THREE.Vector3(proposedMovement.x, 0, 0));
+                     if (checkPlayerCollision(proposedX)) {
+                         player.position.copy(proposedX);
+                     } else {
+                         // Try Z-only movement
+                         const proposedZ = player.position.clone().add(new THREE.Vector3(0, 0, proposedMovement.z));
+                         if (checkPlayerCollision(proposedZ)) {
+                             player.position.copy(proposedZ);
+                         }
+                         // If both fail, player stops against the obstacle/wall
+                     }
+                }
+            }
+
+
+            // --- Boundary Clamp (Final safety net) ---
+            const mapBoundary = groundSize / 2 - 0.5; // Half map size minus approx player radius
+            player.position.x = Math.max(-mapBoundary, Math.min(mapBoundary, player.position.x));
+            player.position.z = Math.max(-mapBoundary, Math.min(mapBoundary, player.position.z));
+            player.position.y = 0.5; // Ensure player stays at correct height
+
+
+            // --- Continuous Shooting ---
+            if (isShooting) {
+                shoot(); // shoot() handles its own cooldown
+            }
+
+            // --- Weapon Bobbing (1st person only when moving) ---
+            const isMoving = moveForward || moveBackward || moveLeft || moveRight;
+            const weaponHolder = camera.getObjectByName("weaponHolder");
+
+             if (weaponHolder && !thirdPersonView) {
+                if (isMoving) {
+                     animateWeaponBob(delta);
+                 } else {
+                     resetWeaponBob(); // Smoothly return weapon to default position if stopped
+                 }
+             }
+
+             // --- Third Person Camera Update ---
+             // If in 3rd person, ensure camera follows player rotation smoothly?
+             // Currently, camera is fixed relative to player group rotation. LookAt handles vertical angle.
+             // Could add LERP for camera position/rotation changes if needed.
+        }
+
+
+        function checkPlayerCollision(proposedPosition) {
+             const playerRadius = 0.4; // Player collision cylinder radius
+             // Player height check isn't strictly necessary if all obstacles are grounded and tall enough
+
+             for (const obstacle of obstacles) {
+                 // Skip invalid, invisible obstacles, or those without scale/position
+                 if (!obstacle || !obstacle.scale || !obstacle.position || !obstacle.visible) continue;
+
+                 const obsPos = obstacle.position;
+                 const obsScale = obstacle.scale; // Use the actual scale of the obstacle mesh/group
+
+                 // AABB collision check approximation
+                 // Find the closest point on the obstacle's AABB to the player's cylinder center (at proposed position)
+                 const closestX = Math.max(obsPos.x - obsScale.x / 2, Math.min(proposedPosition.x, obsPos.x + obsScale.x / 2));
+                 const closestZ = Math.max(obsPos.z - obsScale.z / 2, Math.min(proposedPosition.z, obsPos.z + obsScale.z / 2));
+
+                 // Calculate the squared distance between the cylinder's center (on the XZ plane) and this closest point
+                 const dx = proposedPosition.x - closestX;
+                 const dz = proposedPosition.z - closestZ;
+                 const distanceSq = (dx * dx) + (dz * dz);
+
+                 // Check if the distance is less than the player's radius squared
+                 if (distanceSq < (playerRadius * playerRadius)) {
+                     // Basic Y check: Is player's base below obstacle's top? Assumes player base is at y=0.5-height/2 = -0.4
+                     // And player's top is above obstacle's base? Player top = 0.5+height/2 = 1.4
+                      const obsTopY = obsPos.y + obsScale.y / 2;
+                      const obsBottomY = obsPos.y - obsScale.y / 2;
+                      // Simple check: if obstacle exists significantly above ground, check height
+                      if (obsTopY > 0.1 && obsBottomY < 1.8) { // Check if obstacle overlaps player height range
+                         // console.log("Collision detected with:", obstacle.type || 'wall');
+                         return false; // Collision detected
+                      }
+                      // If obstacle is very flat or thin, might ignore Y check, but for robust walls/crates, it's needed.
+                      // Assuming most obstacles are tall enough, the XZ check is often sufficient.
+                      return false; // Collision detected on XZ plane
+                 }
+             }
+
+             // No collision detected with any obstacle
+             return true;
+         }
+
+
+        function animateWeaponBob(delta) {
+            const weaponHolder = camera.getObjectByName("weaponHolder");
+            // Ensure weapon holder exists, is visible, and has base position data
+            if (!weaponHolder || thirdPersonView || !weaponHolder.visible || !weaponHolder.userData.basePosition) return;
+
+            const time = clock.elapsedTime; // Use total elapsed time for smooth cycle
+            const bobFrequency = 11; // Slightly faster bob
+            const bobAmountX = 0.018; // Horizontal bob amount
+            const bobAmountY = 0.022; // Vertical bob amount
+
+            // Calculate bob offsets using sine/cosine waves
+            const bobX = Math.sin(time * bobFrequency) * bobAmountX;
+             // Use cosine for vertical, absolute value makes it always go down from base
+            const bobY = Math.abs(Math.cos(time * bobFrequency * 0.9)) * bobAmountY; // Slightly different frequency for less uniform motion
+
+            // Target position including bob offset
+            const targetPos = weaponHolder.userData.basePosition.clone();
+            targetPos.x += bobX;
+            targetPos.y -= bobY; // Subtract Y offset for downward bob relative to base
+
+            // Smoothly move towards the target position using LERP
+             const lerpFactor = 0.2; // How quickly to interpolate (adjust for smoothness)
+             weaponHolder.position.lerp(targetPos, lerpFactor);
+        }
+
+        function resetWeaponBob() {
+            const weaponHolder = camera.getObjectByName("weaponHolder");
+            if (!weaponHolder || thirdPersonView || !weaponHolder.visible || !weaponHolder.userData.basePosition) return;
+
+            // Smoothly interpolate back to base position using LERP
+            const lerpFactor = 0.15; // Slower LERP back to base
+            weaponHolder.position.lerp(weaponHolder.userData.basePosition, lerpFactor);
+
+            // Optional: Snap back if very close to avoid tiny floating point imprecisions causing endless lerping
+            if (weaponHolder.position.distanceToSquared(weaponHolder.userData.basePosition) < 0.00001) {
+                weaponHolder.position.copy(weaponHolder.userData.basePosition); // Snap to base position
+            }
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            // Re-initialize minimap if size changes significantly (e.g., due to mobile orientation change)
+            const newIsMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (newIsMobile !== isMobile) {
+                isMobile = newIsMobile; // Update state
+                initMinimap(); // Recreate with potentially different size
+                 // Toggle touch controls visibility based on new state
+                 if (isMobile) {
+                     document.getElementById('touchControls').style.display = 'flex';
+                     document.getElementById('viewToggleTouchButton').style.display = 'flex';
+                 } else {
+                     document.getElementById('touchControls').style.display = 'none';
+                      document.getElementById('viewToggleTouchButton').style.display = 'none';
+                 }
+            } else {
+                 // If just resizing without changing mobile state, might still need minimap adjustment
+                 initMinimap(); // Or a lighter `updateMinimapSize` function if only size needs changing
+            }
+        }
+
+        function onKeyDown(event) {
+            switch (event.code) {
+                case 'ArrowUp':
+                case 'KeyW':
+                    moveForward = true;
+                    break;
+                case 'ArrowLeft':
+                case 'KeyA':
+                    moveLeft = true;
+                    break;
+                case 'ArrowDown':
+                case 'KeyS':
+                    moveBackward = true;
+                    break;
+                case 'ArrowRight':
+                case 'KeyD':
+                    moveRight = true;
+                    break;
+                case 'Space':
+                    // Treat spacebar press like mouse down for shooting
+                    if (gameActive && !isPaused && !isShooting) {
+                        isShooting = true; // Start shooting on press
+                    }
+                    break;
+                case 'KeyV': // Toggle View
+                     if (gameActive) toggleView(); // Allow view toggle even if paused
+                    break;
+                case 'Escape':
+                     // If pointer is locked, exit lock first. If not locked, toggle pause.
+                    if (document.pointerLockElement === renderer.domElement ||
+                         document.mozPointerLockElement === renderer.domElement ||
+                         document.webkitPointerLockElement === renderer.domElement)
+                    {
+                         document.exitPointerLock = document.exitPointerLock ||
+                                                 document.mozExitPointerLock ||
+                                                 document.webkitExitPointerLock;
+                         if (document.exitPointerLock) {
+                             document.exitPointerLock();
+                             // Pause will likely be triggered by pointerlockchange event handler
+                         }
+                     } else if (gameActive) {
+                         // Only toggle pause if game is active and pointer is not locked
+                         togglePause();
+                     }
+                    break;
+            }
+        }
+
+        function onKeyUp(event) {
+            switch (event.code) {
+                case 'ArrowUp':
+                case 'KeyW':
+                    moveForward = false;
+                    break;
+                case 'ArrowLeft':
+                case 'KeyA':
+                    moveLeft = false;
+                    break;
+                case 'ArrowDown':
+                case 'KeyS':
+                    moveBackward = false;
+                    break;
+                case 'ArrowRight':
+                case 'KeyD':
+                    moveRight = false;
+                    break;
+                case 'Space':
+                    // Stop shooting on spacebar release
+                    isShooting = false;
+                    break;
+            }
+        }
+
+        function onMouseDown(event) {
+            // Only handle left click (button 0) and if game is running & pointer locked (for desktop)
+             const pointerLocked = document.pointerLockElement === renderer.domElement ||
+                                document.mozPointerLockElement === renderer.domElement ||
+                                document.webkitPointerLockElement === renderer.domElement;
+
+             if (gameActive && !isPaused && pointerLocked && event.button === 0 && !isMobile) {
+                isShooting = true;
+             }
+        }
+
+        function onMouseUp(event) {
+             if (event.button === 0 && !isMobile) { // Only react to left mouse button release
+                 isShooting = false;
+             }
+        }
+
+        function onMouseMove(event) {
+             // Only rotate camera if pointer is locked (desktop) and not in third-person view
+             const pointerLocked = document.pointerLockElement === renderer.domElement ||
+                                document.mozPointerLockElement === renderer.domElement ||
+                                document.webkitPointerLockElement === renderer.domElement;
+
+             if (!gameActive || isPaused || !pointerLocked || thirdPersonView || isMobile) return;
+
+            const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+            const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+            // Horizontal rotation (around Y axis) - affects player group
+            player.rotation.y -= movementX * mouseSensitivity;
+
+            // Vertical rotation (around X axis) - affects camera directly
+            camera.rotation.x -= movementY * mouseSensitivity;
+            camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, minPitch, maxPitch);
+        }
+
+        function updateUI() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('level').textContent = level;
+            document.getElementById('health').textContent = Math.max(0, health); // Prevent negative health display
+            document.getElementById('enemies').textContent = enemies.length;
+
+            // Style health element based on value
+            const healthElement = document.getElementById('health');
+            if (health < 30) {
+                healthElement.style.color = '#ff4444'; // Red
+            } else if (health < 60) {
+                healthElement.style.color = '#ffcc66'; // Yellow
+            } else {
+                healthElement.style.color = '#ffffff'; // White (default)
+            }
+        }
+
+        function showLevelInfo(text, duration = 2500) {
+            const levelInfo = document.getElementById('levelInfo');
+            if (!levelInfo) return;
+            levelInfo.innerHTML = text; // Use innerHTML to allow basic formatting like <br>
+            levelInfo.style.display = 'block';
+            levelInfo.style.opacity = 1; // Ensure visible
+
+            // Fade out effect
+             setTimeout(() => {
+                 let opacity = 1;
+                 const fadeInterval = setInterval(() => {
+                     opacity -= 0.05; // Adjust fade speed
+                     levelInfo.style.opacity = opacity;
+                     if (opacity <= 0) {
+                         clearInterval(fadeInterval);
+                         levelInfo.style.display = 'none';
+                     }
+                 }, 50); // Fade interval (ms)
+             }, duration - 500); // Start fading 500ms before total duration ends
+
+        }
+
+        function levelComplete() {
+            console.log(`Level ${level} Complete!`);
+             showLevelInfo(`Level ${level} Complete!<br>Prepare for Level ${level + 1}`, 3000);
+             playSound('powerUp'); // Simple level complete sound for now
+
+             // Reset shooting state (important if held during level end)
+             isShooting = false;
+             // Reset movement state
+             moveForward = moveBackward = moveLeft = moveRight = false;
+             if (isMobile) {
+                 handleJoystickEnd('move', document.getElementById('moveJoystick').querySelector('.joystick-thumb'));
+                 handleJoystickEnd('look', document.getElementById('lookJoystick').querySelector('.joystick-thumb'));
+                 // Reset shoot button state
+                 const shootButton = document.getElementById('shootButtonTouch');
+                 shootButton.style.backgroundColor = 'rgba(255, 0, 0, 0.4)';
+             }
+
+            level++;
+            difficultyMultiplier += 0.08; // Increase difficulty slightly per level
+            enemiesKilled = 0; // Reset kill count for the new level
+             totalEnemies = 5 + Math.floor(level * 2.5); // Increase enemy count progressively
+             // Optional: Full heal between levels? Or partial?
+             health = Math.min(health + 25, 100); // Heal 25 HP, capped at 100
+            updateUI();
+
+            // Clear remaining bullets and particles
+             bullets.forEach(bullet => scene.remove(bullet));
+             bullets = [];
+             particles.forEach(p => scene.remove(p));
+             particles = [];
+             // Clear remaining powerups
+             powerUps.forEach(p => scene.remove(p));
+             powerUps = [];
+
+            // Spawn next wave after a delay
+            setTimeout(() => {
+                 spawnEnemies(totalEnemies);
+             }, 3500); // Delay before next wave
+        }
+
+
+        function togglePause() {
+            if (!gameActive) return; // Cannot pause if game is not active
+
+             isPaused = !isPaused;
+             const pauseScreen = document.getElementById('pauseScreen');
+             const crosshair = document.getElementById('crosshair');
+             const ui = document.getElementById('ui');
+             const minimap = document.getElementById('minimap');
+             const touchControls = document.getElementById('touchControls');
+             const viewToggleTouchBtn = document.getElementById('viewToggleTouchButton');
+
+             if (isPaused) {
+                 cancelAnimationFrame(gameLoop); // Stop the game loop
+                 clock.stop(); // Stop the clock
+                 pauseScreen.style.display = 'flex'; // Show pause screen
+                 pauseScreen.classList.remove('hidden');
+                 pauseScreen.style.opacity = 1;
+                 if (ui) ui.style.display = 'none'; // Hide main UI
+                 if (minimap) minimap.style.display = 'none'; // Hide minimap
+                 if (crosshair) crosshair.style.display = 'none'; // Hide crosshair
+                 if (isMobile) {
+                     if (touchControls) touchControls.style.display = 'none'; // Hide touch controls
+                     if (viewToggleTouchBtn) viewToggleTouchBtn.style.display = 'none';
+                     // Reset joystick states visually and logically
+                     handleJoystickEnd('move', document.getElementById('moveJoystick').querySelector('.joystick-thumb'));
+                     handleJoystickEnd('look', document.getElementById('lookJoystick').querySelector('.joystick-thumb'));
+                     isShooting = false; // Ensure shooting stops
+                     document.getElementById('shootButtonTouch').style.backgroundColor = 'rgba(255, 0, 0, 0.4)';
+                 } else {
+                     // Release pointer lock if paused on desktop
+                     document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
+                     if (document.exitPointerLock && document.pointerLockElement) {
+                         document.exitPointerLock();
+                     }
+                 }
+                 console.log("Game Paused");
+             } else {
+                 // Resume game
+                 pauseScreen.classList.add('hidden'); // Start fade out animation
+                 setTimeout(() => { // Hide after fade out
+                      pauseScreen.style.display = 'none';
+                 }, 500); // Match transition duration in CSS
+
+                 if (ui) ui.style.display = 'block'; // Show main UI
+                 if (minimap) minimap.style.display = 'block'; // Show minimap
+
+                 // Request pointer lock again on desktop resume
+                 if (!isMobile) {
+                     const canvas = renderer.domElement;
+                     canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+                     if (canvas.requestPointerLock) {
+                         canvas.requestPointerLock();
+                     }
+                 } else {
+                      // Show touch controls on mobile resume
+                     if (touchControls) touchControls.style.display = 'flex';
+                     if (viewToggleTouchBtn) viewToggleTouchBtn.style.display = 'flex';
+                 }
+                 // Show crosshair only if pointer locked and in 1st person
+                 const pointerLocked = document.pointerLockElement === renderer.domElement; // Check lock state after potentially requesting it
+                 if (crosshair && !thirdPersonView && (!isMobile || pointerLocked)) {
+                      crosshair.style.display = 'block';
+                 }
+
+                 clock.start(); // Restart the clock
+                 gameLoop = requestAnimationFrame(animate); // Restart the game loop
+                 console.log("Game Resumed");
+             }
+
+             // Reset movement flags when pausing/resuming to avoid stuck keys
+             moveForward = moveBackward = moveLeft = moveRight = isShooting = false;
+         }
+
+
+        function startGame() {
+            const startScreen = document.getElementById('startScreen');
+             const ui = document.getElementById('ui');
+             const minimap = document.getElementById('minimap');
+             const crosshair = document.getElementById('crosshair');
+
+             // Resume audio context (vital for browsers blocking autoplay)
+             if (audioContext && audioContext.state === 'suspended') {
+                 audioContext.resume().then(() => console.log("AudioContext resumed on start"));
+             }
+
+             // Hide start screen with fade effect
+             startScreen.classList.add('hidden');
+             setTimeout(() => {
+                 startScreen.style.display = 'none';
+             }, 500); // Match CSS transition duration
+
+             ui.style.display = 'block'; // Show game UI
+             minimap.style.display = 'block'; // Show minimap
+
+            // Request pointer lock for desktop
+             if (!isMobile) {
+                 const canvas = renderer.domElement;
+                 canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+                 if (canvas.requestPointerLock) {
+                     canvas.requestPointerLock();
+                 }
+                  // Crosshair visibility depends on pointer lock status & view mode (handled by lock change event)
+             } else {
+                  // No crosshair initially on mobile
+                  if (crosshair) crosshair.style.display = 'none';
+             }
+
+            // Reset game state variables
+            score = 0;
+            level = 1;
+            health = 100;
+            enemiesKilled = 0;
+            difficultyMultiplier = 1.0;
+            totalEnemies = 5; // Initial enemy count for level 1
+            isPaused = false;
+            gameActive = true; // Set game active flag
+
+             // Clear existing game objects before starting new game
+             clearGameObjects();
+
+            // Reset player position and orientation
+            player.position.set(0, 0.5, 0);
+            player.rotation.set(0, 0, 0);
+             camera.rotation.set(0, 0, 0); // Reset camera pitch independently
+             // Ensure 1st person view on start
+             thirdPersonView = false; // Start in 1st person
+             toggleView(); // Call toggleView once to ensure correct setup for 1st person
+             thirdPersonView = false; // Force back to false after toggle sets it up
+
+            // Spawn initial enemies
+            spawnEnemies(totalEnemies);
+            updateUI(); // Update UI with initial values
+
+             // Reset clock and start animation loop
+             clock.start();
+             if (gameLoop) cancelAnimationFrame(gameLoop); // Cancel previous loop if any
+             gameLoop = requestAnimationFrame(animate);
+             console.log("Game Started!");
+        }
+
+        function gameOver() {
+            console.log("Game Over!");
+            gameActive = false;
+             isPaused = false; // Ensure not in paused state
+            cancelAnimationFrame(gameLoop); // Stop the game loop
+            clock.stop();
+             playSound('explode'); // Use explode sound for game over
+
+             // Hide in-game elements
+             if (document.getElementById('ui')) document.getElementById('ui').style.display = 'none';
+             if (document.getElementById('minimap')) document.getElementById('minimap').style.display = 'none';
+             if (document.getElementById('crosshair')) document.getElementById('crosshair').style.display = 'none';
+             if (document.getElementById('touchControls')) document.getElementById('touchControls').style.display = 'none';
+             if (document.getElementById('viewToggleTouchButton')) document.getElementById('viewToggleTouchButton').style.display = 'none';
+
+            // Show game over screen
+            const gameOverScreen = document.getElementById('gameOver');
+            gameOverScreen.style.display = 'flex';
+             gameOverScreen.classList.remove('hidden');
+             gameOverScreen.style.opacity = 1;
+
+            // Display final score
+            const finalScoreElement = document.getElementById('finalScore');
+            finalScoreElement.textContent = `Final Score: ${score} | Level Reached: ${level}`;
+
+            // Release pointer lock if active
+             if (!isMobile) {
+                 document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
+                 if (document.exitPointerLock && document.pointerLockElement) {
+                     document.exitPointerLock();
+                 }
+             }
+        }
+
+        function restartGame() {
+            console.log("Restarting Game...");
+            // Hide Game Over / Pause screens
+            const gameOverScreen = document.getElementById('gameOver');
+             const pauseScreen = document.getElementById('pauseScreen');
+            gameOverScreen.classList.add('hidden');
+            pauseScreen.classList.add('hidden');
+             setTimeout(() => { // Hide after fade out
+                  gameOverScreen.style.display = 'none';
+                  pauseScreen.style.display = 'none';
+             }, 500);
+
+             // Clear remaining objects (important before starting fresh)
+             clearGameObjects();
+
+            // Call start game logic
+            startGame();
+        }
+
+        function clearGameObjects() {
+            // Remove enemies
+            enemies.forEach(enemy => {
+                if (enemy.parent) scene.remove(enemy);
+            });
+            enemies = [];
+
+            // Remove bullets
+            bullets.forEach(bullet => {
+                const light = bullet.getObjectByProperty('isLight', true);
+                if (light) bullet.remove(light);
+                if (bullet.parent) scene.remove(bullet);
+            });
+            bullets = [];
+
+            // Remove particles
+            particles.forEach(particle => {
+                const light = particle.getObjectByProperty('isLight', true);
+                if (light) particle.remove(light);
+                if (particle.parent) scene.remove(particle);
+            });
+            particles = [];
+
+            // Remove power-ups
+            powerUps.forEach(powerUp => {
+                const light = powerUp.getObjectByProperty('isLight', true);
+                if (light) powerUp.remove(light);
+                if (powerUp.parent) scene.remove(powerUp);
+            });
+            powerUps = [];
+             console.log("Cleared game objects.");
+        }
+
+        // --- Main Animation Loop ---
+        function animate() {
+            if (!gameActive || isPaused) {
+                // If paused or game not active, stop requesting new frames
+                // The pause/start/gameover functions handle cancelling/restarting the loop
+                return;
+            }
+
+            gameLoop = requestAnimationFrame(animate); // Request next frame
+
+            const delta = clock.getDelta(); // Time since last frame
+
+            // Update game components
+            updatePlayer(delta);
+            updateEnemies(delta);
+            updateBullets(delta);
+            updateParticles(delta);
+            updatePowerUps(delta);
+
+            // Update UI is generally called when values change (score, health, etc.)
+            // updateUI(); // Avoid calling every frame unless necessary
+
+            // Draw Minimap
+            drawMinimap();
+
+            // Render the scene
+            renderer.render(scene, camera);
+        }
+
+        // --- Start ---
+        init();
+        // startGame(); // Don't auto-start, wait for button press
+
+    </script>
+</body>
+</html>

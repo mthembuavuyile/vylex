@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Memory Challenge</title>
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --secondary: #4C1D95;
+            --background: #1F2937;
+            --card-back: #4C1D95;
+            --text: #F3F4F6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            background-image: 
+                radial-gradient(circle at 100% 100%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            color: var(--text);
+        }
+
+        .game-container {
+            max-width: 90vw;
+            width: 100%;
+            background: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            text-align: center;
+            margin: auto;
+        }
+
+        .game-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: bold;
+            background: linear-gradient(45deg, #7C3AED, #4C1D95);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-title {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 0 1rem;
+        }
+
+        .stat {
+            background: rgba(124, 58, 237, 0.2);
+            padding: 0.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: clamp(0.5rem, 2vw, 1rem);
+            margin: 2rem auto;
+            max-width: min(90vw, 500px);
+        }
+
+        .card {
+            aspect-ratio: 1;
+            background: var(--card-back);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            transform-style: preserve-3d;
+            border: 2px solid rgba(124, 58, 237, 0.3);
+            touch-action: manipulation;
+        }
+
+        @media (hover: hover) {
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+            }
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        .card-front {
+            background: linear-gradient(45deg, #7C3AED, #4C1D95);
+            transform: rotateY(180deg);
+        }
+
+        .card-back {
+            background: var(--card-back);
+            color: var(--text);
+        }
+
+        .game-controls {
+            margin-top: 1.5rem;
+        }
+
+        button {
+            background: linear-gradient(45deg, #7C3AED, #4C1D95);
+            color: white;
+            border: none;
+            padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1.2rem, 3vw, 1.5rem);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        @media (hover: hover) {
+            button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(124, 58, 237, 0.3);
+            }
+        }
+
+        .floating-text {
+            position: fixed;
+            animation: float-up 1s ease-out forwards;
+            pointer-events: none;
+            z-index: 10;
+            color: #7C3AED;
+            font-weight: bold;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(1.2);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 481px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <div class="logo">Nexus Memory</div>
+            <h1 class="game-title">Challenge</h1>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">🎯 Moves: <span id="moves">0</span></div>
+            <div class="stat">⭐ Matches: <span id="matches">0</span></div>
+            <div class="stat">🏆 Best: <span id="best">-</span></div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+        
+        <div class="game-controls">
+            <button onclick="resetGame()">New Game 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        const emojis = ['🌟', '💫', '⚡', '🔮', '💎', '✨', '🌈', '🎯'];
+        let moves = 0;
+        let matches = 0;
+        let bestScore = localStorage.getItem('bestScore') || '-';
+        let flippedCards = [];
+        let canFlip = true;
+
+        function createCard(emoji) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-front">${emoji}</div>
+                <div class="card-back">❔</div>
+            `;
+            return card;
+        }
+
+        function updateStats() {
+            document.getElementById('moves').textContent = moves;
+            document.getElementById('matches').textContent = matches;
+            document.getElementById('best').textContent = bestScore;
+        }
+
+        function createFloatingText(text, x, y) {
+            const floatingText = document.createElement('div');
+            floatingText.className = 'floating-text';
+            floatingText.style.left = `${x}px`;
+            floatingText.style.top = `${y}px`;
+            floatingText.textContent = text;
+            document.body.appendChild(floatingText);
+            setTimeout(() => floatingText.remove(), 1000);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const front1 = card1.querySelector('.card-front').textContent;
+            const front2 = card2.querySelector('.card-front').textContent;
+
+            if (front1 === front2) {
+                matches++;
+                const rect = card1.getBoundingClientRect();
+                createFloatingText('Match! ✨', rect.left, rect.top);
+                flippedCards = [];
+                canFlip = true;
+
+                if (matches === emojis.length) {
+                    setTimeout(() => {
+                        const currentScore = moves;
+                        if (bestScore === '-' || currentScore < bestScore) {
+                            bestScore = currentScore;
+                            localStorage.setItem('bestScore', bestScore);
+                        }
+                        alert(`Congratulations! You won in ${moves} moves!`);
+                        resetGame();
+                    }, 500);
+                }
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                    canFlip = true;
+                }, 1000);
+            }
+            updateStats();
+        }
+
+        function handleCardClick(card) {
+            if (!canFlip || card.classList.contains('flipped') || flippedCards.includes(card)) return;
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            moves++;
+            updateStats();
+
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                checkMatch();
+            }
+        }
+
+        function resetGame() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            moves = 0;
+            matches = 0;
+            flippedCards = [];
+            canFlip = true;
+
+            const gameEmojis = [...emojis, ...emojis];
+            shuffleArray(gameEmojis);
+
+            gameEmojis.forEach(emoji => {
+                const card = createCard(emoji);
+                card.addEventListener('click', () => handleCardClick(card));
+                card.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    handleCardClick(card);
+                });
+                grid.appendChild(card);
+            });
+
+            updateStats();
+        }
+
+        resetGame();
+    </script>
+</body>
+</html>

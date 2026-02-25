@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Pet Garden | Deluxe Edition</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #2196F3;
+            --accent: #FFC107;
+            --background: #1a1a1a;
+            --text: #ffffff;
+            --danger: #FF5252;
+            --card-bg: #2d2d2d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem; /* Reduced padding for mobile */
+            color: var(--text);
+        }
+
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Reduced shadow for smaller screens */
+            padding: 1rem; /* Reduced padding */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255,255,255,0.05) 50%,
+                transparent 100%
+            );
+            animation: shine 10s linear infinite;
+        }
+
+        @keyframes shine {
+            from {transform: translateY(100%) translateX(-100%);}
+            to {transform: translateY(-100%) translateX(100%);}
+        }
+
+        .dashboard {
+            display: flex; /* Changed to flex for better flow */
+            flex-wrap: wrap;
+            justify-content: space-around; /* Evenly space cards on wider screens */
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .stat-card {
+            background: #3d3d3d;
+            padding: 1rem;
+            border-radius: 10px; /* Reduced radius */
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            flex: 1 1 120px; /* Flexible card width */
+            min-width: 120px;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px); /* Reduced hover effect on mobile */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3); /* Reduced shadow on hover */
+        }
+
+        .stat-card h3 {
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-card div {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .pet-area {
+            min-height: 200px; /* Reduced height for mobile */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem 0; /* Reduced margin */
+            position: relative;
+            background: #363636;
+            border-radius: 15px; /* Reduced radius */
+            padding: 1rem; /* Reduced padding */
+        }
+
+        .pet {
+            font-size: 80px; /* Reduced font size for mobile */
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            user-select: none;
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.3)); /* Reduced shadow for smaller screens */
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .pet:hover {
+            transform: scale(1.1) rotate(5deg); /* Reduced scale on hover for mobile */
+        }
+
+        .pet:active {
+            transform: scale(0.9);
+        }
+
+        .garden {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+           gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .plot {
+            aspect-ratio: 1;
+            background: #363636;
+            border-radius: 10px; /* Reduced radius */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem; /* Adjusted font size for smaller screens */
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plot:hover {
+            transform: translateY(-3px); /* Reduced hover effect on mobile */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .plot:active {
+            transform: scale(0.95);
+        }
+
+         .plot::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .plot:hover::before {
+            opacity: 1;
+        }
+
+        .needs-bar {
+            width: 100%;
+            height: 8px;
+            background: #464646;
+            border-radius: 4px; /* Reduced radius */
+            margin: 0.3rem 0; /* Reduced margin */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .needs-fill {
+            height: 100%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        button {
+           background: linear-gradient(45deg, var(--primary), #45a049);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 10px; /* Reduced radius */
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+         button:active {
+            transform: translateY(1px);
+        }
+
+        .floating-text {
+            position: absolute;
+            animation: float-up 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            pointer-events: none;
+            font-size: 1.2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-40px) scale(0.8);
+            }
+        }
+
+        .level-up {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            animation: popup 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            z-index: 1000;
+        }
+
+        @keyframes popup {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: particle 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes particle {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 style="text-align: center; margin-bottom: 0.5rem; color: var(--accent); font-size: 1.5rem;">🌟 Eco Pet Garden 🌟</h1>
+
+        <div class="dashboard">
+            <div class="stat-card">
+                <h3>✨ Level</h3>
+                <div id="level">1</div>
+            </div>
+            <div class="stat-card">
+                <h3>🏆 Eco Points</h3>
+                <div id="score">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>🌱 Seeds</h3>
+                <div id="seeds">5</div>
+            </div>
+        </div>
+
+        <div class="pet-area">
+            <div id="pet" class="pet">🐰</div>
+            <div class="needs-bar">
+                <div class="needs-fill" id="happiness-bar" style="width: 100%; background: linear-gradient(90deg, var(--accent), #ffdb4d);"></div>
+            </div>
+        </div>
+
+        <div class="garden" id="garden"></div>
+
+        <div class="actions">
+            <button onclick="feed()" id="feedBtn">🥕 Feed</button>
+            <button onclick="play()" id="playBtn">🎯 Play</button>
+            <button onclick="buySeeds()" id="seedBtn">🌱 Buy Seeds</button>
+            <button onclick="evolve()" id="evolveBtn">⭐️ Evolve</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let seeds = 5;
+        let happiness = 100;
+        let level = 1;
+        let pets = ['🐰', '🐱', '🐶', '🦊', '🐼', '🦁', '🐯', '🦄'];
+        let flowers = ['🌷', '🌸', '🌹', '🌺', '🌻', '🌼', '🌿', '🍀'];
+        let currentPetIndex = 0;
+
+        // Initialize garden
+        const garden = document.getElementById('garden');
+        for (let i = 0; i < 6; i++) {
+            const plot = document.createElement('div');
+            plot.className = 'plot';
+            plot.onclick = () => plantSeed(plot);
+            garden.appendChild(plot);
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('seeds').textContent = seeds;
+            document.getElementById('level').textContent = level;
+            document.getElementById('happiness-bar').style.width = `${happiness}%`;
+        }
+
+        function createFloatingText(text, x, y) {
+            const floatingText = document.createElement('div');
+            floatingText.className = 'floating-text';
+            floatingText.style.left = `${x}px`;
+            floatingText.style.top = `${y}px`;
+            floatingText.textContent = text;
+            document.querySelector('.pet-area').appendChild(floatingText);
+            setTimeout(() => floatingText.remove(), 1500);
+        }
+
+        function createParticles(x, y, emoji) {
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.textContent = emoji;
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 100}px`);
+                particle.style.setProperty('--ty', `${(Math.random() - 0.5) * 100}px`);
+                document.querySelector('.pet-area').appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        function plantSeed(plot) {
+            if (seeds > 0 && !plot.textContent) {
+                seeds--;
+                const flower = flowers[Math.floor(Math.random() * flowers.length)];
+                plot.textContent = '🌱';
+                createFloatingText('-1 🌱', Math.random() * 100 + 50, Math.random() * 100);
+
+                setTimeout(() => {
+                    plot.textContent = flower;
+                    score += 15 * level;
+                    happiness = Math.min(100, happiness + 10);
+                    createFloatingText(`+${15 * level}`, Math.random() * 100 + 50, Math.random() * 100);
+                    createParticles(plot.offsetLeft + plot.offsetWidth/2, plot.offsetTop + plot.offsetHeight/2, '✨');
+                    updateStats();
+                }, 3000);
+                updateStats();
+            }
+        }
+
+        function feed() {
+            happiness = Math.min(100, happiness + 20);
+            score += 10 * level;
+            const pet = document.getElementById('pet');
+            pet.style.transform = 'scale(1.3)';
+            setTimeout(() => pet.style.transform = '', 200);
+            createFloatingText(`+${10 * level}`, Math.random() * 100 + 50, Math.random() * 100);
+            createParticles(pet.offsetLeft + pet.offsetWidth/2, pet.offsetTop + pet.offsetHeight/2, '❤️');
+            updateStats();
+        }
+
+        function play() {
+            happiness = Math.min(100, happiness + 25);
+            score += 20 * level;
+            const pet = document.getElementById('pet');
+            pet.style.transform = 'rotate(360deg) scale(1.2)';
+            setTimeout(() => pet.style.transform = '', 500);
+            createFloatingText(`+${20 * level}`, Math.random() * 100 + 50, Math.random() * 100);
+            createParticles(pet.offsetLeft + pet.offsetWidth/2, pet.offsetTop + pet.offsetHeight/2, '🎈');
+            updateStats();
+        }
+
+        function buySeeds() {
+            if (score >= 30) {
+                score -= 30;
+                seeds += 5;
+                createFloatingText('+5 🌱', Math.random() * 100 + 50, Math.random() * 100);
+                updateStats();
+            }
+        }
+
+        function evolve() {
+            if (score >= 100 * level) {
+                score -= 100 * level;
+                level++;
+                currentPetIndex = (currentPetIndex + 1) % pets.length;
+                document.getElementById('pet').textContent = pets[currentPetIndex];
+
+                const levelUp = document.createElement('div');
+                levelUp.className = 'level-up';
+                levelUp.innerHTML = `
+                    <h2>🎉 Level Up! 🎉</h2>
+                    <p>Your pet evolved!</p>
+                `;
+                document.body.appendChild(levelUp);
+                createParticles(window.innerWidth/2, window.innerHeight/2, '🌟');
+
+                setTimeout(() => levelUp.remove(), 2000);
+                updateStats();
+            }
+        }
+
+        // Decrease happiness over time
+        setInterval(() => {
+            happiness = Math.max(0, happiness - 1);
+            updateStats();
+        }, 3000);
+
+        updateStats();
+    </script>
+</body>
+</html>

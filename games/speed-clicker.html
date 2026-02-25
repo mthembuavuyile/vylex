@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Speed Clicker Game - Test your clicking speed and reflexes">
+    <title>Speed Clicker | Vylex Nexys</title>
+    <style>
+        :root {
+            --primary-color: #e94560;
+            --primary-dark: #d64157;
+            --bg-color: #1a1a2e;
+            --text-color: #ffffff;
+            --secondary-bg: #16213e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .game-container {
+            width: min(100%, 600px);
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--secondary-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 0.75rem;
+            background-color: var(--secondary-bg);
+            border-radius: 1rem;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .timer-progress {
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.1s linear;
+        }
+
+        #game-button {
+            --size: min(200px, 50vw);
+            width: var(--size);
+            height: var(--size);
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-color), var(--primary-dark));
+            border: none;
+            color: var(--text-color);
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            font-weight: bold;
+            cursor: pointer;
+            margin: 2rem auto;
+            display: block;
+            transition: transform 0.1s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #game-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #game-button:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        .control-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .control-button:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+        }
+
+        .control-button:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .control-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .combo-text {
+            position: absolute;
+            color: var(--text-color);
+            font-weight: bold;
+            pointer-events: none;
+            animation: floatUp 0.8s forwards;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        .branding {
+            text-align: center;
+            margin-top: auto;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .branding a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @media (hover: hover) {
+            #game-button:hover:not(:disabled) {
+                box-shadow: 0 0 30px rgba(233, 69, 96, 0.5);
+            }
+        }
+
+        @media (prefers-reduced-motion) {
+            .ripple, .combo-text {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="header">Speed Clicker</h1>
+        
+        <div class="game-stats">
+            <div class="stat-card">
+                <div>Current Score</div>
+                <div id="click-score" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div>High Score</div>
+                <div id="click-high-score" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div>Current CPS</div>
+                <div id="cps" class="stat-value">0.0</div>
+            </div>
+            <div class="stat-card">
+                <div>Best CPS</div>
+                <div id="best-cps" class="stat-value">0.0</div>
+            </div>
+        </div>
+
+        <div class="timer-bar">
+            <div class="timer-progress" id="timer-progress"></div>
+        </div>
+        <div id="timer" class="text-center">Time left: 10 seconds</div>
+
+        <button id="game-button" disabled aria-label="Click button">CLICK!</button>
+        <button id="click-start-button" class="control-button">Start Game</button>
+    </div>
+
+    <footer class="branding">
+        <p>© 2024 <a href="https://vylexnexys.co.za" target="_blank" rel="noopener">Vylex Nexys™</a></p>
+        <p>INNOVATION THROUGH PLAY</p>
+    </footer>
+
+    <script>
+        class SpeedClicker {
+            constructor() {
+                this.gameButton = document.getElementById("game-button");
+                this.clickScoreDisplay = document.getElementById("click-score");
+                this.timerDisplay = document.getElementById("timer");
+                this.startButton = document.getElementById("click-start-button");
+                this.timerProgress = document.getElementById("timer-progress");
+                this.cpsDisplay = document.getElementById("cps");
+                this.bestCpsDisplay = document.getElementById("best-cps");
+                this.highScoreDisplay = document.getElementById("click-high-score");
+
+                this.clickScore = 0;
+                this.clickHighScore = 0;
+                this.timeLeft = 10;
+                this.gameInterval = null;
+                this.bestCps = 0;
+                this.lastClickTime = 0;
+                this.combo = 0;
+                this.isPlaying = false;
+
+                this.initializeEventListeners();
+                this.loadGameState();
+            }
+
+            initializeEventListeners() {
+                this.gameButton.addEventListener("click", (e) => this.handleGameClick(e));
+                this.startButton.addEventListener("click", () => this.startGame());
+                window.addEventListener("beforeunload", () => this.saveGameState());
+            }
+
+            handleGameClick(event) {
+                this.createRipple(event);
+                this.createComboText();
+                this.updateScore();
+                this.updateCombo();
+            }
+
+            createRipple(event) {
+                const button = event.currentTarget;
+                const circle = document.createElement("span");
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
+
+                const rect = button.getBoundingClientRect();
+                const x = event.clientX - rect.left - radius;
+                const y = event.clientY - rect.top - radius;
+
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${x}px`;
+                circle.style.top = `${y}px`;
+                circle.classList.add("ripple");
+
+                const ripple = button.getElementsByClassName("ripple")[0];
+                if (ripple) ripple.remove();
+
+                button.appendChild(circle);
+            }
+
+            createComboText() {
+                const comboText = document.createElement("div");
+                comboText.classList.add("combo-text");
+                this.combo++;
+                comboText.textContent = this.combo >= 3 ? `Combo x${this.combo}!` : "+1";
+                
+                const rect = this.gameButton.getBoundingClientRect();
+                comboText.style.left = `${Math.random() * (rect.width - 50)}px`;
+                comboText.style.top = `${Math.random() * (rect.height - 20)}px`;
+                
+                this.gameButton.appendChild(comboText);
+                setTimeout(() => comboText.remove(), 800);
+            }
+
+            updateScore() {
+                this.clickScore++;
+                this.clickScoreDisplay.textContent = this.clickScore;
+            }
+
+            updateCombo() {
+                const currentTime = Date.now();
+                if (currentTime - this.lastClickTime > 500) {
+                    this.combo = 0;
+                }
+                this.lastClickTime = currentTime;
+            }
+
+            startGame() {
+                this.resetGame();
+                this.isPlaying = true;
+                this.gameButton.disabled = false;
+                this.startButton.disabled = true;
+                this.startTimer();
+            }
+
+            resetGame() {
+                this.clickScore = 0;
+                this.timeLeft = 10;
+                this.combo = 0;
+                this.clickScoreDisplay.textContent = "0";
+                this.updateTimerDisplay();
+            }
+
+            startTimer() {
+                this.gameInterval = setInterval(() => {
+                    this.timeLeft--;
+                    this.updateTimerDisplay();
+                    this.updateCPS();
+
+                    if (this.timeLeft <= 0) {
+                        this.endGame();
+                    }
+                }, 1000);
+            }
+
+            updateTimerDisplay() {
+                this.timerDisplay.textContent = `Time left: ${this.timeLeft} seconds`;
+                this.timerProgress.style.width = `${(this.timeLeft/10) * 100}%`;
+            }
+
+            updateCPS() {
+                const currentCps = this.clickScore / (10 - this.timeLeft);
+                this.cpsDisplay.textContent = currentCps.toFixed(1);
+            }
+
+            endGame() {
+                clearInterval(this.gameInterval);
+                this.isPlaying = false;
+                this.gameButton.disabled = true;
+                this.startButton.disabled = false;
+
+                const finalCps = this.clickScore / 10;
+                if (finalCps > this.bestCps) {
+                    this.bestCps = finalCps;
+                    this.bestCpsDisplay.textContent = this.bestCps.toFixed(1);
+                }
+
+                if (this.clickScore > this.clickHighScore) {
+                    this.clickHighScore = this.clickScore;
+                    this.highScoreDisplay.textContent = this.clickHighScore;
+                }
+
+                this.showGameOverMessage(finalCps);
+            }
+
+            showGameOverMessage(finalCps) {
+                setTimeout(() => {
+                    alert(`Time's up! Your score is ${this.clickScore} (${finalCps.toFixed(1)} CPS)`);
+                }, 100);
+            }
+
+            saveGameState() {
+                localStorage.setItem('speedClickerState', JSON.stringify({
+                    highScore: this.clickHighScore,
+                    bestCps: this.bestCps
+                }));
+            }
+
+            loadGameState() {
+                const savedState = localStorage.getItem('speedClickerState');
+                if (savedState) {
+                    const state = JSON.parse(savedState);
+                    this.clickHighScore = state.highScore || 0;
+                    this.bestCps = state.bestCps || 0;
+                    this.highScoreDisplay.textContent = this.clickHighScore;
+                    this.bestCpsDisplay.textContent = this.bestCps.toFixed(1);
+                }
+            }
+        }
+
+        // Initialize the game
+        const game = new SpeedClicker();
+    </script>
+</body>
+</html>

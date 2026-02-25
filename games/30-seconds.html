@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30 Seconds - South African Edition</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #0ea5e9; /* Sky blue */
+            --secondary-color: #10b981; /* Green */
+            --danger-color: #ef4444; /* Red */
+            --warning-color: #f59e0b; /* Amber */
+            --dark-color: #0f172a; /* Slate 900 */
+            --light-color: #f8fafc; /* Slate 50 */
+            --text-dark: #1e293b; /* Slate 800 */
+            --text-light: #f1f5f9; /* Slate 100 */
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .team-card {
+            background-color: white;
+            border-radius: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .team-card.active {
+            border: 2px solid var(--primary-color);
+            transform: scale(1.02);
+        }
+
+        .timer-container {
+            background-color: #f1f5f9;
+            border-radius: 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Dark mode styles */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--dark-color);
+                color: var(--text-light);
+            }
+
+            .card {
+                background-color: #1e293b;
+                border-color: #334155;
+                color: var(--text-light);
+            }
+
+            .team-card {
+                background-color: #1e293b;
+                border-color: #334155;
+            }
+
+            .team-card.active {
+                border: 2px solid var(--primary-color);
+            }
+
+            .timer-container {
+                background-color: #334155;
+            }
+
+            input, select {
+                background-color: #334155;
+                color: var(--text-light);
+                border-color: #475569;
+            }
+
+            input::placeholder {
+                color: #94a3b8;
+            }
+
+            .dark\:bg-slate-800 {
+                background-color: #1e293b;
+            }
+            
+            .dark\:text-slate-100 {
+                color: #f1f5f9;
+            }
+            
+            .dark\:border-slate-600 {
+                border-color: #475569;
+            }
+        }
+
+        /* Timer styling */
+        .timer-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            font-size: 3rem;
+            font-weight: bold;
+            position: relative;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .timer-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-color) 0%, transparent 0%);
+            transition: background 0.1s;
+        }
+
+        .timer-text {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Category badge styling */
+        .category-badge {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Word animation */
+        @keyframes wordPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .word-animation {
+            animation: wordPop 0.4s ease-out;
+        }
+
+        /* Card styling */
+        .word-card {
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .word-card {
+                background-color: #1e293b;
+            }
+        }
+
+        .word-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-word {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Button styling */
+        .correct-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .correct-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        .skip-btn {
+            background-color: var(--danger-color);
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .skip-btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        /* Confetti animation for winners */
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #ffcc00;
+            opacity: 0;
+            animation: confetti-fall 4s ease-out infinite;
+        }
+
+        /* Team score and name styling */
+        .team-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .team-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        /* Logo styling */
+        .logo-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+
+        .logo-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #38bdf8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(14, 165, 233, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        }
+
+        .logo-text {
+            color: white;
+            font-weight: 800;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .logo-number {
+            font-size: 2.5rem;
+        }
+
+        .logo-seconds {
+            font-size: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Transitions */
+        .fade-enter {
+            opacity: 0;
+        }
+
+        .fade-enter-active {
+            opacity: 1;
+            transition: opacity 300ms;
+        }
+
+        .fade-exit {
+            opacity: 1;
+        }
+
+        .fade-exit-active {
+            opacity: 0;
+            transition: opacity 300ms;
+        }
+
+        /* Categories filter */
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-chip {
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .category-chip.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .category-chip {
+                background-color: #334155;
+            }
+        }
+
+        /* Sound toggle */
+        .sound-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sound-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .progress-container {
+                background-color: #334155;
+            }
+        }
+
+        /* Help tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Game setup screen -->
+    <div id="setup-screen" class="container mx-auto p-4 max-w-4xl flex-grow">
+        <div class="logo-container mb-4">
+            <div class="logo-circle">
+                <div class="logo-text logo-number">30</div>
+                <div class="logo-text logo-seconds">SECONDS</div>
+            </div>
+        </div>
+        <h1 class="text-4xl font-extrabold text-center mt-4 mb-6">30 Seconds - South African Edition</h1>
+        
+        <div class="card p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold">How to Play</h2>
+                <button id="demo-video-btn" class="text-primary-color font-medium hover:underline flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                    <a href="https://www.youtube.com/watch?v=KSBCU1ovwMs">Watch Demo</a>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-semibold mb-2">Basic Rules</h3>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>Form at least 2 teams</li>
+                        <li>One player describes words to teammates</li>
+                        <li>30 seconds to guess as many words as possible</li>
+                        <li>Each correct guess = 1 point</li>
+                        <li>First team to reach target score wins!</li>
+                    </ol>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Not Allowed</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Saying any part of the word</li>
+                        <li>Using "rhymes with" or "sounds like"</li>
+                        <li>Using abbreviations of the word</li>
+                        <li>Using gestures/charades</li>
+                        <li>Spelling out the word</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6">Category Selection</h2>
+            <p class="mb-4">Select which categories you'd like to include:</p>
+            <div class="category-filter mb-6">
+                <div class="category-chip active" data-category="all">All Categories</div>
+                <div class="category-chip" data-category="culture">Culture & Heritage</div>
+                <div class="category-chip" data-category="places">Places & Landmarks</div>
+                <div class="category-chip" data-category="people">People & Personalities</div>
+                <div class="category-chip" data-category="food">Food & Drink</div>
+                <div class="category-chip" data-category="nature">Nature & Wildlife</div>
+                <div class="category-chip" data-category="sports">Sports & Entertainment</div>
+                <div class="category-chip" data-category="slang">Slang & Language</div>
+                <div class="category-chip" data-category="history">History & Politics</div>
+            </div>
+            <div class="border-t pt-4">
+                <p class="text-sm italic">Selected categories: <span id="selected-categories">All Categories</span></p>
+            </div>
+        </div>
+        
+        <div class="card p-6">
+            <h2 class="text-2xl font-bold mb-4">Game Setup</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="winning-score" class="block text-sm font-medium mb-2">Winning Score</label>
+                    <select id="winning-score" class="bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100">
+                        <option value="10">10 points</option>
+                        <option value="15">15 points</option>
+                        <option value="20" selected>20 points</option>
+                        <option value="25">25 points</option>
+                        <option value="30">30 points</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="words-per-round" class="block text-sm font-medium mb-2">Words Per Round</label>
+                    <select id="words-per-round" class="bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100">
+                        <option value="4">4 words</option>
+                        <option value="5" selected>5 words</option>
+                        <option value="6">6 words</option>
+                        <option value="8">8 words</option>
+                        <option value="10">10 words (challenging!)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="timer-duration" class="block text-sm font-medium mb-2">Timer Duration</label>
+                    <select id="timer-duration" class="bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100">
+                        <option value="20">20 seconds (hard)</option>
+                        <option value="30" selected>30 seconds (standard)</option>
+                        <option value="45">45 seconds (easy)</option>
+                        <option value="60">60 seconds (very easy)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="difficulty" class="block text-sm font-medium mb-2">Difficulty Level</label>
+                    <select id="difficulty" class="bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100">
+                        <option value="easy">Easy - Common words</option>
+                        <option value="medium" selected>Medium - Balanced mix</option>
+                        <option value="hard">Hard - Challenging words</option>
+                        <option value="mixed">Mixed - All difficulties</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="teams-container" class="mb-6">
+                <h3 class="font-semibold mb-3">Teams</h3>
+                <div id="team-inputs" class="space-y-3 mb-4">
+                    <div class="grid grid-cols-5 gap-2 items-center">
+                        <div class="col-span-4">
+                            <input type="text" placeholder="Team 1" value="Mzansi Magic" class="bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100">
+                        </div>
+                        <div class="text-center">
+                            <div class="w-6 h-6 rounded-full bg-red-500 mx-auto"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2 items-center">
+                        <div class="col-span-4">
+                            <input type="text" placeholder="Team 2" value="The Proteas" class="bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100">
+                        </div>
+                        <div class="text-center">
+                            <div class="w-6 h-6 rounded-full bg-green-500 mx-auto"></div>
+                        </div>
+                    </div>
+                </div>
+                <button id="add-team-btn" class="text-white bg-primary-color hover:bg-sky-600 focus:ring-4 focus:ring-sky-300 font-medium rounded-lg text-base px-4 py-2 transition-all duration-200">
+                    + Add Team
+                </button>
+            </div>
+            
+            <div class="flex items-center mb-4">
+                <input type="checkbox" id="sound-enabled" class="w-4 h-4 text-primary-color bg-gray-100 border-gray-300 rounded focus:ring-primary-color dark:bg-slate-700 dark:border-slate-600" checked>
+                <label for="sound-enabled" class="ml-2 text-sm font-medium">Enable sounds</label>
+            </div>
+            
+            <button id="start-game-btn" class="w-full text-white bg-primary-color hover:bg-sky-600 btn-primary font-medium rounded-lg text-base px-5 py-4 text-center transition-all duration-200">
+                Start Game
+            </button>
+        </div>
+    </div>
+
+    <!-- Game play screen (initially hidden) -->
+    <div id="game-screen" class="container mx-auto p-4 max-w-4xl flex-grow hidden">
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center">
+                <!-- Replace the current logo with a more compact design -->
+                <div class="bg-primary-color text-white rounded-lg px-3 py-1 mr-2 flex items-center">
+                    <span class="font-bold">30s</span>
+                </div>
+                <h1 class="text-2xl font-bold">30 Seconds</h1>
+            </div>
+            <div>
+                <button id="settings-btn" class="text-primary-color hover:underline mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <button id="rules-btn" class="text-primary-color hover:underline mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <button id="end-game-btn" class="text-danger-color hover:underline flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                    </svg>
+                    End Game
+                </button>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div id="team-scores" class="md:col-span-1">
+                <!-- Team scores will be dynamically inserted here -->
+            </div>
+            
+            <div class="card p-6 md:col-span-2">
+                <div id="turn-info" class="text-center mb-4 font-semibold text-lg">
+                    Team 1's Turn
+                </div>
+                <div id="round-progress" class="mb-4 text-center text-sm font-medium">
+                    Round <span id="current-round">1</span> of <span id="total-rounds">5</span>
+                </div>
+                <div id="timer-container" class="timer-container p-6 mb-6">
+                    <div class="timer-circle">
+                        <div class="timer-progress"></div>
+                        <div id="timer" class="timer-text">30</div>
+                    </div>
+                </div>
+                
+                <div id="word-card" class="word-card mb-6">
+                    <div id="word-category" class="category-badge">Ready</div>
+                    <p id="current-word" class="card-word">Tap "Start" when ready!</p>
+                </div>
+                
+                <div id="words-progress" class="mb-4 text-center">
+                    <span id="words-completed">0</span>/<span id="words-total">5</span> words completed
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div id="game-controls" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button id="start-round-btn" class="w-full text-white bg-primary-color btn-primary font-medium rounded-lg text-base px-5 py-4 text-center">
+                        Start Round
+                    </button>
+                    <button id="correct-btn" class="w-full text-white correct-btn font-medium rounded-lg text-base px-5 py-4 text-center hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        Correct
+                    </button>
+                    <button id="skip-btn" class="w-full text-white skip-btn font-medium rounded-lg text-base px-5 py-4 text-center hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        Skip
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game over screen (initially hidden) -->
+    <div id="game-over-screen" class="container mx-auto p-4 max-w-4xl flex-grow hidden">
+        <div class="logo-container mb-4">
+            <div class="logo-circle">
+                <div class="logo-text logo-number">30</div>
+                <div class="logo-text logo-seconds">SECONDS</div>
+            </div>
+        </div>
+        <h1 class="text-4xl font-extrabold text-center mt-4 mb-6">Game Over!</h1>
+        
+        <div class="card p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">Final Results</h2>
+            <div id="final-results" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Final results will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <div class="card p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Game Statistics</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-semibold mb-2">Top Categories</h3>
+                    <div id="top-categories" class="space-y-2">
+                        <!-- Top categories will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Game Summary</h3>
+                    <div id="game-summary" class="space-y-2">
+                        <!-- Game summary will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex justify-center space-x-4">
+            <button id="play-again-btn" class="text-white bg-primary-color btn-primary font-medium rounded-lg text-base px-5 py-4 text-center">
+                Play Again
+            </button>
+            <button id="share-results-btn" class="text-white bg-sky-600 btn-primary font-medium rounded-lg text-base px-5 py-4 text-center">
+                Share Results
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal for rules (initially hidden) -->
+    <div id="rules-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-lg max-w-lg w-full mx-4 p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Game Rules</h2>
+                <button id="close-rules-btn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="mb-4">
+                <h3 class="font-semibold mb-2">Basic Rules</h3>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li>One player describes words to teammates</li>
+                    <li>30 seconds to guess as many words as possible</li>
+                    <li>Each correct guess = 1 point</li>
+                    <li>Skip words you find too difficult</li>
+                    <li>Teams take turns until one reaches the winning score</li>
+                </ol>
+            </div>
+            <div class="mb-4">
+                <h3 class="font-semibold mb-2">Not Allowed</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li>Saying any part of the word</li>
+                    <li>Using "rhymes with" or "sounds like"</li>
+                    <li>Using abbreviations of the word</li>
+                    <li>Using gestures/charades</li>
+                    <li>Spelling out the word</li>
+                </ul>
+            </div>
+            <button id="understood-btn" class="w-full text-white bg-primary-color btn-primary font-medium rounded-lg text-base px-5 py-3 text-center">
+                Got it!
+            </button>
+        </div>
+    </div>
+
+    <!-- Script for the game -->
+    <script>
+        // Game data and state will be managed here
+        const gameState = {
+            teams: [],
+            currentTeam: 0,
+            currentRound: 1,
+            totalRounds: 0,
+            winningScore: 20,
+            wordsPerRound: 5,
+            timerDuration: 30,
+            difficulty: 'medium',
+            categories: ['all'],
+            soundEnabled: true,
+            currentWord: '',
+            currentWordIndex: 0,
+            words: [],
+            timer: null,
+            timeLeft: 30,
+            isPlaying: false
+        };
+
+        // South African themed word list
+        const wordDatabase = {
+            culture: [
+                {word: "Braai", difficulty: "easy"},
+                {word: "Ubuntu", difficulty: "medium"},
+                {word: "Toyi-Toyi", difficulty: "medium"},
+                {word: "Indaba", difficulty: "medium"},
+                {word: "Lobola", difficulty: "medium"},
+                {word: "Sangoma", difficulty: "medium"},
+                {word: "Shweshwe", difficulty: "hard"},
+                {word: "Voortrekker", difficulty: "hard"},
+                {word: "Umshado", difficulty: "hard"},
+                {word: "Mbaqanga", difficulty: "hard"}
+            ],
+            places: [
+                {word: "Table Mountain", difficulty: "easy"},
+                {word: "Robben Island", difficulty: "easy"},
+                {word: "Soweto", difficulty: "easy"},
+                {word: "Kruger Park", difficulty: "easy"},
+                {word: "Drakensberg", difficulty: "medium"},
+                {word: "Blyde River Canyon", difficulty: "medium"},
+                {word: "Cradle of Humankind", difficulty: "medium"},
+                {word: "Mapungubwe", difficulty: "hard"},
+                {word: "Khayelitsha", difficulty: "medium"},
+                {word: "Valley of Desolation", difficulty: "hard"}
+            ],
+            people: [
+                {word: "Nelson Mandela", difficulty: "easy"},
+                {word: "Desmond Tutu", difficulty: "easy"},
+                {word: "Charlize Theron", difficulty: "easy"},
+                {word: "Trevor Noah", difficulty: "easy"},
+                {word: "Steve Biko", difficulty: "medium"},
+                {word: "Miriam Makeba", difficulty: "medium"},
+                {word: "Caster Semenya", difficulty: "medium"},
+                {word: "Shaka Zulu", difficulty: "medium"},
+                {word: "Brenda Fassie", difficulty: "hard"},
+                {word: "Ladysmith Black Mambazo", difficulty: "hard"}
+            ],
+            food: [
+                {word: "Biltong", difficulty: "easy"},
+                {word: "Bunny Chow", difficulty: "easy"},
+                {word: "Boerewors", difficulty: "easy"},
+                {word: "Malva Pudding", difficulty: "medium"},
+                {word: "Bobotie", difficulty: "medium"},
+                {word: "Koeksister", difficulty: "medium"},
+                {word: "Chakalaka", difficulty: "medium"},
+                {word: "Potjiekos", difficulty: "hard"},
+                {word: "Amasi", difficulty: "hard"},
+                {word: "Vetkoek", difficulty: "hard"}
+            ],
+            nature: [
+                {word: "Springbok", difficulty: "easy"},
+                {word: "Lion", difficulty: "easy"},
+                {word: "Elephant", difficulty: "easy"},
+                {word: "Protea", difficulty: "easy"},
+                {word: "Great White Shark", difficulty: "medium"},
+                {word: "Meerkat", difficulty: "medium"},
+                {word: "Baobab", difficulty: "medium"},
+                {word: "Dassie", difficulty: "hard"},
+                {word: "Blue Crane", difficulty: "hard"},
+                {word: "Black Mamba", difficulty: "hard"}
+            ],
+            sports: [
+                {word: "Springboks", difficulty: "easy"},
+                {word: "Bafana Bafana", difficulty: "easy"},
+                {word: "Proteas", difficulty: "easy"},
+                {word: "Vuvuzela", difficulty: "easy"},
+                {word: "Mamelodi Sundowns", difficulty: "medium"},
+                {word: "Comrades Marathon", difficulty: "medium"},
+                {word: "Cape Epic", difficulty: "hard"},
+                {word: "Bulls", difficulty: "medium"},
+                {word: "Kaizer Chiefs", difficulty: "medium"},
+                {word: "Jukskei", difficulty: "hard"}
+            ],
+            slang: [
+                {word: "Eish", difficulty: "easy"},
+                {word: "Lekker", difficulty: "easy"},
+                {word: "Howzit", difficulty: "easy"},
+                {word: "Voetsek", difficulty: "medium"},
+                {word: "Shame", difficulty: "medium"},
+                {word: "Bakkie", difficulty: "medium"},
+                {word: "Dop", difficulty: "medium"},
+                {word: "Moer", difficulty: "hard"},
+                {word: "Kiff", difficulty: "hard"},
+                {word: "Ja Nee", difficulty: "hard"}
+            ],
+            history: [
+                {word: "Apartheid", difficulty: "easy"},
+                {word: "Freedom Day", difficulty: "easy"},
+                {word: "Great Trek", difficulty: "medium"},
+                {word: "Marikana", difficulty: "medium"},
+                {word: "Sharpeville", difficulty: "medium"},
+                {word: "Anglo-Boer War", difficulty: "medium"},
+                {word: "Union Buildings", difficulty: "medium"},
+                {word: "Blood River", difficulty: "hard"},
+                {word: "District Six", difficulty: "hard"},
+                {word: "Pass Laws", difficulty: "hard"}
+            ]
+        };
+
+        // DOM elements
+        const setupScreen = document.getElementById('setup-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const addTeamBtn = document.getElementById('add-team-btn');
+        const teamInputs = document.getElementById('team-inputs');
+        const timerElement = document.getElementById('timer');
+        const timerProgress = document.querySelector('.timer-progress');
+        const currentWordElement = document.getElementById('current-word');
+        const wordCategoryElement = document.getElementById('word-category');
+        const startRoundBtn = document.getElementById('start-round-btn');
+        const correctBtn = document.getElementById('correct-btn');
+        const skipBtn = document.getElementById('skip-btn');
+        const turnInfoElement = document.getElementById('turn-info');
+        const currentRoundElement = document.getElementById('current-round');
+        const totalRoundsElement = document.getElementById('total-rounds');
+        const wordsCompletedElement = document.getElementById('words-completed');
+        const wordsTotalElement = document.getElementById('words-total');
+        const progressBar = document.querySelector('.progress-bar');
+        const rulesBtn = document.getElementById('rules-btn');
+        const rulesModal = document.getElementById('rules-modal');
+        const closeRulesBtn = document.getElementById('close-rules-btn');
+        const understoodBtn = document.getElementById('understood-btn');
+        const endGameBtn = document.getElementById('end-game-btn');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        const teamScoresContainer = document.getElementById('team-scores');
+        const finalResultsContainer = document.getElementById('final-results');
+        const categoryChips = document.querySelectorAll('.category-chip');
+        const selectedCategoriesElement = document.getElementById('selected-categories');
+
+        // Initialize the game
+        function init() {
+            // Event listeners
+            startGameBtn.addEventListener('click', startGame);
+            addTeamBtn.addEventListener('click', addTeam);
+            startRoundBtn.addEventListener('click', startRound);
+            correctBtn.addEventListener('click', markCorrect);
+            skipBtn.addEventListener('click', skipWord);
+            rulesBtn.addEventListener('click', openRulesModal);
+            closeRulesBtn.addEventListener('click', closeRulesModal);
+            understoodBtn.addEventListener('click', closeRulesModal);
+            endGameBtn.addEventListener('click', confirmEndGame);
+            playAgainBtn.addEventListener('click', resetGame);
+
+            // Category selection
+            categoryChips.forEach(chip => {
+                chip.addEventListener('click', toggleCategory);
+            });
+
+            // Pre-fill two teams
+            gameState.teams = [
+                { name: "Mzansi Magic", color: "bg-red-500", score: 0 },
+                { name: "The Proteas", color: "bg-green-500", score: 0 }
+            ];
+
+            // Add more initialization code here as needed
+        }
+
+        // Start the game
+        function startGame() {
+            // Get game settings
+            gameState.winningScore = parseInt(document.getElementById('winning-score').value);
+            gameState.wordsPerRound = parseInt(document.getElementById('words-per-round').value);
+            gameState.timerDuration = parseInt(document.getElementById('timer-duration').value);
+            gameState.difficulty = document.getElementById('difficulty').value;
+            gameState.soundEnabled = document.getElementById('sound-enabled').checked;
+            gameState.timeLeft = gameState.timerDuration;
+
+            // Update team names from inputs
+            const teamInputElements = teamInputs.querySelectorAll('input');
+            teamInputElements.forEach((input, index) => {
+                if (gameState.teams[index]) {
+                    gameState.teams[index].name = input.value || `Team ${index + 1}`;
+                }
+            });
+
+            // Show game screen
+            setupScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+
+            // Initialize game display
+            updateTeamScores();
+            updateTurnInfo();
+            updateRoundInfo();
+            wordsTotalElement.textContent = gameState.wordsPerRound;
+        }
+
+        // Add a new team
+        function addTeam() {
+            const teamCount = gameState.teams.length;
+            if (teamCount >= 6) {
+                alert("Maximum of 6 teams allowed!");
+                return;
+            }
+
+            const colors = ["bg-red-500", "bg-green-500", "bg-blue-500", "bg-yellow-500", "bg-purple-500", "bg-pink-500"];
+            const newTeam = {
+                name: `Team ${teamCount + 1}`,
+                color: colors[teamCount % colors.length],
+                score: 0
+            };
+
+            gameState.teams.push(newTeam);
+
+            // Create new team input
+            const teamInputHTML = `
+                <div class="grid grid-cols-5 gap-2 items-center">
+                    <div class="col-span-4">
+                        <input type="text" placeholder="Team ${teamCount + 1}" class="bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-100">
+                    </div>
+                    <div class="text-center">
+                        <div class="w-6 h-6 rounded-full ${newTeam.color} mx-auto"></div>
+                    </div>
+                </div>
+            `;
+            teamInputs.insertAdjacentHTML('beforeend', teamInputHTML);
+        }
+
+        // Toggle category selection
+        function toggleCategory(e) {
+            const categoryChip = e.target;
+            const category = categoryChip.dataset.category;
+            
+            if (category === 'all') {
+                // If "All Categories" is clicked, clear all others and select only this one
+                categoryChips.forEach(chip => {
+                    chip.classList.remove('active');
+                });
+                categoryChip.classList.add('active');
+                gameState.categories = ['all'];
+            } else {
+                // If a specific category is clicked
+                const allCategoriesChip = document.querySelector('.category-chip[data-category="all"]');
+                allCategoriesChip.classList.remove('active');
+                
+                // Toggle the clicked category
+                categoryChip.classList.toggle('active');
+                
+                // Update the categories array based on selected chips
+                gameState.categories = [];
+                document.querySelectorAll('.category-chip.active').forEach(chip => {
+                    gameState.categories.push(chip.dataset.category);
+                });
+                
+                // If none are selected, default back to "All Categories"
+                if (gameState.categories.length === 0) {
+                    allCategoriesChip.classList.add('active');
+                    gameState.categories = ['all'];
+                }
+            }
+            
+            // Update the selected categories text
+            if (gameState.categories.includes('all')) {
+                selectedCategoriesElement.textContent = 'All Categories';
+            } else {
+                const categoryNames = gameState.categories.map(cat => {
+                    return document.querySelector(`.category-chip[data-category="${cat}"]`).textContent;
+                });
+                selectedCategoriesElement.textContent = categoryNames.join(', ');
+            }
+        }
+
+        // Start a round
+        function startRound() {
+            // Generate random words for this round
+            generateWords();
+            
+            // Reset the word counter and show first word
+            gameState.currentWordIndex = 0;
+            showCurrentWord();
+            
+            // Update UI
+            startRoundBtn.classList.add('hidden');
+            correctBtn.classList.remove('hidden');
+            skipBtn.classList.remove('hidden');
+            wordsCompletedElement.textContent = '0';
+            updateProgressBar();
+            
+            // Start the timer
+            gameState.isPlaying = true;
+            startTimer();
+        }
+
+        // Generate words for the round
+        function generateWords() {
+            gameState.words = [];
+            let availableWords = [];
+            
+            // If 'all' is selected, use all categories
+            if (gameState.categories.includes('all')) {
+                Object.keys(wordDatabase).forEach(category => {
+                    wordDatabase[category].forEach(wordObj => {
+                        if (gameState.difficulty === 'mixed' || wordObj.difficulty === gameState.difficulty) {
+                            availableWords.push({...wordObj, category});
+                        }
+                    });
+                });
+            } else {
+                // Otherwise, use only selected categories
+                gameState.categories.forEach(category => {
+                    if (wordDatabase[category]) {
+                        wordDatabase[category].forEach(wordObj => {
+                            if (gameState.difficulty === 'mixed' || wordObj.difficulty === gameState.difficulty) {
+                                availableWords.push({...wordObj, category});
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Shuffle and pick the required number of words
+            shuffleArray(availableWords);
+            gameState.words = availableWords.slice(0, gameState.wordsPerRound);
+        }
+
+        // Show the current word
+        function showCurrentWord() {
+            if (gameState.currentWordIndex < gameState.words.length) {
+                const wordObj = gameState.words[gameState.currentWordIndex];
+                gameState.currentWord = wordObj.word;
+                currentWordElement.textContent = wordObj.word;
+                currentWordElement.classList.add('word-animation');
+                
+                // Get pretty category name
+                const categoryNames = {
+                    'culture': 'Culture & Heritage',
+                    'places': 'Places & Landmarks',
+                    'people': 'People & Personalities',
+                    'food': 'Food & Drink',
+                    'nature': 'Nature & Wildlife',
+                    'sports': 'Sports & Entertainment',
+                    'slang': 'Slang & Language',
+                    'history': 'History & Politics'
+                };
+                
+                wordCategoryElement.textContent = categoryNames[wordObj.category] || wordObj.category;
+                
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    currentWordElement.classList.remove('word-animation');
+                }, 400);
+            }
+        }
+
+        // Mark the current word as correct
+        function markCorrect() {
+            if (!gameState.isPlaying) return;
+            
+            // Current team gets a point for this word
+            gameState.words[gameState.currentWordIndex].correct = true;
+            
+            // Move to next word
+            gameState.currentWordIndex++;
+            wordsCompletedElement.textContent = gameState.currentWordIndex;
+            updateProgressBar();
+            
+            if (gameState.currentWordIndex < gameState.words.length) {
+                showCurrentWord();
+            } else {
+                endRound();
+            }
+        }
+
+        // Skip the current word
+        function skipWord() {
+            if (!gameState.isPlaying) return;
+            
+            // Mark as skipped
+            gameState.words[gameState.currentWordIndex].correct = false;
+            
+            // Move to next word
+            gameState.currentWordIndex++;
+            wordsCompletedElement.textContent = gameState.currentWordIndex;
+            updateProgressBar();
+            
+            if (gameState.currentWordIndex < gameState.words.length) {
+                showCurrentWord();
+            } else {
+                endRound();
+            }
+        }
+
+        // Start the timer
+        function startTimer() {
+            // Reset timer
+            gameState.timeLeft = gameState.timerDuration;
+            timerElement.textContent = gameState.timeLeft;
+            updateTimerProgress();
+            
+            // Clear any existing timer
+            if (gameState.timer) clearInterval(gameState.timer);
+            
+            // Start new interval
+            gameState.timer = setInterval(() => {
+                gameState.timeLeft--;
+                timerElement.textContent = gameState.timeLeft;
+                updateTimerProgress();
+                
+                if (gameState.timeLeft <= 0) {
+                    clearInterval(gameState.timer);
+                    endRound();
+                }
+            }, 1000);
+        }
+
+        // Update timer progress bar
+        function updateTimerProgress() {
+            const progress = (gameState.timeLeft / gameState.timerDuration) * 100;
+            timerProgress.style.background = `conic-gradient(var(--primary-color) ${progress}%, transparent ${progress}%)`;
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = (gameState.currentWordIndex / gameState.words.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // End the current round
+        function endRound() {
+            // Stop the timer
+            clearInterval(gameState.timer);
+            gameState.isPlaying = false;
+            
+            // Calculate points
+            let points = 0;
+            gameState.words.forEach(word => {
+                if (word.correct) points++;
+            });
+            
+            // Update team score
+            gameState.teams[gameState.currentTeam].score += points;
+            
+            // Check for game over
+            if (gameState.teams[gameState.currentTeam].score >= gameState.winningScore) {
+                endGame();
+                return;
+            }
+            
+            // Move to next team
+            gameState.currentTeam = (gameState.currentTeam + 1) % gameState.teams.length;
+            
+            // If we've gone through all teams, increment round counter
+            if (gameState.currentTeam === 0) {
+                gameState.currentRound++;
+            }
+            
+            // Update UI for next round
+            updateTeamScores();
+            updateTurnInfo();
+            updateRoundInfo();
+            
+            // Reset buttons
+            correctBtn.classList.add('hidden');
+            skipBtn.classList.add('hidden');
+            startRoundBtn.classList.remove('hidden');
+            
+            // Reset word display
+            currentWordElement.textContent = "Tap \"Start\" when ready!";
+            wordCategoryElement.textContent = "Ready";
+        }
+
+        // Update team scores display
+        function updateTeamScores() {
+            teamScoresContainer.innerHTML = '';
+            
+            gameState.teams.forEach(team => {
+                const teamCardHTML = `
+                    <div class="team-card p-4 mb-2 flex justify-between items-center ${gameState.currentTeam === gameState.teams.indexOf(team) ? 'active' : ''}">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 rounded-full ${team.color} mr-2"></div>
+                            <span class="team-name">${team.name}</span>
+                        </div>
+                        <span class="team-score">${team.score}</span>
+                    </div>
+                `;
+                teamScoresContainer.insertAdjacentHTML('beforeend', teamCardHTML);
+            });
+        }
+
+        // Update turn info
+        function updateTurnInfo() {
+            const currentTeam = gameState.teams[gameState.currentTeam];
+            turnInfoElement.textContent = `${currentTeam.name}'s Turn`;
+        }
+
+        // Update round info
+        function updateRoundInfo() {
+            currentRoundElement.textContent = gameState.currentRound;
+        }
+
+        // End the game
+        function endGame() {
+            // Hide game screen and show game over screen
+            gameScreen.classList.add('hidden');
+            gameOverScreen.classList.remove('hidden');
+            
+            // Find the winning team
+            const winningTeam = [...gameState.teams].sort((a, b) => b.score - a.score)[0];
+            
+            // Update final results
+            finalResultsContainer.innerHTML = '';
+            gameState.teams.forEach(team => {
+                const isWinner = team.name === winningTeam.name;
+                const teamResultHTML = `
+                    <div class="text-center ${isWinner ? 'order-first' : ''}">
+                        <div class="team-card p-6 ${isWinner ? 'border-2 border-primary-color' : ''}">
+                            <div class="w-6 h-6 rounded-full ${team.color} mx-auto mb-2"></div>
+                            <div class="team-name mb-2">${team.name}</div>
+                            <div class="team-score">${team.score}</div>
+                            ${isWinner ? '<div class="text-primary-color font-bold mt-2">Winner!</div>' : ''}
+                        </div>
+                    </div>
+                `;
+                finalResultsContainer.insertAdjacentHTML('beforeend', teamResultHTML);
+            });
+            
+            // If winner, create confetti effect
+            if (gameState.soundEnabled && winningTeam) {
+                createConfetti();
+            }
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDelay = `${Math.random() * 4}s`;
+                document.body.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 4000);
+            }
+        }
+
+        // Get random color for confetti
+        function getRandomColor() {
+            const colors = ['#ffcc00', '#ff6699', '#33ccff', '#99ff66', '#ff9933', '#cc99ff'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Open rules modal
+        function openRulesModal() {
+            rulesModal.classList.remove('hidden');
+        }
+
+        // Close rules modal
+        function closeRulesModal() {
+            rulesModal.classList.add('hidden');
+        }
+
+        // Confirm end game
+        function confirmEndGame() {
+            if (confirm("Are you sure you want to end the game?")) {
+                endGame();
+            }
+        }
+
+        // Reset game
+        function resetGame() {
+            // Reset game state
+            gameState.currentTeam = 0;
+            gameState.currentRound = 1;
+            gameState.teams.forEach(team => team.score = 0);
+            
+            // Show setup screen
+            gameOverScreen.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
+            
+            // Clear any confetti
+            document.querySelectorAll('.confetti').forEach(el => el.remove());
+        }
+
+        // Utility function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Initialize the game when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>

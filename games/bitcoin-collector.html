@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Avuyile's Bitcoin Adventure v2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r132/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: manipulation; /* Prevent zoom/pan on touch */
+        }
+
+        body {
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #game-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #ui-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            pointer-events: none;
+            display: flex; /* Align stats and message */
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #stats, #timer-display {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            padding: 8px;
+            pointer-events: none;
+            font-size: 14px; /* Slightly smaller for more info */
+            min-width: 150px; /* Ensure some width */
+        }
+
+        #btc-count {
+            color: #f7931a;
+            font-weight: bold;
+            transition: transform 0.2s ease-out; /* Pop effect */
+        }
+        .btc-lost {
+             color: #ff4444;
+             font-weight: bold;
+             transform: scale(1.2);
+        }
+
+        #level-indicator {
+            color: #00ff00;
+        }
+
+         #timer {
+             color: #ffff00; /* Yellow timer */
+             font-weight: bold;
+         }
+
+
+        #message {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin-top: 5px; /* Space below stats/timer */
+            opacity: 0;
+            transition: opacity 0.5s, transform 0.5s;
+            pointer-events: none;
+            max-width: 80vw;
+            font-weight: bold;
+            text-align: center;
+            position: absolute; /* Position relative to container */
+            top: 80px; /* Position below stats */
+            left: 10px;
+            transform: translateY(20px); /* Start slightly lower */
+        }
+        #message.show {
+            opacity: 1;
+            transform: translateY(0); /* Move up when shown */
+        }
+
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+            z-index: 20; /* Ensure controls are above other UI */
+        }
+
+        .joystick-area {
+            width: 120px;
+            height: 120px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            position: relative;
+            pointer-events: auto;
+        }
+
+        .joystick-knob {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s linear; /* Smooth knob return */
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            pointer-events: auto;
+        }
+
+        .action-button {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 16px;
+            user-select: none; /* Prevent text selection */
+            -webkit-user-select: none;
+        }
+         .action-button:active {
+            background-color: rgba(255, 255, 255, 0.4); /* Feedback on press */
+         }
+
+        #jump-button {
+            background-color: rgba(0, 255, 0, 0.3);
+        }
+
+        #action-button {
+            background-color: rgba(255, 165, 0, 0.3);
+        }
+
+        /* Screens (Start, Level Complete, Game Over) */
+        .screen-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 100;
+            color: white;
+        }
+
+         .screen-overlay h1 {
+            font-size: clamp(24px, 5vw, 32px); /* Responsive font size */
+            margin-bottom: 20px;
+            color: #f7931a;
+            text-align: center;
+         }
+
+         .screen-overlay p {
+            font-size: clamp(16px, 3vw, 18px);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+         }
+
+         .screen-button {
+            background-color: #f7931a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+         }
+         .screen-button:hover {
+             background-color: #d98010;
+         }
+
+         #start-screen { display: flex; } /* Show initially */
+         #level-complete { display: none; }
+         #game-over-screen { display: none; }
+
+
+        #level-stats, #game-over-reason {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .loading-text {
+            color: #f7931a;
+            font-size: 24px;
+        }
+
+        .restart-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(247, 147, 26, 0.7);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            z-index: 101; /* Above overlays */
+            display: none; /* Hidden initially */
+        }
+
+        /* Screen Shake Effect */
+         .shake {
+             animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+             transform: translate3d(0, 0, 0);
+             backface-visibility: hidden;
+             perspective: 1000px;
+         }
+
+        @keyframes shake {
+          10%, 90% { transform: translate3d(-1px, 0, 0); }
+          20%, 80% { transform: translate3d(2px, 0, 0); }
+          30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+          40%, 60% { transform: translate3d(3px, 0, 0); }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="loading-overlay">
+        <div class="loading-text">Loading Avuyile's World...</div>
+    </div>
+
+    <div id="start-screen" class="screen-overlay">
+        <h1>Avuyile's Bitcoin Adventure</h1>
+        <p>Bitcoin: A Peer-to-Peer Electronic Cash System</p>
+        <p>Stack sats against the clock, dodge the volatile obstacles, and secure your digital future!</p>
+        <button id="start-button" class="screen-button">Start Game</button>
+    </div>
+
+    <div id="level-complete" class="screen-overlay">
+        <h1>LEVEL COMPLETE!</h1>
+        <div id="level-stats"></div>
+        <button id="next-level" class="screen-button">NEXT LEVEL</button>
+    </div>
+
+    <div id="game-over-screen" class="screen-overlay">
+        <h1>GAME OVER</h1>
+        <div id="game-over-reason"></div>
+        <button id="retry-button" class="screen-button">RETRY LEVEL</button>
+    </div>
+
+    <button class="restart-button" id="restart-button">RESTART GAME</button>
+
+    <div id="game-container"></div>
+
+    <div id="ui-container">
+        <div id="stats">
+            <div>₿: <span id="btc-count">0</span></div>
+            <div>LEVEL: <span id="level-indicator">1</span></div>
+        </div>
+         <div id="timer-display">
+             TIME: <span id="timer">00:00</span>
+         </div>
+        <div id="message"></div>
+    </div>
+
+    <div class="controls">
+        <div class="joystick-area">
+            <div class="joystick-knob"></div>
+        </div>
+        <div class="action-buttons">
+            <div id="jump-button" class="action-button">JUMP</div>
+            <div id="action-button" class="action-button">CODE</div>
+        </div>
+    </div>
+
+    <script>
+        // Wait for Three.js to load
+        window.addEventListener('load', init);
+    
+        // --- Constants ---
+        const GRAVITY = 35;
+        const JUMP_VELOCITY = 14; // Slightly higher jump
+        const PLAYER_SPEED = 11; // Slightly faster player
+        const OBSTACLE_BTC_PENALTY = 1;
+        const BASE_LEVEL_TIME = 60; // seconds
+        const TIME_PER_LEVEL_INCREASE = 5; // seconds added per level
+        const BTC_COLOR = 0xf7931a;
+        const HIT_COLOR = 0xff4444;
+        const MESSAGE_DURATION = 1500; // ms
+        const SHAKE_COOLDOWN = 250; // ms - Minimum time between screen shakes
+    
+        // --- Global Variables ---
+        let scene, camera, renderer, clock;
+        let player, playerCollider;
+        let playerVelocity = null;
+        let playerDirection = null;
+        let playerOnFloor = false;
+        let bitcoins = []; // Stores the THREE.Group objects
+        let obstacles = []; // Stores { mesh: THREE.Group, collider: THREE.Box3, isFinishLine?: boolean }
+        let bitcoinCount = 0;
+        let levelNumber = 1;
+        let isJumping = false;
+        let isGameActive = false;
+        let finishLine = null;
+        let bitcoinModels = []; // Just the models for animation updates
+        let floorMesh = null; // << FIX: Make floor mesh globally accessible for raycaster
+        let raycaster = null; // << FIX: Add Raycaster for ground check
+    
+        // Touch controls
+        let joystickActive = false;
+        let joystickOrigin = { x: 0, y: 0 };
+        let joystickPosition = { x: 0, y: 0 };
+        let joystickKnob = null;
+        let joystickArea = null;
+        let jumpButton = null;
+        let actionButton = null;
+    
+        // World state
+        const world = {
+            width: 50,
+            depth: 500, // << FIX: Increased depth significantly to avoid clamping before finish line
+            floorY: -2,
+        };
+    
+        // Particle system / Effects
+        let particlesToUpdate = [];
+        let activeEffects = {
+            screenShakeTimeout: null,
+            btcCountFlashTimeout: null,
+            lastShakeTime: 0 // << FIX: Track last shake time
+        };
+    
+        // Timer
+        let levelTimeLimit = 0;
+        let currentTime = 0;
+        let timerInterval = null;
+    
+        // --- Initialization ---
+        function init() {
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js not loaded');
+                document.querySelector('.loading-text').textContent = 'Error loading Three.js. Please refresh the page.';
+                return;
+            }
+    
+            playerVelocity = new THREE.Vector3();
+            playerDirection = new THREE.Vector3();
+            raycaster = new THREE.Raycaster(); // << FIX: Initialize Raycaster
+    
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x87CEEB); // Sky blue
+            scene.fog = new THREE.Fog(0x87CEEB, 50, 150); // Add fog for depth
+    
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 5, -10);
+            camera.lookAt(0, 0, 10);
+    
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Softer shadows
+            document.getElementById('game-container').appendChild(renderer.domElement);
+    
+            clock = new THREE.Clock();
+    
+            setupLighting();
+            createPlayer();
+            createWorld(); // Includes floor, sky, decorations
+            setupControls();
+    
+            window.addEventListener('resize', onWindowResize);
+    
+            setTimeout(() => {
+                document.querySelector('.loading-overlay').style.display = 'none';
+            }, 500); // Shorter loading
+    
+            document.getElementById('start-button').addEventListener('click', startGame);
+            document.getElementById('next-level').addEventListener('click', nextLevel);
+            document.getElementById('retry-button').addEventListener('click', retryLevel);
+            document.getElementById('restart-button').addEventListener('click', () => {
+                 location.reload();
+            });
+    
+            animate();
+        }
+    
+        function startGame() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('restart-button').style.display = 'block'; // Show restart button
+            levelNumber = 1;
+            resetGameStats(); // Reset score etc.
+            isGameActive = true;
+            initLevel(levelNumber);
+        }
+    
+         function retryLevel() {
+             document.getElementById('game-over-screen').style.display = 'none';
+             resetGameStats(); // Reset score for the current level
+             isGameActive = true;
+             initLevel(levelNumber); // Restart current level
+         }
+    
+        function nextLevel() {
+            document.getElementById('level-complete').style.display = 'none';
+            levelNumber++;
+            resetGameStats();
+            isGameActive = true;
+            initLevel(levelNumber);
+        }
+    
+         function resetGameStats() {
+             bitcoinCount = 0;
+             document.getElementById('btc-count').textContent = bitcoinCount;
+             document.getElementById('level-indicator').textContent = levelNumber;
+             // Reset timer will happen in initLevel
+         }
+    
+        // --- Lighting, Player, World Creation (Mostly unchanged, added Bitcoin model detail) ---
+    
+        function setupLighting() {
+            scene.add(new THREE.AmbientLight(0xffffff, 0.6)); // Slightly brighter ambient
+    
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9); // Slightly stronger sun
+            directionalLight.position.set(15, 30, 20);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048; // Higher res shadows
+            directionalLight.shadow.mapSize.height = 2048;
+            directionalLight.shadow.camera.near = 0.5;
+            directionalLight.shadow.camera.far = 100; // Adjust far plane
+            directionalLight.shadow.camera.left = -world.width / 2;
+            directionalLight.shadow.camera.right = world.width / 2;
+            directionalLight.shadow.camera.top = world.depth / 2; // Use world depth here
+            directionalLight.shadow.camera.bottom = -world.depth / 2;// Use world depth here
+            scene.add(directionalLight);
+    
+            const hemiLight = new THREE.HemisphereLight(0x87CEEB, 0x77a677, 0.3);
+             scene.add(hemiLight);
+        }
+    
+        function createPlayer() {
+             const playerMat = new THREE.MeshStandardMaterial({
+                 color: 0x1E90FF, // DodgerBlue
+                 roughness: 0.6,
+                 metalness: 0.2
+             });
+            const playerGeometry = new THREE.BoxGeometry(1, 1.8, 1); // Slightly shorter body
+            player = new THREE.Mesh(playerGeometry, playerMat);
+            player.position.set(0, 0.9, 0); // Position based on new height
+            player.castShadow = true;
+            player.receiveShadow = true;
+            scene.add(player);
+    
+             const headGeometry = new THREE.SphereGeometry(0.4, 24, 24); // Smoother head
+             const head = new THREE.Mesh(headGeometry, playerMat);
+             head.position.y = 1.1; // Position head correctly
+             player.add(head);
+    
+             const eyeGeometry = new THREE.SphereGeometry(0.08, 8, 8);
+             const eyeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+             const pupilMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    
+             const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+             leftEye.position.set(-0.15, 0.1, 0.35); // Slightly forward
+             head.add(leftEye);
+             const leftPupil = new THREE.Mesh(new THREE.SphereGeometry(0.04, 6, 6), pupilMaterial);
+             leftPupil.position.z = 0.05;
+             leftEye.add(leftPupil);
+    
+    
+             const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+             rightEye.position.set(0.15, 0.1, 0.35);
+             head.add(rightEye);
+             const rightPupil = new THREE.Mesh(new THREE.SphereGeometry(0.04, 6, 6), pupilMaterial);
+             rightPupil.position.z = 0.05;
+             rightEye.add(rightPupil);
+    
+            playerCollider = new THREE.Box3().setFromObject(player); // Initialize collider
+            playerCollider.min.y += 0.1; // Slightly raise the bottom check point for raycaster origin
+        }
+    
+        function createWorld() {
+            // Floor
+            const floorGeometry = new THREE.PlaneGeometry(world.width * 1.5, world.depth * 1.5); // Use updated depth
+            const floorMaterial = new THREE.MeshStandardMaterial({
+                color: 0x77dd77,
+                roughness: 0.8,
+                metalness: 0.1
+            });
+            floorMesh = new THREE.Mesh(floorGeometry, floorMaterial); // << FIX: Assign to global floorMesh
+            floorMesh.rotation.x = -Math.PI / 2;
+            floorMesh.position.y = world.floorY;
+            floorMesh.receiveShadow = true;
+            scene.add(floorMesh);
+    
+            createSkyBox();
+            addEnvironmentDecorations();
+        }
+    
+        // --- createSkyBox, createCloud, addEnvironmentDecorations (Unchanged) ---
+         function createSkyBox() {
+             const skyGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
+             const skyMaterial = new THREE.MeshBasicMaterial({ color: 0x87CEEB, side: THREE.BackSide });
+             const skyBox = new THREE.Mesh(skyGeometry, skyMaterial);
+             scene.add(skyBox);
+             const sunLight = new THREE.PointLight(0xffddaa, 1, 500);
+             sunLight.position.set(100, 150, -150);
+             scene.add(sunLight);
+             for (let i = 0; i < 25; i++) {
+                 createCloud(
+                     Math.random() * 300 - 150,
+                     Math.random() * 30 + 25,
+                     Math.random() * 300 - 150
+                 );
+             }
+         }
+         function createCloud(x, y, z) {
+             const cloudGroup = new THREE.Group();
+             const cloudMaterial = new THREE.MeshBasicMaterial({
+                 color: 0xffffff,
+                 transparent: true,
+                 opacity: 0.85
+             });
+             const parts = 4 + Math.floor(Math.random() * 5);
+             for (let i = 0; i < parts; i++) {
+                 const size = 3 + Math.random() * 4;
+                 const geometry = new THREE.IcosahedronGeometry(size, 0);
+                 const cloudPart = new THREE.Mesh(geometry, cloudMaterial);
+                 cloudPart.position.set(Math.random() * 6 - 3, Math.random() * 3 - 1.5, Math.random() * 6 - 3);
+                 cloudPart.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+                 cloudGroup.add(cloudPart);
+             }
+             cloudGroup.position.set(x, y, z);
+             scene.add(cloudGroup);
+             const driftSpeed = 0.5 + Math.random() * 1.5;
+             cloudGroup.userData.isEnvironment = true; // Mark as environment for clearLevel
+             cloudGroup.update = (delta) => {
+                 cloudGroup.position.x += delta * driftSpeed;
+                 if (cloudGroup.position.x > 200) { cloudGroup.position.x = -200; }
+             };
+             particlesToUpdate.push(cloudGroup);
+         }
+         function addEnvironmentDecorations() {
+            for (let i = 0; i < 10; i++) {
+                const mHeight = 10 + Math.random() * 15;
+                const mRadius = 5 + Math.random() * 8;
+                const mountainGeometry = new THREE.ConeGeometry(mRadius, mHeight, 5 + Math.floor(Math.random() * 4));
+                const mountainMaterial = new THREE.MeshStandardMaterial({ color: 0x999999, roughness: 0.9, flatShading: true });
+                const mountain = new THREE.Mesh(mountainGeometry, mountainMaterial);
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 60 + Math.random() * 40;
+                mountain.position.x = Math.cos(angle) * distance;
+                mountain.position.y = world.floorY + mHeight / 2 - 1;
+                mountain.position.z = Math.sin(angle) * distance;
+                mountain.receiveShadow = true;
+                mountain.castShadow = true;
+                mountain.userData.isEnvironment = true; // Mark as environment
+                scene.add(mountain);
+                if (mHeight > 18 && Math.random() > 0.3) {
+                    const snowCapGeometry = new THREE.ConeGeometry(mRadius * 0.4, mHeight * 0.3, 5);
+                    const snowCapMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, flatShading: true });
+                    const snowCap = new THREE.Mesh(snowCapGeometry, snowCapMaterial);
+                    snowCap.position.y = mHeight / 2 - (mHeight * 0.15);
+                    mountain.add(snowCap);
+                 }
+            }
+            for (let i = 0; i < 30; i++) {
+                 const treeGroup = new THREE.Group();
+                 const trunkHeight = 1.5 + Math.random() * 2;
+                 const foliageHeight = 2 + Math.random() * 3;
+                 const foliageRadius = 1 + Math.random() * 0.8;
+                 const trunkGeometry = new THREE.CylinderGeometry(0.15, 0.25, trunkHeight, 6);
+                 const trunkMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.8 });
+                 const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+                 trunk.position.y = trunkHeight / 2;
+                 trunk.castShadow = true;
+                 treeGroup.add(trunk);
+                 const foliageGeometry = new THREE.IcosahedronGeometry(foliageRadius, 0);
+                 const foliageMaterial = new THREE.MeshStandardMaterial({ color: 0x228B22, flatShading: true });
+                 const foliage = new THREE.Mesh(foliageGeometry, foliageMaterial);
+                 foliage.position.y = trunkHeight + foliageRadius * 0.8;
+                 foliage.castShadow = true;
+                 treeGroup.add(foliage);
+                 const treePosition = new THREE.Vector3(
+                     Math.random() * world.width - world.width / 2,
+                     world.floorY,
+                     Math.random() * world.depth - world.depth / 2
+                 );
+                 const finishZ = getLevelParams(levelNumber).finishLine; // Need level info here
+                 if (treePosition.z > -10 && treePosition.z < (finishZ + 10) && Math.abs(treePosition.x) < 15) {
+                      treePosition.x = (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random() * (world.width / 2 - 15));
+                 }
+                 treeGroup.position.copy(treePosition);
+                 treeGroup.userData.isEnvironment = true; // Mark as environment
+                 scene.add(treeGroup);
+            }
+        }
+    
+    
+        // --- Level Management ---
+        function initLevel(level) {
+            clearLevel();
+    
+            const levelParams = getLevelParams(level);
+    
+            // Create Obstacles
+            for (let i = 0; i < levelParams.obstacles; i++) {
+                const width = 1 + Math.random() * 2;
+                const height = 1 + Math.random() * 3;
+                const depth = 1 + Math.random() * 1;
+                createObstacle(
+                    Math.random() * 18 - 9,
+                    0, // Base Y position (adjusted inside createObstacle)
+                    15 + i * (levelParams.finishLine - 20) / levelParams.obstacles + Math.random() * 5 - 2.5,
+                    width, height, depth
+                );
+            }
+    
+            // Create Bitcoins
+            for (let i = 0; i < levelParams.bitcoins; i++) {
+                createBitcoin(
+                    Math.random() * 16 - 8,
+                    1.0 + Math.random() * 0.5,
+                    10 + i * (levelParams.finishLine / (levelParams.bitcoins + 1)) + Math.random() * 4 - 2,
+                );
+            }
+    
+            // Create Finish Line
+            finishLine = createFinishLine(0, world.floorY, levelParams.finishLine);
+    
+            // Reset Player
+            player.position.set(0, 1, -2);
+            playerVelocity.set(0, 0, 0);
+            playerOnFloor = false; // Force ground check
+    
+             // Reset Camera
+            camera.position.set(player.position.x, player.position.y + 6, player.position.z - 12);
+            camera.lookAt(player.position.x, player.position.y, player.position.z + 10);
+    
+            // Setup Timer
+            levelTimeLimit = BASE_LEVEL_TIME + (level - 1) * TIME_PER_LEVEL_INCREASE;
+            currentTime = levelTimeLimit;
+            updateTimerUI();
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+    
+            showMessage(`Level ${level}: Collect ${levelParams.requiredBitcoins} ₿!`, 3000);
+    
+            isGameActive = true;
+        }
+    
+        function getLevelParams(level) {
+            return {
+                obstacles: 6 + level * 3,
+                bitcoins: 5 + level * 2,
+                finishLine: 60 + level * 15,
+                requiredBitcoins: Math.min(4 + level, 15)
+            };
+        }
+    
+        function clearLevel() {
+            isGameActive = false;
+            if (timerInterval) clearInterval(timerInterval);
+    
+            bitcoins.forEach(bitcoin => scene.remove(bitcoin));
+            bitcoins = [];
+            bitcoinModels.forEach(model => {
+                 const index = particlesToUpdate.indexOf(model);
+                 if (index > -1) particlesToUpdate.splice(index, 1);
+            });
+            bitcoinModels = [];
+    
+            obstacles.forEach(obstacle => scene.remove(obstacle.mesh));
+            obstacles = [];
+    
+            // finishLine is part of obstacles now, so it's cleared above
+            finishLine = null;
+    
+    
+             // Clear remaining non-environment particles
+             particlesToUpdate = particlesToUpdate.filter(p => {
+                 if (p.userData.isEnvironment) { // Keep clouds, trees, mountains etc.
+                     return true;
+                 } else {
+                     scene.remove(p); // Remove effect particles
+                     return false;
+                 }
+             });
+    
+            resetGameStats();
+        }
+    
+        // --- Game Elements Creation (Unchanged) ---
+    
+        function createBitcoin(x, y, z) {
+            const bitcoinGroup = new THREE.Group();
+             const coinGeometry = new THREE.CylinderGeometry(0.6, 0.6, 0.15, 24);
+             const coinMaterial = new THREE.MeshStandardMaterial({
+                 color: BTC_COLOR, metalness: 0.7, roughness: 0.3,
+                 emissive: BTC_COLOR, emissiveIntensity: 0.2
+             });
+            const coin = new THREE.Mesh(coinGeometry, coinMaterial);
+            coin.rotation.x = Math.PI / 2; coin.castShadow = true; bitcoinGroup.add(coin);
+             const symbolMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+             const barGeo = new THREE.BoxGeometry(0.15, 0.7, 0.05);
+             const bar = new THREE.Mesh(barGeo, symbolMaterial);
+             bar.position.z = 0.1; bitcoinGroup.add(bar);
+             const topCurveGeo = new THREE.TorusGeometry(0.25, 0.07, 8, 12, Math.PI);
+             const topCurve = new THREE.Mesh(topCurveGeo, symbolMaterial);
+             topCurve.position.set(0.12, 0.18, 0.1); topCurve.rotation.z = Math.PI / 2; bitcoinGroup.add(topCurve);
+             const bottomCurveGeo = new THREE.TorusGeometry(0.25, 0.07, 8, 12, Math.PI);
+             const bottomCurve = new THREE.Mesh(bottomCurveGeo, symbolMaterial);
+             bottomCurve.position.set(0.12, -0.18, 0.1); bottomCurve.rotation.z = Math.PI / 2; bitcoinGroup.add(bottomCurve);
+            bitcoinGroup.position.set(x, y, z); scene.add(bitcoinGroup);
+            bitcoinGroup.userData = {
+                rotationSpeed: Math.PI / 2 + Math.random() * Math.PI / 2, originalY: y,
+                hoverAmplitude: 0.15 + Math.random() * 0.1, hoverSpeed: 1.5 + Math.random() * 1.0
+            };
+            bitcoinGroup.update = (delta) => {
+                bitcoinGroup.rotation.y += bitcoinGroup.userData.rotationSpeed * delta;
+                bitcoinGroup.position.y = bitcoinGroup.userData.originalY +
+                    Math.sin(Date.now() * 0.001 * bitcoinGroup.userData.hoverSpeed) * bitcoinGroup.userData.hoverAmplitude;
+            };
+            bitcoins.push(bitcoinGroup); bitcoinModels.push(bitcoinGroup); particlesToUpdate.push(bitcoinGroup);
+            return bitcoinGroup;
+        }
+    
+        function createObstacle(x, y, z, width, height, depth) {
+             const obstacleGroup = new THREE.Group();
+             const colors = [0xcc0000, 0x4444ff, 0x888888, 0x5522ee, 0xdddddd];
+             const geometry = new THREE.BoxGeometry(width, height, depth);
+             const material = new THREE.MeshStandardMaterial({
+                 color: colors[Math.floor(Math.random() * colors.length)],
+                 roughness: 0.6 + Math.random() * 0.3, metalness: 0.1
+             });
+             const mesh = new THREE.Mesh(geometry, material);
+             mesh.castShadow = true; mesh.receiveShadow = true; obstacleGroup.add(mesh);
+             if (Math.random() > 0.5) {
+                 const detailGeo = new THREE.BoxGeometry(width * 0.5, height * 0.5, depth * 1.1);
+                 const detailMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true });
+                 const detail = new THREE.Mesh(detailGeo, detailMat);
+                 detail.position.set(Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1, 0);
+                 obstacleGroup.add(detail);
+             }
+             obstacleGroup.position.set(x, world.floorY + height / 2, z); scene.add(obstacleGroup);
+             const bbox = new THREE.Box3().setFromObject(obstacleGroup);
+             const obstacle = { mesh: obstacleGroup, collider: bbox, isFinishLine: false };
+             obstacles.push(obstacle);
+             return obstacle;
+        }
+    
+         function createFinishLine(x, y, z) {
+             const finishGroup = new THREE.Group();
+             const baseWidth = 12; const baseHeight = 8;
+             const pillarMat = new THREE.MeshStandardMaterial({ color: 0x00cc00, roughness: 0.7 });
+             const archMat = new THREE.MeshStandardMaterial({ color: BTC_COLOR, roughness: 0.4, metalness: 0.5 });
+             const textMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+             const pillarGeo = new THREE.BoxGeometry(1, baseHeight, 1);
+             const leftPillar = new THREE.Mesh(pillarGeo, pillarMat);
+             leftPillar.position.set(-baseWidth / 2, baseHeight / 2, 0); leftPillar.castShadow = true; finishGroup.add(leftPillar);
+             const rightPillar = new THREE.Mesh(pillarGeo, pillarMat);
+             rightPillar.position.set(baseWidth / 2, baseHeight / 2, 0); rightPillar.castShadow = true; finishGroup.add(rightPillar);
+             const topArchGeo = new THREE.BoxGeometry(baseWidth + 1, 1.2, 1.2);
+             const topArch = new THREE.Mesh(topArchGeo, archMat);
+             topArch.position.set(0, baseHeight, 0); topArch.castShadow = true; finishGroup.add(topArch);
+             const text = "FINISH"; const letterSpacing = 1.8;
+             const startX = -(text.length - 1) * letterSpacing / 2;
+             for (let i = 0; i < text.length; i++) {
+                 const letterBox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 0.2), textMat);
+                 letterBox.position.set(startX + i * letterSpacing, baseHeight + 0.1, 0.7); finishGroup.add(letterBox);
+             }
+             for (let i=0; i< 5; i++){
+                 const lightGeo = new THREE.SphereGeometry(0.3, 8, 8);
+                 const lightMat = new THREE.MeshBasicMaterial({ color: i % 2 === 0 ? 0xff0000 : 0x0000ff });
+                 const light = new THREE.Mesh(lightGeo, lightMat);
+                 light.position.set(-baseWidth/2 + 1 + i * (baseWidth/5), baseHeight + 1.0, 0); finishGroup.add(light);
+             }
+             finishGroup.position.set(x, y, z); scene.add(finishGroup);
+             const bbox = new THREE.Box3();
+             bbox.setFromCenterAndSize(
+                  new THREE.Vector3(x, y + baseHeight/2, z),
+                  new THREE.Vector3(baseWidth, baseHeight, 3)
+             );
+             const finishLineObj = { mesh: finishGroup, collider: bbox, isFinishLine: true };
+             obstacles.push(finishLineObj);
+             return finishLineObj;
+         }
+    
+    
+        // --- Controls (Unchanged) ---
+        function setupControls() {
+            joystickArea = document.querySelector('.joystick-area');
+            joystickKnob = document.querySelector('.joystick-knob');
+            jumpButton = document.getElementById('jump-button');
+            actionButton = document.getElementById('action-button');
+            joystickArea.addEventListener('touchstart', onJoystickStart, { passive: false });
+            document.addEventListener('touchmove', onJoystickMove, { passive: false });
+            document.addEventListener('touchend', onJoystickEnd, { passive: false });
+            document.addEventListener('touchcancel', onJoystickEnd, { passive: false });
+            jumpButton.addEventListener('touchstart', onJump, { passive: false });
+            actionButton.addEventListener('touchstart', onAction, { passive: false });
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('keyup', handleKeyUp);
+        }
+        function handleKeyDown(event) {
+             if (!isGameActive) return;
+             switch (event.key) {
+                 case 'ArrowUp': case 'w': playerDirection.z = 1; break;
+                 case 'ArrowDown': case 's': playerDirection.z = -1; break;
+                 case 'ArrowLeft': case 'a': playerDirection.x = 1; break;
+                 case 'ArrowRight': case 'd': playerDirection.x = -1; break;
+                 case ' ': if (!event.repeat) onJump(event); break; // Prevent jump spam if key held down
+                 case 'c': case 'f': onAction(event); break;
+             }
+         }
+         function handleKeyUp(event) {
+             switch (event.key) {
+                 case 'ArrowUp': case 'w': if (playerDirection.z > 0) playerDirection.z = 0; break;
+                 case 'ArrowDown': case 's': if (playerDirection.z < 0) playerDirection.z = 0; break;
+                 case 'ArrowLeft': case 'a': if (playerDirection.x > 0) playerDirection.x = 0; break;
+                 case 'ArrowRight': case 'd': if (playerDirection.x < 0) playerDirection.x = 0; break;
+             }
+         }
+         function onJoystickStart(event) {
+             event.preventDefault(); if (!isGameActive) return;
+             joystickActive = true; const touch = event.touches[0];
+             const rect = joystickArea.getBoundingClientRect();
+             joystickOrigin = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+             joystickPosition = { x: touch.clientX, y: touch.clientY };
+             updateJoystick();
+         }
+         function onJoystickMove(event) {
+             if (!joystickActive) return; event.preventDefault();
+             let activeTouch = null;
+             for(let i=0; i < event.touches.length; i++) {
+                 const touch = event.touches[i];
+                 const dist = Math.sqrt(Math.pow(touch.clientX - joystickOrigin.x, 2) + Math.pow(touch.clientY - joystickOrigin.y, 2));
+                 if (dist < 150) { activeTouch = touch; break; }
+             }
+             if (activeTouch) { joystickPosition = { x: activeTouch.clientX, y: activeTouch.clientY }; updateJoystick(); }
+         }
+         function onJoystickEnd(event) {
+             if (event.touches.length === 0) { resetJoystick(); }
+         }
+         function resetJoystick() {
+             joystickActive = false; joystickKnob.style.transform = 'translate(-50%, -50%)';
+             playerDirection.x = 0; playerDirection.z = 0;
+         }
+        function updateJoystick() {
+            const maxDistance = joystickArea.clientWidth / 2 - joystickKnob.clientWidth / 4;
+            let dx = joystickPosition.x - joystickOrigin.x; let dy = joystickPosition.y - joystickOrigin.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            let clampedX = dx; let clampedY = dy;
+            if (distance > maxDistance) {
+                clampedX = dx * maxDistance / distance; clampedY = dy * maxDistance / distance;
+            }
+            joystickKnob.style.transform = `translate(calc(-50% + ${clampedX}px), calc(-50% + ${clampedY}px))`;
+             playerDirection.x = -clampedX / maxDistance; playerDirection.z = -clampedY / maxDistance;
+             if (distance < maxDistance * 0.1) { playerDirection.x = 0; playerDirection.z = 0; }
+        }
+    
+        // --- Actions ---
+        function onJump(event) {
+            if (event) event.preventDefault();
+            if (playerOnFloor && isGameActive) { // << FIX: playerOnFloor is now reliable
+                playerVelocity.y = JUMP_VELOCITY;
+                playerOnFloor = false; // Set to false immediately on jump
+                isJumping = true; // Keep track for landing effect etc.
+                createJumpEffect(player.position);
+            }
+        }
+    
+        function onAction(event) {
+            if (event) event.preventDefault();
+            if (isGameActive) {
+                showMessage("Coding...", 1000);
+                createCodeParticles();
+            }
+        }
+
+        
+    
+        // --- Player Update & Collisions ---
+        function updatePlayer(delta) {
+            if (!isGameActive) return;
+    
+            const oldPosition = player.position.clone(); // Store previous position for collision checks
+            let foundGround = false;
+
+            // --- Ground Check using Raycaster --- << FIX: Moved ground check up
+            playerOnFloor = false; // Assume not on floor unless ray hits
+            // Ray origin slightly above the player's bottom center
+            const rayOrigin = player.position.clone();
+            rayOrigin.y += 0.1; // Start ray slightly above player bottom
+            const rayDirection = new THREE.Vector3(0, -1, 0);
+            raycaster.set(rayOrigin, rayDirection);
+    
+            const objectsToCheck = [floorMesh, ...obstacles.map(o => o.mesh)]; // Check floor and all obstacle meshes
+            const intersects = raycaster.intersectObjects(objectsToCheck, true); // Check recursively
+    
+            const groundCheckDistance = 0.2; // How far below the player to check for ground (adjust as needed)
+    
+            if (intersects.length > 0 && intersects[0].distance <= groundCheckDistance) {
+                // Check if the hit surface is reasonably flat (optional, prevents steep slope "grounding")
+                const normal = intersects[0].face.normal;
+                if (normal.y > 0.7) { // Ensure the surface normal is mostly pointing up
+                     playerOnFloor = true;
+                     if (isJumping) { // Landed
+                         createLandEffect(intersects[0].point); // Effect at landing point
+                         isJumping = false;
+                     }
+                     // Snap player to ground if slightly above and velocity is downwards
+                     if (playerVelocity.y <= 0) {
+                          player.position.y = intersects[0].point.y + (playerCollider.max.y - playerCollider.min.y) / 2 - 0.1 ; // Adjust Y based on player height and ray origin offset
+                          playerVelocity.y = 0; // Stop falling
+                     }
+                }
+            }
+    
+    
+            // Apply Gravity
+            if (!playerOnFloor) {
+                playerVelocity.y -= GRAVITY * delta;
+            } else {
+                 // If on floor ensure Y velocity isn't building downwards from minor variations
+                 if (playerVelocity.y < 0) {
+                     playerVelocity.y = 0;
+                 }
+            }
+    
+    
+            // Calculate desired movement based on input and delta
+             const moveX = playerDirection.x * PLAYER_SPEED;
+             const moveZ = playerDirection.z * PLAYER_SPEED;
+    
+             const damping = 0.92;
+             playerVelocity.x = playerVelocity.x * damping + moveX * (1-damping);
+             playerVelocity.z = playerVelocity.z * damping + moveZ * (1-damping);
+    
+            // Update position based on velocity
+             player.position.x += playerVelocity.x * delta;
+             player.position.y += playerVelocity.y * delta;
+             player.position.z += playerVelocity.z * delta;
+    
+            // Keep player within world bounds (simple clamping - only X and negative Z)
+            player.position.x = Math.max(-world.width / 2 + 0.5, Math.min(world.width / 2 - 0.5, player.position.x));
+            player.position.z = Math.max(-world.depth / 2 + 0.5, player.position.z); // << FIX: Removed positive Z clamp
+    
+    
+            // Update player collider AFTER position update
+            player.updateMatrixWorld(); // Ensure world matrix is updated for collider
+            playerCollider.setFromObject(player);
+            playerCollider.min.y += 0.1; // Adjust collider slightly for raycast origin consistency
+    
+
+            // Check floor collision
+            if (player.position.y < world.floorY + 1) {
+                player.position.y = world.floorY + 1;
+                playerVelocity.y = 0;
+                playerOnFloor = true;
+                isJumping = false;
+            }
+
+            
+            // --- Collision Detection & Response ---
+            checkObstacleCollisions(oldPosition, delta); // Pass old position
+    
+            // --- Player Orientation ---
+            if (Math.abs(playerVelocity.x) > 0.1 || Math.abs(playerVelocity.z) > 0.1) {
+                 const targetAngle = Math.atan2(-playerVelocity.x, -playerVelocity.z);
+                 player.rotation.y += (targetAngle - player.rotation.y) * 0.15;
+            }
+    
+             // --- Player Animation ---
+             if (playerOnFloor) {
+                 if (Math.abs(playerVelocity.x) > 0.5 || Math.abs(playerVelocity.z) > 0.5) {
+                     player.position.y += Math.sin(Date.now() * 0.015) * 0.05;
+                 }
+             } else {
+                 player.rotation.x = playerVelocity.y * 0.02;
+             }
+    
+            // --- Camera Follow ---
+             const cameraOffset = new THREE.Vector3(0, 7, -14);
+             const desiredCameraPosition = player.position.clone().add(cameraOffset);
+             camera.position.lerp(desiredCameraPosition, 0.08);
+             const lookAtPosition = player.position.clone().add(playerVelocity.clone().multiplyScalar(0.1));
+             lookAtPosition.y = player.position.y + 1;
+             camera.lookAt(lookAtPosition);
+    
+            // --- Bitcoin Collection ---
+             checkBitcoinCollisions();
+        }
+    
+    
+         function checkBitcoinCollisions() { // (Unchanged)
+             for (let i = bitcoins.length - 1; i >= 0; i--) {
+                 const bitcoin = bitcoins[i];
+                 const distance = player.position.distanceTo(bitcoin.position);
+                 if (distance < 1.2) {
+                     scene.remove(bitcoin);
+                      const modelIndex = bitcoinModels.indexOf(bitcoin);
+                      if (modelIndex > -1) bitcoinModels.splice(modelIndex, 1);
+                      const particleIndex = particlesToUpdate.indexOf(bitcoin);
+                      if (particleIndex > -1) particlesToUpdate.splice(particleIndex, 1);
+                     bitcoins.splice(i, 1);
+                     bitcoinCount++;
+                     updateBitcoinCountUI(true);
+                     createBitcoinCollectEffect(bitcoin.position);
+                     showMessage("+1 ₿", MESSAGE_DURATION / 2, '#f7931a');
+                 }
+             }
+         }
+    
+    
+        function checkObstacleCollisions(oldPosition, delta) {
+            // playerCollider is assumed up-to-date from updatePlayer
+    
+            for (let obstacle of obstacles) {
+                // Update obstacle collider only if obstacles can move (they don't currently)
+                // obstacle.collider.setFromObject(obstacle.mesh);
+    
+                if (playerCollider.intersectsBox(obstacle.collider)) {
+                    if (obstacle.isFinishLine) {
+                        // --- Finish Line Collision ---
+                        const requiredBitcoins = getLevelParams(levelNumber).requiredBitcoins;
+                        if (bitcoinCount >= requiredBitcoins) {
+                             if (isGameActive) { levelComplete(); }
+                        } else {
+                             // Push back slightly (ensure Y component is zero)
+                             const direction = new THREE.Vector3().subVectors(player.position, obstacle.mesh.position);
+                             direction.y = 0; // Only horizontal push
+                             direction.normalize().multiplyScalar(5);
+                             playerVelocity.add(direction);
+                             player.position.z -= direction.z * delta * 2; // Force position back a bit too
+                             showMessage(`Need ${requiredBitcoins} ₿! (${bitcoinCount}/${requiredBitcoins})`, MESSAGE_DURATION);
+                        }
+                        continue; // Don't process as regular obstacle
+                    }
+    
+                    // --- Regular Obstacle Collision ---
+                     if (!isGameActive) continue;
+    
+                     // More robust collision response - attempt simple axis separation
+                     const intersection = playerCollider.intersectBox(obstacle.collider, new THREE.Box3());
+                     const depth = new THREE.Vector3();
+                      depth.subVectors(intersection.max, intersection.min);
+    
+                     const center = new THREE.Vector3(); playerCollider.getCenter(center);
+                     const obstacleCenter = new THREE.Vector3(); obstacle.collider.getCenter(obstacleCenter);
+                     const direction = new THREE.Vector3().subVectors(center, obstacleCenter).normalize();
+    
+                     // Determine major axis of collision and correct position/velocity
+                     if (depth.x < depth.y && depth.x < depth.z) { // X collision
+                          player.position.x -= Math.sign(playerVelocity.x || direction.x) * depth.x * 1.01; // Add tiny buffer
+                          playerVelocity.x *= -0.5; // Bounce
+                     } else if (depth.y < depth.x && depth.y < depth.z && !playerOnFloor) {
+                        // Y collision (hitting underside or side while airborne)
+                        // Raycaster now handles landing on top, so this is mostly for hitting sides/bottom
+                         player.position.y -= Math.sign(playerVelocity.y || direction.y) * depth.y * 1.01;
+                         playerVelocity.y *= -0.3; // Bounce vertically slightly
+                     } else if (depth.z < depth.x && depth.z < depth.y) { // Z collision
+                         player.position.z -= Math.sign(playerVelocity.z || direction.z) * depth.z * 1.01;
+                         playerVelocity.z *= -0.5; // Bounce
+                     } else {
+                        // If Y is smallest but player IS on floor (raycast said so), likely a side collision near the bottom.
+                        // Treat as X or Z based on which is next smallest.
+                        if (depth.x < depth.z) {
+                           player.position.x -= Math.sign(playerVelocity.x || direction.x) * depth.x * 1.01;
+                           playerVelocity.x *= -0.5;
+                        } else {
+                           player.position.z -= Math.sign(playerVelocity.z || direction.z) * depth.z * 1.01;
+                           playerVelocity.z *= -0.5;
+                        }
+                     }
+    
+                    handleObstacleImpact(obstacle);
+    
+                    // Re-update collider after correction (important!)
+                    player.updateMatrixWorld();
+                    playerCollider.setFromObject(player);
+                    playerCollider.min.y += 0.1; // Keep adjustment consistent
+                }
+            }
+        }
+    
+    
+        function handleObstacleImpact(obstacle) {
+             if (!isGameActive) return;
+    
+            if (bitcoinCount > 0) {
+                 bitcoinCount -= OBSTACLE_BTC_PENALTY;
+                 updateBitcoinCountUI(false);
+                 showMessage(`- ${OBSTACLE_BTC_PENALTY} ₿! Ouch!`, MESSAGE_DURATION, HIT_COLOR);
+            } else {
+                 showMessage("Hit! Careful!", MESSAGE_DURATION / 2, HIT_COLOR);
+            }
+    
+            createImpactEffect(player.position);
+            triggerScreenShake(150); // Short shake on impact
+        }
+    
+        // --- Effects ---
+    
+         function updateBitcoinCountUI(collected) { // (Unchanged)
+             const btcElement = document.getElementById('btc-count');
+             btcElement.textContent = bitcoinCount;
+             if (activeEffects.btcCountFlashTimeout) clearTimeout(activeEffects.btcCountFlashTimeout);
+             if (collected) {
+                 btcElement.style.color = '#aaffaa'; btcElement.style.transform = 'scale(1.3)';
+             } else {
+                 btcElement.style.color = HIT_COLOR; btcElement.style.transform = 'scale(1.1)';
+                 btcElement.classList.add('btc-lost');
+             }
+             activeEffects.btcCountFlashTimeout = setTimeout(() => {
+                 btcElement.style.color = BTC_COLOR; btcElement.style.transform = 'scale(1.0)';
+                 btcElement.classList.remove('btc-lost');
+             }, 300);
+         }
+        function createBitcoinCollectEffect(position) { // (Unchanged)
+            const count = 12; const colors = [0xffffff, 0xf7931a, 0xffddaa];
+            for (let i = 0; i < count; i++) {
+                const particleMat = new THREE.MeshBasicMaterial({ color: colors[Math.floor(Math.random() * colors.length)], transparent: true, opacity: 0.9 });
+                const particleGeo = new THREE.BoxGeometry(0.15, 0.15, 0.15); const particle = new THREE.Mesh(particleGeo, particleMat);
+                particle.position.copy(position); const angle = Math.random() * Math.PI * 2; const speed = 3 + Math.random() * 3;
+                particle.velocity = new THREE.Vector3(Math.cos(angle) * speed, 2 + Math.random() * 4, Math.sin(angle) * speed);
+                particle.scale.set(1.5, 1.5, 1.5); scene.add(particle); addParticleToUpdate(particle, 800, 0.96);
+            }
+         }
+         function createImpactEffect(position) { // (Unchanged)
+             const count = 15; const colors = [0xaaaaaa, 0x888888, 0xff4444];
+             for (let i = 0; i < count; i++) {
+                 const particleMat = new THREE.MeshBasicMaterial({ color: colors[Math.floor(Math.random() * colors.length)] });
+                 const particleGeo = new THREE.BoxGeometry(0.1, 0.1, 0.1); const particle = new THREE.Mesh(particleGeo, particleMat);
+                 particle.position.copy(position); particle.position.y = Math.max(world.floorY + 0.1, position.y);
+                 particle.velocity = new THREE.Vector3((Math.random() - 0.5) * 8, Math.random() * 5, (Math.random() - 0.5) * 8);
+                 scene.add(particle); addParticleToUpdate(particle, 600, 0.94);
+             }
+         }
+         function createJumpEffect(position) { // (Unchanged)
+             const count = 8;
+             for (let i = 0; i < count; i++) {
+                 const particleMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+                 const particleGeo = new THREE.SphereGeometry(0.1, 6, 6); const particle = new THREE.Mesh(particleGeo, particleMat);
+                 particle.position.copy(position); particle.position.y = world.floorY + 0.1;
+                 particle.velocity = new THREE.Vector3((Math.random() - 0.5) * 2, 1 + Math.random() * 2, (Math.random() - 0.5) * 2);
+                 scene.add(particle); addParticleToUpdate(particle, 400, 0.92);
+             }
+         }
+         function createLandEffect(position) { // (Unchanged) - Position is now landing point
+             const count = 10;
+             for (let i = 0; i < count; i++) {
+                 const particleMat = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, transparent: true, opacity: 0.6 });
+                 const particleGeo = new THREE.SphereGeometry(0.15, 6, 6); const particle = new THREE.Mesh(particleGeo, particleMat);
+                 particle.position.copy(position); particle.position.y = world.floorY + 0.1; // Spawn slightly above floor regardless of exact land point y
+                 particle.velocity = new THREE.Vector3((Math.random() - 0.5) * 4, Math.random() * 1, (Math.random() - 0.5) * 4);
+                 scene.add(particle); addParticleToUpdate(particle, 500, 0.93);
+             }
+         }
+        function createCodeParticles() { // (Unchanged)
+             const count = 25; const colors = [0x00ff00, 0x00ffff, 0xffff00, 0xffffff];
+             for (let i = 0; i < count; i++) {
+                 const particleMat = new THREE.MeshBasicMaterial({ color: colors[Math.floor(Math.random() * colors.length)] });
+                 const particleGeo = new THREE.BoxGeometry(0.1, 0.2, 0.1); const particle = new THREE.Mesh(particleGeo, particleMat);
+                 particle.position.copy(player.position); particle.position.y += 1;
+                 particle.velocity = new THREE.Vector3((Math.random() - 0.5) * 5, 2 + Math.random() * 4, (Math.random() - 0.5) * 5);
+                 scene.add(particle); addParticleToUpdate(particle, 1200, 0.98);
+             }
+        }
+        function createCelebrationEffect() { // (Unchanged)
+             const center = player.position.clone(); center.y += 2;
+             for (let j = 0; j < 6; j++) {
+                 setTimeout(() => {
+                     const burstPos = center.clone().add(new THREE.Vector3(Math.random() * 8 - 4, Math.random() * 4, Math.random() * 8 - 4));
+                     const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, BTC_COLOR, 0xffffff];
+                     const color = colors[Math.floor(Math.random() * colors.length)]; const particleCount = 40 + Math.floor(Math.random() * 20);
+                     for (let i = 0; i < particleCount; i++) {
+                         const particleMat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.9 });
+                         const particleGeo = new THREE.SphereGeometry(0.1 + Math.random() * 0.1, 6, 6); const particle = new THREE.Mesh(particleGeo, particleMat);
+                         particle.position.copy(burstPos); const phi = Math.random() * Math.PI * 2; const theta = Math.acos(2 * Math.random() - 1); const speed = 4 + Math.random() * 6;
+                         particle.velocity = new THREE.Vector3(Math.sin(theta) * Math.cos(phi) * speed, Math.cos(theta) * speed, Math.sin(theta) * Math.sin(phi) * speed);
+                         particle.velocity.y += 2.0; scene.add(particle); addParticleToUpdate(particle, 2500 + Math.random() * 1000, 0.985);
+                     }
+                 }, j * 200);
+             }
+             triggerScreenShake(500);
+         }
+        function addParticleToUpdate(particle, lifetime = 1000, scaleDownFactor = 0.97) { // (Unchanged)
+             particle.userData.lifetime = Date.now() + lifetime; particle.userData.scaleDown = scaleDownFactor;
+             particlesToUpdate.push(particle);
+             if (!particle.update) {
+                 particle.update = (delta) => {
+                     if (particle.velocity) {
+                         particle.position.addScaledVector(particle.velocity, delta);
+                         particle.velocity.y -= GRAVITY * delta * 0.3;
+                     }
+                      particle.scale.multiplyScalar(particle.userData.scaleDown);
+                 };
+             }
+         }
+        function updateParticles(delta) { // (Unchanged)
+            for (let i = particlesToUpdate.length - 1; i >= 0; i--) {
+                const particle = particlesToUpdate[i];
+                 if (particle.userData.lifetime && Date.now() > particle.userData.lifetime) {
+                     scene.remove(particle); particlesToUpdate.splice(i, 1); continue;
+                 }
+                 if (particle.scale.x < 0.01) {
+                      scene.remove(particle); particlesToUpdate.splice(i, 1); continue;
+                 }
+                if (particle.update) { particle.update(delta); }
+            }
+        }
+    
+         function triggerScreenShake(duration = 200) {
+            // << FIX: Add cooldown
+            const now = Date.now();
+            if (now - activeEffects.lastShakeTime < SHAKE_COOLDOWN) {
+                return; // Don't shake if recently shaken
+            }
+            activeEffects.lastShakeTime = now; // Record the time of this shake
+    
+            if (activeEffects.screenShakeTimeout) clearTimeout(activeEffects.screenShakeTimeout);
+            const container = document.getElementById('game-container');
+            container.classList.add('shake');
+            activeEffects.screenShakeTimeout = setTimeout(() => {
+                 container.classList.remove('shake');
+             }, duration);
+         }
+    
+        // --- UI & Game State ---
+        function showMessage(text, duration = MESSAGE_DURATION, color = '#ffffff') { // (Unchanged)
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = text; messageElement.style.color = color; messageElement.classList.add('show');
+             if (messageElement.timer) clearTimeout(messageElement.timer);
+            messageElement.timer = setTimeout(() => { messageElement.classList.remove('show'); }, duration);
+        }
+         function updateTimer() { // (Unchanged)
+             if (!isGameActive) return;
+             currentTime = Math.max(0, currentTime - 1);
+             updateTimerUI();
+             if (currentTime <= 0) { gameOver("Time's Up!"); }
+         }
+         function updateTimerUI() { // (Unchanged)
+             const minutes = Math.floor(currentTime / 60); const seconds = currentTime % 60;
+             const timerString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+             document.getElementById('timer').textContent = timerString;
+             const timerElement = document.getElementById('timer');
+              if (currentTime <= 10) { timerElement.style.color = HIT_COLOR; timerElement.style.transform = 'scale(1.1)'; }
+              else if (currentTime <= 30) { timerElement.style.color = '#ffaa00'; timerElement.style.transform = 'scale(1.0)'; }
+              else { timerElement.style.color = '#ffff00'; timerElement.style.transform = 'scale(1.0)'; }
+         }
+        function levelComplete() { // (Unchanged)
+            isGameActive = false; if (timerInterval) clearInterval(timerInterval);
+            const levelStats = document.getElementById('level-stats');
+             const timeTaken = levelTimeLimit - currentTime; const bonus = Math.max(0, (currentTime * 10));
+            levelStats.innerHTML = `<p>Bitcoins: ${bitcoinCount} ₿</p><p>Time: ${timeTaken}s (Bonus: ${bonus})</p><p>Level ${levelNumber} Secured!</p>`;
+            createCelebrationEffect(); document.getElementById('level-complete').style.display = 'flex';
+        }
+        function gameOver(reason) { // (Unchanged)
+            isGameActive = false; if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('game-over-reason').textContent = reason;
+            document.getElementById('game-over-screen').style.display = 'flex';
+        }
+        function onWindowResize() { // (Unchanged)
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+    
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = Math.min(clock.getDelta(), 0.05);
+    
+             if (isGameActive) {
+                 updatePlayer(delta);
+             }
+    
+             updateParticles(delta); // Update effects/environment regardless of game state
+    
+             // Update Bitcoin models animation (only if models exist)
+            bitcoinModels.forEach(bitcoin => {
+                if (bitcoin.update) bitcoin.update(delta);
+            });
+    
+             // Update Cloud movement moved to updateParticles check via userData.isEnvironment
+    
+            renderer.render(scene, camera);
+        }
+    
+    </script>
+</body>
+
+</html>
