@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Vylex Insights | Software Engineering, Business & Tech</title>
+    <meta name="description"
+        content="Technical deep dives, business strategy, and updates from the Vylex engineering lab in Durban, South Africa. Building scalable systems for the African tech landscape.">
+    <link rel="canonical" href="https://vylex.co.za/blog" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vylex Insights | Software Engineering & Business Strategy" />
+    <meta property="og:description"
+        content="Insights from the lab. We write about building scalable systems and the reality of running a tech business." />
+    <meta property="og:image" content="https://vylex.co.za/assets/og-image-blog.jpg" />
+    <meta property="og:url" content="https://vylex.co.za/blog" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        mono: ['DM Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#051b38',
+                            lightNavy: '#0a2e5c',
+                            orange: '#fba919',
+                            surface: '#f8fafc',
+                            border: '#e2e8f0',
+                        },
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
+                    }
+                },
+            },
+        };
+    </script>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <script src="/js/menu.js" defer></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Vylex Insights",
+      "description": "Software Engineering and Business Strategy blog by Vylex.",
+      "url": "https://vylex.co.za/blog"
+    }
+    </script>
+</head>
+
+<body class="bg-brand-surface text-slate-700 antialiased selection:bg-brand-orange selection:text-brand-navy"
+    data-subtitle="Blog">
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <header class="relative pt-32 pb-20 lg:pt-40 lg:pb-24 bg-brand-navy overflow-hidden">
+            <div class="absolute inset-0 bg-[size:40px_40px] bg-grid-pattern opacity-20"></div>
+            <div
+                class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-orange/5 rounded-full blur-[100px] pointer-events-none">
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono font-bold tracking-wider uppercase text-brand-orange mb-6">
+                        <span class="w-2 h-2 rounded-full bg-brand-orange animate-pulse"></span>
+                        Vylex Blog
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6">
+                        Engineering Excellence. <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-yellow-200">
+                            Strategic Perspective.
+                        </span>
+                    </h1>
+
+                    <p class="text-lg text-gray-400 font-light max-w-2xl leading-relaxed">
+                        Insights from the lab. We write about building <strong>scalable systems</strong>, the reality of
+                        running a tech
+                        business in Africa, and the tools we use to ship faster.
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <section class="relative -mt-12 z-10 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <a href="/blog/future-of-hybrid-tech.html"
+                    class="group block bg-white rounded-3xl shadow-xl shadow-brand-navy/10 border border-gray-100 overflow-hidden hover:border-brand-orange/50 transition-all duration-300">
+                    <div class="grid lg:grid-cols-2 gap-0">
+                        <div class="relative h-64 lg:h-auto overflow-hidden">
+                            <div
+                                class="absolute inset-0 bg-brand-navy/20 group-hover:bg-transparent transition-colors z-10">
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+                                alt="Modern computer hardware representing Hybrid Tech Models"
+                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        </div>
+
+                        <div class="p-8 lg:p-12 flex flex-col justify-center">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span
+                                    class="px-3 py-1 rounded-full bg-brand-orange/10 text-brand-orange text-[10px] font-bold uppercase tracking-wide">Featured</span>
+                                <span class="text-xs text-gray-400 font-mono">Feb 25, 2026</span>
+                            </div>
+
+                            <h2
+                                class="text-2xl lg:text-3xl font-bold text-brand-navy mb-4 group-hover:text-brand-orange transition-colors">
+                                Why the "Hybrid Model" is the Future of African Tech Agencies
+                            </h2>
+                            <p class="text-gray-600 mb-6 leading-relaxed line-clamp-3">
+                                We stopped choosing between "service work" and "product building." Here is how balancing
+                                client engineering with an internal innovation lab creates better software for everyone.
+                            </p>
+
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-brand-navy flex items-center justify-center text-white text-xs">
+                                    AM</div>
+                                <span class="text-sm font-bold text-brand-navy">Avuyile Mthembu</span>
+                                <span class="mx-2 text-gray-300">|</span>
+                                <span class="text-sm text-gray-500">5 min read</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="py-20 bg-brand-surface">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <nav class="flex flex-wrap gap-2 mb-12 border-b border-gray-200 pb-4" aria-label="Article categories">
+                    <button class="px-4 py-2 rounded-full bg-brand-navy text-white text-sm font-bold shadow-md">All
+                        Posts</button>
+                    <button
+                        class="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">Engineering</button>
+                    <button
+                        class="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">Business
+                        Strategy</button>
+                    <button
+                        class="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">Security</button>
+                    <button
+                        class="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">Vylex
+                        News</button>
+                </nav>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                    <!-- Card 1 -->
+                    <a href="/blog/coding-in-2026-guide.html"
+                        class="flex flex-col group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="h-48 overflow-hidden relative">
+                            <div class="absolute top-4 left-4 z-10">
+                                <span
+                                    class="px-2 py-1 rounded bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-brand-navy">Career
+                                    Strategy</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=1000&auto=format&fit=crop"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                alt="AI coding and future of software development">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="text-xs font-mono text-gray-400 mb-2">Feb 25, 2026</div>
+                            <h3
+                                class="text-xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                                Coding in 2026: The Complete, No-BS Guide
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">A comprehensive guide for high school
+                                graduates entering the AI era. Navigate vibecoding, the junior developer crisis, and the
+                                T-shaped engineering model.</p>
+                            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+                                <span class="text-xs font-bold text-brand-navy">Read Article</span>
+                                <i
+                                    class="fa-solid fa-arrow-right text-brand-orange text-sm transform group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 2 -->
+                    <a href="/blog/popia-cybersecurity-sme-guide.html"
+                        class="flex flex-col group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="h-48 overflow-hidden relative">
+                            <div class="absolute top-4 left-4 z-10">
+                                <span
+                                    class="px-2 py-1 rounded bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-brand-navy">Cybersecurity</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1000&auto=format&fit=crop"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                alt="Data security and POPIA compliance">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="text-xs font-mono text-gray-400 mb-2">Feb 25, 2026</div>
+                            <h3
+                                class="text-xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                                POPIA & Cybersecurity: 2026 SME Survival Guide
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">A practical survival guide for South
+                                African SMEs. Understand POPIA compliance, ransomware defense, and essential
+                                vulnerability assessments.</p>
+                            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+                                <span class="text-xs font-bold text-brand-navy">Read Article</span>
+                                <i
+                                    class="fa-solid fa-arrow-right text-brand-orange text-sm transform group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+
+                <div class="mt-16 flex justify-center">
+                    <nav class="flex items-center gap-2" aria-label="Pagination Navigation">
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-brand-navy hover:text-brand-navy transition-colors"
+                            aria-label="Previous Page"><i class="fa-solid fa-chevron-left"></i></a>
+                        <span
+                            class="w-10 h-10 flex items-center justify-center rounded-lg bg-brand-navy text-white font-bold"
+                            aria-current="page">1</span>
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">2</a>
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">3</a>
+                        <span class="text-gray-400" aria-hidden="true">...</span>
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:border-brand-navy hover:text-brand-navy transition-colors"
+                            aria-label="Next Page"><i class="fa-solid fa-chevron-right"></i></a>
+                    </nav>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-white border-t border-gray-100">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <i class="fa-regular fa-paper-plane text-4xl text-brand-orange mb-6" aria-hidden="true"></i>
+                <h2 class="text-3xl font-bold text-brand-navy mb-4">Don't miss a beat.</h2>
+                <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                    Get monthly updates on software architecture, African tech trends, and new tools from the
+                    <strong>Vylex Lab</strong>.
+                </p>
+                <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" action="#" method="POST">
+                    <label for="email-address" class="sr-only">Email address</label>
+                    <input type="email" id="email-address" name="email" required placeholder="Enter your email"
+                        class="flex-1 px-6 py-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange">
+                    <button type="submit"
+                        class="px-8 py-4 bg-brand-navy text-white font-bold rounded-xl hover:bg-brand-lightNavy transition-colors shadow-lg">Subscribe</button>
+                </form>
+                <p class="text-xs text-gray-400 mt-4">We respect your privacy. Unsubscribe at any time.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+</body>
+
+</html>

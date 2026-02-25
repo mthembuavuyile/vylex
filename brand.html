@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vylex Brand Identity Guidelines</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Inter:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* New Color Palette */
+            --vylex-navy: #051B38;
+            --vylex-orange: #FBA919;
+            --light-navy: #0A2E5C;
+            --slate: #E2E8F0;
+            --white: #FFFFFF;
+            --bg-gray: #F8FAFC;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--bg-gray);
+            color: var(--vylex-navy);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--vylex-navy);
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            color: #64748b;
+            font-size: 1.2rem;
+        }
+
+        /* Section Styling */
+        .section {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--slate);
+        }
+
+        h2 {
+            border-left: 5px solid var(--vylex-orange);
+            padding-left: 15px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Color Palette Grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .color-swatch {
+            padding: 25px;
+            border-radius: 12px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 120px;
+        }
+
+        .swatch-hex { font-weight: bold; font-size: 1.2rem; }
+        .swatch-name { font-size: 0.9rem; opacity: 0.9; }
+
+        /* Logo Component Styles */
+        .vylex-logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            color: inherit;
+        }
+
+        .icon-svg {
+            fill: var(--vylex-orange);
+            height: 40px;
+            width: auto;
+            margin-right: 12px;
+        }
+
+        .vylex-text {
+            font-size: 32px;
+            letter-spacing: -1.5px;
+        }
+
+        .dot { color: var(--vylex-orange); }
+
+        /* Grid & Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .variant-card {
+            background: var(--white);
+            border: 1px solid var(--slate);
+            border-radius: 16px; /* rounded-2xl */
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Vylex Lift Effect */
+        .variant-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .variant-card.dark { background-color: var(--vylex-navy); color: white; }
+        .variant-card.orange { background-color: var(--vylex-orange); color: var(--vylex-navy); }
+
+        .label {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary { background-color: var(--vylex-orange); color: var(--vylex-navy); }
+        .btn-secondary { background-color: var(--vylex-navy); color: white; }
+        .btn:hover { opacity: 0.9; }
+
+        /* Logo Overrides */
+        .stacked { flex-direction: column; text-align: center; }
+        .stacked .icon-svg { margin-right: 0; margin-bottom: 15px; height: 60px; }
+        .reverse .icon-svg { fill: var(--white); }
+        .reverse .dot { color: var(--vylex-orange); }
+        .on-orange .icon-svg { fill: var(--vylex-navy); }
+        .on-orange .dot { color: var(--white); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Vylex Brand System</h1>
+            <p class="subtitle">Visual Identity Standards & Interface Elements</p>
+        </header>
+
+        <section class="section">
+            <h2>Color Palette</h2>
+            <div class="color-grid">
+                <div class="color-swatch" style="background-color: var(--vylex-navy);">
+                    <span class="swatch-hex">#051B38</span>
+                    <span class="swatch-name">Vylex Navy (Primary)</span>
+                </div>
+                <div class="color-swatch" style="background-color: var(--vylex-orange); color: var(--vylex-navy);">
+                    <span class="swatch-hex">#FBA919</span>
+                    <span class="swatch-name">Vylex Orange (Action)</span>
+                </div>
+                <div class="color-swatch" style="background-color: var(--light-navy);">
+                    <span class="swatch-hex">#0A2E5C</span>
+                    <span class="swatch-name">Light Navy (Secondary)</span>
+                </div>
+                <div class="color-swatch" style="background-color: var(--slate); color: var(--vylex-navy);">
+                    <span class="swatch-hex">#E2E8F0</span>
+                    <span class="swatch-name">Slate (UI Border)</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Logo Variations</h2>
+            <div class="grid">
+                <div class="variant-card">
+                    <div class="vylex-logo">
+                        <svg class="icon-svg" viewBox="0 0 100 100">
+                            <path d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                            <rect x="42" y="10" width="16" height="30" />
+                        </svg>
+                        <span class="vylex-text">vylex<span class="dot">.</span></span>
+                    </div>
+                    <div class="label">Primary (Light BG)</div>
+                </div>
+
+                <div class="variant-card dark">
+                    <div class="vylex-logo reverse">
+                        <svg class="icon-svg" viewBox="0 0 100 100">
+                            <path d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                            <rect x="42" y="10" width="16" height="30" />
+                        </svg>
+                        <span class="vylex-text">vylex<span class="dot">.</span></span>
+                    </div>
+                    <div class="label">Reverse (Navy BG)</div>
+                </div>
+
+                <div class="variant-card">
+                    <div class="vylex-logo stacked">
+                        <svg class="icon-svg" viewBox="0 0 100 100">
+                            <path d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                            <rect x="42" y="10" width="16" height="30" />
+                        </svg>
+                        <span class="vylex-text">vylex<span class="dot">.</span></span>
+                    </div>
+                    <div class="label">Stacked Brandmark</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Interface Elements</h2>
+            <div class="grid">
+                <div class="variant-card">
+                    <p style="margin-top:0; font-weight:bold;">Button Styles</p>
+                    <div class="btn-container">
+                        <button class="btn btn-primary">Primary Action</button>
+                        <button class="btn btn-secondary">Secondary</button>
+                    </div>
+                    <div class="label">Inter Bold / Uppercase</div>
+                </div>
+
+                <div class="variant-card">
+                    <p style="margin-top:0; font-weight:bold;">Interaction</p>
+                    <p style="font-size: 0.9rem; text-align: center;">Cards feature the <strong>Vylex Lift</strong> on hover to indicate interactivity.</p>
+                    <div class="label">Standard Card (16px Radius)</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>
