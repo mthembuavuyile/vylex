@@ -2,32 +2,87 @@
 <html lang="en" class="scroll-smooth">
 
 <head>
+    <!-- Basic Meta -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile App Development | Vylex</title>
-    <meta name="description" content="Native iOS, Android, and Cross-Platform mobile application development.">
+    <title>Mobile App Development South Africa | iOS & Android | Vylex</title>
+    <meta name="description" content="Custom mobile app development in South Africa. We build high-performance Native iOS (Swift), Android (Kotlin), and Cross-Platform (Flutter/React Native) applications.">
+    <link rel="canonical" href="https://vylex.co.za/services/mobile/">
 
-    <!-- CSS / Fonts -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vylex.co.za/services/mobile/">
+    <meta property="og:title" content="Mobile App Development | Engineering for the Real World | Vylex">
+    <meta property="og:description" content="Native and Hybrid mobile solutions engineered for performance. Put your business in your user's pocket.">
+    <meta property="og:image" content="https://vylex.co.za/images/og-mobile-apps.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://vylex.co.za/services/mobile/">
+    <meta name="twitter:title" content="Mobile App Development | Vylex">
+    <meta name="twitter:description" content="Native iOS, Android, and Cross-Platform mobile application development tailored for South African businesses.">
+    <meta name="twitter:image" content="https://vylex.co.za/images/og-mobile-apps.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/global.css">
 
-    <!-- Scripts -->
-    <script src="/js/menu.js" defer></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['DM Sans', 'sans-serif'], mono: ['DM Mono', 'monospace'] },
-                    colors: { 'vylex-navy': '#051b38', 'vylex-orange': '#fba919' },
-                    animation: { 'float': 'float 6s ease-in-out infinite' },
-                    keyframes: { float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } } }
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        mono: ['DM Mono', 'monospace']
+                    },
+                    colors: {
+                        'vylex-navy': '#051b38',
+                        'vylex-orange': '#fba919'
+                    },
+                    animation: {
+                        float: 'float 6s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
                 }
             }
         }
+    </script>
+
+    <!-- Custom Scripts -->
+    <script src="/js/menu.js" defer></script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Mobile App Development",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Vylex",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "ZA"
+        }
+      },
+      "areaServed": "South Africa",
+      "description": "Native and Cross-Platform mobile application development for iOS and Android."
+    }
     </script>
 </head>
 
