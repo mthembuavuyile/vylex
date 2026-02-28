@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SINC — Login or Sign Up</title>
+    <meta name="description" content="Login or Sign Up for the SINC Dashboard." />
+    <meta name="author" content="Avuyile Mthembu" />
+    <meta name="keywords" content="SINC, Login, Signup, Legal, Law, Sethu Mkhwanazi, Avuyile Mthembu" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
+
+        html {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @supports (font-variation-settings: normal) {
+            html {
+                font-family: 'Inter var', sans-serif;
+            }
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Add a style for the disabled button */
+        button:disabled {
+            cursor: not-allowed;
+            background-color: #a5b4fc;
+            /* Lighter shade of the button color */
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+    <div id="auth-container"
+        class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <h1 class="text-center text-4xl font-bold text-sky-800">SINC</h1>
+                <h2 id="auth-title" class="mt-2 text-center text-xl text-gray-900">Sign in to your account</h2>
+            </div>
+
+            <p id="info-message"
+                class="text-sm text-green-700 bg-green-100 border border-green-200 p-3 rounded-md mt-2 text-center hidden">
+            </p>
+
+            <form id="login-form" class="mt-8 space-y-6">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <input id="login-email" type="email" autocomplete="email" required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+                        placeholder="Email address">
+                    <div class="relative">
+                        <input id="login-password" type="password" autocomplete="current-password" required
+                            class="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm pr-10"
+                            placeholder="Password">
+                        <button type="button" id="toggle-login-password"
+                            class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+                            aria-label="Toggle password visibility">
+                            <svg id="eye-open-login" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <svg id="eye-closed-login" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 .946-3.003 3.38-5.405 6.386-6.236M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 2l20 20" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end">
+                    <div class="text-sm">
+                        <a href="#" id="forgot-password-link" class="font-medium text-sky-600 hover:text-sky-500">
+                            Forgot your password? </a>
+                    </div>
+                </div>
+                <p id="login-error" class="text-sm text-red-600 mt-2 text-center hidden"></p>
+                <button type="submit" id="login-submit-button"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-700 hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">Sign
+                    in</button>
+            </form>
+
+            <form id="signup-form" class="mt-8 space-y-4 hidden">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <input id="signup-name" type="text" required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+                        placeholder="Your Name">
+                    <input id="signup-email" type="email" autocomplete="email" required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+                        placeholder="Email address">
+                    <div class="relative">
+                        <input id="signup-password" type="password" autocomplete="new-password" required
+                            class="appearance-none rounded-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm pr-10"
+                            placeholder="Password">
+                        <button type="button" id="toggle-signup-password"
+                            class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+                            aria-label="Toggle password visibility">
+                            <svg id="eye-open-signup" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <svg id="eye-closed-signup" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 .946-3.003 3.38-5.405 6.386-6.236M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 2l20 20" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="text-xs text-gray-600 space-y-1 pl-1">
+                    <p class="font-medium">Password must contain at least:</p>
+                    <ul class="list-disc list-inside ml-2">
+                        <li>6 characters</li>
+                        <li>One uppercase letter (A-Z)</li>
+                        <li>One lowercase letter (a-z)</li>
+                        <li>One special character (e.g., !@#$%)</li>
+                    </ul>
+                </div>
+                <p id="signup-error" class="text-sm text-red-600 mt-2 text-center hidden"></p>
+                <button type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-700 hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">Create
+                    Account</button>
+            </form>
+
+            <form id="password-reset-form" class="mt-8 space-y-6 hidden">
+                <p class="text-center text-sm text-gray-600">Enter your email and we'll send you a link to reset your
+                    password.</p>
+                <div class="rounded-md shadow-sm">
+                    <input id="reset-email" type="email" autocomplete="email" required
+                        class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                        placeholder="Email address">
+                </div>
+                <p id="reset-error" class="text-sm text-red-600 mt-2 text-center hidden"></p>
+                <button type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-700 hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">Send
+                    Reset Link</button>
+            </form>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm"><span class="px-2 bg-gray-50 text-gray-500">Or
+                            continue with</span></div>
+                </div>
+                <div class="mt-6">
+                    <button id="google-signin-button"
+                        class="w-full flex items-center justify-center gap-3 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                            <path d="M1 1h22v22H1z" fill="none"/>
+                        </svg>
+                        <span>Sign in with Google</span>
+                    </button>
+                </div>
+            </div>
+            <div id="auth-switch-container" class="mt-6 text-center text-sm">
+                <p id="show-signup-container" class="text-slate-600">
+                    Don't have an account?
+                    <button id="show-signup-form"
+                        class="ml-1 font-semibold text-sky-600 transition-colors hover:text-sky-500 focus:outline-none">
+                        Create one
+                    </button>
+                </p>
+                <p id="show-login-container" class="hidden text-slate-600">
+                    Already have an account?
+                    <button id="show-login-form"
+                        class="ml-1 font-semibold text-sky-600 transition-colors hover:text-sky-500 focus:outline-none">
+                        Sign in
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="js/auth.js"></script>
+
+    <footer class="mt-auto border-t border-slate-200 bg-white/90 py-8 backdrop-blur-md">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+            <div class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-gray-600">
+                <p class="font-medium">
+                    Concept by
+                    <a href="https://sethumkhwanaziattorneys.co.za/" target="_blank" rel="noopener noreferrer"
+                        class="text-sky-600 hover:text-sky-800 transition-colors">
+                        Sethu Mkhwanazi Attorneys
+                    </a>
+                </p>
+                <span class="hidden md:inline text-gray-400">|</span>
+                <p class="font-medium">
+                    Developed by
+                    <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer"
+                        class="text-sky-600 hover:text-sky-800 transition-colors">
+                        Vylex
+                    </a>
+                </p>
+            </div>
+
+            <p class="text-xs font-medium uppercase tracking-wider text-gray-400 text-center md:text-right">
+                &copy; 2026 All Rights Reserved
+            </p>
+
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

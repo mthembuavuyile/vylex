@@ -1,0 +1,2544 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SINC Dashboard -- Smart Legal Systems</title>
+    <meta name="description"
+        content="SINC Dashboard - A modern and responsive dashboard template for legal professionals." />
+    <meta name="author" content="Avuyile Mthembu" />
+    <meta name="keywords"
+        content="SINC, Dashboard, Legal, Law, Management, Sethu Mkhwanazi, Productivity, Avuyile Mthembu" />
+    <link rel="canonical" href="https://vylexnexys.co.za/sinc/dashboard" />
+
+    <!-- Deferred Tailwind script for non-blocking rendering -->
+    <script defer src="https://cdn.tailwindcss.com?plugins=forms"></script>
+
+    <!-- Preconnect for font performance -->
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+    <style>
+        /* --- CSS Custom Properties for Theming --- */
+        :root {
+            --color-primary-light: #e0f2fe;
+            /* sky-100 */
+            --color-primary-dark: #0c4a6e;
+            /* sky-900 */
+            --color-primary-accent: #0ea5e9;
+            /* sky-500 */
+            --font-family-sans: 'Inter', sans-serif;
+            --font-family-sans-var: 'Inter var', sans-serif;
+        }
+
+        /* --- Font & Base Styles --- */
+        html {
+            font-family: var(--font-family-sans);
+            scroll-behavior: smooth;
+        }
+
+        @supports (font-variation-settings: normal) {
+            html {
+                font-family: var(--font-family-sans-var);
+            }
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- Layout & State Classes --- */
+        .content-section.hidden,
+        .modal.hidden {
+            display: none;
+        }
+
+        .sidebar-link.active {
+            background-color: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            font-weight: 600;
+            border-left: 3px solid var(--color-primary-accent);
+        }
+
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* --- Rich Content Styling --- */
+        .rich-content h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .rich-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+            color: #374151;
+        }
+
+        .rich-content ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            margin-bottom: 0.5rem;
+        }
+
+        .rich-content li {
+            margin-bottom: 0.25rem;
+        }
+
+        .rich-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .rich-content a {
+            color: var(--color-primary-accent);
+            text-decoration: underline;
+        }
+
+        .rich-content a:hover {
+            color: var(--color-primary-dark);
+        }
+
+        .rich-content> :first-child {
+            margin-top: 0;
+        }
+
+        .rich-content> :last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- Scrollbar Enhancements --- */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* --- Animations --- */
+        .anim-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .5;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Card Hover Effects --- */
+        .stats-card {
+            transition: all 0.2s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Focus Management --- */
+        .focus-visible:focus {
+            outline: 2px solid var(--color-primary-accent);
+            outline-offset: 2px;
+        }
+
+        /* --- Loading States & Skeletons --- */
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-row td .skeleton {
+            height: 20px;
+            border-radius: 0.25rem;
+        }
+
+        .skeleton-row td .skeleton-sm {
+            height: 12px;
+            width: 60%;
+            margin-top: 4px;
+        }
+
+        /* --- Progress Bar --- */
+        .progress {
+            height: 6px;
+            border-radius: 9999px;
+            background: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 6px;
+            width: 0%;
+            background: #0ea5e9;
+            transition: width 0.2s ease;
+        }
+
+        /* --- Timer Pulse --- */
+        .timer-pulse {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans" style="display: none;">
+
+    <div id="dashboard-container" class="relative min-h-screen lg:flex">
+        <!-- Mobile menu overlay -->
+        <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-20 hidden lg:hidden" aria-hidden="true">
+        </div>
+
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="fixed top-0 left-0 z-30 h-full w-64 bg-white border-r border-gray-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+            <div class="flex flex-col h-full">
+                <!-- Sidebar Header -->
+                <div class="h-16 flex items-center justify-between px-4 border-b border-gray-200 flex-shrink-0">
+                    <div class="flex items-center gap-2">
+                        <div class="text-2xl font-bold text-sky-800">SINC</div>
+                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">v3.0</span>
+                    </div>
+                    <button id="close-sidebar" aria-label="Close sidebar menu"
+                        class="p-2 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-sky-500 lg:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Navigation -->
+                <nav id="sidebar-nav" class="flex-1 px-4 py-6 space-y-1 overflow-y-auto no-scrollbar"
+                    aria-label="Main Navigation">
+                    <a href="#dashboard" data-target="dashboard"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 active focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path
+                                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
+                        Dashboard
+                    </a>
+
+                    <div class="pt-4">
+                        <p class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Case
+                            Management</p>
+                    </div>
+                    <a href="#clients" data-target="clients"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path
+                                d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                        </svg>
+                        Clients
+                        <span id="sidebar-client-count"
+                            class="ml-auto inline-block min-w-[24px] text-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800">0</span>
+                    </a>
+                    <a href="#cases" data-target="cases"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14,2 14,8 20,8" />
+                            <line x1="16" x2="8" y1="13" y2="13" />
+                            <line x1="16" x2="8" y1="17" y2="17" />
+                            <polyline points="10,9 9,9 8,9" />
+                        </svg>
+                        Case Files
+                        <span id="sidebar-case-count"
+                            class="ml-auto inline-block min-w-[24px] text-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800">0</span>
+                    </a>
+
+                    <a href="#documents" data-target="documents"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+                            <path d="m12 12-3 3h6l-3-3Z" />
+                            <path d="m12 12v9" />
+                        </svg>
+                        Documents
+                    </a>
+
+                    <a href="#calendar" data-target="calendar"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Calendar
+                        <span id="calendar-notification"
+                            class="ml-auto inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">0</span>
+                    </a>
+
+                    <div class="pt-4">
+                        <p class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Productivity
+                        </p>
+                    </div>
+                    <a href="#time-tracking" data-target="time-tracking"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.414L11 10.586V6z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Time Tracking
+                    </a>
+                    <a href="#billing" data-target="billing"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect width="20" height="14" x="2" y="5" rx="2" />
+                            <line x1="2" x2="22" y1="10" y2="10" />
+                        </svg>
+                        Billing
+                    </a>
+                    <a href="#tasks" data-target="tasks"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Tasks
+                        <span
+                            class="ml-auto inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">0</span>
+                    </a>
+
+                    <a href="#ai-assistant" data-target="ai-assistant"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                        </svg>
+                        AI Assistant
+                    </a>
+
+
+                    <div class="pt-4">
+                        <p class="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Admin</p>
+                    </div>
+                    <a href="#compliance" data-target="compliance"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M2.293 6.293a1 1 0 011.414 0L8 10.586l4.293-4.293a1 1 0 111.414 1.414L9.414 12l4.293 4.293a1 1 0 01-1.414 1.414L8 13.414l-4.293 4.293a1 1 0 01-1.414-1.414L6.586 12 2.293 7.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Compliance
+                    </a>
+                    <a href="#team-activity" data-target="team-activity"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path
+                                d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM4 8a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        Team Activity
+                    </a>
+                    <a href="#reports" data-target="reports"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path
+                                d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                        </svg>
+                        Reports
+                    </a>
+                    <a href="#settings" data-target="settings"
+                        class="sidebar-link flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 focus-visible">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.96.062 2.107-.948 2.287-1.561.38-1.561 2.6 0 2.98.998.248 1.488 1.33.948 2.286-.836 1.372.734 2.942 2.106 2.106.96-.54 2.107-.062 2.287.948.38 1.561 2.6 1.561 2.98 0 .248-.998 1.33-1.488 2.286-.948 1.372.836 2.942-.734 2.106-2.106-.54-.96-.062-2.107.948-2.287 1.561-.38 1.561-2.6 0-2.98-.998-.248-1.488-1.33-.948-2.286.836-1.372-.734-2.942-2.106-2.106-.96.54-2.107.062-2.287-.948zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Settings
+                    </a>
+                </nav>
+
+                <!-- User Profile Section -->
+                <div class="mt-auto border-t border-gray-200 p-4">
+                    <a href="#profile" class="flex items-center group">
+                        <img id="user-avatar-display"
+                            class="h-10 w-10 rounded-full object-cover bg-gray-200 ring-2 ring-white group-hover:ring-sky-200 transition-all"
+                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2NkZTVmMyI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyYzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJ2LTJjMC0yLjY2LTUuMzMtNC04LTR6Ii8+PC9zdmc+"
+                            alt="User Avatar">
+                        <div class="ml-3 min-w-0">
+                            <p id="user-name-display"
+                                class="text-sm font-medium text-gray-900 truncate anim-pulse bg-gray-200 rounded w-24 h-4">
+                            </p>
+                            <p id="user-email-display" class="text-xs text-gray-500 truncate">...</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="lg:ml-64 flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out">
+            <!-- Enhanced Header -->
+            <header class="sticky top-0 bg-white/95 backdrop-blur-sm shadow-sm z-10 border-b border-gray-200">
+                <div class="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                    <!-- Left Section: Toggle & Title -->
+                    <div class="flex items-center space-x-4">
+                        <button id="menu-toggle" aria-label="Open sidebar menu"
+                            class="p-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-sky-600 lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                        <div>
+                            <h1 id="welcome-message" class="text-lg sm:text-xl font-bold text-gray-800 truncate">Welcome
+                                back! 👋</h1>
+                        </div>
+                    </div>
+
+                    <!-- Right Section: Actions -->
+                    <div class="flex items-center space-x-4">
+                        <button aria-label="View notifications"
+                            class="relative p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-sky-600">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span
+                                class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                        </button>
+
+                        <div class="relative">
+                            <button id="user-dropdown-toggle"
+                                class="block h-9 w-9 rounded-full overflow-hidden border-2 border-transparent hover:border-sky-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                                <img id="user-avatar-button" class="h-full w-full object-cover bg-gray-200"
+                                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2NkZTVmMyI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyYzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJ2LTJjMC0yLjY2LTUuMzMtNC04LTR6Ii8+PC9zdmc+"
+                                    alt="User menu">
+                            </button>
+                            <div id="user-dropdown-menu"
+                                class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                role="menu">
+                                <div class="px-4 py-3 border-b border-gray-100">
+                                    <p id="dropdown-user-name" class="text-sm text-gray-900 font-medium truncate">
+                                        Loading...</p>
+                                    <p id="dropdown-user-email" class="text-xs text-gray-500 truncate">...</p>
+                                </div>
+                                <a href="#profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    role="menuitem">Your Profile</a>
+                                <a href="#settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    role="menuitem">Settings</a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <button id="logout-button"
+                                    class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                                    role="menuitem">Logout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="main-content" class="p-4 sm:p-6 lg:p-8 flex-1">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <article class="stats-card bg-white p-6 rounded-xl shadow-md flex items-center space-x-4"
+                            aria-labelledby="active-cases-label">
+                            <div class="bg-sky-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg></div>
+                            <div title="Includes cases with status: Open, In Progress, On Hold">
+                                <p id="active-cases-label" class="text-sm text-gray-500">Active Case Files</p>
+                                <p id="active-cases-stat" class="text-2xl font-bold text-gray-800">0</p>
+                            </div>
+                        </article>
+                        <article class="stats-card bg-white p-6 rounded-xl shadow-md flex items-center space-x-4"
+                            aria-labelledby="total-clients-label">
+                            <div class="bg-green-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg></div>
+                            <div>
+                                <p id="total-clients-label" class="text-sm text-gray-500">Total Clients</p>
+                                <p id="total-clients-stat" class="text-2xl font-bold text-gray-800">0</p>
+                            </div>
+                        </article>
+                        <article class="stats-card bg-white p-6 rounded-xl shadow-md flex items-center space-x-4"
+                            aria-labelledby="total-cases-label">
+                            <div class="bg-gray-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                </svg></div>
+                            <div>
+                                <p id="total-cases-label" class="text-sm text-gray-500">Total Case Files</p>
+                                <p id="total-cases-stat" class="text-2xl font-bold text-gray-800">0</p>
+                            </div>
+                        </article>
+                        <article class="stats-card bg-white p-6 rounded-xl shadow-md flex items-center space-x-4"
+                            aria-labelledby="total-docs-label">
+                            <div class="bg-purple-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path d="M7 7h7a2 2 0 012 2v8a2 2 0 01-2 2H7V7z" />
+                                    <path d="M7 7V5a2 2 0 012-2h4l3 3v1" />
+                                </svg></div>
+                            <div>
+                                <p id="total-docs-label" class="text-sm text-gray-500">Total Documents</p>
+                                <p id="total-docs-stat" class="text-2xl font-bold text-gray-800">0</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md">
+                        <div class="p-6 border-b border-gray-200">
+                            <h2 class="text-lg font-semibold text-gray-800">Recent Activity</h2>
+                            <p class="text-sm text-gray-500">Last 5 updated or created case files</p>
+                        </div>
+                        <div id="recent-activity-list" class="p-3"></div>
+                    </div>
+                </section>
+
+                <!-- Clients Section -->
+                <section id="clients" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-md">
+                        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                            <h2 class="text-xl font-semibold text-gray-800">Clients</h2><button id="add-client-button"
+                                class="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 flex items-center transition-colors"><svg
+                                    xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>Add Client</button>
+                        </div>
+                        <div id="clients-table-container" class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Client</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Type</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Active Cases</th>
+                                        <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clients-table-body" class="bg-white divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cases List Section -->
+                <section id="cases" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-md">
+                        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                            <h2 class="text-xl font-semibold text-gray-800">Case Files</h2>
+                            <a href="#case-edit/new" id="add-case-button"
+                                class="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 flex items-center transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Case File
+                            </a>
+                        </div>
+                        <div id="cases-table-container" class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Case Details</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Client</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Status</th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Last Updated</th>
+                                        <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cases-table-body" class="bg-white divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Case View Page -->
+                <section id="case-view" class="content-section hidden">
+                    <div class="max-w-6xl mx-auto space-y-6 fade-in">
+                        <!-- Breadcrumb -->
+                        <nav class="text-sm text-gray-500" aria-label="Breadcrumb">
+                            <ol class="flex items-center flex-wrap gap-1">
+                                <li><a href="#cases" class="hover:text-gray-700">Cases</a></li>
+                                <li class="text-gray-400">/</li>
+                                <li id="case-breadcrumb-name" class="text-gray-700 font-medium truncate max-w-[50ch]">
+                                    Case</li>
+                            </ol>
+                        </nav>
+
+                        <!-- Header -->
+                        <div
+                            class="bg-white rounded-lg shadow-md p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <h2 id="case-view-title" class="text-xl font-semibold text-gray-900">Case</h2>
+                                <p class="text-sm text-gray-500">Linked to client:
+                                    <span id="case-view-client" class="font-medium text-gray-700"></span>
+                                </p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button id="case-delete-button"
+                                    class="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium transition-colors">Delete</button>
+                                <a id="case-edit-link" href="#case-edit"
+                                    class="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 text-sm font-medium transition-colors">Edit
+                                    Case</a>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Overview -->
+                            <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 lg:col-span-1">
+                                <h3 class="text-base font-semibold text-gray-800 mb-4 border-b pb-2">Overview</h3>
+                                <dl class="space-y-4">
+                                    <div class="flex items-start justify-between">
+                                        <dt class="text-sm text-gray-500">Status</dt>
+                                        <dd id="case-view-status" class="text-sm"></dd>
+                                    </div>
+                                    <div class="flex items-start justify-between">
+                                        <dt class="text-sm text-gray-500">Client</dt>
+                                        <dd class="text-sm text-gray-900">
+                                            <span id="case-view-client-chip"
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-100 font-medium"></span>
+                                        </dd>
+                                    </div>
+                                    <div class="flex items-start justify-between">
+                                        <dt class="text-sm text-gray-500">Created</dt>
+                                        <dd id="case-view-created" class="text-sm text-gray-900">—</dd>
+                                    </div>
+                                    <div class="flex items-start justify-between">
+                                        <dt class="text-sm text-gray-500">Last Updated</dt>
+                                        <dd id="case-view-updated" class="text-sm text-gray-900">—</dd>
+                                    </div>
+                                </dl>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-4 sm:p-6 flex flex-col">
+                                <div class="flex items-center justify-between mb-4 border-b pb-2">
+                                    <h3 class="text-base font-semibold text-gray-800">Case Description</h3>
+                                    <span id="case-description-length" class="text-xs text-gray-400"></span>
+                                </div>
+                                <div id="case-view-description"
+                                    class="rich-content bg-gray-50 border border-gray-200 rounded-lg p-4 min-h-[12rem] overflow-auto">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Associated Documents -->
+                        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                            <div class="flex items-center justify-between mb-4 border-b pb-2">
+                                <h3 class="text-base font-semibold text-gray-800">Associated Documents</h3>
+                                <button id="upload-for-case-button"
+                                        class="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 text-sm font-medium transition-colors">
+                                        Upload Document
+                                    </button>
+                            </div>
+                            <ul id="case-associated-documents"
+                                class="list-disc list-inside text-sm text-gray-700 max-h-48 overflow-y-auto">
+                                <!-- JS will inject document links here -->
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- Case Edit/Add Page -->
+                <section id="case-edit" class="content-section hidden">
+                    <div class="max-w-6xl mx-auto space-y-4 fade-in">
+                        <!-- Breadcrumb -->
+                        <nav class="text-sm text-gray-500" aria-label="Breadcrumb">
+                            <ol class="flex items-center flex-wrap gap-1">
+                                <li><a href="#cases" class="hover:text-gray-700">Cases</a></li>
+                                <li class="text-gray-400">/</li>
+                                <li><a id="case-edit-breadcrumb-case" href="#case-view"
+                                        class="hover:text-gray-700 hidden">Case</a></li>
+                                <li id="case-edit-breadcrumb-slash" class="text-gray-400 hidden">/</li>
+                                <li id="case-edit-breadcrumb-action" class="text-gray-700 font-medium">Add</li>
+                            </ol>
+                        </nav>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <!-- Form -->
+                            <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                                <h2 id="case-edit-title" class="text-lg font-semibold text-gray-900 mb-4">Add New Case
+                                    File</h2>
+                                <form id="case-edit-form" novalidate class="space-y-4">
+                                    <input type="hidden" id="case-edit-id" />
+                                    <div>
+                                        <label for="case-edit-name" class="block text-sm font-medium text-gray-700">File
+                                            Reference</label>
+                                        <input id="case-edit-name" type="text"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+                                            required placeholder="e.g., RAF Claim - J. Doe" />
+                                    </div>
+                                    <div>
+                                        <label for="case-edit-client"
+                                            class="block text-sm font-medium text-gray-700">Client</label>
+                                        <select id="case-edit-client"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+                                            required>
+                                            <option value="">Select a client...</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="case-edit-status"
+                                            class="block text-sm font-medium text-gray-700">Status</label>
+                                        <select id="case-edit-status"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+                                            required>
+                                            <option>Open</option>
+                                            <option>In Progress</option>
+                                            <option>On Hold</option>
+                                            <option>Closed</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="case-edit-description"
+                                            class="block text-sm font-medium text-gray-700">Case
+                                            Description</label>
+                                        <textarea id="case-edit-description" rows="10"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+                                            placeholder="Use bullets (- ), headings (#, ##) and links[](https://...) for clarity."></textarea>
+                                    </div>
+                                    <p id="case-edit-error" class="text-sm text-red-600 hidden"></p>
+                                    <div class="flex items-center justify-end gap-3">
+                                        <a id="case-edit-cancel" href="#cases"
+                                            class="px-4 py-2 bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition-colors">Cancel</a>
+                                        <button id="case-edit-save" type="submit"
+                                            class="px-4 py-2 w-40 bg-sky-600 text-white rounded-md hover:bg-sky-700 disabled:bg-sky-300 flex items-center justify-center transition-colors">Save
+                                            Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Live Preview -->
+                            <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="text-base font-semibold text-gray-800">Live Preview</h3>
+                                    <span id="case-edit-preview-length" class="text-xs text-gray-400"></span>
+                                </div>
+                                <div id="case-edit-preview"
+                                    class="rich-content bg-gray-50 border border-gray-200 rounded-lg p-4 min-h-[12rem]">
+                                    <p class="text-gray-500">Start typing a description to see a professional preview
+                                        here.</p>
+                                </div>
+                                <div class="mt-3 text-xs text-gray-500">
+                                    Tips: Use
+                                    <code class="px-1 py-0.5 bg-gray-100 rounded">-</code> for bullet points,
+                                    <code class="px-1 py-0.5 bg-gray-100 rounded">#</code> or <code
+                                        class="px-1 py-0.5 bg-gray-100 rounded">##</code> for headings, and paste links
+                                    to auto-link.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Documents: Fully Implemented -->
+                <section id="documents" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-md">
+                        <div
+                            class="p-6 border-b border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-800">Documents</h2>
+                                <p class="text-sm text-gray-500">Upload, manage, and search documents linked to your
+                                    case files.</p>
+                            </div>
+                            <button id="add-document-button"
+                                class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 flex items-center transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                                Upload Document
+                            </button>
+                        </div>
+
+                        <div class="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="documents-filter-case"
+                                    class="block text-xs font-medium text-gray-600 mb-1">Filter by Case</label>
+                                <select id="documents-filter-case"
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                                    <option value="all">All cases</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="documents-search"
+                                    class="block text-xs font-medium text-gray-600 mb-1">Search</label>
+                                <div class="relative">
+                                    <input id="documents-search" type="text" placeholder="Search by name, type..."
+                                        class="w-full pl-10 rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500" />
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="documents-table-container" class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Document</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Case</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Type</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Size</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Uploaded</th>
+                                        <th
+                                            class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="documents-table-body" class="bg-white divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Calendar Section: Implemented -->
+                <section id="calendar" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-md">
+                        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                            <h2 class="text-xl font-semibold text-gray-800">Calendar</h2>
+                            <button id="add-event-button"
+                                class="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 flex items-center transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Event
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <button id="calendar-prev" class="p-2 rounded-full hover:bg-gray-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                <h3 id="calendar-month" class="text-lg font-semibold text-gray-800">Month Year</h3>
+                                <button id="calendar-next" class="p-2 rounded-full hover:bg-gray-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div
+                                class="grid grid-cols-7 gap-px bg-gray-200 text-center text-sm font-medium text-gray-500">
+                                <div class="bg-white p-2">Sun</div>
+                                <div class="bg-white p-2">Mon</div>
+                                <div class="bg-white p-2">Tue</div>
+                                <div class="bg-white p-2">Wed</div>
+                                <div class="bg-white p-2">Thu</div>
+                                <div class="bg-white p-2">Fri</div>
+                                <div class="bg-white p-2">Sat</div>
+                            </div>
+                            <div id="calendar-grid" class="grid grid-cols-7 gap-px bg-gray-200">
+                                <!-- Days populated by JS -->
+                            </div>
+                        </div>
+                        <div class="p-6 border-t border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Events</h3>
+                            <div id="upcoming-events-list" class="space-y-4">
+                                <!-- Events populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Time Tracking Section -->
+                <section id="time-tracking" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-md">
+                        <!-- Header -->
+                        <div class="p-6 border-b border-gray-200">
+                            <h2 class="text-xl font-semibold text-gray-800">Time Tracking</h2>
+                            <p class="text-sm text-gray-500">Log billable and non-billable hours for your cases.</p>
+                        </div>
+
+                        <!-- Timer and Input Form -->
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 items-end">
+                            <!-- Case Select -->
+                            <div class="lg:col-span-1">
+                                <label for="time-case-select"
+                                    class="block text-sm font-medium text-gray-700">Case</label>
+                                <select id="time-case-select"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm">
+                                    <option value="">Select a case...</option>
+                                </select>
+                            </div>
+                            <!-- Activity Select -->
+                            <div class="lg:col-span-1">
+                                <label for="time-activity-select"
+                                    class="block text-sm font-medium text-gray-700">Activity</label>
+                                <select id="time-activity-select"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm">
+                                    <option value="">Select activity...</option>
+                                    <option value="Research">Research</option>
+                                    <option value="Meeting">Meeting</option>
+                                    <option value="Drafting">Drafting</option>
+                                    <option value="Court Appearance">Court Appearance</option>
+                                    <option value="Consultation">Consultation</option>
+                                </select>
+                            </div>
+                            <!-- Description -->
+                            <div class="md:col-span-2 lg:col-span-1">
+                                <label for="time-description"
+                                    class="block text-sm font-medium text-gray-700">Description (Optional)</label>
+                                <input type="text" id="time-description" placeholder="e.g., Drafting client affidavit"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm" />
+                            </div>
+                            <!-- Manual Entry Toggle -->
+                            <div class="lg:col-span-1">
+                                <button id="manual-entry-toggle"
+                                    class="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                                    Add Manual Entry
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Manual Entry Fields (Hidden by default) -->
+                        <div id="manual-entry-fields"
+                            class="hidden p-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="manual-date" class="block text-sm font-medium text-gray-700">Date</label>
+                                <input type="date" id="manual-date"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm" />
+                            </div>
+                            <div>
+                                <label for="manual-duration" class="block text-sm font-medium text-gray-700">Duration
+                                    (hh:mm)</label>
+                                <input type="text" id="manual-duration" placeholder="e.g., 1:30"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm" />
+                            </div>
+                        </div>
+
+                        <!-- Timer Controls and Display -->
+                        <div
+                            class="p-6 border-t border-gray-200 bg-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div class="flex items-center gap-4">
+                                <button id="time-start-btn"
+                                    class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Start
+                                </button>
+                                <button id="time-stop-btn"
+                                    class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 flex items-center transition-colors hidden">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Stop
+                                </button>
+                                <p id="time-display" class="text-3xl font-mono font-bold text-gray-800 tracking-wider">
+                                    00:00:00</p>
+                            </div>
+                            <div>
+                                <p id="time-feedback" class="text-sm text-red-600 h-5"></p>
+                                <button id="time-save-btn"
+                                    class="px-6 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 disabled:bg-sky-300 transition-colors"
+                                    disabled>Save Entry</button>
+                            </div>
+                        </div>
+
+
+                        <!-- Entries List -->
+                        <div class="border-t border-gray-200">
+                            <div class="p-6 flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-gray-800">Recent Entries</h3>
+                                <div id="time-today-total" class="text-sm text-gray-500">Today's Total: <span
+                                        class="font-bold text-gray-800">0h 0m</span></div>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Case & Description</th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Task</th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Duration</th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Date</th>
+                                            <th scope="col" class="relative px-6 py-3"><span
+                                                    class="sr-only">Actions</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="time-entries-table-body" class="bg-white divide-y divide-gray-200">
+                                        <!-- Skeleton Loader -->
+                                        <tr class="skeleton-row">
+                                            <td class="px-6 py-4">
+                                                <div class="skeleton loading-skeleton"></div>
+                                                <div class="skeleton-sm loading-skeleton"></div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div class="skeleton loading-skeleton"></div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div class="skeleton loading-skeleton"></div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div class="skeleton loading-skeleton"></div>
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <div class="skeleton loading-skeleton h-6 w-16"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Billing Section -->
+                <section id="billing" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-md">
+                        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                            <h2 class="text-xl font-semibold text-gray-800">Billing</h2>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="stats-card bg-gray-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-500">Unbilled Hours</p>
+                                <p id="unbilled-hours" class="text-2xl font-bold text-gray-800">0</p>
+                            </div>
+                            <div class="stats-card bg-gray-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-500">Draft Invoices</p>
+                                <p id="draft-amount" class="text-2xl font-bold text-gray-800">ZAR 0.00</p>
+                            </div>
+                            <div class="stats-card bg-gray-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-500">Outstanding</p>
+                                <p id="outstanding-amount" class="text-2xl font-bold text-gray-800">ZAR 0.00</p>
+                            </div>
+                            <div class="stats-card bg-gray-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-500">Paid (30 Days)</p>
+                                <p id="paid-amount" class="text-2xl font-bold text-gray-800">ZAR 0.00</p>
+                            </div>
+                        </div>
+                        <div id="invoices-table-container" class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Invoice #</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Client</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Amount</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Status</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Due Date</th>
+                                        <th
+                                            class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invoices-table-body" class="bg-white divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Placeholder sections -->
+                <section id="tasks" class="content-section hidden">
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                        <h2 class="text-2xl font-bold text-gray-700">Tasks</h2>
+                        <p class="text-gray-500 mt-2">This feature is coming soon.</p>
+                    </div>
+                </section>
+                <section id="ai-assistant" class="content-section hidden">
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                        <h2 class="text-2xl font-bold text-gray-700">AI Assistant</h2>
+                        <p class="text-gray-500 mt-2">This feature is coming soon.</p>
+                    </div>
+                </section>
+
+                <section id="compliance" class="content-section hidden">
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                        <h2 class="text-2xl font-bold text-gray-700">Compliance</h2>
+                        <p class="text-gray-500 mt-2">This feature is coming soon.</p>
+                    </div>
+                </section>
+                <section id="team-activity" class="content-section hidden">
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                        <h2 class="text-2xl font-bold text-gray-700">Team Activity</h2>
+                        <p class="text-gray-500 mt-2">This feature is coming soon.</p>
+                    </div>
+                </section>
+                <section id="reports" class="content-section hidden">
+                    <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                        <h2 class="text-2xl font-bold text-gray-700">Reports</h2>
+                        <p class="text-gray-500 mt-2">This feature is coming soon.</p>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="content-section hidden">
+                    <div class="max-w-2xl mx-auto space-y-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h2 class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-4">Billing
+                                Settings</h2>
+                            <form id="billing-settings-form" class="mt-6 space-y-6">
+                                <div>
+                                    <label for="default-hourly-rate"
+                                        class="block text-sm font-medium text-gray-700">Default Hourly Rate
+                                        (ZAR)</label>
+                                    <input type="number" id="default-hourly-rate" min="0" step="0.01"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm">
+                                </div>
+                                <!-- Placeholder for Activity Types -->
+                                <div>
+                                    <h3 class="text-base font-semibold text-gray-800 mb-2">Activity Types</h3>
+                                    <p class="text-sm text-gray-500">Coming soon: Customize activity types with rates.
+                                    </p>
+                                </div>
+                                <div id="billing-settings-feedback" class="text-sm"></div>
+                                <div class="flex justify-end">
+                                    <button type="submit" id="save-billing-settings"
+                                        class="px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 disabled:bg-sky-300 flex items-center justify-center transition-colors shadow-sm">Save
+                                        Settings</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile Section -->
+                <section id="profile" class="content-section hidden">
+                    <div class="max-w-2xl mx-auto space-y-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h2 class="text-xl font-semibold text-gray-800 border-b border-gray-200 pb-4">Profile
+                                Information</h2>
+                            <form id="profile-form" class="mt-6 space-y-6">
+                                <div>
+                                    <label for="profile-name" class="block text-sm font-medium text-gray-700">Full
+                                        Name</label>
+                                    <input type="text" id="profile-name" name="profile-name"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"
+                                        required>
+                                </div>
+                                <div>
+                                    <label for="profile-email" class="block text-sm font-medium text-gray-700">Email
+                                        Address</label>
+                                    <input type="email" id="profile-email" name="profile-email" disabled
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm bg-gray-100 text-gray-500 cursor-not-allowed">
+                                </div>
+                                <div id="profile-form-feedback" class="text-sm"></div>
+                                <div class="flex justify-end">
+                                    <button type="submit" id="save-profile-button"
+                                        class="px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 disabled:bg-sky-300 flex items-center justify-center transition-colors shadow-sm">Save
+                                        Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="client-modal"
+        class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300"
+        data-role="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="client-modal-title">
+        <div
+            class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0">
+            <h2 id="client-modal-title" class="text-xl font-bold mb-4">Add New Client</h2>
+            <form id="client-form" novalidate><input type="hidden" id="client-id-input">
+                <div class="mb-4"><label for="client-name-input" class="block text-sm font-medium text-gray-700">Client
+                        Name</label><input type="text" id="client-name-input" placeholder="e.g., John Doe"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm" required
+                        aria-required="true"></div>
+                <div class="mb-4"><label for="client-email-input" class="block text-sm font-medium text-gray-700">Client
+                        Email</label><input type="email" id="client-email-input"
+                        placeholder="e.g., john.doe@example.com"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm" required
+                        aria-required="true"></div>
+                <div class="mb-4"><label for="client-type-select" class="block text-sm font-medium text-gray-700">Client
+                        Type</label><select id="client-type-select"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm" required
+                        aria-required="true">
+                        <option value="Individual">Individual</option>
+                        <option value="Corporate">Corporate</option>
+                    </select></div>
+                <p id="client-form-error" class="text-sm text-red-600 mb-4 text-center hidden" aria-live="polite"></p>
+                <div class="flex justify-end gap-3"><button type="button" data-role="cancel"
+                        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">Cancel</button><button
+                        type="submit" id="save-client-button"
+                        class="px-4 py-2 w-32 bg-sky-600 text-white rounded-md hover:bg-sky-700 disabled:bg-sky-300 disabled:cursor-not-allowed flex items-center justify-center transition-colors">Save
+                        Client</button></div>
+            </form>
+        </div>
+    </div>
+    <div id="confirmation-modal"
+        class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300"
+        data-role="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="confirmation-title">
+        <div
+            class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 transform transition-all duration-300 scale-95 opacity-0">
+            <h2 id="confirmation-title" class="text-lg font-medium leading-6 text-gray-900">Confirmation</h2>
+            <div class="mt-2">
+                <p id="confirmation-message" class="text-sm text-gray-600">Are you sure?</p>
+            </div>
+            <div class="mt-5 sm:mt-6 flex justify-end gap-3"><button type="button" id="confirmation-cancel-btn"
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">Cancel</button><button
+                    type="button" id="confirmation-confirm-btn"
+                    class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Upload Modal -->
+    <div id="document-modal"
+        class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300"
+        data-role="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="document-modal-title">
+        <div
+            class="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg transform transition-all duration-300 scale-95 opacity-0">
+            <h2 id="document-modal-title" class="text-xl font-bold mb-4">Upload Document</h2>
+            <form id="document-form" novalidate>
+                <div class="mb-4">
+                    <label for="document-file-input" class="block text-sm font-medium text-gray-700">Choose File</label>
+                    <input type="file" id="document-file-input"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm" required
+                        aria-required="true" />
+                    <p class="text-xs text-gray-500 mt-1">Accepted: PDF, DOCX, XLSX, PNG, JPG, TXT (max 20MB)</p>
+                </div>
+                <div class="mb-4">
+                    <label for="document-case-select" class="block text-sm font-medium text-gray-700">Link to
+                        Case</label>
+                    <select id="document-case-select"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm" required
+                        aria-required="true">
+                        <option value="">Select a case...</option>
+                    </select>
+                </div>
+                <div class="mb-2 progress" aria-hidden="true">
+                    <div id="document-upload-progress" class="progress-bar"></div>
+                </div>
+                <p id="document-form-error" class="text-sm text-red-600 mb-4 text-center hidden" aria-live="polite"></p>
+                <div class="flex justify-end gap-3">
+                    <button type="button" data-role="cancel"
+                        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">Cancel</button>
+                    <button type="submit" id="save-document-button"
+                        class="px-4 py-2 w-40 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-purple-300 disabled:cursor-not-allowed flex items-center justify-center transition-colors">
+                        Upload
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div id="event-modal"
+        class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-50 p-4 transition-opacity duration-300"
+        data-role="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="event-modal-title">
+        <div
+            class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0">
+            <h2 id="event-modal-title" class="text-xl font-bold mb-4">Add New Event</h2>
+            <form id="event-form" novalidate>
+                <input type="hidden" id="event-id-input">
+                <div class="mb-4">
+                    <label for="event-title-input" class="block text-sm font-medium text-gray-700">Title</label>
+                    <input type="text" id="event-title-input" placeholder="e.g., Court Hearing"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm" required
+                        aria-required="true">
+                </div>
+                <div class="mb-4">
+                    <label for="event-date-input" class="block text-sm font-medium text-gray-700">Date</label>
+                    <input type="date" id="event-date-input"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm" required
+                        aria-required="true">
+                </div>
+                <div class="mb-4">
+                    <label for="event-case-select" class="block text-sm font-medium text-gray-700">Linked Case
+                        (optional)</label>
+                    <select id="event-case-select" class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm">
+                        <option value="">None</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="event-description-input"
+                        class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="event-description-input" placeholder="Details about the event"
+                        class="mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm" rows="4"></textarea>
+                </div>
+                <p id="event-form-error" class="text-sm text-red-600 mb-4 text-center hidden" aria-live="polite"></p>
+                <div class="flex justify-end gap-3">
+                    <button type="button" data-role="cancel"
+                        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors">Cancel</button>
+                    <button type="submit" id="save-event-button"
+                        class="px-4 py-2 w-32 bg-sky-600 text-white rounded-md hover:bg-sky-700 disabled:bg-sky-300 disabled:cursor-not-allowed flex items-center justify-center transition-colors">Save
+                        Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+
+        // --- IMPORTS ---
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, getDocs, collection, addDoc, onSnapshot, query, where, updateDoc, deleteDoc, Timestamp, serverTimestamp, writeBatch, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+        import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
+
+        // --- FIREBASE CONFIG & INITIALIZATION ---
+        const firebaseConfig = { apiKey: "AIzaSyCqBlHjmayoGIvlLJD58yR6phsHzLtjAH4", authDomain: "sinc-c6b24.firebaseapp.com", projectId: "sinc-c6b24", storageBucket: "sinc-c6b24.appspot.com", appId: "1:547513001470:web:7c37b34318c0ee0709ccaf" };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // --- DOM ELEMENT SELECTORS ---
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+
+        const DOMElements = {
+            // User info displays
+            welcomeMessage: $('#welcome-message'),
+            userNameDisplay: $('#user-name-display'), userEmailDisplay: $('#user-email-display'), userAvatarDisplay: $('#user-avatar-display'),
+            userAvatarButton: $('#user-avatar-button'), dropdownUserName: $('#dropdown-user-name'), dropdownUserEmail: $('#dropdown-user-email'),
+            // Layout & Navigation
+            sidebar: $('#sidebar'), overlay: $('#overlay'), userDropdownMenu: $('#user-dropdown-menu'),
+            // Modals & Forms
+            clientModal: $('#client-modal'), clientForm: $('#client-form'), clientFormError: $('#client-form-error'), saveClientButton: $('#save-client-button'),
+            confirmationModal: $('#confirmation-modal'), confirmationTitle: $('#confirmation-title'), confirmationMessage: $('#confirmation-message'), confirmationConfirmBtn: $('#confirmation-confirm-btn'),
+            // Tables
+            clientsTableBody: $('#clients-table-body'), clientsTableContainer: $('#clients-table-container'),
+            casesTableBody: $('#cases-table-body'), casesTableContainer: $('#cases-table-container'),
+            // Profile Page
+            profileForm: $('#profile-form'), profileNameInput: $('#profile-name'), profileEmailInput: $('#profile-email'),
+            saveProfileButton: $('#save-profile-button'), profileFormFeedback: $('#profile-form-feedback'),
+            // Documents
+            addDocumentButton: $('#add-document-button'),
+            documentsTableBody: $('#documents-table-body'), documentsTableContainer: $('#documents-table-container'),
+            documentsFilterCase: $('#documents-filter-case'), documentsSearch: $('#documents-search'),
+            documentModal: $('#document-modal'), documentForm: $('#document-form'), documentFormError: $('#document-form-error'),
+            documentCaseSelect: $('#document-case-select'), documentFileInput: $('#document-file-input'),
+            saveDocumentButton: $('#save-document-button'), documentUploadProgress: $('#document-upload-progress'),
+            // Case Edit Page
+            caseEditForm: $('#case-edit-form'), caseEditError: $('#case-edit-error'), saveCaseButton: $('#case-edit-save'),
+            caseEditDescription: $('#case-edit-description'), caseEditPreview: $('#case-edit-preview'),
+            caseEditPreviewLength: $('#case-edit-preview-length'),
+            // Calendar
+            addEventButton: $('#add-event-button'),
+            eventModal: $('#event-modal'), eventForm: $('#event-form'), eventFormError: $('#event-form-error'), saveEventButton: $('#save-event-button'),
+            calendarMonth: $('#calendar-month'), calendarGrid: $('#calendar-grid'),
+            calendarPrev: $('#calendar-prev'), calendarNext: $('#calendar-next'),
+            upcomingEventsList: $('#upcoming-events-list'),
+            // Settings
+            billingSettingsForm: $('#billing-settings-form'),
+            defaultHourlyRate: $('#default-hourly-rate'),
+            saveBillingSettings: $('#save-billing-settings'),
+            billingSettingsFeedback: $('#billing-settings-feedback')
+        };
+
+        // --- GLOBAL STATE & CONSTANTS ---
+        let currentUserId = null, unsubscribeFromClients = null, unsubscribeFromCases = null, unsubscribeFromRecentCases = null, unsubscribeFromDocuments = null, unsubscribeFromEvents = null;
+        let clientsMap = new Map(), casesMap = new Map(), documentsMap = new Map(), eventsMap = new Map();
+        let initialClientFormData = '', initialDataLoaded = { clients: false, cases: false, documents: false, events: false };
+        let documentsFilter = { caseId: 'all', search: '' };
+        let currentCalendarDate = new Date();
+
+        const CONSTANTS = {
+            DEFAULT_AVATAR_SVG: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2NkZTVmMyI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyYzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJ2LTJjMC0yLjY2LTUuMzMtNC04LTR6Ii8+PC9zdmc+",
+            SPINNER_SVG: `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`,
+            SAVE_CLIENT_TEXT: "Save Client", SAVE_CASE_TEXT: "Save Changes", SAVE_PROFILE_TEXT: "Save Changes", UPLOAD_DOCUMENT_TEXT: "Upload", SAVE_EVENT_TEXT: "Save Event",
+            SAVE_BILLING_SETTINGS_TEXT: "Save Settings"
+        };
+
+        // --- CORE APPLICATION LOGIC ---
+        onAuthStateChanged(auth, user => {
+            if (user) handleUserAuthenticated(user);
+            else window.location.href = 'index.html';
+        });
+
+        async function handleUserAuthenticated(user) {
+            currentUserId = user.uid;
+            document.body.style.display = '';
+
+            const userDocRef = doc(db, "users", user.uid);
+            const userProfile = {
+                email: user.email,
+                lastLogin: Timestamp.fromDate(new Date()),
+                ...(user.displayName && { name: user.displayName }),
+                ...(user.photoURL && { photoURL: user.photoURL })
+            };
+            await setDoc(userDocRef, userProfile, { merge: true });
+
+            const finalProfileSnap = await getDoc(userDocRef);
+            const finalProfile = finalProfileSnap.data() || {};
+
+            updateUserInfoUI(finalProfile.name || 'New User', user.email, finalProfile.photoURL);
+
+            if (finalProfile.defaultHourlyRate) {
+                DOMElements.defaultHourlyRate.value = finalProfile.defaultHourlyRate;
+            }
+
+            initDashboard(user.uid);
+        }
+
+        function initDashboard(userId) {
+            initUI();
+            initEventListeners();
+            listenForClientChanges(userId);
+            listenForCaseChanges(userId);
+            listenForRecentCases(userId);
+            listenForDocumentChanges(userId);
+            listenForEventChanges(userId);
+
+            // Initialize the time tracker since its HTML is now static on the page
+            const dependencies = {
+                db,
+                auth,
+                getCasesMap: () => casesMap,
+                getFirestoreModules: () => ({
+                    collection, doc, addDoc, onSnapshot, query, where, orderBy, deleteDoc, serverTimestamp
+                })
+            };
+            initTimeTracker(dependencies);
+        }
+
+        function handleLogout() {
+            [unsubscribeFromClients, unsubscribeFromCases, unsubscribeFromRecentCases, unsubscribeFromDocuments, unsubscribeFromEvents].forEach(unsub => unsub && unsub());
+            signOut(auth).catch(error => console.error("Logout Error:", error));
+        }
+
+        // --- FIRESTORE LISTENERS ---
+        function listenForClientChanges(userId) {
+            if (unsubscribeFromClients) unsubscribeFromClients();
+            const q = query(collection(db, 'clients'), where("userId", "==", userId));
+            unsubscribeFromClients = onSnapshot(q, snapshot => {
+                clientsMap.clear();
+                snapshot.forEach(doc => clientsMap.set(doc.id, { id: doc.id, ...doc.data() }));
+                initialDataLoaded.clients = true;
+                renderClientsTable();
+                updateStatsAndCounts();
+                if (initialDataLoaded.cases) renderCasesTable();
+                if (initialDataLoaded.clients) renderClientsTable(); // Re-render to update case counts
+            }, error => {
+                console.error(`Error loading clients:`, error);
+                renderTableError(DOMElements.clientsTableBody, 4, "Could not load clients.");
+            });
+        }
+
+        function listenForCaseChanges(userId) {
+            if (unsubscribeFromCases) unsubscribeFromCases();
+            const q = query(collection(db, 'cases'), where("userId", "==", userId), orderBy('updatedAt', 'desc'));
+            unsubscribeFromCases = onSnapshot(q, snapshot => {
+                casesMap.clear();
+                snapshot.forEach(doc => casesMap.set(doc.id, { id: doc.id, ...doc.data() }));
+
+                // Fire an event to notify other modules (like Time Tracker) that cases have been updated
+                window.dispatchEvent(new CustomEvent('casesUpdated', { detail: casesMap }));
+
+                initialDataLoaded.cases = true;
+                renderCasesTable();
+                updateStatsAndCounts();
+                populateDocumentCaseFilter();
+                populateDocumentCaseSelect();
+                if (initialDataLoaded.clients) renderClientsTable(); // Re-render to update case counts
+            }, error => {
+                console.error(`Error loading cases:`, error);
+                renderTableError(DOMElements.casesTableBody, 5, "Could not load cases. A database index is likely required.");
+            });
+        }
+
+        function listenForRecentCases(userId) {
+            if (unsubscribeFromRecentCases) unsubscribeFromRecentCases();
+            const q = query(collection(db, 'cases'), where("userId", "==", userId), orderBy('updatedAt', 'desc'), limit(5));
+            unsubscribeFromRecentCases = onSnapshot(q, snapshot => {
+                const recentCases = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderRecentActivity(recentCases);
+            }, error => {
+                console.error("Error listening to recent cases:", error);
+                $('#recent-activity-list').innerHTML = `<div class="text-center py-8 text-red-500">Could not load recent activity. A database index may be required.</div>`;
+            });
+        }
+
+        function listenForDocumentChanges(userId) {
+            if (unsubscribeFromDocuments) unsubscribeFromDocuments();
+            const q = query(collection(db, 'documents'), where("userId", "==", userId), orderBy('uploadedAt', 'desc'));
+            unsubscribeFromDocuments = onSnapshot(q, snapshot => {
+                documentsMap.clear();
+                snapshot.forEach(doc => documentsMap.set(doc.id, { id: doc.id, ...doc.data() }));
+                initialDataLoaded.documents = true;
+                renderDocumentsTable();
+                updateStatsAndCounts();
+            }, error => {
+                console.error("Error loading documents:", error);
+                renderTableError(DOMElements.documentsTableBody, 6, "Could not load documents. Check permissions or database rules.");
+            });
+        }
+
+        function listenForEventChanges(userId) {
+            if (unsubscribeFromEvents) unsubscribeFromEvents();
+            const q = query(collection(db, 'events'), where("userId", "==", userId), orderBy('date', 'asc'));
+            unsubscribeFromEvents = onSnapshot(q, snapshot => {
+                eventsMap.clear();
+                snapshot.forEach(doc => eventsMap.set(doc.id, { id: doc.id, ...doc.data() }));
+                initialDataLoaded.events = true;
+                renderCalendar();
+                renderUpcomingEvents();
+                const upcomingCount = [...eventsMap.values()].filter(e => e.date.toDate() > new Date()).length;
+                $('#calendar-notification').textContent = upcomingCount;
+                $('#calendar-notification').classList.toggle('hidden', upcomingCount === 0);
+            }, error => {
+                console.error("Error loading events:", error);
+            });
+        }
+
+        // --- FORM & DATA HANDLERS ---
+        const getClientFormData = () => ({ name: $('#client-name-input').value.trim(), email: $('#client-email-input').value.trim().toLowerCase(), type: $('#client-type-select').value });
+
+        async function handleClientFormSubmit(e) {
+            e.preventDefault(); if (!currentUserId) return;
+            setButtonLoading(DOMElements.saveClientButton, true, CONSTANTS.SAVE_CLIENT_TEXT); hideError(DOMElements.clientFormError);
+            const clientId = $('#client-id-input').value.trim(), clientData = { ...getClientFormData(), userId: currentUserId };
+            try {
+                const clientsRef = collection(db, 'clients'), emailQuery = query(clientsRef, where("userId", "==", currentUserId), where("email", "==", clientData.email));
+                const emailSnapshot = await getDocs(emailQuery);
+                if (!emailSnapshot.empty && emailSnapshot.docs.some(doc => doc.id !== clientId)) throw new Error("A client with this email already exists.");
+                if (clientId) await updateDoc(doc(db, 'clients', clientId), clientData); else await addDoc(clientsRef, clientData);
+                closeModal(DOMElements.clientModal);
+            } catch (error) {
+                showError(DOMElements.clientFormError, error.message || "Failed to save client.");
+            } finally { setButtonLoading(DOMElements.saveClientButton, false, CONSTANTS.SAVE_CLIENT_TEXT); }
+        }
+
+        async function handleCaseEditFormSubmit(e) {
+            e.preventDefault(); if (!currentUserId) return;
+            setButtonLoading(DOMElements.saveCaseButton, true, CONSTANTS.SAVE_CASE_TEXT);
+            hideError(DOMElements.caseEditError);
+
+            const caseId = $('#case-edit-id').value.trim();
+            const caseData = {
+                caseName: $('#case-edit-name').value.trim(),
+                clientId: $('#case-edit-client').value,
+                status: $('#case-edit-status').value,
+                description: $('#case-edit-description').value.trim(),
+                userId: currentUserId,
+                updatedAt: serverTimestamp()
+            };
+
+            if (!caseData.caseName || !caseData.clientId) {
+                showError(DOMElements.caseEditError, "File Reference and Client are required.");
+                setButtonLoading(DOMElements.saveCaseButton, false, CONSTANTS.SAVE_CASE_TEXT);
+                return;
+            }
+
+            try {
+                let savedCaseId = caseId;
+                if (caseId) {
+                    await updateDoc(doc(db, 'cases', caseId), caseData);
+                } else {
+                    caseData.createdAt = serverTimestamp();
+                    const newCaseRef = await addDoc(collection(db, "cases"), caseData);
+                    savedCaseId = newCaseRef.id;
+                }
+                window.location.hash = `#case-view/${savedCaseId}`;
+            } catch (error) {
+                console.error("Error saving case:", error);
+                showError(DOMElements.caseEditError, "Failed to save case file. Please try again.");
+            } finally {
+                setButtonLoading(DOMElements.saveCaseButton, false, CONSTANTS.SAVE_CASE_TEXT);
+            }
+        }
+
+        async function handleProfileFormSubmit(e) {
+            e.preventDefault(); if (!auth.currentUser) return;
+            setButtonLoading(DOMElements.saveProfileButton, true, CONSTANTS.SAVE_PROFILE_TEXT);
+            DOMElements.profileFormFeedback.textContent = ''; DOMElements.profileFormFeedback.className = 'text-sm';
+
+            const newName = DOMElements.profileNameInput.value.trim();
+            try {
+                await updateProfile(auth.currentUser, { displayName: newName });
+                const userDocRef = doc(db, 'users', auth.currentUser.uid);
+                await updateDoc(userDocRef, { name: newName });
+
+                updateUserInfoUI(newName, auth.currentUser.email, auth.currentUser.photoURL);
+                DOMElements.profileFormFeedback.textContent = 'Profile updated successfully!';
+                DOMElements.profileFormFeedback.classList.add('text-green-600');
+            } catch (error) {
+                console.error("Error updating profile:", error);
+                DOMElements.profileFormFeedback.textContent = 'Failed to update profile. Please try again.';
+                DOMElements.profileFormFeedback.classList.add('text-red-600');
+            } finally {
+                setButtonLoading(DOMElements.saveProfileButton, false, CONSTANTS.SAVE_PROFILE_TEXT);
+            }
+        }
+
+        async function handleBillingSettingsFormSubmit(e) {
+            e.preventDefault();
+            setButtonLoading(DOMElements.saveBillingSettings, true, CONSTANTS.SAVE_BILLING_SETTINGS_TEXT);
+            DOMElements.billingSettingsFeedback.textContent = '';
+            DOMElements.billingSettingsFeedback.className = 'text-sm';
+
+            const defaultRate = parseFloat(DOMElements.defaultHourlyRate.value) || 0;
+
+            try {
+                const userDocRef = doc(db, 'users', auth.currentUser.uid);
+                await updateDoc(userDocRef, { defaultHourlyRate: defaultRate });
+                DOMElements.billingSettingsFeedback.textContent = 'Billing settings updated successfully!';
+                DOMElements.billingSettingsFeedback.classList.add('text-green-600');
+            } catch (error) {
+                console.error("Error updating billing settings:", error);
+                DOMElements.billingSettingsFeedback.textContent = 'Failed to update billing settings. Please try again.';
+                DOMElements.billingSettingsFeedback.classList.add('text-red-600');
+            } finally {
+                setButtonLoading(DOMElements.saveBillingSettings, false, CONSTANTS.SAVE_BILLING_SETTINGS_TEXT);
+            }
+        }
+
+        async function handleClientDelete(clientId) {
+            const onConfirm = async () => {
+                try {
+                    const casesQuery = query(collection(db, 'cases'), where('clientId', '==', clientId), where('userId', '==', currentUserId));
+                    const casesSnapshot = await getDocs(casesQuery);
+                    const batch = writeBatch(db);
+                    casesSnapshot.forEach(docSnap => batch.delete(docSnap.ref));
+                    batch.delete(doc(db, 'clients', clientId));
+                    await batch.commit();
+                    // Note: Documents linked to deleted cases are not auto-deleted here. Consider back-end cleanup.
+                } catch (error) { console.error("Error deleting client:", error); showConfirmation("Error", "Failed to delete client.", () => { }, true); }
+            };
+            showConfirmation("Delete Client?", "This will permanently delete the client and all associated cases. This cannot be undone.", onConfirm);
+        }
+
+        async function handleCaseDelete(caseId) {
+            const onConfirm = async () => {
+                try {
+                    // Delete documents linked to this case (storage + firestore)
+                    const docsQuery = query(collection(db, 'documents'), where('userId', '==', currentUserId), where('caseId', '==', caseId));
+                    const docsSnapshot = await getDocs(docsQuery);
+                    await Promise.all(docsSnapshot.docs.map(async (docSnap) => {
+                        const data = docSnap.data();
+                        if (data.storagePath) {
+                            try { await deleteObject(storageRef(storage, data.storagePath)); } catch (e) { console.warn('Storage delete failed for', data.storagePath, e); }
+                        }
+                        await deleteDoc(docSnap.ref);
+                    }));
+                    // Delete the case
+                    await deleteDoc(doc(db, 'cases', caseId));
+                    window.location.hash = '#cases';
+                }
+                catch (error) { console.error("Error deleting case:", error); showConfirmation("Error", "Failed to delete case.", () => { }, true); }
+            };
+            showConfirmation("Delete Case File?", "This will permanently delete this case and all its documents. This cannot be undone.", onConfirm);
+        }
+
+        async function handleDocumentFormSubmit(e) {
+            e.preventDefault(); if (!currentUserId) return;
+            const file = DOMElements.documentFileInput.files[0];
+            const caseId = DOMElements.documentCaseSelect.value;
+            hideError(DOMElements.documentFormError);
+            if (!file || !caseId) { showError(DOMElements.documentFormError, "Please select a file and link it to a case."); return; }
+
+            setButtonLoading(DOMElements.saveDocumentButton, true, CONSTANTS.UPLOAD_DOCUMENT_TEXT);
+            setUploadProgress(0);
+
+            try {
+                // Create Firestore doc first to obtain an ID
+                const docRef = await addDoc(collection(db, 'documents'), {
+                    userId: currentUserId,
+                    caseId,
+                    name: file.name,
+                    size: file.size,
+                    contentType: file.type || 'application/octet-stream',
+                    uploadedAt: serverTimestamp()
+                });
+
+                const path = `documents/${currentUserId}/${docRef.id}/${file.name}`;
+                const sRef = storageRef(storage, path);
+                const task = uploadBytesResumable(sRef, file, { contentType: file.type });
+
+                await new Promise((resolve, reject) => {
+                    task.on('state_changed', (snap) => {
+                        const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+                        setUploadProgress(pct);
+                    }, reject, resolve);
+                });
+
+                const downloadURL = await getDownloadURL(sRef);
+                await updateDoc(docRef, { storagePath: path, downloadURL });
+
+                closeModal(DOMElements.documentModal);
+                DOMElements.documentForm.reset();
+                setUploadProgress(0);
+            } catch (error) {
+                console.error("Upload failed:", error);
+                showError(DOMElements.documentFormError, "Failed to upload document. Please try again.");
+            } finally {
+                setButtonLoading(DOMElements.saveDocumentButton, false, CONSTANTS.UPLOAD_DOCUMENT_TEXT);
+            }
+        }
+
+        async function handleDocumentDelete(documentId) {
+            const onConfirm = async () => {
+                try {
+                    const dRef = doc(db, 'documents', documentId);
+                    const snap = await getDoc(dRef);
+                    const data = snap.data();
+                    if (data?.storagePath) {
+                        try { await deleteObject(storageRef(storage, data.storagePath)); } catch (e) { console.warn('Storage delete failed', e); }
+                    }
+                    await deleteDoc(dRef);
+                } catch (error) {
+                    console.error("Error deleting document:", error);
+                    showConfirmation("Error", "Failed to delete document.", () => { }, true);
+                }
+            };
+            showConfirmation("Delete Document?", "This will permanently delete this document. This cannot be undone.", onConfirm);
+        }
+
+        async function handleDocumentDownload(documentId) {
+            try {
+                const docSnap = await getDoc(doc(db, 'documents', documentId));
+                const data = docSnap.data();
+                if (data?.downloadURL) { window.open(data.downloadURL, '_blank', 'noopener'); }
+                else { throw new Error('No download URL available.'); }
+            } catch (error) {
+                console.error("Download failed:", error);
+                showConfirmation("Error", "Unable to download this document.", () => { }, true);
+            }
+        }
+
+        async function handleEventFormSubmit(e) {
+            e.preventDefault();
+            setButtonLoading(DOMElements.saveEventButton, true, CONSTANTS.SAVE_EVENT_TEXT);
+            hideError(DOMElements.eventFormError);
+            const eventId = $('#event-id-input').value.trim();
+            const eventData = {
+                title: $('#event-title-input').value.trim(),
+                date: Timestamp.fromDate(new Date($('#event-date-input').value)),
+                caseId: $('#event-case-select').value || null,
+                description: $('#event-description-input').value.trim(),
+                userId: currentUserId
+            };
+            if (!eventData.title || !$('#event-date-input').value) {
+                showError(DOMElements.eventFormError, "Title and Date are required.");
+                setButtonLoading(DOMElements.saveEventButton, false, CONSTANTS.SAVE_EVENT_TEXT);
+                return;
+            }
+            try {
+                if (eventId) {
+                    await updateDoc(doc(db, 'events', eventId), eventData);
+                } else {
+                    await addDoc(collection(db, 'events'), eventData);
+                }
+                closeModal(DOMElements.eventModal);
+            } catch (error) {
+                console.error("Error saving event:", error);
+                showError(DOMElements.eventFormError, "Failed to save event.");
+            } finally {
+                setButtonLoading(DOMElements.saveEventButton, false, CONSTANTS.SAVE_EVENT_TEXT);
+            }
+        }
+
+        // --- UI & RENDERING ---
+        function initUI() { initSidebar(); initRouter(); }
+
+        function initSidebar() { const toggle = () => { DOMElements.sidebar.classList.toggle('-translate-x-full'); DOMElements.overlay.classList.toggle('hidden'); }; $('#menu-toggle').addEventListener('click', toggle); $('#close-sidebar').addEventListener('click', toggle); DOMElements.overlay.addEventListener('click', toggle); }
+        function initRouter() {
+            const route = () => {
+                const [path, id] = window.location.hash.substring(1).split('/');
+                const targetId = path || 'dashboard';
+                $$('.content-section').forEach(s => s.classList.toggle('hidden', s.id !== targetId));
+                $$('.sidebar-link').forEach(l => l.classList.toggle('active', l.dataset.target === targetId));
+
+                if (targetId === 'case-view' && id) renderCaseViewPage(id);
+                else if (targetId === 'case-edit') renderCaseEditPage(id || 'new');
+
+                if (window.innerWidth < 1024 && !DOMElements.sidebar.classList.contains('-translate-x-full')) {
+                    DOMElements.sidebar.classList.add('-translate-x-full'); DOMElements.overlay.classList.add('hidden');
+                }
+                window.scrollTo(0, 0);
+            };
+            window.addEventListener('hashchange', route);
+            route(); // Initial route call
+        }
+
+        function updateUserInfoUI(name, email, photoURL) {
+            const avatar = photoURL || CONSTANTS.DEFAULT_AVATAR_SVG;
+            DOMElements.welcomeMessage.textContent = `Welcome back, ${name.split(' ')[0]}! 👋`;
+            DOMElements.userNameDisplay.textContent = name;
+            DOMElements.userNameDisplay.classList.remove('anim-pulse', 'bg-gray-200', 'w-24', 'h-4');
+            DOMElements.userEmailDisplay.textContent = email;
+            DOMElements.userAvatarDisplay.src = avatar;
+            DOMElements.userAvatarButton.src = avatar;
+            DOMElements.dropdownUserName.textContent = name;
+            DOMElements.dropdownUserEmail.textContent = email;
+            DOMElements.profileNameInput.value = name;
+            DOMElements.profileEmailInput.value = email;
+        }
+
+        function updateStatsAndCounts() {
+            $('#total-clients-stat').textContent = clientsMap.size;
+            $('#total-cases-stat').textContent = casesMap.size;
+            $('#active-cases-stat').textContent = [...casesMap.values()].filter(c => c.status !== 'Closed').length;
+            $('#total-docs-stat').textContent = documentsMap.size;
+            // Update sidebar counts
+            $('#sidebar-case-count').textContent = casesMap.size;
+            $('#sidebar-client-count').textContent = clientsMap.size;
+        }
+
+        function renderRecentActivity(recentCases) {
+            const listEl = $('#recent-activity-list');
+            listEl.innerHTML = '';
+            if (recentCases.length === 0) { listEl.innerHTML = `<div class="text-center py-8 text-gray-500">No recent activity.</div>`; return; }
+            const fragment = document.createDocumentFragment();
+            recentCases.forEach(caseData => {
+                const clientName = clientsMap.get(caseData.clientId)?.name || 'Unknown Client';
+                const item = document.createElement('a');
+                item.href = `#case-view/${caseData.id}`;
+                item.className = 'flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors';
+                item.innerHTML = `<div><p class="font-medium text-gray-800">${escapeHTML(caseData.caseName)}</p><p class="text-sm text-gray-500">Client: ${escapeHTML(clientName)}</p></div><div class="text-right"><p class="text-sm text-gray-500">${formatDate(caseData.updatedAt)}</p><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(caseData.status)}">${caseData.status}</span></div>`;
+                fragment.appendChild(item);
+            });
+            listEl.appendChild(fragment);
+        }
+
+        function renderClientsTable() {
+            if (!initialDataLoaded.clients) { renderTableSkeleton(DOMElements.clientsTableBody, 4, 5); return; }
+            if (DOMElements.clientsTableContainer.querySelector('#empty-state')) DOMElements.clientsTableContainer.querySelector('#empty-state').remove();
+            if (clientsMap.size === 0) { renderEmptyState(DOMElements.clientsTableContainer, DOMElements.clientsTableBody, "No Clients Found", "Get started by adding your first client.", "add-client-button"); return; }
+            const fragment = document.createDocumentFragment();
+            [...clientsMap.values()].sort((a, b) => a.name.localeCompare(b.name)).forEach(client => {
+                const activeCasesCount = [...casesMap.values()].filter(c => c.clientId === client.id && c.status !== 'Closed').length;
+                const row = document.createElement('tr');
+                row.className = "hover:bg-gray-50";
+                row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center"><div class="h-10 w-10 flex-shrink-0"><span class="h-10 w-10 rounded-full bg-sky-100 flex items-center justify-center"><span class="text-sky-800 font-medium">${escapeHTML(client.name.charAt(0).toUpperCase())}</span></span></div><div class="ml-4"><div class="text-sm font-medium text-gray-900">${escapeHTML(client.name)}</div><div class="text-sm text-gray-500">${escapeHTML(client.email)}</div></div></div></td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${escapeHTML(client.type)}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${activeCasesCount} Active</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button class="text-sky-600 hover:text-sky-900 edit-client-btn" data-id="${client.id}">Edit</button><button class="text-red-600 hover:text-red-900 ml-4 delete-client-btn" data-id="${client.id}">Delete</button></td>`;
+                fragment.appendChild(row);
+            });
+            DOMElements.clientsTableBody.innerHTML = '';
+            DOMElements.clientsTableBody.appendChild(fragment);
+        }
+
+        function renderCasesTable() {
+            if (!initialDataLoaded.cases) { renderTableSkeleton(DOMElements.casesTableBody, 5, 5); return; }
+            if (DOMElements.casesTableContainer.querySelector('#empty-state')) DOMElements.casesTableContainer.querySelector('#empty-state').remove();
+            if (casesMap.size === 0) { renderEmptyState(DOMElements.casesTableContainer, DOMElements.casesTableBody, "No Case Files Found", "Add your first case file to see it here.", "add-case-button"); return; }
+            const fragment = document.createDocumentFragment();
+            [...casesMap.values()].forEach(caseData => {
+                const clientInfo = clientsMap.get(caseData.clientId) || { name: 'Unknown Client' };
+                const row = document.createElement('tr');
+                row.className = "hover:bg-gray-50";
+                row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">${escapeHTML(caseData.caseName)}</div><div class="text-sm text-gray-500 max-w-xs truncate">${escapeHTML(caseData.description || 'No description')}</div></td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${escapeHTML(clientInfo.name)}</td><td class="px-6 py-4 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(caseData.status)}">${caseData.status}</span></td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(caseData.updatedAt)}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><a href="#case-view/${caseData.id}" class="text-sky-600 hover:text-sky-900">View</a></td>`;
+                fragment.appendChild(row);
+            });
+            DOMElements.casesTableBody.innerHTML = '';
+            DOMElements.casesTableBody.appendChild(fragment);
+        }
+
+        function renderDocumentsTable() {
+            if (!initialDataLoaded.documents) { renderTableSkeleton(DOMElements.documentsTableBody, 6, 5); return; }
+            if (DOMElements.documentsTableContainer.querySelector('#empty-state')) DOMElements.documentsTableContainer.querySelector('#empty-state').remove();
+
+            const docs = [...documentsMap.values()]
+                .filter(d => documentsFilter.caseId === 'all' || d.caseId === documentsFilter.caseId)
+                .filter(d => {
+                    const q = documentsFilter.search.toLowerCase().trim();
+                    if (!q) return true;
+                    return (d.name || '').toLowerCase().includes(q) || (d.contentType || '').toLowerCase().includes(q);
+                });
+
+            if (docs.length === 0) {
+                renderEmptyState(DOMElements.documentsTableContainer, DOMElements.documentsTableBody, "No Documents Found", "Upload your first document to see it listed here.", "add-document-button");
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+            docs.forEach(d => {
+                const caseName = casesMap.get(d.caseId)?.caseName || 'Unlinked';
+                const row = document.createElement('tr');
+                row.className = "hover:bg-gray-50";
+                row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center"><div class="h-10 w-10 flex-shrink-0"><span class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">${fileTypeIcon(d.contentType)}</span></div><div class="ml-4"><div class="text-sm font-medium text-gray-900">${escapeHTML(d.name || 'Untitled')}</div><div class="text-xs text-gray-500">${escapeHTML(d.storagePath || '')}</div></div></div></td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${escapeHTML(caseName)}</td><td class="px-6 py-4 whitespace-nowrap"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${typeBadgeClass(d.contentType)}">${escapeHTML(shortType(d.contentType))}</span></td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatBytes(d.size)}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(d.uploadedAt)}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button class="text-purple-600 hover:text-purple-900 mr-4 download-document-btn" data-id="${d.id}">Download</button><button class="text-red-600 hover:text-red-900 delete-document-btn" data-id="${d.id}">Delete</button></td>`;
+                fragment.appendChild(row);
+            });
+            DOMElements.documentsTableBody.innerHTML = '';
+            DOMElements.documentsTableBody.appendChild(fragment);
+        }
+
+        function renderCaseViewPage(caseId) {
+            const caseData = casesMap.get(caseId);
+            if (!caseData) { window.location.hash = '#cases'; return; }
+
+            const client = clientsMap.get(caseData.clientId);
+            const clientName = client ? client.name : "Unknown Client";
+
+            $('#case-breadcrumb-name').textContent = caseData.caseName;
+            $('#case-view-title').textContent = caseData.caseName;
+            $('#case-view-client').textContent = clientName;
+            $('#case-edit-link').href = `#case-edit/${caseId}`;
+
+            const deleteBtn = $('#case-delete-button');
+            deleteBtn.onclick = () => handleCaseDelete(caseId);
+
+            $('#case-view-status').innerHTML = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(caseData.status)}">${caseData.status}</span>`;
+            $('#case-view-client-chip').textContent = clientName;
+            $('#case-view-created').textContent = formatDate(caseData.createdAt);
+            $('#case-view-updated').textContent = formatDate(caseData.updatedAt);
+
+            const desc = caseData.description || '';
+            $('#case-description-length').textContent = `${desc.length} characters`;
+            $('#case-view-description').innerHTML = renderRichContent(desc);
+
+            // Populate associated documents
+            const associatedDocs = [...documentsMap.values()].filter(d => d.caseId === caseId);
+            const docsList = $('#case-associated-documents');
+            docsList.innerHTML = '';
+            if (associatedDocs.length === 0) {
+                docsList.innerHTML = '<li class="text-gray-500">No documents associated yet.</li>';
+            } else {
+                associatedDocs.forEach(d => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${d.downloadURL}" target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:text-sky-800">${escapeHTML(d.name)}</a> (${shortType(d.contentType)}, ${formatBytes(d.size)})`;
+                    docsList.appendChild(li);
+                });
+            }
+
+            // Set up upload button for this case
+            $('#upload-for-case-button').onclick = () => {
+                DOMElements.documentForm.reset();
+                populateDocumentCaseSelect(caseId);
+                setUploadProgress(0);
+                hideError(DOMElements.documentFormError);
+                openModal(DOMElements.documentModal);
+            };
+        }
+
+        function renderCaseEditPage(caseId) {
+            DOMElements.caseEditForm.reset();
+            hideError(DOMElements.caseEditError);
+            populateClientDropdownForEdit();
+
+            const isNew = caseId === 'new';
+            $('#case-edit-id').value = isNew ? '' : caseId;
+
+            $('#case-edit-title').textContent = isNew ? 'Add New Case File' : 'Edit Case File';
+            $('#case-edit-breadcrumb-action').textContent = isNew ? 'Add' : 'Edit';
+            $('#case-edit-cancel').href = isNew ? '#cases' : `#case-view/${caseId}`;
+            $('#case-edit-breadcrumb-case').classList.toggle('hidden', isNew);
+            $('#case-edit-breadcrumb-slash').classList.toggle('hidden', isNew);
+
+            if (!isNew) {
+                const caseData = casesMap.get(caseId);
+                if (!caseData) { window.location.hash = '#cases'; return; }
+                $('#case-edit-breadcrumb-case').textContent = caseData.caseName;
+                $('#case-edit-breadcrumb-case').href = `#case-view/${caseId}`;
+                $('#case-edit-name').value = caseData.caseName;
+                $('#case-edit-client').value = caseData.clientId;
+                $('#case-edit-status').value = caseData.status;
+                $('#case-edit-description').value = caseData.description || '';
+            }
+            // Trigger initial preview render
+            DOMElements.caseEditDescription.dispatchEvent(new Event('input'));
+        }
+
+        function renderCalendar() {
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            DOMElements.calendarMonth.textContent = currentCalendarDate.toLocaleString('default', { month: 'long' }) + ' ' + year;
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            DOMElements.calendarGrid.innerHTML = '';
+            // Add empty cells
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'bg-white p-2';
+                DOMElements.calendarGrid.appendChild(empty);
+            }
+            // Group events by date
+            const eventsByDate = {};
+            eventsMap.forEach(event => {
+                const dateStr = event.date.toDate().toDateString();
+                if (!eventsByDate[dateStr]) eventsByDate[dateStr] = [];
+                eventsByDate[dateStr].push(event);
+            });
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const dateStr = date.toDateString();
+                const dayEvents = eventsByDate[dateStr] || [];
+                const cell = document.createElement('div');
+                cell.className = 'bg-white p-2 min-h-[80px] relative hover:bg-gray-50 cursor-pointer';
+                cell.dataset.date = date.toISOString().split('T')[0];
+                cell.innerHTML = `<span class="absolute top-1 right-2 text-sm font-medium ${date.getDate() === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear() ? 'bg-sky-100 text-sky-800 rounded-full px-2' : 'text-gray-800'}">${day}</span>`;
+                if (dayEvents.length > 0) {
+                    const dots = document.createElement('div');
+                    dots.className = 'flex justify-start mt-6';
+                    const maxDots = Math.min(dayEvents.length, 3);
+                    for (let i = 0; i < maxDots; i++) {
+                        dots.innerHTML += '<span class="h-2 w-2 rounded-full bg-sky-500 mr-1"></span>';
+                    }
+                    if (dayEvents.length > 3) {
+                        dots.innerHTML += `<span class="text-xs text-gray-500">+${dayEvents.length - 3}</span>`;
+                    }
+                    cell.appendChild(dots);
+                }
+                DOMElements.calendarGrid.appendChild(cell);
+            }
+        }
+
+        function renderUpcomingEvents() {
+            const list = DOMElements.upcomingEventsList;
+            list.innerHTML = '';
+            const now = new Date();
+            const upcoming = [...eventsMap.values()].filter(e => e.date.toDate() >= now).sort((a, b) => a.date.seconds - b.date.seconds);
+            if (upcoming.length === 0) {
+                list.innerHTML = '<p class="text-center text-gray-500">No upcoming events.</p>';
+                return;
+            }
+            upcoming.forEach(event => {
+                const caseName = event.caseId ? casesMap.get(event.caseId)?.caseName || 'Unknown' : 'None';
+                const item = document.createElement('div');
+                item.className = 'border-b pb-4 last:border-0';
+                item.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-medium text-gray-800">${escapeHTML(event.title)}</p>
+                            <p class="text-sm text-gray-500">${formatDate(event.date)}</p>
+                            <p class="text-sm text-gray-500">Case: ${escapeHTML(caseName)}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="text-sky-600 hover:text-sky-900 edit-event-btn" data-id="${event.id}">Edit</button>
+                            <button class="text-red-600 hover:text-red-900 delete-event-btn" data-id="${event.id}">Delete</button>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-1">${escapeHTML(event.description || 'No description')}</p>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // --- MODAL & UI HELPERS ---
+        function openModal(modalEl) { modalEl.classList.remove('hidden'); setTimeout(() => { modalEl.firstElementChild.classList.remove('scale-95', 'opacity-0'); modalEl.classList.remove('opacity-0'); }, 10); }
+        function closeModal(modalEl) { modalEl.firstElementChild.classList.add('scale-95', 'opacity-0'); modalEl.classList.add('opacity-0'); setTimeout(() => { modalEl.classList.add('hidden'); }, 300); }
+        function showConfirmation(title, message, onConfirm, isError = false) { DOMElements.confirmationTitle.textContent = title; DOMElements.confirmationMessage.innerHTML = message; DOMElements.confirmationConfirmBtn.className = isError ? 'px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700' : 'px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700'; DOMElements.confirmationConfirmBtn.textContent = isError ? 'OK' : 'Confirm'; openModal(DOMElements.confirmationModal); const confirmHandler = () => { onConfirm(); closeModal(DOMElements.confirmationModal); cleanup(); }; const cancelHandler = () => { closeModal(DOMElements.confirmationModal); cleanup(); }; const cleanup = () => { DOMElements.confirmationConfirmBtn.removeEventListener('click', confirmHandler); $('#confirmation-cancel-btn').removeEventListener('click', cancelHandler); }; DOMElements.confirmationConfirmBtn.addEventListener('click', confirmHandler, { once: true }); $('#confirmation-cancel-btn').addEventListener('click', cancelHandler, { once: true }); }
+        function showError(el, msg) { el.textContent = msg; el.classList.remove('hidden'); }
+        function hideError(el) { el.textContent = ''; el.classList.add('hidden'); }
+        function getStatusClass(s) { const c = { 'Open': 'bg-green-100 text-green-800', 'In Progress': 'bg-yellow-100 text-yellow-800', 'On Hold': 'bg-gray-200 text-gray-800', 'Closed': 'bg-sky-100 text-sky-800' }; return c[s] || 'bg-gray-100 text-gray-800'; }
+        function setButtonLoading(btn, isLoading, defaultText) { btn.disabled = isLoading; btn.innerHTML = isLoading ? `${CONSTANTS.SPINNER_SVG} Processing...` : defaultText; }
+        function setUploadProgress(percent) { DOMElements.documentUploadProgress.style.width = `${percent}%`; }
+        function renderEmptyState(container, tbody, title, subtitle, buttonId) { tbody.innerHTML = ''; if (container.querySelector('#empty-state')) container.querySelector('#empty-state').remove(); container.insertAdjacentHTML('beforeend', `<div id="empty-state" class="text-center py-16 px-6"><svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg><h3 class="mt-2 text-lg font-medium text-gray-900">${title}</h3><p class="mt-1 text-sm text-gray-500">${subtitle}</p><div class="mt-6"><button type="button" data-trigger="${buttonId}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white ${buttonId.includes('document') ? 'bg-purple-600 hover:bg-purple-700' : 'bg-sky-600 hover:bg-sky-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 empty-state-btn">+ Add New</button></div></div>`); }
+        function renderTableSkeleton(tbody, cols, rows) { tbody.innerHTML = Array.from({ length: rows }, () => `<tr class="skeleton-row">${Array.from({ length: cols }, () => `<td class="px-6 py-4"><div class="skeleton loading-skeleton"></div><div class="skeleton-sm loading-skeleton"></div></td>`).join('')}</tr>`).join(''); }
+        function renderTableError(tbody, colspan, message) { tbody.innerHTML = `<tr><td colspan="${colspan}" class="text-center py-16 px-6"><div class="flex flex-col items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><h3 class="mt-2 text-lg font-medium text-gray-900">An Error Occurred</h3><p class="mt-1 text-sm text-gray-500">${message}</p><p class="mt-2 text-xs text-gray-400">This may be due to a missing database index or network issue. See console for details.</p></div></td></tr>`; }
+        function populateClientDropdownForEdit(selectedId = null) { const selectEl = $('#case-edit-client'); selectEl.innerHTML = '<option value="">Select a client...</option>'; if (clientsMap.size === 0) { selectEl.innerHTML += '<option value="" disabled>No clients. Add a client first.</option>'; return; } [...clientsMap.values()].sort((a, b) => a.name.localeCompare(b.name)).forEach(client => { selectEl.innerHTML += `<option value="${client.id}" ${client.id === selectedId ? 'selected' : ''}>${escapeHTML(client.name)}</option>`; }); }
+        function populateDocumentCaseFilter() { const current = DOMElements.documentsFilterCase.value || 'all'; DOMElements.documentsFilterCase.innerHTML = `<option value="all">All cases</option>`;[...casesMap.values()].sort((a, b) => a.caseName.localeCompare(b.caseName)).forEach(c => DOMElements.documentsFilterCase.insertAdjacentHTML('beforeend', `<option value="${c.id}">${escapeHTML(c.caseName)}</option>`)); DOMElements.documentsFilterCase.value = current; }
+        function populateDocumentCaseSelect(selectedId = '') { DOMElements.documentCaseSelect.innerHTML = '<option value="">Select a case...</option>'; if (casesMap.size === 0) { DOMElements.documentCaseSelect.insertAdjacentHTML('beforeend', '<option value="" disabled>No cases. Add a case first.</option>'); return; } [...casesMap.values()].sort((a, b) => a.caseName.localeCompare(b.caseName)).forEach(c => DOMElements.documentCaseSelect.insertAdjacentHTML('beforeend', `<option value="${c.id}" ${c.id === selectedId ? 'selected' : ''}>${escapeHTML(c.caseName)}</option>`)); DOMElements.documentCaseSelect.value = selectedId || ''; }
+        function populateEventCaseSelect(selected = '') {
+            const select = $('#event-case-select');
+            select.innerHTML = '<option value="">None</option>';
+            [...casesMap.values()].sort((a, b) => a.caseName.localeCompare(b.caseName)).forEach(c => {
+                select.innerHTML += `<option value="${c.id}" ${c.id === selected ? 'selected' : ''}>${escapeHTML(c.caseName)}</option>`;
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+        function initEventListeners() {
+            $('#logout-button').addEventListener('click', handleLogout);
+            DOMElements.clientForm.addEventListener('submit', handleClientFormSubmit);
+            DOMElements.caseEditForm.addEventListener('submit', handleCaseEditFormSubmit);
+            DOMElements.profileForm.addEventListener('submit', handleProfileFormSubmit);
+            DOMElements.documentForm.addEventListener('submit', handleDocumentFormSubmit);
+            DOMElements.eventForm.addEventListener('submit', handleEventFormSubmit);
+            DOMElements.billingSettingsForm.addEventListener('submit', handleBillingSettingsFormSubmit);
+
+            $('#add-client-button').addEventListener('click', () => { DOMElements.clientForm.reset(); $('#client-modal-title').textContent = "Add New Client"; $('#client-id-input').value = ""; hideError(DOMElements.clientFormError); openModal(DOMElements.clientModal); });
+
+            DOMElements.addDocumentButton.addEventListener('click', () => {
+                DOMElements.documentForm.reset();
+                populateDocumentCaseSelect();
+                setUploadProgress(0);
+                hideError(DOMElements.documentFormError);
+                openModal(DOMElements.documentModal);
+            });
+            DOMElements.documentsFilterCase.addEventListener('change', (e) => { documentsFilter.caseId = e.target.value; renderDocumentsTable(); });
+            DOMElements.documentsSearch.addEventListener('input', (e) => { documentsFilter.search = e.target.value; renderDocumentsTable(); });
+
+            $('#user-dropdown-toggle').addEventListener('click', () => DOMElements.userDropdownMenu.classList.toggle('hidden'));
+
+            DOMElements.caseEditDescription.addEventListener('input', e => {
+                const text = e.target.value;
+                DOMElements.caseEditPreview.innerHTML = renderRichContent(text);
+                DOMElements.caseEditPreviewLength.textContent = `${text.length} characters`;
+            });
+
+            DOMElements.addEventButton.addEventListener('click', () => { DOMElements.eventForm.reset(); $('#event-modal-title').textContent = "Add New Event"; $('#event-id-input').value = ""; populateEventCaseSelect(); hideError(DOMElements.eventFormError); $('#event-date-input').value = new Date().toISOString().split('T')[0]; openModal(DOMElements.eventModal); });
+
+            DOMElements.calendarPrev.addEventListener('click', () => {
+                currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+                renderCalendar();
+            });
+
+            DOMElements.calendarNext.addEventListener('click', () => {
+                currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+                renderCalendar();
+            });
+
+            document.body.addEventListener('click', e => {
+                const target = e.target;
+
+                if (!target.closest('#user-dropdown-toggle') && !target.closest('#user-dropdown-menu')) DOMElements.userDropdownMenu.classList.add('hidden');
+
+                const modal = target.closest('.modal');
+                if (target.dataset.role === 'cancel' && modal) {
+                    if (modal.id === 'client-modal' && $('#client-id-input').value) {
+                        if (initialClientFormData !== JSON.stringify(getClientFormData())) { showConfirmation('Discard Changes?', 'You have unsaved changes. Are you sure?', () => closeModal(modal));return; }
+                    }
+                    closeModal(modal);
+                }
+                if (target.dataset.role === 'modal-backdrop') closeModal(modal);
+                if (target.matches('.empty-state-btn')) {
+                    const triggerId = target.dataset.trigger;
+                    if (triggerId === 'add-case-button') window.location.hash = '#case-edit/new';
+                    else $(`#${triggerId}`).click();
+                }
+
+                const clientBtn = target.closest('.edit-client-btn, .delete-client-btn');
+                if (clientBtn && DOMElements.clientsTableBody.contains(clientBtn)) {
+                    const id = clientBtn.dataset.id;
+                    if (clientBtn.classList.contains('edit-client-btn')) {
+                        const client = clientsMap.get(id); $('#client-modal-title').textContent = "Edit Client"; $('#client-id-input').value = id;
+                        $('#client-name-input').value = client.name; $('#client-email-input').value = client.email; $('#client-type-select').value = client.type;
+                        hideError(DOMElements.clientFormError); initialClientFormData = JSON.stringify(getClientFormData()); openModal(DOMElements.clientModal);
+                    } else if (clientBtn.classList.contains('delete-client-btn')) { handleClientDelete(id); }
+                }
+
+                const docBtn = target.closest('.delete-document-btn, .download-document-btn');
+                if (docBtn && DOMElements.documentsTableBody.contains(docBtn)) {
+                    if (docBtn.classList.contains('delete-document-btn')) handleDocumentDelete(docBtn.dataset.id);
+                    if (docBtn.classList.contains('download-document-btn')) handleDocumentDownload(docBtn.dataset.id);
+                }
+
+                const eventBtn = target.closest('.edit-event-btn, .delete-event-btn');
+                if (eventBtn) {
+                    const id = eventBtn.dataset.id;
+                    if (eventBtn.classList.contains('edit-event-btn')) {
+                        const event = eventsMap.get(id);
+                        if (!event) return;
+                        $('#event-modal-title').textContent = "Edit Event";
+                        $('#event-id-input').value = id;
+                        $('#event-title-input').value = event.title;
+                        $('#event-date-input').value = event.date.toDate().toISOString().split('T')[0];
+                        $('#event-case-select').value = event.caseId || '';
+                        $('#event-description-input').value = event.description || '';
+                        populateEventCaseSelect(event.caseId);
+                        hideError(DOMElements.eventFormError);
+                        openModal(DOMElements.eventModal);
+                    } else if (eventBtn.classList.contains('delete-event-btn')) {
+                        showConfirmation("Delete Event?", "This will permanently delete the event.", async () => {
+                            try {
+                                await deleteDoc(doc(db, 'events', id));
+                            } catch (error) {
+                                console.error("Error deleting event:", error);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        // --- UTILITIES ---
+        function escapeHTML(str) { if (str == null) return ''; return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s])); }
+        function formatDate(ts) { try { if (!ts) return 'N/A'; return (ts.toDate ? ts.toDate() : new Date(ts)).toLocaleDateString(); } catch { return 'N/A'; } }
+        function formatBytes(bytes) { if (!bytes && bytes !== 0) return '—'; const s = ['B', 'KB', 'MB', 'GB', 'TB']; if (bytes === 0) return '0 B'; const i = Math.floor(Math.log(bytes) / Math.log(1024)); return `${(bytes / Math.pow(1024, i)).toFixed(i ? 1 : 0)} ${s[i]}`; }
+        function shortType(ct = '') { const [t, s] = ct.split('/'); if (t === 'application' && s) { if (s.includes('pdf')) return 'PDF'; if (s.includes('word')) return 'DOCX'; if (s.includes('spreadsheet')) return 'XLSX'; if (s.includes('zip')) return 'ZIP'; } return (t === 'image' || t === 'text') ? t.charAt(0).toUpperCase() + t.slice(1) : s ? s.toUpperCase() : t; }
+        function typeBadgeClass(ct = '') { if (ct.includes('pdf')) return 'bg-red-100 text-red-800'; if (ct.includes('word')) return 'bg-blue-100 text-blue-800'; if (ct.includes('spreadsheet')) return 'bg-green-100 text-green-800'; if (ct.startsWith('image/')) return 'bg-yellow-100 text-yellow-800'; return 'bg-purple-100 text-purple-800'; }
+        function fileTypeIcon(ct = '') { return `<span class="text-purple-700 text-xs font-bold">${escapeHTML(shortType(ct).slice(0, 3).toUpperCase())}</span>`; }
+        function renderRichContent(text = '') {
+            if (!text.trim()) return '<p class="text-gray-500">No description provided.</p>';
+
+            const linkRegex = /(https?:\/\/[^\s<]+)/g;
+            const linkify = (str) => str.replace(linkRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+
+            const lines = text.split('\n');
+            let html = '';
+            let inList = false;
+
+            lines.forEach(line => {
+                const trimmedLine = line.trim();
+
+                if (trimmedLine.startsWith('- ')) {
+                    if (!inList) { html += '<ul>'; inList = true; }
+                    html += `<li>${linkify(escapeHTML(trimmedLine.substring(2)))}</li>`;
+                } else {
+                    if (inList) { html += '</ul>'; inList = false; }
+
+                    if (trimmedLine.startsWith('## ')) {
+                        html += `<h4>${linkify(escapeHTML(trimmedLine.substring(3)))}</h4>`;
+                    } else if (trimmedLine.startsWith('# ')) {
+                        html += `<h3>${linkify(escapeHTML(trimmedLine.substring(2)))}</h3>`;
+                    } else if (trimmedLine) {
+                        html += `<p>${linkify(escapeHTML(trimmedLine))}</p>`;
+                    } else {
+                        html += '<br>';
+                    }
+                }
+            });
+
+            if (inList) html += '</ul>';
+            return html;
+        }
+
+        /**
+         * Initializes all functionality for the Time Tracking module.
+         * @param {object} dependencies - Shared resources from the main app.
+         */
+        function initTimeTracker(dependencies) {
+            const { db, auth, getCasesMap, getFirestoreModules } = dependencies;
+            const { collection, addDoc, onSnapshot, query, where, orderBy, deleteDoc, doc, serverTimestamp } = getFirestoreModules();
+            const userId = auth.currentUser.uid;
+
+            // --- State Variables ---
+            let timerInterval = null;
+            let startTime = 0;
+            let elapsedSeconds = 0;
+            let unsubscribeFromEntries = null;
+
+            // --- DOM Elements (scoped to the time tracker) ---
+            const timeTrackerElements = {
+                container: $('#time-tracking'),
+                caseSelect: $('#time-case-select'),
+                taskSelect: $('#time-activity-select'),
+                description: $('#time-description'),
+                display: $('#time-display'),
+                feedback: $('#time-feedback'),
+                startBtn: $('#time-start-btn'),
+                stopBtn: $('#time-stop-btn'),
+                saveBtn: $('#time-save-btn'),
+                entriesTableBody: $('#time-entries-table-body'),
+                todayTotalEl: $('#time-today-total span'),
+            };
+
+            // If elements aren't found, the view hasn't loaded. Exit gracefully.
+            if (!timeTrackerElements.container || !timeTrackerElements.startBtn) {
+                console.error("Time Tracker HTML not loaded or found, initialization aborted.");
+                return;
+            }
+
+            // --- Core Functions ---
+            const formatTime = (totalSeconds) => {
+                const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+                const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+                const seconds = Math.floor(totalSeconds % 60).toString().padStart(2, '0');
+                return `${hours}:${minutes}:${seconds}`;
+            };
+
+            const updateTimerDisplay = () => {
+                const currentElapsed = Math.floor((Date.now() - startTime) / 1000);
+                timeTrackerElements.display.textContent = formatTime(currentElapsed);
+            };
+
+            const resetTimer = () => {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                startTime = 0;
+                elapsedSeconds = 0;
+                timeTrackerElements.display.textContent = "00:00:00";
+                timeTrackerElements.startBtn.classList.remove('hidden');
+                timeTrackerElements.stopBtn.classList.add('hidden');
+                timeTrackerElements.saveBtn.disabled = true;
+                timeTrackerElements.feedback.textContent = '';
+                // Don't reset the form fields, user might want to start another timer for the same task
+            };
+
+            const startTimer = () => {
+                if (!timeTrackerElements.caseSelect.value || !timeTrackerElements.taskSelect.value) {
+                    timeTrackerElements.feedback.textContent = "Please select a case and task first.";
+                    return;
+                }
+                timeTrackerElements.feedback.textContent = "";
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimerDisplay, 1000);
+
+                timeTrackerElements.startBtn.classList.add('hidden');
+                timeTrackerElements.stopBtn.classList.remove('hidden');
+                timeTrackerElements.saveBtn.disabled = true;
+                [timeTrackerElements.caseSelect, timeTrackerElements.taskSelect, timeTrackerElements.description].forEach(el => el.disabled = true);
+            };
+
+            const stopTimer = () => {
+                elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                clearInterval(timerInterval);
+                timerInterval = null;
+
+                timeTrackerElements.stopBtn.classList.add('hidden');
+                // We don't show start button again until saved/reset
+                timeTrackerElements.saveBtn.disabled = false;
+                [timeTrackerElements.caseSelect, timeTrackerElements.taskSelect, timeTrackerElements.description].forEach(el => el.disabled = false);
+            };
+
+            const saveEntry = async () => {
+                if (elapsedSeconds < 1) {
+                    timeTrackerElements.feedback.textContent = "Timer was not run long enough to save.";
+                    return;
+                }
+
+                timeTrackerElements.saveBtn.disabled = true;
+                timeTrackerElements.saveBtn.textContent = 'Saving...';
+
+                try {
+                    await addDoc(collection(db, 'timeEntries'), {
+                        userId,
+                        caseId: timeTrackerElements.caseSelect.value,
+                        task: timeTrackerElements.taskSelect.value,
+                        description: timeTrackerElements.description.value.trim(),
+                        durationSeconds: elapsedSeconds,
+                        entryDate: serverTimestamp(),
+                    });
+                    // Reset form for next entry
+                    timeTrackerElements.description.value = '';
+                    resetTimer();
+                } catch (error) {
+                    console.error("Error saving time entry:", error);
+                    timeTrackerElements.feedback.textContent = "Failed to save entry.";
+                } finally {
+                    timeTrackerElements.saveBtn.textContent = 'Save Entry';
+                }
+            };
+
+            const deleteEntry = async (entryId) => {
+                if (confirm('Are you sure you want to delete this time entry?')) {
+                    try {
+                        await deleteDoc(doc(db, 'timeEntries', entryId));
+                    } catch (error) {
+                        console.error("Error deleting entry:", error);
+                        alert("Could not delete the entry.");
+                    }
+                }
+            };
+
+            // --- Rendering and Data Population ---
+            const populateCaseDropdown = (cases) => {
+                const select = timeTrackerElements.caseSelect;
+                select.innerHTML = '<option value="">Select a case...</option>'; // Clear existing
+                if (!cases || cases.size === 0) {
+                    select.innerHTML += '<option disabled>No cases found</option>';
+                    return;
+                }
+                const sortedCases = [...cases.values()].sort((a, b) => a.caseName.localeCompare(b.caseName));
+                sortedCases.forEach(caseData => {
+                    select.innerHTML += `<option value="${caseData.id}">${escapeHTML(caseData.caseName)}</option>`;
+                });
+            };
+
+            const renderEntries = (entries) => {
+                const tbody = timeTrackerElements.entriesTableBody;
+                const cases = getCasesMap();
+                tbody.innerHTML = ''; // Clear skeleton or old data
+
+                if (entries.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-gray-500">No time entries recorded yet.</td></tr>`;
+                    return;
+                }
+
+                let todaySeconds = 0;
+                const today = new Date().toDateString();
+
+                const fragment = document.createDocumentFragment();
+                entries.forEach(entry => {
+                    const caseName = cases.get(entry.caseId)?.caseName || 'Unknown Case';
+                    const entryDate = entry.entryDate?.toDate();
+
+                    if (entryDate && entryDate.toDateString() === today) {
+                        todaySeconds += entry.durationSeconds;
+                    }
+
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-gray-50";
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">${escapeHTML(caseName)}</div>
+                            <div class="text-sm text-gray-500 truncate max-w-xs">${escapeHTML(entry.description || 'No description')}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${escapeHTML(entry.task)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${formatTime(entry.durationSeconds)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${entryDate ? entryDate.toLocaleDateString() : 'N/A'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button class="text-red-600 hover:text-red-900 delete-time-entry-btn" data-id="${entry.id}">Delete</button>
+                        </td>
+                    `;
+                    fragment.appendChild(row);
+                });
+                tbody.appendChild(fragment);
+
+                // Update Today's Total
+                const totalHours = Math.floor(todaySeconds / 3600);
+                const totalMinutes = Math.floor((todaySeconds % 3600) / 60);
+                timeTrackerElements.todayTotalEl.textContent = `${totalHours}h ${totalMinutes}m`;
+            };
+
+            const listenForTimeEntries = () => {
+                if (unsubscribeFromEntries) unsubscribeFromEntries();
+                const q = query(collection(db, 'timeEntries'), where("userId", "==", userId), orderBy('entryDate', 'desc'));
+                unsubscribeFromEntries = onSnapshot(q, snapshot => {
+                    const entries = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderEntries(entries);
+                }, error => {
+                    console.error("Error fetching time entries:", error);
+                    timeTrackerElements.entriesTableBody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-red-600">Could not load time entries.</td></tr>`;
+                });
+            };
+
+            // --- Event Listeners ---
+            timeTrackerElements.startBtn.addEventListener('click', startTimer);
+            timeTrackerElements.stopBtn.addEventListener('click', stopTimer);
+            timeTrackerElements.saveBtn.addEventListener('click', saveEntry);
+
+            // Use event delegation for delete buttons
+            timeTrackerElements.container.addEventListener('click', (e) => {
+                if (e.target.matches('.delete-time-entry-btn')) {
+                    const entryId = e.target.dataset.id;
+                    deleteEntry(entryId);
+                }
+            });
+
+            // Listen for global case updates from the main app
+            window.addEventListener('casesUpdated', (e) => {
+                populateCaseDropdown(e.detail);
+            });
+
+            // --- Initialization ---
+            populateCaseDropdown(getCasesMap());
+            listenForTimeEntries();
+
+            console.log("Time Tracker Initialized.");
+        }
+
+    </script>
+</body>
+
+</html>
