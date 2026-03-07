@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vylex Writer</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="A clean, distraction-free writing tool by vylex IT. Create and save your notes with this minimal text editor featuring light/dark mode and word counting.">
+    <meta name="keywords"
+        content="Writer, text editor, vylex, Avuyile Mthembu, web tools, distraction-free writing, online notepad">
+    <meta name="author" content="Avuyile Mthembu">
+    <meta property="og:image" content="https://vylex.co.za/assets/Writer-preview.jpg">
+    <link rel="canonical" href="https://vylex.co.za/products/writer">
+
+    <!-- Open Graph / Social Media Tags -->
+    <meta property="og:title" content="Writer | vylex IT">
+    <meta property="og:description"
+        content="A clean, distraction-free writing tool developed by vylex IT. Features light/dark mode and word counting.">
+    <meta property="og:url" content="https://vylex.co.za/products/writer">
+    <meta name="twitter:image" content="https://vylex.co.za/assets/Writer-preview.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="vylex IT Solutions">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Writer | vylex IT">
+    <meta name="twitter:description" content="A clean, distraction-free writing tool by Avuyile Mthembu at vylex IT.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://vylex.co.za/writer">
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --editor-bg: #ffffff;
+            --border-color: #dee2e6;
+            --accent-color: #6c757d;
+            --hover-color: #495057;
+            --info-bg: #e9ecef;
+            --button-bg: #f8f9fa;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --logo-color: #0d6efd;
+            --toolbar-gap: 5px;
+            --header-height: 50px;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #212529;
+            --text-color: #f8f9fa;
+            --editor-bg: #343a40;
+            --border-color: #495057;
+            --accent-color: #adb5bd;
+            --hover-color: #ced4da;
+            --info-bg: #343a40;
+            --button-bg: #343a40;
+            --logo-color: #4d94ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--logo-color);
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            margin-right: 5px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: var(--logo-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: var(--info-bg);
+            border-bottom: 1px solid var(--border-color);
+            height: var(--header-height);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+        }
+
+        .header-left::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera */
+        }
+
+        .toolbar {
+            display: flex;
+            padding: 8px 12px;
+            background-color: var(--info-bg);
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: var(--toolbar-gap);
+            position: sticky;
+            top: var(--header-height);
+            z-index: 99;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .toolbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .toolbar-btn {
+            background: var(--button-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            touch-action: manipulation;
+        }
+
+        .toolbar-btn:hover {
+            background-color: var(--hover-color);
+            color: var(--text-color);
+        }
+
+        .toolbar-btn:active {
+            transform: scale(0.95);
+        }
+
+        .toolbar-select {
+            background: var(--button-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            max-width: 120px;
+            appearance: menulist;
+        }
+
+        .theme-toggle,
+        .action-btn {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .theme-toggle:hover,
+        .action-btn:hover {
+            color: var(--hover-color);
+            border-color: var(--border-color);
+        }
+
+        .action-btn i {
+            margin-right: 4px;
+        }
+
+        .word-counter {
+            color: var(--accent-color);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .container {
+            flex: 1;
+            padding: 10px;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        #editor {
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+            padding: 16px;
+            font-size: 16px;
+            line-height: 1.6;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--editor-bg);
+            color: var(--text-color);
+            outline: none;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #editor:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.2);
+        }
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+            text-align: center;
+            max-width: 90%;
+            word-wrap: break-word;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .alert.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .alert-success {
+            background-color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: var(--error-color);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 8px;
+            }
+
+            #editor {
+                padding: 12px;
+                font-size: 16px;
+                border-radius: 4px;
+            }
+
+            .toolbar {
+                padding: 6px 8px;
+                overflow-x: auto;
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .logo-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            .action-btn span {
+                display: none;
+            }
+
+            .action-btn i {
+                margin-right: 0;
+            }
+
+            .toolbar-btn {
+                padding: 8px;
+                min-width: 36px;
+                height: 36px;
+            }
+
+            .toolbar-select {
+                max-width: 90px;
+                font-size: 12px;
+            }
+
+            .theme-toggle,
+            .action-btn {
+                margin-left: 6px;
+                padding: 6px;
+            }
+
+            .header-left {
+                gap: 4px;
+            }
+
+            .word-counter {
+                font-size: 10px;
+                max-width: 120px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        /* Small mobile phones */
+        @media (max-width: 480px) {
+            .header {
+                padding: 6px 8px;
+            }
+
+            .toolbar {
+                gap: 4px;
+            }
+
+            #editor {
+                padding: 10px;
+                font-size: 15px;
+            }
+
+            .toolbar-btn {
+                min-width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+
+            .toolbar-select {
+                max-width: 80px;
+                padding: 4px 6px;
+            }
+        }
+
+        /* Fix for iOS Safari's 100vh bug */
+        @supports (-webkit-touch-callout: none) {
+
+            body,
+            .container {
+                height: -webkit-fill-available;
+            }
+        }
+
+        /* Support for notched devices */
+        @media screen and (orientation: portrait) {
+            .header {
+                padding-top: max(8px, env(safe-area-inset-top));
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, env(safe-area-inset-right));
+            }
+
+            .container {
+                padding-bottom: max(10px, env(safe-area-inset-bottom));
+                padding-left: max(10px, env(safe-area-inset-left));
+                padding-right: max(10px, env(safe-area-inset-right));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon">L</div>
+                <span>Writer</span>
+            </div>
+            <button class="action-btn" id="saveBtn"><i class="fas fa-save"></i> Save</button>
+            <button class="action-btn" id="exportPdfBtn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        </div>
+        <div class="header-right">
+            <div class="word-counter" id="wordCounter">0 words, 0 characters</div>
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <button class="toolbar-btn" id="boldBtn"><i class="fas fa-bold"></i></button>
+        <button class="toolbar-btn" id="italicBtn"><i class="fas fa-italic"></i></button>
+        <button class="toolbar-btn" id="underlineBtn"><i class="fas fa-underline"></i></button>
+        <button class="toolbar-btn" id="strikeBtn"><i class="fas fa-strikethrough"></i></button>
+        <button class="toolbar-btn" id="alignLeftBtn"><i class="fas fa-align-left"></i></button>
+        <button class="toolbar-btn" id="alignCenterBtn"><i class="fas fa-align-center"></i></button>
+        <button class="toolbar-btn" id="alignRightBtn"><i class="fas fa-align-right"></i></button>
+        <button class="toolbar-btn" id="listBtn"><i class="fas fa-list-ul"></i></button>
+        <button class="toolbar-btn" id="numberListBtn"><i class="fas fa-list-ol"></i></button>
+        <button class="toolbar-btn" id="linkBtn"><i class="fas fa-link"></i></button>
+        <button class="toolbar-btn" id="clearFormatBtn"><i class="fas fa-eraser"></i></button>
+
+        <select class="toolbar-select" id="fontFamily">
+            <option value="inherit">Font Family</option>
+            <option value="Arial">Arial</option>
+            <option value="Helvetica">Helvetica</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Verdana">Verdana</option>
+        </select>
+
+        <select class="toolbar-select" id="fontSize">
+            <option value="">Font Size</option>
+            <option value="1">Very Small</option>
+            <option value="2">Small</option>
+            <option value="3">Normal</option>
+            <option value="4">Medium</option>
+            <option value="5">Large</option>
+            <option value="6">Very Large</option>
+            <option value="7">Extra Large</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <div id="editor" contenteditable="true">Welcome to Writer! Start typing or use the formatting tools above.</div>
+    </div>
+
+    <div class="alert" id="alertMessage"></div>
+
+    <!-- Include html2pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const wordCounter = document.getElementById('wordCounter');
+        const themeToggle = document.getElementById('themeToggle');
+        const saveBtn = document.getElementById('saveBtn');
+        const exportPdfBtn = document.getElementById('exportPdfBtn');
+        const alertMessage = document.getElementById('alertMessage');
+        const storageKey = 'WriterContent';
+        const themeKey = 'WriterTheme';
+
+        // Load content and theme from local storage on page load
+        window.onload = () => {
+            // Load saved content
+            const savedContent = localStorage.getItem(storageKey);
+            if (savedContent) {
+                editor.innerHTML = savedContent;
+                updateWordCount();
+            }
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem(themeKey);
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        };
+
+        // Update word count
+        function updateWordCount() {
+            const text = editor.innerText || '';
+            const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            const charCount = text.length;
+            wordCounter.textContent = `${wordCount} words, ${charCount} characters`;
+        }
+
+        // Save content to local storage
+        editor.addEventListener('input', () => {
+            localStorage.setItem(storageKey, editor.innerHTML);
+            updateWordCount();
+        });
+
+        // Add click handler for Save button
+        saveBtn.addEventListener('click', () => {
+            localStorage.setItem(storageKey, editor.innerHTML);
+            showAlert('Document saved successfully!', 'success');
+        });
+
+        // Toggle theme
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem(themeKey, 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem(themeKey, 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
+        // Export to PDF
+        exportPdfBtn.addEventListener('click', () => {
+            const element = editor;
+            const opt = {
+                margin: [15, 15],
+                filename: 'Writer_document.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Generate PDF
+            html2pdf().from(element).set(opt).save()
+                .then(() => {
+                    showAlert('PDF exported successfully!', 'success');
+                })
+                .catch(err => {
+                    showAlert('Error exporting PDF. Please try again.', 'error');
+                    console.error('PDF export error:', err);
+                });
+        });
+
+        // Formatting functions
+        document.getElementById('boldBtn').addEventListener('click', () => {
+            document.execCommand('bold', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('italicBtn').addEventListener('click', () => {
+            document.execCommand('italic', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('underlineBtn').addEventListener('click', () => {
+            document.execCommand('underline', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('strikeBtn').addEventListener('click', () => {
+            document.execCommand('strikeThrough', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('alignLeftBtn').addEventListener('click', () => {
+            document.execCommand('justifyLeft', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('alignCenterBtn').addEventListener('click', () => {
+            document.execCommand('justifyCenter', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('alignRightBtn').addEventListener('click', () => {
+            document.execCommand('justifyRight', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('listBtn').addEventListener('click', () => {
+            document.execCommand('insertUnorderedList', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('numberListBtn').addEventListener('click', () => {
+            document.execCommand('insertOrderedList', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('linkBtn').addEventListener('click', () => {
+            const url = prompt('Enter URL:', 'https://');
+            if (url) {
+                document.execCommand('createLink', false, url);
+            }
+            editor.focus();
+        });
+
+        document.getElementById('clearFormatBtn').addEventListener('click', () => {
+            document.execCommand('removeFormat', false, null);
+            editor.focus();
+        });
+
+        document.getElementById('fontFamily').addEventListener('change', function () {
+            if (this.value !== 'inherit') {
+                document.execCommand('fontName', false, this.value);
+                editor.focus();
+            }
+        });
+
+        document.getElementById('fontSize').addEventListener('change', function () {
+            if (this.value) {
+                document.execCommand('fontSize', false, this.value);
+                editor.focus();
+            }
+        });
+
+        // Show alert message
+        function showAlert(message, type) {
+            alertMessage.textContent = message;
+            alertMessage.className = 'alert show alert-' + type;
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                alertMessage.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

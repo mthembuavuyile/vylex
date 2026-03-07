@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,27 +19,27 @@
             --text-light: #7f8c8d;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             color: var(--text);
             line-height: 1.6;
             background-color: #f9f9f9;
         }
-        
+
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         header {
             background-color: var(--primary);
             color: white;
@@ -48,44 +49,44 @@
             z-index: 1000;
             box-shadow: var(--shadow);
         }
-        
+
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
             display: flex;
             align-items: center;
         }
-        
+
         .logo span {
             color: var(--secondary);
         }
-        
+
         nav ul {
             display: flex;
             list-style: none;
         }
-        
+
         nav ul li {
             margin-left: 1.5rem;
         }
-        
+
         nav ul li a {
             color: white;
             text-decoration: none;
             transition: all 0.3s ease;
             font-weight: 500;
         }
-        
+
         nav ul li a:hover {
             color: var(--secondary);
         }
-        
+
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -94,25 +95,25 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
-        
+
         .hero {
             background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url("/api/placeholder/1200/500") center/cover;
             color: white;
             padding: 6rem 0;
             text-align: center;
         }
-        
+
         .hero h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
-        
+
         .hero p {
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto 2rem;
         }
-        
+
         .btn {
             display: inline-block;
             background-color: var(--secondary);
@@ -123,12 +124,12 @@
             font-weight: 600;
             transition: all 0.3s ease;
         }
-        
+
         .btn:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
         }
-        
+
         .whitepaper-nav {
             background-color: white;
             padding: 1rem 0;
@@ -137,22 +138,22 @@
             top: 68px;
             z-index: 900;
         }
-        
+
         .nav-links {
             display: flex;
             overflow-x: auto;
             padding-bottom: 5px;
         }
-        
+
         .nav-links::-webkit-scrollbar {
             height: 5px;
         }
-        
+
         .nav-links::-webkit-scrollbar-thumb {
             background-color: var(--secondary);
             border-radius: 10px;
         }
-        
+
         .nav-links a {
             padding: 0.5rem 1rem;
             white-space: nowrap;
@@ -161,20 +162,20 @@
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        
+
         .nav-links a:hover {
             color: var(--secondary);
         }
-        
+
         .nav-links a.active {
             color: var(--secondary);
             border-bottom: 2px solid var(--secondary);
         }
-        
+
         main {
             padding: 3rem 0;
         }
-        
+
         .section {
             background-color: white;
             border-radius: 8px;
@@ -182,157 +183,160 @@
             padding: 2rem;
             margin-bottom: 2rem;
         }
-        
+
         .section h2 {
             color: var(--primary);
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--light);
         }
-        
+
         .section h3 {
             color: var(--primary);
             margin: 1.5rem 0 1rem;
         }
-        
+
         .section p {
             margin-bottom: 1rem;
         }
-        
-        .section ul, .section ol {
+
+        .section ul,
+        .section ol {
             margin-bottom: 1rem;
             padding-left: 1.5rem;
         }
-        
+
         .section li {
             margin-bottom: 0.5rem;
         }
-        
+
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
-        
+
         .feature-card {
             background-color: var(--light);
             border-radius: 8px;
             padding: 1.5rem;
             transition: all 0.3s ease;
         }
-        
+
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow);
         }
-        
+
         .feature-card i {
             color: var(--secondary);
             font-size: 2rem;
             margin-bottom: 1rem;
         }
-        
+
         .feature-card h3 {
             margin-top: 0;
         }
-        
+
         .phase {
             background-color: var(--light);
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1rem;
         }
-        
+
         .phase h3 {
             color: var(--primary);
             margin-top: 0;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
         }
-        
-        table th, table td {
+
+        table th,
+        table td {
             padding: 0.75rem;
             text-align: left;
             border-bottom: 1px solid var(--light);
         }
-        
+
         table th {
             background-color: var(--light);
             color: var(--primary);
         }
-        
+
         .contact-form {
             margin-top: 2rem;
         }
-        
+
         .form-group {
             margin-bottom: 1.5rem;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
         }
-        
-        .form-group input, .form-group textarea {
+
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--light);
             border-radius: 4px;
             font-size: 1rem;
         }
-        
+
         .form-group textarea {
             height: 150px;
         }
-        
+
         footer {
             background-color: var(--primary);
             color: white;
             padding: 3rem 0;
         }
-        
+
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
-        
+
         .footer-column h3 {
             margin-bottom: 1.5rem;
             font-size: 1.2rem;
         }
-        
+
         .footer-column ul {
             list-style: none;
         }
-        
+
         .footer-column ul li {
             margin-bottom: 0.75rem;
         }
-        
+
         .footer-column a {
             color: #bdc3c7;
             text-decoration: none;
             transition: all 0.3s ease;
         }
-        
+
         .footer-column a:hover {
             color: var(--secondary);
         }
-        
+
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
         }
-        
+
         .social-links a {
             display: inline-block;
             width: 40px;
@@ -344,19 +348,19 @@
             justify-content: center;
             transition: all 0.3s ease;
         }
-        
+
         .social-links a:hover {
             background-color: var(--secondary);
             transform: translateY(-3px);
         }
-        
+
         .copyright {
             text-align: center;
             padding-top: 2rem;
             margin-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         @media (max-width: 768px) {
             nav ul {
                 display: none;
@@ -369,39 +373,40 @@
                 padding: 1rem 0;
                 box-shadow: var(--shadow);
             }
-            
+
             nav ul.active {
                 display: flex;
             }
-            
+
             nav ul li {
                 margin: 0;
             }
-            
+
             nav ul li a {
                 display: block;
                 padding: 0.75rem 2rem;
             }
-            
+
             .mobile-menu-btn {
                 display: block;
             }
-            
+
             .hero h1 {
                 font-size: 2rem;
             }
-            
+
             .feature-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="container header-content">
             <div class="logo">
-                <i class="fas fa-balance-scale mr-2"></i> 
+                <i class="fas fa-balance-scale mr-2"></i>
                 SINC<span>.</span>
             </div>
             <button class="mobile-menu-btn">
@@ -422,7 +427,8 @@
     <section class="hero">
         <div class="container">
             <h1>SINC - Smart Integrated Legal Systems</h1>
-            <p>South Africa's leading all-in-one legal technology platform designed to streamline operations, enhance productivity, and enable secure digital legal workflows.</p>
+            <p>South Africa's leading all-in-one legal technology platform designed to streamline operations, enhance
+                productivity, and enable secure digital legal workflows.</p>
             <a href="#overview" class="btn">Explore Whitepaper</a>
         </div>
     </section>
@@ -448,29 +454,37 @@
             <h2>1. Project Overview</h2>
             <p><strong>Project Name:</strong> SINC – Smart Legal Systems (SINC)</p>
             <p><strong>Project Type:</strong> SaaS (Software as a Service) Web Application (Legal Tech Platform)</p>
-            <p><strong>Vision:</strong> To become South Africa's leading all-in-one legal tech platform, streamlining legal practice by automating administrative processes, enhancing productivity, and enabling secure, digital legal operations for law firms of all sizes.</p>
+            <p><strong>Vision:</strong> To become South Africa's leading all-in-one legal tech platform, streamlining
+                legal practice by automating administrative processes, enhancing productivity, and enabling secure,
+                digital legal operations for law firms of all sizes.</p>
             <p><strong>Founder:</strong> Siphosethu Mkhwanazi</p>
             <p><strong>Location:</strong> Durban, South Africa</p>
-            <p><strong>Core Purpose:</strong> To provide a centralised, cloud-based platform for South African law firms that simplifies, digitises, and optimises everyday legal operations, saving time, improving efficiency, ensuring security, and integrating with essential systems like the High Court's CaseLines.</p>
+            <p><strong>Core Purpose:</strong> To provide a centralised, cloud-based platform for South African law firms
+                that simplifies, digitises, and optimises everyday legal operations, saving time, improving efficiency,
+                ensuring security, and integrating with essential systems like the High Court's CaseLines.</p>
         </section>
 
         <section id="problem" class="section">
             <h2>2. Problem Statement</h2>
             <p>South African law firms, particularly small to mid-sized ones, face significant challenges including:</p>
             <ul>
-                <li>Time-consuming manual administrative tasks (client onboarding, FICA/KYC, document management, scheduling, billing).</li>
+                <li>Time-consuming manual administrative tasks (client onboarding, FICA/KYC, document management,
+                    scheduling, billing).</li>
                 <li>Disorganised or misplaced physical case files.</li>
                 <li>Inefficient document creation, revision, and turnaround.</li>
                 <li>Use of fragmented, non-integrated systems.</li>
-                <li>Lack of affordable, locally tailored tools, especially those integrating with High Court systems (CaseLines).</li>
+                <li>Lack of affordable, locally tailored tools, especially those integrating with High Court systems
+                    (CaseLines).</li>
                 <li>Limited oversight on employee productivity and operational efficiency.</li>
             </ul>
         </section>
 
         <section id="solution" class="section">
             <h2>3. Proposed Solution: SINC Platform</h2>
-            <p>SINC is a cloud-based legal technology solution designed specifically for the South African legal market. It centralises firm operations, combining automation, Artificial Intelligence (AI), secure digital workflows, and compliance with local regulations.</p>
-            
+            <p>SINC is a cloud-based legal technology solution designed specifically for the South African legal market.
+                It centralises firm operations, combining automation, Artificial Intelligence (AI), secure digital
+                workflows, and compliance with local regulations.</p>
+
             <h3>Target Users:</h3>
             <ul>
                 <li>Attorneys</li>
@@ -483,96 +497,108 @@
 
         <section id="features" class="section">
             <h2>4. Core Features & Modules</h2>
-            
+
             <div class="feature-grid">
                 <div class="feature-card">
                     <i class="fas fa-tachometer-alt"></i>
                     <h3>Dashboard</h3>
-                    <p>Central hub displaying daily activities, deadlines, team performance, firm KPIs, and AI-driven insights ("Legal Pulse").</p>
+                    <p>Central hub displaying daily activities, deadlines, team performance, firm KPIs, and AI-driven
+                        insights ("Legal Pulse").</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-folder-open"></i>
                     <h3>Case Management Suite</h3>
-                    <p>Digital case folders with matter details, parties, status, notes, documents, calendar events, tasks, and time entries.</p>
+                    <p>Digital case folders with matter details, parties, status, notes, documents, calendar events,
+                        tasks, and time entries.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-users"></i>
                     <h3>Clients Database (CRM)</h3>
-                    <p>Manages client information, contact details, linked matters, billing profiles, FICA/mandate documents.</p>
+                    <p>Manages client information, contact details, linked matters, billing profiles, FICA/mandate
+                        documents.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-calendar-alt"></i>
                     <h3>Integrated Calendar</h3>
-                    <p>Shared calendar for case events, deadlines, meetings, with filtering, reminders, and sync capabilities.</p>
+                    <p>Shared calendar for case events, deadlines, meetings, with filtering, reminders, and sync
+                        capabilities.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-file-alt"></i>
                     <h3>Document Centre</h3>
-                    <p>Central repository with folder structures, drag-and-drop upload, version control, template library, and AI integration.</p>
+                    <p>Central repository with folder structures, drag-and-drop upload, version control, template
+                        library, and AI integration.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-tasks"></i>
                     <h3>Task Management</h3>
-                    <p>Assign, track, prioritise tasks linked to matters/users with due dates, status, and team views.</p>
+                    <p>Assign, track, prioritise tasks linked to matters/users with due dates, status, and team views.
+                    </p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-robot"></i>
                     <h3>AI Legal Assistant</h3>
                     <p>Tools for document summarisation, drafting, translating legalese, and basic legal research.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-clock"></i>
                     <h3>Time Tracking & Timesheets</h3>
-                    <p>Browser-based timer and manual entry for logging billable/non-billable hours linked to cases/tasks.</p>
+                    <p>Browser-based timer and manual entry for logging billable/non-billable hours linked to
+                        cases/tasks.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-chart-line"></i>
                     <h3>Analytics & Control Panel</h3>
                     <p>Insights on revenue, productivity, case turnaround, win/loss rates, billing efficiency.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-microphone"></i>
                     <h3>Transcription Tool</h3>
                     <p>Automatic speech-to-text conversion, identifying legal jargon, integrating with case files.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-gavel"></i>
                     <h3>High Court CaseLines Integration</h3>
                     <p>Preparing, formatting, and uploading court bundles/documents to the CaseLines system.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-user-clock"></i>
                     <h3>Employee Activity Monitoring</h3>
-                    <p>Oversight on team performance including clock-in/out, online status, task logs, and time per activity.</p>
+                    <p>Oversight on team performance including clock-in/out, online status, task logs, and time per
+                        activity.</p>
                 </div>
             </div>
         </section>
 
         <section id="development" class="section">
             <h2>5. Phased Development Plan</h2>
-            
+
             <div class="phase">
                 <h3>Phase 1 (MVP - Minimum Viable Product)</h3>
                 <ul>
-                    <li><strong>User Authentication:</strong> Secure Login/Signup, Role-based access (Admin, Attorney, Assistant).</li>
+                    <li><strong>User Authentication:</strong> Secure Login/Signup, Role-based access (Admin, Attorney,
+                        Assistant).</li>
                     <li><strong>Basic Dashboard:</strong> Welcome message, case/task summary, recent activity feed.</li>
-                    <li><strong>Core Case File Management:</strong> Upload (PDF, Word), basic tagging/organisation, search/sort functionality.</li>
-                    <li><strong>Basic AI Legal Assistant Integration:</strong> Document upload, AI-powered summary generation, basic document rephrasing/polishing.</li>
-                    <li><strong>Basic Employee Productivity Tracking:</strong> Check-in/out, manual task log, admin overview.</li>
+                    <li><strong>Core Case File Management:</strong> Upload (PDF, Word), basic tagging/organisation,
+                        search/sort functionality.</li>
+                    <li><strong>Basic AI Legal Assistant Integration:</strong> Document upload, AI-powered summary
+                        generation, basic document rephrasing/polishing.</li>
+                    <li><strong>Basic Employee Productivity Tracking:</strong> Check-in/out, manual task log, admin
+                        overview.</li>
                 </ul>
             </div>
-            
+
             <div class="phase">
                 <h3>Phase 2 & Beyond (Planned Features)</h3>
                 <ul>
@@ -593,10 +619,10 @@
 
         <section id="technology" class="section">
             <h2>6. Technical Specifications</h2>
-            
+
             <h3>Architecture:</h3>
             <p>Cloud-based SaaS application. Modular, scalable design.</p>
-            
+
             <h3>Frontend:</h3>
             <ul>
                 <li><strong>Framework:</strong> React with TypeScript (Preferred)</li>
@@ -604,30 +630,30 @@
                 <li><strong>Routing:</strong> React Router</li>
                 <li><strong>State Management:</strong> Context API or Redux</li>
             </ul>
-            
+
             <h3>Backend:</h3>
             <ul>
                 <li><strong>Option 1:</strong> Node.js with Express.js</li>
                 <li><strong>Option 2:</strong> Firebase / Supabase (BaaS - Backend as a Service for faster MVP)</li>
                 <li><strong>Option 3:</strong> PHP/Laravel (Mentioned as alternative)</li>
             </ul>
-            
+
             <h3>Database:</h3>
             <ul>
                 <li><strong>Option 1:</strong> PostgreSQL (Relational - Good for structured legal data)</li>
                 <li><strong>Option 2:</strong> MongoDB (NoSQL - Flexible schema, if needed)</li>
                 <li><strong>Option 3:</strong> Firebase Firestore / Supabase DB (If using BaaS)</li>
             </ul>
-            
+
             <h3>AI/ML Integration:</h3>
             <ul>
                 <li><strong>Legal Assistant:</strong> OpenAI API (GPT models)</li>
                 <li><strong>Transcription:</strong> Whisper AI API or similar commercial transcription API</li>
             </ul>
-            
+
             <h3>Authentication:</h3>
             <p>Firebase Authentication, Auth0, or custom implementation.</p>
-            
+
             <h3>Potential API Integrations:</h3>
             <ul>
                 <li><strong>Calendars:</strong> Google Calendar API, Microsoft Outlook Calendar API</li>
@@ -635,17 +661,18 @@
                 <li><strong>Communication:</strong> Twilio (for SMS/Email alerts)</li>
                 <li><strong>CaseLines:</strong> Direct API (if available) or develop specific export/upload tools</li>
             </ul>
-            
+
             <h3>Hosting:</h3>
             <p>AWS, Google Cloud, Azure, DigitalOcean, Vercel (depending on backend choice).</p>
         </section>
 
         <section id="considerations" class="section">
             <h2>7. Key Considerations</h2>
-            
+
             <h3>User Experience (UI/UX):</h3>
-            <p>Prioritise a simple, clean, intuitive interface requiring minimal training. Include features like drag-and-drop, clear navigation (persistent sidebar), and helpful prompts.</p>
-            
+            <p>Prioritise a simple, clean, intuitive interface requiring minimal training. Include features like
+                drag-and-drop, clear navigation (persistent sidebar), and helpful prompts.</p>
+
             <h3>Security:</h3>
             <p>Paramount due to sensitive legal data. Implement:</p>
             <ul>
@@ -654,7 +681,7 @@
                 <li>Role-based access control (RBAC) with granular permissions.</li>
                 <li>Regular security audits.</li>
             </ul>
-            
+
             <h3>Compliance:</h3>
             <p>Must strictly adhere to South African regulations:</p>
             <ul>
@@ -662,17 +689,18 @@
                 <li>Relevant Law Society rules and regulations.</li>
                 <li>Labor laws (regarding employee monitoring).</li>
             </ul>
-            
+
             <h3>Scalability:</h3>
-            <p>Design database schema and application architecture to handle growth in users, data volume, and feature complexity. Use modular components.</p>
-            
+            <p>Design database schema and application architecture to handle growth in users, data volume, and feature
+                complexity. Use modular components.</p>
+
             <h3>Data Handling:</h3>
             <p>Careful design for data related to employee monitoring, ensuring legal compliance and user privacy.</p>
         </section>
 
         <section id="team" class="section">
             <h2>8. Required Skills & Tools</h2>
-            
+
             <h3>Development Team Skills:</h3>
             <table>
                 <thead>
@@ -688,11 +716,13 @@
                     </tr>
                     <tr>
                         <td>Backend Development</td>
-                        <td>Node.js/Express OR Firebase/Supabase OR PHP/Laravel, API development, Database Management</td>
+                        <td>Node.js/Express OR Firebase/Supabase OR PHP/Laravel, API development, Database Management
+                        </td>
                     </tr>
                     <tr>
                         <td>AI/ML Integration</td>
-                        <td>Experience working with APIs like OpenAI, understanding prompt engineering for legal contexts</td>
+                        <td>Experience working with APIs like OpenAI, understanding prompt engineering for legal
+                            contexts</td>
                     </tr>
                     <tr>
                         <td>Cloud & DevOps</td>
@@ -720,7 +750,7 @@
                     </tr>
                 </tbody>
             </table>
-            
+
             <h3>Development Tools:</h3>
             <ul>
                 <li><strong>Code Editor:</strong> VS Code or similar IDE</li>
@@ -736,8 +766,9 @@
 
         <section id="contact" class="section">
             <h2>Contact Us</h2>
-            <p>Interested in learning more about SINC or want to get involved in the development of this innovative legal tech platform? Reach out to us using the form below.</p>
-            
+            <p>Interested in learning more about SINC or want to get involved in the development of this innovative
+                legal tech platform? Reach out to us using the form below.</p>
+
             <div class="contact-form">
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -765,7 +796,8 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>About SINC</h3>
-                    <p>SINC is a leading legal technology platform designed specifically for South African law firms, streamlining operations and enhancing productivity through innovative digital solutions.</p>
+                    <p>SINC is a leading legal technology platform designed specifically for South African law firms,
+                        streamlining operations and enhancing productivity through innovative digital solutions.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-linkedin"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -776,11 +808,12 @@
                 <div class="footer-column">
                     <h3>Quick Links</h3>
                     <ul>
-                        <li><a href="index.html">Home page</a></li>
-                        <li><a href="dashboard.html">Project Overview</a></li>
-                        <li><a href="#features">Core Features</a></li>
-                        <li><a href="#development">Development Plan</a></li>
-                        <li><a href="#team">Team Requirements</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Prototype V1</a></li>
+                        <li><a href="../sinc-legal/">MVP Version</a></li>
+                        <li><a href="#features">Key Features</a></li>
+                        <li><a href="#development">Dev Roadmap</a></li>
+                        <li><a href="#team">Team Needs</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -799,106 +832,107 @@
     </footer>
 
     <script>
-        $(document).ready(function() {
-    // Mobile menu toggle
-    $('.mobile-menu-btn').click(function() {
-        $('nav ul').toggleClass('active');
-    });
-    
-    // Close mobile menu when clicking elsewhere
-    $(document).click(function(event) {
-        if (!$(event.target).closest('.mobile-menu-btn, nav ul').length) {
-            $('nav ul').removeClass('active');
-        }
-    });
-    
-    // Smooth scrolling for anchor links
-    $('a[href^="#"]').on('click', function(event) {
-        event.preventDefault();
-        
-        const target = $(this.getAttribute('href'));
-        if (target.length) {
-            $('html, body').animate({
-                scrollTop: target.offset().top - 120
-            }, 500);
-        }
-        
-        // Close mobile menu after clicking a link
-        $('nav ul').removeClass('active');
-    });
-    
-    // Highlight active nav items on scroll
-    $(window).scroll(function() {
-        const scrollPosition = $(window).scrollTop();
-        
-        // For main navigation
-        $('main section').each(function() {
-            const target = $(this);
-            const id = target.attr('id');
-            
-            if (target.offset().top - 150 <= scrollPosition && 
-                target.offset().top + target.outerHeight() - 150 > scrollPosition) {
-                $('nav ul li a').removeClass('active');
-                $('nav ul li a[href="#' + id + '"]').addClass('active');
-                
-                // Also update whitepaper navigation
-                $('.nav-links a').removeClass('active');
-                $('.nav-links a[href="#' + id + '"]').addClass('active');
-            }
+        $(document).ready(function () {
+            // Mobile menu toggle
+            $('.mobile-menu-btn').click(function () {
+                $('nav ul').toggleClass('active');
+            });
+
+            // Close mobile menu when clicking elsewhere
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.mobile-menu-btn, nav ul').length) {
+                    $('nav ul').removeClass('active');
+                }
+            });
+
+            // Smooth scrolling for anchor links
+            $('a[href^="#"]').on('click', function (event) {
+                event.preventDefault();
+
+                const target = $(this.getAttribute('href'));
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 120
+                    }, 500);
+                }
+
+                // Close mobile menu after clicking a link
+                $('nav ul').removeClass('active');
+            });
+
+            // Highlight active nav items on scroll
+            $(window).scroll(function () {
+                const scrollPosition = $(window).scrollTop();
+
+                // For main navigation
+                $('main section').each(function () {
+                    const target = $(this);
+                    const id = target.attr('id');
+
+                    if (target.offset().top - 150 <= scrollPosition &&
+                        target.offset().top + target.outerHeight() - 150 > scrollPosition) {
+                        $('nav ul li a').removeClass('active');
+                        $('nav ul li a[href="#' + id + '"]').addClass('active');
+
+                        // Also update whitepaper navigation
+                        $('.nav-links a').removeClass('active');
+                        $('.nav-links a[href="#' + id + '"]').addClass('active');
+                    }
+                });
+            });
+
+            // Contact form validation
+            $('.contact-form .btn').click(function (e) {
+                e.preventDefault();
+
+                const name = $('#name').val();
+                const email = $('#email').val();
+                const subject = $('#subject').val();
+                const message = $('#message').val();
+                let valid = true;
+
+                // Simple validation
+                if (!name) {
+                    $('#name').css('border-color', 'var(--accent)');
+                    valid = false;
+                } else {
+                    $('#name').css('border-color', 'var(--light)');
+                }
+
+                if (!email || !email.includes('@')) {
+                    $('#email').css('border-color', 'var(--accent)');
+                    valid = false;
+                } else {
+                    $('#email').css('border-color', 'var(--light)');
+                }
+
+                if (!subject) {
+                    $('#subject').css('border-color', 'var(--accent)');
+                    valid = false;
+                } else {
+                    $('#subject').css('border-color', 'var(--light)');
+                }
+
+                if (!message) {
+                    $('#message').css('border-color', 'var(--accent)');
+                    valid = false;
+                } else {
+                    $('#message').css('border-color', 'var(--light)');
+                }
+
+                if (valid) {
+                    // Here you would normally send the form data to a server
+                    // For now, just show a success message
+                    $('.contact-form').html('<div class="success-message"><i class="fas fa-check-circle" style="color: var(--success); font-size: 3rem;"></i><h3>Thank You!</h3><p>Your message has been sent successfully. We will get back to you soon.</p></div>');
+                }
+            });
+
+            // Initialize active section on page load
+            setTimeout(function () {
+                $(window).scroll();
+            }, 300);
         });
-    });
-    
-    // Contact form validation
-    $('.contact-form .btn').click(function(e) {
-        e.preventDefault();
-        
-        const name = $('#name').val();
-        const email = $('#email').val();
-        const subject = $('#subject').val();
-        const message = $('#message').val();
-        let valid = true;
-        
-        // Simple validation
-        if (!name) {
-            $('#name').css('border-color', 'var(--accent)');
-            valid = false;
-        } else {
-            $('#name').css('border-color', 'var(--light)');
-        }
-        
-        if (!email || !email.includes('@')) {
-            $('#email').css('border-color', 'var(--accent)');
-            valid = false;
-        } else {
-            $('#email').css('border-color', 'var(--light)');
-        }
-        
-        if (!subject) {
-            $('#subject').css('border-color', 'var(--accent)');
-            valid = false;
-        } else {
-            $('#subject').css('border-color', 'var(--light)');
-        }
-        
-        if (!message) {
-            $('#message').css('border-color', 'var(--accent)');
-            valid = false;
-        } else {
-            $('#message').css('border-color', 'var(--light)');
-        }
-        
-        if (valid) {
-            // Here you would normally send the form data to a server
-            // For now, just show a success message
-            $('.contact-form').html('<div class="success-message"><i class="fas fa-check-circle" style="color: var(--success); font-size: 3rem;"></i><h3>Thank You!</h3><p>Your message has been sent successfully. We will get back to you soon.</p></div>');
-        }
-    });
-    
-    // Initialize active section on page load
-    setTimeout(function() {
-        $(window).scroll();
-    }, 300);
-});
     </script>
-    </body>
+</body>
+
 </html>

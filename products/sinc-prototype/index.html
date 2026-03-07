@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
@@ -22,43 +23,48 @@
             --success: #2ecc71;
             --warning: #f39c12;
         }
-        
+
         body {
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
         }
-        
+
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         /* Typography */
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-weight: 700;
             margin-bottom: 0.5em;
             color: var(--primary);
         }
-        
+
         h1 {
             font-size: 2.5rem;
         }
-        
+
         h2 {
             font-size: 2rem;
         }
-        
+
         h3 {
             font-size: 1.75rem;
         }
-        
+
         p {
             margin-bottom: 1em;
         }
-        
+
         /* Header Styles */
         header {
             background-color: var(--primary);
@@ -67,15 +73,15 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
@@ -83,17 +89,17 @@
             color: white;
             text-decoration: none;
         }
-        
+
         .logo span {
             color: var(--secondary);
         }
-        
+
         /* Navigation Styles */
         nav {
             display: flex;
             align-items: center;
         }
-        
+
         .nav-toggle {
             display: none;
             background: none;
@@ -103,7 +109,7 @@
             color: white;
             font-size: 1.5rem;
         }
-        
+
         .nav-toggle span {
             display: block;
             width: 25px;
@@ -112,27 +118,27 @@
             margin: 5px 0;
             transition: all 0.3s;
         }
-        
+
         nav ul {
             display: flex;
             list-style: none;
         }
-        
+
         nav ul li {
             margin-left: 1.5rem;
         }
-        
+
         nav ul li a {
             color: white;
             text-decoration: none;
             transition: color 0.3s;
             font-weight: 500;
         }
-        
+
         nav ul li a:hover {
             color: var(--secondary);
         }
-        
+
         .cta-button {
             background-color: var(--secondary);
             color: white;
@@ -142,69 +148,69 @@
             text-decoration: none;
             transition: background-color 0.3s;
         }
-        
+
         .cta-button:hover {
             background-color: #2980b9;
         }
-        
+
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), 
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232c3e50"/><path d="M0 0L100 100M100 0L0 100" stroke="%233498db" stroke-width="1"/></svg>');
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232c3e50"/><path d="M0 0L100 100M100 0L0 100" stroke="%233498db" stroke-width="1"/></svg>');
             background-size: cover;
             padding: 6rem 0;
             color: white;
             text-align: center;
         }
-        
+
         .hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
             color: white;
         }
-        
+
         .hero p {
             font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto 2rem;
         }
-        
+
         .hero-buttons {
             display: flex;
             justify-content: center;
             gap: 1rem;
         }
-        
+
         .hero-buttons .cta-button {
             padding: 0.8rem 2rem;
         }
-        
+
         .hero-buttons .secondary-button {
             background-color: transparent;
             border: 2px solid white;
         }
-        
+
         .hero-buttons .secondary-button:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         /* Features Section */
         .features {
             padding: 5rem 0;
             background-color: white;
         }
-        
+
         .section-header {
             text-align: center;
             margin-bottom: 3rem;
         }
-        
+
         .section-header h2 {
             position: relative;
             display: inline-block;
             padding-bottom: 10px;
         }
-        
+
         .section-header h2::after {
             content: '';
             position: absolute;
@@ -215,26 +221,26 @@
             left: 50%;
             transform: translateX(-50%);
         }
-        
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        
+
         .feature-card {
             background-color: var(--light);
             border-radius: 8px;
             padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        
+
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
         .feature-icon {
             width: 60px;
             height: 60px;
@@ -247,29 +253,29 @@
             color: white;
             font-size: 1.5rem;
         }
-        
+
         .feature-card h3 {
             margin-bottom: 1rem;
         }
-        
+
         /* POPIA Compliance Section */
         .popia-section {
             background-color: var(--light);
             padding: 5rem 0;
         }
-        
+
         .compliance-container {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 3rem;
         }
-        
+
         .compliance-content {
             flex: 1;
             min-width: 300px;
         }
-        
+
         .compliance-image {
             flex: 1;
             min-width: 300px;
@@ -279,7 +285,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .compliance-image::before {
             content: "POPIA";
             position: absolute;
@@ -290,7 +296,7 @@
             font-weight: bold;
             color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .compliance-image::after {
             content: "";
             position: absolute;
@@ -301,17 +307,17 @@
             background: linear-gradient(45deg, var(--secondary) 0%, transparent 50%, var(--accent) 100%);
             opacity: 0.3;
         }
-        
+
         .compliance-features {
             margin-top: 2rem;
         }
-        
+
         .compliance-feature {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
         }
-        
+
         .check-icon {
             display: inline-block;
             width: 24px;
@@ -324,26 +330,26 @@
             margin-right: 10px;
             flex-shrink: 0;
         }
-        
+
         /* CaseLines Integration Section */
         .caselines-section {
             padding: 5rem 0;
             background-color: white;
         }
-        
+
         .caselines-container {
             display: flex;
             flex-direction: column;
             gap: 3rem;
         }
-        
+
         .caselines-steps {
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
             justify-content: center;
         }
-        
+
         .step-card {
             flex: 1;
             min-width: 250px;
@@ -352,9 +358,9 @@
             border-radius: 8px;
             padding: 2rem;
             position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-        
+
         .step-number {
             position: absolute;
             top: -15px;
@@ -369,16 +375,16 @@
             justify-content: center;
             font-weight: bold;
             font-size: 1.2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Demo Section */
         .demo-section {
             padding: 5rem 0;
             background-color: var(--light);
             text-align: center;
         }
-        
+
         .demo-video {
             width: 100%;
             max-width: 800px;
@@ -393,7 +399,7 @@
             color: white;
             font-size: 1.2rem;
         }
-        
+
         .play-button {
             width: 80px;
             height: 80px;
@@ -406,12 +412,12 @@
             transition: transform 0.3s, background-color 0.3s;
             position: relative;
         }
-        
+
         .play-button:hover {
             transform: scale(1.1);
             background-color: #2980b9;
         }
-        
+
         .play-button::after {
             content: '';
             width: 0;
@@ -421,13 +427,13 @@
             border-left: 25px solid white;
             margin-left: 5px;
         }
-        
+
         /* Pricing Section */
         .pricing-section {
             padding: 5rem 0;
             background-color: white;
         }
-        
+
         .pricing-grid {
             display: flex;
             flex-wrap: wrap;
@@ -435,7 +441,7 @@
             gap: 2rem;
             margin-top: 3rem;
         }
-        
+
         .pricing-card {
             flex: 1;
             min-width: 300px;
@@ -443,20 +449,20 @@
             background-color: var(--light);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
         }
-        
+
         .pricing-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
-        
+
         .pricing-card.featured {
             border: 2px solid var(--secondary);
         }
-        
+
         .pricing-card.featured::before {
             content: "MOST POPULAR";
             position: absolute;
@@ -469,98 +475,98 @@
             border-bottom-left-radius: 8px;
             font-weight: bold;
         }
-        
+
         .pricing-header {
             background-color: var(--primary);
             color: white;
             padding: 2rem;
             text-align: center;
         }
-        
+
         .pricing-header h3 {
             color: white;
             margin-bottom: 0.5rem;
         }
-        
+
         .price {
             font-size: 2.5rem;
             font-weight: 700;
             margin: 1rem 0;
         }
-        
+
         .price small {
             font-size: 1rem;
             font-weight: 400;
         }
-        
+
         .pricing-features {
             padding: 2rem;
         }
-        
+
         .pricing-features ul {
             list-style: none;
             margin-bottom: 2rem;
         }
-        
+
         .pricing-features ul li {
             padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
         }
-        
+
         .pricing-features ul li::before {
             content: "✓";
             color: var(--success);
             margin-right: 10px;
             font-weight: bold;
         }
-        
+
         .pricing-cta {
             text-align: center;
         }
-        
+
         /* Contact Form Section */
         .contact-section {
             padding: 5rem 0;
             background-color: var(--light);
         }
-        
+
         .form-container {
             max-width: 800px;
             margin: 0 auto;
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
-        
+
         .form-header {
             background-color: var(--primary);
             color: white;
             padding: 2rem;
             text-align: center;
         }
-        
+
         .form-header h3 {
             color: white;
             margin-bottom: 0.5rem;
         }
-        
+
         .contact-form {
             padding: 2rem;
         }
-        
+
         .form-group {
             margin-bottom: 1.5rem;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
         }
-        
+
         .form-control {
             width: 100%;
             padding: 0.8rem;
@@ -569,76 +575,76 @@
             font-size: 1rem;
             transition: border-color 0.3s;
         }
-        
+
         .form-control:focus {
             border-color: var(--secondary);
             outline: none;
         }
-        
+
         textarea.form-control {
             min-height: 150px;
             resize: vertical;
         }
-        
+
         .form-row {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
         }
-        
+
         .form-row .form-group {
             flex: 1;
             min-width: 250px;
         }
-        
+
         .form-check {
             display: flex;
             align-items: flex-start;
             margin-bottom: 1rem;
         }
-        
+
         .form-check input {
             margin-right: 10px;
             margin-top: 5px;
         }
-        
+
         .form-submit {
             text-align: center;
         }
-        
+
         button.cta-button {
             border: none;
             cursor: pointer;
             padding: 0.8rem 2rem;
             font-size: 1rem;
         }
-        
+
         /* Footer */
         footer {
             background-color: var(--dark);
             color: white;
             padding: 4rem 0 2rem;
         }
-        
+
         .footer-content {
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
             margin-bottom: 3rem;
         }
-        
+
         .footer-column {
             flex: 1;
             min-width: 250px;
         }
-        
+
         .footer-column h4 {
             color: white;
             margin-bottom: 1.5rem;
             position: relative;
             padding-bottom: 10px;
         }
-        
+
         .footer-column h4::after {
             content: '';
             position: absolute;
@@ -648,52 +654,55 @@
             bottom: 0;
             left: 0;
         }
-        
+
         .footer-column ul {
             list-style: none;
         }
-        
+
         .footer-column ul li {
             margin-bottom: 0.8rem;
         }
-        
+
         .footer-column ul li a {
             color: #bbb;
             text-decoration: none;
             transition: color 0.3s;
         }
-        
+
         .footer-column ul li a:hover {
             color: var(--secondary);
         }
-        
+
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+        footer a{
+            color: #0288d1;
+        }
+
         .social-icons {
             display: flex;
             gap: 1rem;
             margin-top: 1.5rem;
         }
-        
+
         .social-icon {
             width: 40px;
             height: 40px;
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background-color 0.3s;
         }
-        
+
         .social-icon:hover {
             background-color: var(--secondary);
         }
-        
+
         /* Modal */
         .modal {
             display: none;
@@ -702,12 +711,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal-content {
             background-color: white;
             border-radius: 8px;
@@ -715,9 +724,9 @@
             width: 100%;
             padding: 2rem;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
-        
+
         .close-modal {
             position: absolute;
             top: 1rem;
@@ -728,38 +737,35 @@
             cursor: pointer;
             color: #777;
         }
+
         
-        /* Login Form */
-        .login-form {
-            margin-top: 1rem;
-        }
-        
+
         /* Demo UI section */
         .demo-ui {
             padding: 5rem 0;
             background-color: white;
         }
-        
+
         .ui-tabs {
             display: flex;
             justify-content: center;
             border-bottom: 1px solid #ddd;
             margin-bottom: 2rem;
         }
-        
+
         .ui-tab {
             padding: 1rem 2rem;
             cursor: pointer;
             transition: all 0.3s;
             border-bottom: 3px solid transparent;
         }
-        
+
         .ui-tab.active {
             border-bottom-color: var(--secondary);
             color: var(--secondary);
             font-weight: 500;
         }
-        
+
         .ui-screens {
             position: relative;
             height: 500px;
@@ -769,7 +775,7 @@
             border-radius: 8px;
             overflow: hidden;
         }
-        
+
         .ui-screen {
             position: absolute;
             top: 0;
@@ -783,11 +789,11 @@
             justify-content: center;
             padding: 2rem;
         }
-        
+
         .ui-screen.active {
             opacity: 1;
         }
-        
+
         /* Responsive Navigation Styles */
         @media (max-width: 992px) {
             .nav-toggle {
@@ -795,18 +801,18 @@
                 order: 1;
                 margin-left: auto;
             }
-            
+
             .header-content {
                 position: relative;
                 flex-wrap: wrap;
             }
-            
+
             nav {
                 order: 3;
                 width: 100%;
                 margin-top: 1rem;
             }
-            
+
             nav ul {
                 display: none;
                 flex-direction: column;
@@ -814,65 +820,62 @@
                 background-color: var(--primary);
                 padding: 1rem 0;
             }
-            
+
             nav.active ul {
                 display: flex;
             }
-            
+
             nav ul li {
                 margin: 0;
                 padding: 0.5rem 0;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
-            
+
             nav ul li:last-child {
                 border-bottom: none;
             }
-            
-            .cta-button#loginBtn {
-                order: 2;
-                margin-left: 1rem;
-            }
-            
+
             /* Hamburger icon animation */
             .nav-toggle.active span:nth-child(1) {
                 transform: rotate(45deg) translate(5px, 5px);
             }
-            
+
             .nav-toggle.active span:nth-child(2) {
                 opacity: 0;
             }
-            
+
             .nav-toggle.active span:nth-child(3) {
                 transform: rotate(-45deg) translate(7px, -7px);
             }
         }
-        
+
         /* Responsive */
-        @media (max-width: 768px) {            
+        @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.2rem;
             }
-            
+
             .hero-buttons {
                 flex-direction: column;
                 gap: 1rem;
                 align-items: center;
             }
-            
-            .feature-card, .step-card, .pricing-card {
+
+            .feature-card,
+            .step-card,
+            .pricing-card {
                 margin-bottom: 1rem;
             }
-            
+
             .ui-tabs {
                 flex-wrap: wrap;
             }
-            
+
             .ui-tab {
                 padding: 0.8rem 1.2rem;
                 font-size: 0.9rem;
             }
-            
+
             .ui-screens {
                 height: 400px;
             }
@@ -882,14 +885,14 @@
         .dashboard-mockup {
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
         }
-        
+
         .dashboard-header {
             background-color: var(--primary);
             color: white;
@@ -898,19 +901,19 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .dashboard-main {
             display: flex;
             flex-grow: 1;
         }
-        
+
         .sidebar {
             width: 220px;
             background-color: #f5f7fa;
             padding: 1rem;
             border-right: 1px solid #ddd;
         }
-        
+
         .menu-item {
             padding: 0.8rem 1rem;
             margin-bottom: 0.5rem;
@@ -920,75 +923,76 @@
             display: flex;
             align-items: center;
         }
-        
+
         .menu-item.active {
             background-color: var(--secondary);
             color: white;
         }
-        
+
         .menu-item:hover:not(.active) {
             background-color: #e0e5eb;
         }
-        
+
         .menu-icon {
             margin-right: 10px;
             width: 20px;
             text-align: center;
         }
-        
+
         .content-area {
             flex-grow: 1;
             padding: 1.5rem;
             background-color: #f9fafc;
             overflow-y: auto;
         }
-        
+
         .dashboard-widgets {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
         }
-        
+
         .widget {
             background-color: white;
             border-radius: 8px;
             padding: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-        
+
         .widget-title {
             font-size: 0.9rem;
             color: #777;
             margin-bottom: 0.8rem;
         }
-        
+
         .widget-value {
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
         }
-        
+
         .cases-table {
             width: 100%;
             border-collapse: collapse;
             background-color: white;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-        
-        .cases-table th, .cases-table td {
+
+        .cases-table th,
+        .cases-table td {
             padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #eee;
         }
-        
+
         .cases-table th {
             background-color: #f5f7fa;
             font-weight: 600;
         }
-        
+
         .case-status {
             display: inline-block;
             padding: 0.3rem 0.8rem;
@@ -996,23 +1000,24 @@
             font-size: 0.8rem;
             font-weight: 500;
         }
-        
+
         .status-active {
             background-color: rgba(46, 204, 113, 0.2);
             color: #27ae60;
         }
-        
+
         .status-pending {
             background-color: rgba(243, 156, 18, 0.2);
             color: #f39c12;
         }
-        
+
         .status-closed {
             background-color: rgba(231, 76, 60, 0.2);
             color: #e74c3c;
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -1033,22 +1038,23 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <a href="#" class="cta-button" id="loginBtn">Login</a>
+            <a href="../sinc-legal/" class="cta-button" id="loginBtn">Login</a>
         </div>
     </header>
-    
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h1>Legal Practice Management for South Africa</h1>
-            <p>SINC revolutionizes legal workflows with AI-powered automation, secure document management, and CaseLines integration specially designed for South African law firms.</p>
+            <p>SINC revolutionizes legal workflows with AI-powered automation, secure document management, and CaseLines
+                integration specially designed for South African law firms.</p>
             <div class="hero-buttons">
                 <a href="#demo" class="cta-button">Watch Demo</a>
                 <a href="#contact" class="cta-button secondary-button">Request Free Trial</a>
             </div>
         </div>
     </section>
-    
+
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="container">
@@ -1060,37 +1066,43 @@
                 <div class="feature-card">
                     <div class="feature-icon">AI</div>
                     <h3>Legal AI Assistant</h3>
-                    <p>Automate document polishing, meeting scheduling, and case updates with our intelligent legal assistant trained on South African legal standards.</p>
+                    <p>Automate document polishing, meeting scheduling, and case updates with our intelligent legal
+                        assistant trained on South African legal standards.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">T</div>
                     <h3>Voice Transcription</h3>
-                    <p>Convert meetings, consultations, and dictations into perfectly formatted text with our legal-specific speech recognition technology.</p>
+                    <p>Convert meetings, consultations, and dictations into perfectly formatted text with our
+                        legal-specific speech recognition technology.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">D</div>
                     <h3>Digital Case Files</h3>
-                    <p>Securely manage all case documents in one place with automated workflows for common South African legal procedures.</p>
+                    <p>Securely manage all case documents in one place with automated workflows for common South African
+                        legal procedures.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">C</div>
                     <h3>CaseLines Integration</h3>
-                    <p>Seamlessly prepare and submit High Court bundles with our direct integration to the South African judiciary's CaseLines system.</p>
+                    <p>Seamlessly prepare and submit High Court bundles with our direct integration to the South African
+                        judiciary's CaseLines system.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">M</div>
                     <h3>Team Management</h3>
-                    <p>Monitor productivity, assign tasks, and optimize your law firm's operations with comprehensive team oversight tools.</p>
+                    <p>Monitor productivity, assign tasks, and optimize your law firm's operations with comprehensive
+                        team oversight tools.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">S</div>
                     <h3>Client Portal</h3>
-                    <p>Provide clients with secure access to case updates, document sharing, and communication in a user-friendly portal.</p>
+                    <p>Provide clients with secure access to case updates, document sharing, and communication in a
+                        user-friendly portal.</p>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- POPIA Compliance Section -->
     <section class="popia-section" id="popia">
         <div class="container">
@@ -1101,7 +1113,9 @@
             <div class="compliance-container">
                 <div class="compliance-content">
                     <h3>Built to Protect Personal Information</h3>
-                    <p>SINC is designed from the ground up to comply with South Africa's Protection of Personal Information Act (POPIA), helping your firm meet its legal obligations while safeguarding sensitive client data.</p>
+                    <p>SINC is designed from the ground up to comply with South Africa's Protection of Personal
+                        Information Act (POPIA), helping your firm meet its legal obligations while safeguarding
+                        sensitive client data.</p>
                     <div class="compliance-features">
                         <div class="compliance-feature">
                             <span class="check-icon">✓</span>
@@ -1133,7 +1147,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- CaseLines Integration Section -->
     <section class="caselines-section" id="caselines">
         <div class="container caselines-container">
@@ -1145,22 +1159,25 @@
                 <div class="step-card">
                     <div class="step-number">1</div>
                     <h3>Prepare Documents</h3>
-                    <p>Create and organize court documents within SINC using our South African legal templates and formatting tools.</p>
+                    <p>Create and organize court documents within SINC using our South African legal templates and
+                        formatting tools.</p>
                 </div>
                 <div class="step-card">
                     <div class="step-number">2</div>
                     <h3>Index & Bundle</h3>
-                    <p>Automatically generate indexes and bundle documents according to High Court requirements with one click.</p>
+                    <p>Automatically generate indexes and bundle documents according to High Court requirements with one
+                        click.</p>
                 </div>
                 <div class="step-card">
                     <div class="step-number">3</div>
                     <h3>Upload to CaseLines</h3>
-                    <p>Submit your prepared bundles directly to the High Court's CaseLines system without leaving SINC.</p>
+                    <p>Submit your prepared bundles directly to the High Court's CaseLines system without leaving SINC.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- Demo UI Section -->
     <section class="demo-ui" id="demo">
         <div class="container">
@@ -1219,7 +1236,7 @@
                             <div class="content-area">
                                 <h2>Welcome back, John</h2>
                                 <p>Here's your practice overview for today</p>
-                                
+
                                 <div class="dashboard-widgets">
                                     <div class="widget">
                                         <div class="widget-title">Active Cases</div>
@@ -1238,7 +1255,7 @@
                                         <div class="widget-value">12.5</div>
                                     </div>
                                 </div>
-                                
+
                                 <h3>Recent Cases</h3>
                                 <table class="cases-table">
                                     <thead>
@@ -1329,101 +1346,132 @@
                             <div class="content-area">
                                 <h2>Case Management</h2>
                                 <p>Track and manage all your South African legal cases in one place</p>
-                                
+
                                 <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
                                     <h3>Smith v. Johnson (HC-2023/45678)</h3>
                                     <div style="display: flex; margin-top: 20px; gap: 20px;">
                                         <div style="flex: 2;">
-                                            <div style="background: #f5f7fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                            <div
+                                                style="background: #f5f7fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                                                 <h4>Case Details</h4>
-                                                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-top: 15px;">
+                                                <div
+                                                    style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-top: 15px;">
                                                     <div>Case Type:</div>
                                                     <div>Commercial Litigation</div>
-                                                    
+
                                                     <div>Court:</div>
                                                     <div>Gauteng High Court, Johannesburg</div>
-                                                    
+
                                                     <div>Client:</div>
                                                     <div>Smith Industries (Plaintiff)</div>
-                                                    
+
                                                     <div>Opposing Party:</div>
                                                     <div>Johnson Manufacturing</div>
-                                                    
+
                                                     <div>Assigned To:</div>
                                                     <div>John Advocate, Sarah Attorney</div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div style="background: #f5f7fa; padding: 15px; border-radius: 8px;">
                                                 <h4>Case Timeline</h4>
                                                 <div style="margin-top: 15px;">
                                                     <div style="display: flex; margin-bottom: 15px;">
                                                         <div style="width: 50px; text-align: center; flex-shrink: 0;">
-                                                            <div style="width: 12px; height: 12px; background: var(--secondary); border-radius: 50%; margin: 0 auto;"></div>
-                                                            <div style="height: 40px; width: 2px; background: #ddd; margin: 5px auto;"></div>
+                                                            <div
+                                                                style="width: 12px; height: 12px; background: var(--secondary); border-radius: 50%; margin: 0 auto;">
+                                                            </div>
+                                                            <div
+                                                                style="height: 40px; width: 2px; background: #ddd; margin: 5px auto;">
+                                                            </div>
                                                         </div>
                                                         <div>
                                                             <div style="font-weight: 500;">Summons Issued</div>
-                                                            <div style="font-size: 0.9rem; color: #777;">15 March 2023</div>
-                                                            <div style="font-size: 0.9rem;">Initial summons filed with High Court</div>
+                                                            <div style="font-size: 0.9rem; color: #777;">15 March 2023
+                                                            </div>
+                                                            <div style="font-size: 0.9rem;">Initial summons filed with
+                                                                High Court</div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div style="display: flex; margin-bottom: 15px;">
                                                         <div style="width: 50px; text-align: center; flex-shrink: 0;">
-                                                            <div style="width: 12px; height: 12px; background: var(--secondary); border-radius: 50%; margin: 0 auto;"></div>
-                                                            <div style="height: 40px; width: 2px; background: #ddd; margin: 5px auto;"></div>
+                                                            <div
+                                                                style="width: 12px; height: 12px; background: var(--secondary); border-radius: 50%; margin: 0 auto;">
+                                                            </div>
+                                                            <div
+                                                                style="height: 40px; width: 2px; background: #ddd; margin: 5px auto;">
+                                                            </div>
                                                         </div>
                                                         <div>
-                                                            <div style="font-weight: 500;">Notice of Intention to Defend</div>
-                                                            <div style="font-size: 0.9rem; color: #777;">2 April 2023</div>
-                                                            <div style="font-size: 0.9rem;">Received from Johnson Manufacturing</div>
+                                                            <div style="font-weight: 500;">Notice of Intention to Defend
+                                                            </div>
+                                                            <div style="font-size: 0.9rem; color: #777;">2 April 2023
+                                                            </div>
+                                                            <div style="font-size: 0.9rem;">Received from Johnson
+                                                                Manufacturing</div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div style="display: flex;">
                                                         <div style="width: 50px; text-align: center; flex-shrink: 0;">
-                                                            <div style="width: 12px; height: 12px; background: var(--secondary); border-radius: 50%; margin: 0 auto;"></div>
+                                                            <div
+                                                                style="width: 12px; height: 12px; background: var(--secondary); border-radius: 50%; margin: 0 auto;">
+                                                            </div>
                                                         </div>
                                                         <div>
-                                                            <div style="font-weight: 500;">Case Management Conference</div>
-                                                            <div style="font-size: 0.9rem; color: #777;">Scheduled: 10 May 2023</div>
-                                                            <div style="font-size: 0.9rem;">Judge Motswai presiding</div>
+                                                            <div style="font-weight: 500;">Case Management Conference
+                                                            </div>
+                                                            <div style="font-size: 0.9rem; color: #777;">Scheduled: 10
+                                                                May 2023</div>
+                                                            <div style="font-size: 0.9rem;">Judge Motswai presiding
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div style="flex: 1;">
-                                            <div style="background: #f5f7fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                            <div
+                                                style="background: #f5f7fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                                                 <h4>Upcoming Deadlines</h4>
                                                 <div style="margin-top: 15px;">
-                                                    <div style="padding: 10px; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--warning); margin-bottom: 10px;">
+                                                    <div
+                                                        style="padding: 10px; background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--warning); margin-bottom: 10px;">
                                                         <div style="font-weight: 500;">File Replying Affidavit</div>
-                                                        <div style="font-size: 0.9rem; color: #777;">Due: 25 April 2023</div>
+                                                        <div style="font-size: 0.9rem; color: #777;">Due: 25 April 2023
+                                                        </div>
                                                     </div>
-                                                    <div style="padding: 10px; background: rgba(46, 204, 113, 0.1); border-left: 3px solid var(--success); margin-bottom: 10px;">
+                                                    <div
+                                                        style="padding: 10px; background: rgba(46, 204, 113, 0.1); border-left: 3px solid var(--success); margin-bottom: 10px;">
                                                         <div style="font-weight: 500;">Client Consultation</div>
-                                                        <div style="font-size: 0.9rem; color: #777;">30 April 2023, 14:00</div>
+                                                        <div style="font-size: 0.9rem; color: #777;">30 April 2023,
+                                                            14:00</div>
                                                     </div>
-                                                    <div style="padding: 10px; background: rgba(52, 152, 219, 0.1); border-left: 3px solid var(--secondary);">
+                                                    <div
+                                                        style="padding: 10px; background: rgba(52, 152, 219, 0.1); border-left: 3px solid var(--secondary);">
                                                         <div style="font-weight: 500;">Case Management Conference</div>
-                                                        <div style="font-size: 0.9rem; color: #777;">10 May 2023, 09:00</div>
+                                                        <div style="font-size: 0.9rem; color: #777;">10 May 2023, 09:00
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div style="background: #f5f7fa; padding: 15px; border-radius: 8px;">
                                                 <h4>Team Notes</h4>
                                                 <div style="margin-top: 15px;">
                                                     <div style="margin-bottom: 15px;">
-                                                        <div style="font-size: 0.9rem; color: #777;">Sarah Attorney - 18 April 2023</div>
-                                                        <div>Client provided additional evidence for the replying affidavit. Documents uploaded to case folder.</div>
+                                                        <div style="font-size: 0.9rem; color: #777;">Sarah Attorney - 18
+                                                            April 2023</div>
+                                                        <div>Client provided additional evidence for the replying
+                                                            affidavit. Documents uploaded to case folder.</div>
                                                     </div>
                                                     <div>
-                                                        <div style="font-size: 0.9rem; color: #777;">John Advocate - 15 April 2023</div>
-                                                        <div>Preliminary review of opposing counsel's papers suggests we need to address section 25 arguments.</div>
+                                                        <div style="font-size: 0.9rem; color: #777;">John Advocate - 15
+                                                            April 2023</div>
+                                                        <div>Preliminary review of opposing counsel's papers suggests we
+                                                            need to address section 25 arguments.</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1478,20 +1526,25 @@
                             <div class="content-area">
                                 <h2>Document Management</h2>
                                 <p>POPIA-compliant document storage and management</p>
-                                
+
                                 <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                                         <h3>Smith v. Johnson - Documents</h3>
                                         <div>
-                                            <button style="background: var(--secondary); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Upload Document</button>
+                                            <button
+                                                style="background: var(--secondary); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Upload
+                                                Document</button>
                                         </div>
                                     </div>
-                                    
+
                                     <div style="display: flex; gap: 20px;">
-                                        <div style="width: 250px; background: #f5f7fa; padding: 15px; border-radius: 8px; align-self: flex-start;">
+                                        <div
+                                            style="width: 250px; background: #f5f7fa; padding: 15px; border-radius: 8px; align-self: flex-start;">
                                             <h4>Document Categories</h4>
                                             <div style="margin-top: 15px;">
-                                                <div style="padding: 8px 10px; background: var(--secondary); color: white; border-radius: 4px; margin-bottom: 5px;">
+                                                <div
+                                                    style="padding: 8px 10px; background: var(--secondary); color: white; border-radius: 4px; margin-bottom: 5px;">
                                                     Pleadings
                                                 </div>
                                                 <div style="padding: 8px 10px; border-radius: 4px; margin-bottom: 5px;">
@@ -1511,76 +1564,112 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div style="flex-grow: 1;">
-                                            <div style="background: #f5f7fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                            <div
+                                                style="background: #f5f7fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                                <div
+                                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                                                     <h4>Pleadings</h4>
                                                     <div style="display: flex; gap: 10px; align-items: center;">
-                                                        <input type="text" placeholder="Search documents..." style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                                                        <select style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                        <input type="text" placeholder="Search documents..."
+                                                            style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                        <select
+                                                            style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                                                             <option>Sort by Date</option>
                                                             <option>Sort by Name</option>
                                                             <option>Sort by Size</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <table style="width: 100%; border-collapse: collapse;">
                                                     <thead>
                                                         <tr>
-                                                            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Document</th>
-                                                            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Date</th>
-                                                            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Size</th>
-                                                            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Actions</th>
+                                                            <th
+                                                                style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">
+                                                                Document</th>
+                                                            <th
+                                                                style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">
+                                                                Date</th>
+                                                            <th
+                                                                style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">
+                                                                Size</th>
+                                                            <th
+                                                                style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">
+                                                                Actions</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">Summons.pdf</td>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">15 Mar 2023</td>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">2.3 MB</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                                                                Summons.pdf</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">15
+                                                                Mar 2023</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                                                                2.3 MB</td>
                                                             <td style="padding: 10px; border-bottom: 1px solid #eee;">
                                                                 <div style="display: flex; gap: 5px;">
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">Particulars_of_Claim.pdf</td>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">15 Mar 2023</td>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">4.1 MB</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                                                                Particulars_of_Claim.pdf</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">15
+                                                                Mar 2023</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                                                                4.1 MB</td>
                                                             <td style="padding: 10px; border-bottom: 1px solid #eee;">
                                                                 <div style="display: flex; gap: 5px;">
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">Notice_of_Intention_to_Defend.pdf</td>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">2 Apr 2023</td>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">1.5 MB</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                                                                Notice_of_Intention_to_Defend.pdf</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">2
+                                                                Apr 2023</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                                                                1.5 MB</td>
                                                             <td style="padding: 10px; border-bottom: 1px solid #eee;">
                                                                 <div style="display: flex; gap: 5px;">
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">Plea.pdf</td>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">10 Apr 2023</td>
-                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">5.7 MB</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                                                                Plea.pdf</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">10
+                                                                Apr 2023</td>
+                                                            <td style="padding: 10px; border-bottom: 1px solid #eee;">
+                                                                5.7 MB</td>
                                                             <td style="padding: 10px; border-bottom: 1px solid #eee;">
                                                                 <div style="display: flex; gap: 5px;">
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -1590,23 +1679,34 @@
                                                             <td style="padding: 10px;">3.2 MB</td>
                                                             <td style="padding: 10px;">
                                                                 <div style="display: flex; gap: 5px;">
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
-                                                                    <button style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">View</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Download</button>
+                                                                    <button
+                                                                        style="background: none; border: none; color: var(--secondary); cursor: pointer;">Share</button>
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            
+
                                             <div style="background: #f5f7fa; padding: 15px; border-radius: 8px;">
                                                 <h4>Document Actions</h4>
                                                 <div style="display: flex; gap: 10px; margin-top: 15px;">
-                                                    <button style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Generate Bundle</button>
-                                                    <button style="background: var(--secondary); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Send for E-Signature</button>
-                                                    <button style="background: var(--success); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Share with Client</button>
-                                                    <button style="background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Prepare for CaseLines</button>
+                                                    <button
+                                                        style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Generate
+                                                        Bundle</button>
+                                                    <button
+                                                        style="background: var(--secondary); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Send
+                                                        for E-Signature</button>
+                                                    <button
+                                                        style="background: var(--success); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Share
+                                                        with Client</button>
+                                                    <button
+                                                        style="background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Prepare
+                                                        for CaseLines</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1660,75 +1760,86 @@
                             <div class="content-area">
                                 <h2>CaseLines Integration</h2>
                                 <p>Seamlessly prepare and submit High Court bundles</p>
-                                
+
                                 <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
                                     <h3>Smith v. Johnson - CaseLines Preparation</h3>
-                                    
-                                    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                                    <div
+                                        style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+                                        <div
+                                            style="display: flex; justify-content: space-between; align-items: center;">
                                             <h4>Case Status</h4>
-                                            <span style="background: #e1f5fe; color: #0288d1; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;">Bundle in Preparation</span>
+                                            <span
+                                                style="background: #e1f5fe; color: #0288d1; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;">Bundle
+                                                in Preparation</span>
                                         </div>
-                                        
-                                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-top: 15px;">
+
+                                        <div
+                                            style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-top: 15px;">
                                             <div>Case ID:</div>
                                             <div>HC-2023/45678</div>
-                                            
+
                                             <div>CaseLines Ref:</div>
                                             <div>CL-2023-005432</div>
-                                            
+
                                             <div>Court:</div>
                                             <div>Gauteng High Court, Johannesburg</div>
-                                            
+
                                             <div>Hearing Date:</div>
                                             <div>10 May 2023</div>
-                                            
+
                                             <div>Bundle Deadline:</div>
                                             <div>3 May 2023</div>
                                         </div>
                                     </div>
-                                    
+
                                     <div style="margin-top: 20px;">
                                         <h4>Bundle Preparation</h4>
-                                        
+
                                         <div style="margin-top: 15px; display: flex; gap: 20px;">
-                                            <div style="flex: 1; background: #f5f7fa; padding: 15px; border-radius: 8px;">
+                                            <div
+                                                style="flex: 1; background: #f5f7fa; padding: 15px; border-radius: 8px;">
                                                 <h5>1. Select Documents</h5>
-                                                
+
                                                 <div style="margin-top: 15px;">
-                                                    <div style="background: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                                    <div
+                                                        style="background: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
                                                         <div>
                                                             <input type="checkbox" id="doc1" checked>
                                                             <label for="doc1">Summons.pdf</label>
                                                         </div>
                                                         <div>15 Mar 2023</div>
                                                     </div>
-                                                    
-                                                    <div style="background: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+
+                                                    <div
+                                                        style="background: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
                                                         <div>
                                                             <input type="checkbox" id="doc2" checked>
                                                             <label for="doc2">Particulars_of_Claim.pdf</label>
                                                         </div>
                                                         <div>15 Mar 2023</div>
                                                     </div>
-                                                    
-                                                    <div style="background: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+
+                                                    <div
+                                                        style="background: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
                                                         <div>
                                                             <input type="checkbox" id="doc3" checked>
                                                             <label for="doc3">Notice_of_Intention_to_Defend.pdf</label>
                                                         </div>
                                                         <div>2 Apr 2023</div>
                                                     </div>
-                                                    
-                                                    <div style="background: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+
+                                                    <div
+                                                        style="background: white; padding: 10px; border-radius: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
                                                         <div>
                                                             <input type="checkbox" id="doc4" checked>
                                                             <label for="doc4">Plea.pdf</label>
                                                         </div>
                                                         <div>10 Apr 2023</div>
                                                     </div>
-                                                    
-                                                    <div style="background: white; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+
+                                                    <div
+                                                        style="background: white; padding: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
                                                         <div>
                                                             <input type="checkbox" id="doc5" checked>
                                                             <label for="doc5">Replying_Affidavit.pdf</label>
@@ -1737,37 +1848,47 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                            <div style="flex: 1; background: #f5f7fa; padding: 15px; border-radius: 8px;">
+
+                                            <div
+                                                style="flex: 1; background: #f5f7fa; padding: 15px; border-radius: 8px;">
                                                 <h5>2. Configure Bundle</h5>
-                                                
+
                                                 <div style="margin-top: 15px;">
                                                     <div style="margin-bottom: 15px;">
-                                                        <label style="display: block; margin-bottom: 5px;">Bundle Title</label>
-                                                        <input type="text" value="Smith v. Johnson - Case Management Conference Bundle" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                        <label style="display: block; margin-bottom: 5px;">Bundle
+                                                            Title</label>
+                                                        <input type="text"
+                                                            value="Smith v. Johnson - Case Management Conference Bundle"
+                                                            style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                                                     </div>
-                                                    
+
                                                     <div style="margin-bottom: 15px;">
-                                                        <label style="display: block; margin-bottom: 5px;">Section Organization</label>
-                                                        <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                        <label style="display: block; margin-bottom: 5px;">Section
+                                                            Organization</label>
+                                                        <select
+                                                            style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                                                             <option>Standard High Court Bundle Format</option>
                                                             <option>Custom Organization</option>
                                                             <option>Chronological Order</option>
                                                         </select>
                                                     </div>
-                                                    
+
                                                     <div style="margin-bottom: 15px;">
-                                                        <label style="display: block; margin-bottom: 5px;">Page Numbering</label>
-                                                        <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                        <label style="display: block; margin-bottom: 5px;">Page
+                                                            Numbering</label>
+                                                        <select
+                                                            style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                                                             <option>Continuous Throughout Bundle</option>
                                                             <option>Section-Based Numbering</option>
                                                             <option>No Page Numbers</option>
                                                         </select>
                                                     </div>
-                                                    
+
                                                     <div>
-                                                        <label style="display: block; margin-bottom: 5px;">Index Generation</label>
-                                                        <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                        <label style="display: block; margin-bottom: 5px;">Index
+                                                            Generation</label>
+                                                        <select
+                                                            style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                                                             <option>Detailed Index with Page Numbers</option>
                                                             <option>Simple Document List</option>
                                                             <option>No Index</option>
@@ -1776,37 +1897,49 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        <div style="margin-top: 20px; background: #f5f7fa; padding: 15px; border-radius: 8px;">
+
+                                        <div
+                                            style="margin-top: 20px; background: #f5f7fa; padding: 15px; border-radius: 8px;">
                                             <h5>3. CaseLines Submission</h5>
-                                            
+
                                             <div style="margin-top: 15px;">
                                                 <div style="margin-bottom: 15px;">
-                                                    <label style="display: block; margin-bottom: 5px;">CaseLines Credentials</label>
+                                                    <label style="display: block; margin-bottom: 5px;">CaseLines
+                                                        Credentials</label>
                                                     <div style="display: flex; gap: 10px;">
-                                                        <input type="text" placeholder="Username" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                                                        <input type="password" placeholder="Password" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                        <input type="text" placeholder="Username"
+                                                            style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                                        <input type="password" placeholder="Password"
+                                                            style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div>
-                                                    <label style="display: block; margin-bottom: 5px;">Upload Options</label>
+                                                    <label style="display: block; margin-bottom: 5px;">Upload
+                                                        Options</label>
                                                     <div style="display: flex; gap: 10px;">
-                                                        <div style="flex: 1; padding: 10px; background: white; border-radius: 4px; text-align: center; cursor: pointer; border: 2px solid var(--secondary);">
-                                                            <div style="font-weight: 500; color: var(--secondary);">Direct to CaseLines</div>
-                                                            <div style="font-size: 0.9rem; margin-top: 5px;">Upload documents directly to the CaseLines platform</div>
+                                                        <div
+                                                            style="flex: 1; padding: 10px; background: white; border-radius: 4px; text-align: center; cursor: pointer; border: 2px solid var(--secondary);">
+                                                            <div style="font-weight: 500; color: var(--secondary);">
+                                                                Direct to CaseLines</div>
+                                                            <div style="font-size: 0.9rem; margin-top: 5px;">Upload
+                                                                documents directly to the CaseLines platform</div>
                                                         </div>
-                                                        <div style="flex: 1; padding: 10px; background: white; border-radius: 4px; text-align: center; cursor: pointer;">
+                                                        <div
+                                                            style="flex: 1; padding: 10px; background: white; border-radius: 4px; text-align: center; cursor: pointer;">
                                                             <div style="font-weight: 500;">Download Bundle</div>
-                                                            <div style="font-size: 0.9rem; margin-top: 5px;">Save locally for manual upload to CaseLines</div>
+                                                            <div style="font-size: 0.9rem; margin-top: 5px;">Save
+                                                                locally for manual upload to CaseLines</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div style="margin-top: 20px; text-align: center;">
-                                            <button style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 4px; font-weight: 500; cursor: pointer;">Process and Submit to CaseLines</button>
+                                            <button
+                                                style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 4px; font-weight: 500; cursor: pointer;">Process
+                                                and Submit to CaseLines</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1819,7 +1952,7 @@
     </section>
 
     <center><a href="dashboard.html" class="cta-button">Access a Sample Dashboard</a></center>
-    
+
     <!-- Video Demo Section -->
     <section class="demo-section">
         <div class="container">
@@ -1832,7 +1965,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Pricing Section -->
     <section class="pricing-section" id="pricing">
         <div class="container">
@@ -1910,7 +2043,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
         <div class="container">
@@ -1964,7 +2097,9 @@
                     </div>
                     <div class="form-check">
                         <input type="checkbox" id="consent" required>
-                        <label for="consent">I consent to SINC processing my information in accordance with the Protection of Personal Information Act (POPIA). I understand that my information will be used solely for the purpose of responding to my inquiry.</label>
+                        <label for="consent">I consent to SINC processing my information in accordance with the
+                            Protection of Personal Information Act (POPIA). I understand that my information will be
+                            used solely for the purpose of responding to my inquiry.</label>
                     </div>
                     <div class="form-submit">
                         <button type="submit" class="cta-button">Submit Request</button>
@@ -1973,14 +2108,15 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
                     <h4>SINC</h4>
-                    <p>SINC is a complete legal practice management solution designed specifically for South African law firms.</p>
+                    <p>SINC is a complete legal practice management solution designed specifically for South African law
+                        firms.</p>
                     <div class="social-icons">
                         <a href="#" class="social-icon">F</a>
                         <a href="#" class="social-icon">T</a>
@@ -1988,28 +2124,27 @@
                         <a href="#" class="social-icon">I</a>
                     </div>
                 </div>
+
                 <div class="footer-column">
-                    <h4>Features</h4>
+                    <h4>Platform & Prototypes</h4>
                     <ul>
-                        <li><a href="#">Legal AI Assistant</a></li>
-                        <li><a href="#">Voice Transcription</a></li>
-                        <li><a href="#">Digital Case Files</a></li>
-                        <li><a href="#">CaseLines Integration</a></li>
-                        <li><a href="#">Team Management</a></li>
-                        <li><a href="#">Client Portal</a></li>
+                        <li><a href="../sinc-legal/"><strong>Real Working MVP</strong></a></li>
+                        <li><a href="dashboard.html">Dashboard Prototype 1</a></li>
+                        <li><a href="dashboardv2.html">Dashboard Prototype 2</a></li>
+                        <li><a href="dashboardv3.html">Dashboard Prototype 3</a></li>
                     </ul>
                 </div>
+
                 <div class="footer-column">
                     <h4>Resources</h4>
                     <ul>
                         <li><a href="whitepaper.html">Whitepaper</a></li>
                         <li><a href="#">Help Center</a></li>
                         <li><a href="#">Video Tutorials</a></li>
-                        <li><a href="#">Webinars</a></li>
                         <li><a href="#">POPIA Compliance</a></li>
-                        <li><a href="#">System Status</a></li>
                     </ul>
                 </div>
+
                 <div class="footer-column">
                     <h4>Contact</h4>
                     <ul>
@@ -2020,57 +2155,49 @@
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 SINC Legal Software. All rights reserved.</p>
-                <p>POPIA Compliant | Privacy Policy | Terms of Service</p>
+
+            <div class="footer-bottom flex flex-col items-center gap-6 mt-8 pt-8 border-t border-gray-200">
+                <div class="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-500">
+                    <span>
+                        Concept & idea by
+                        <a href="https://sethumkhwanaziattorneys.co.za" target="_blank" rel="noopener noreferrer"
+                            class="text-sky-600 hover:text-sky-800 font-medium">
+                            Sethu Mkhwanazi Attorneys
+                        </a>
+                    </span>
+                    <span class="hidden sm:inline text-gray-300">|</span>
+                    <span>
+                        Developed by
+                        <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer"
+                            class="text-sky-600 hover:text-sky-800 font-medium">
+                            Vylex
+                        </a>
+                    </span>
+                </div>
+
+                <div class="text-center text-sm">
+                    <p>&copy; 2026 SINC Legal Software. All rights reserved.</p>
+                    <p class="mt-2">POPIA Compliant | Privacy Policy | Terms of Service</p>
+                </div>
             </div>
         </div>
     </footer>
-    
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <button class="close-modal">&times;</button>
-            <h3>Login to SINC</h3>
-            <p>Access your secure SINC account</p>
-            <form class="login-form">
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" class="form-control" required>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" id="rememberMe">
-                    <label for="rememberMe">Remember me</label>
-                </div>
-                <div class="form-submit">
-                    <button type="submit" class="cta-button">Login</button>
-                </div>
-                <div style="text-align: center; margin-top: 1rem;">
-                    <a href="#" style="color: var(--secondary); text-decoration: none;">Forgot password?</a>
-                </div>
-            </form>
-        </div>
-    </div>
-    
+
     <script>
         //Nav burger menu functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const navToggle = document.getElementById('navToggle');
             const mainNav = document.getElementById('mainNav');
-            
-            navToggle.addEventListener('click', function() {
+
+            navToggle.addEventListener('click', function () {
                 mainNav.classList.toggle('active');
                 navToggle.classList.toggle('active');
             });
-            
+
             // Close menu when clicking on a link
             const navLinks = document.querySelectorAll('nav ul li a');
             navLinks.forEach(link => {
-                link.addEventListener('click', function() {
+                link.addEventListener('click', function () {
                     mainNav.classList.remove('active');
                     navToggle.classList.remove('active');
                 });
@@ -2078,38 +2205,18 @@
         });
 
 
-        // Modal functionality
-        const loginBtn = document.getElementById('loginBtn');
-        const loginModal = document.getElementById('loginModal');
-        const closeModal = document.querySelector('.close-modal');
-        
-        loginBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginModal.style.display = 'flex';
-        });
-        
-        closeModal.addEventListener('click', function() {
-            loginModal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', function(e) {
-            if (e.target === loginModal) {
-                loginModal.style.display = 'none';
-            }
-        });
-        
         // UI Tabs functionality
         const tabs = document.querySelectorAll('.ui-tab');
         const screens = document.querySelectorAll('.ui-screen');
-        
+
         tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
+            tab.addEventListener('click', function () {
                 // Remove active class from all tabs
                 tabs.forEach(t => t.classList.remove('active'));
-                
+
                 // Add active class to clicked tab
                 this.classList.add('active');
-                
+
                 // Show corresponding screen
                 const tabName = this.getAttribute('data-tab');
                 screens.forEach(screen => {
@@ -2121,47 +2228,47 @@
                 });
             });
         });
-        
+
         // Form submission
         const contactForm = document.querySelector('.contact-form');
-        
-        contactForm.addEventListener('submit', function(e) {
+
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             // In a real application, you would send the form data to a server
             // For demo purposes, we'll just show an alert
             alert('Thank you for your interest in SINC! A representative will contact you shortly.');
-            
+
             // Reset form
             contactForm.reset();
         });
-        
+
         // POPIA compliance features
         // This would include functions for handling consent management, data retention, etc.
         const popiaCompliance = {
-            trackConsent: function(userId, consentType, timestamp) {
+            trackConsent: function (userId, consentType, timestamp) {
                 // In a real app, this would store consent data with timestamp
                 console.log(`User ${userId} consented to ${consentType} at ${timestamp}`);
                 return true;
             },
-            
-            logDataAccess: function(userId, dataType, action) {
+
+            logDataAccess: function (userId, dataType, action) {
                 // In a real app, this would log all data access for audit trails
                 console.log(`User ${userId} performed ${action} on ${dataType} data`);
                 return true;
             },
-            
-            enforceDeletion: function(dataId, retentionPeriod) {
+
+            enforceDeletion: function (dataId, retentionPeriod) {
                 // In a real app, this would manage data deletion after retention period
                 console.log(`Data ${dataId} will be deleted after ${retentionPeriod}`);
                 return true;
             }
         };
-        
+
         // CaseLines integration functionality
         // This would include functions for document preparation and submission
         const caselinesIntegration = {
-            prepareBundleForCaseLines: function(caseId, documents) {
+            prepareBundleForCaseLines: function (caseId, documents) {
                 // In a real app, this would process documents for CaseLines format
                 console.log(`Preparing bundle for case ${caseId} with ${documents.length} documents`);
                 return {
@@ -2169,8 +2276,8 @@
                     bundleId: 'BND-' + Math.floor(Math.random() * 10000)
                 };
             },
-            
-            submitToCaseLines: function(bundleId, credentials) {
+
+            submitToCaseLines: function (bundleId, credentials) {
                 // In a real app, this would use API to submit to CaseLines
                 console.log(`Submitting bundle ${bundleId} to CaseLines using provided credentials`);
                 return {
@@ -2180,16 +2287,17 @@
                 };
             }
         };
-        
+
         // Demo video playback
         const playButton = document.querySelector('.play-button');
         const demoVideo = document.querySelector('.demo-video');
-        
-        playButton.addEventListener('click', function() {
+
+        playButton.addEventListener('click', function () {
             // In a real app, this would play an actual video
             // For demo purposes, we'll just show a message
             demoVideo.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;">Video playback would start here in the actual application</div>';
         });
     </script>
 </body>
+
 </html>
