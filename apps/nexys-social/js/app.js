@@ -21,7 +21,7 @@ class NexysNetApp {
       searchQuery: '',
       captchaAns: 0,
       activeView: 'home',
-      reactionsList:['❤️', '🚀', '🤯', '🔥', '👍', '😂']
+      reactionsList: ['❤️', '🚀', '🤯', '🔥', '👍', '😂']
     };
 
     // Firebase Init
@@ -37,12 +37,12 @@ class NexysNetApp {
       navBtns: document.querySelectorAll('.nav-btn'),
       views: document.querySelectorAll('.view'),
       mobileTitle: document.getElementById('mobilePageTitle'),
-      
+
       // Top Level Views
       viewHome: document.getElementById('view-home'),
       viewExplore: document.getElementById('view-explore'),
       exploreGrid: document.getElementById('exploreGrid'),
-      
+
       // Composer
       composeInput: document.getElementById('composeInput'),
       composeExtras: document.getElementById('composeExtras'),
@@ -51,11 +51,11 @@ class NexysNetApp {
       charCount: document.getElementById('charCount'),
       submitBtn: document.getElementById('submitPostBtn'),
       cancelBtn: document.getElementById('cancelPostBtn'),
-      
+
       // Feed
       postsContainer: document.getElementById('postsContainer'),
       skeleton: document.getElementById('feedSkeleton'),
-      
+
       // Profile / Settings
       userNameInput: document.getElementById('userNameInput'),
       captchaQ: document.getElementById('captchaQuestion'),
@@ -63,15 +63,15 @@ class NexysNetApp {
       saveUserBtn: document.getElementById('saveUserBtn'),
       profileName: document.getElementById('profileNameDisplay'),
       avatars: document.querySelectorAll('.current-user-avatar'),
-      
+
       // Search & Stats
       searchInputs: [document.getElementById('searchInput')],
       trendLists: [document.getElementById('exploreTrendingList'), document.getElementById('sidebarTrendingList')],
       statPosts: document.getElementById('statTotalPosts'),
       statReactions: document.getElementById('statTotalReactions'),
       statUsers: document.getElementById('statActiveUsers'),
-      onlineCounts:[document.getElementById('navOnlineCount'), document.getElementById('mobileOnlineCount')],
-      
+      onlineCounts: [document.getElementById('navOnlineCount'), document.getElementById('mobileOnlineCount')],
+
       // Utilities
       postTemplate: document.getElementById('post-template'),
       toast: document.getElementById('toast'),
@@ -103,30 +103,30 @@ class NexysNetApp {
   }
 
   switchView(viewId) {
-    if(this.state.activeView === viewId) return;
-    
+    if (this.state.activeView === viewId) return;
+
     // UI RESTORE: If going back to home, reset search state so the feed looks normal.
     if (viewId === 'home') {
-       this.DOM.searchInputs.forEach(i => { if(i) i.value = ''; });
-       this.state.searchQuery = '';
-       this.DOM.exploreGrid.style.display = '';
-       this.DOM.viewHome.appendChild(this.DOM.postsContainer); // Move feed back
-       this.filterPosts();
+      this.DOM.searchInputs.forEach(i => { if (i) i.value = ''; });
+      this.state.searchQuery = '';
+      this.DOM.exploreGrid.style.display = '';
+      this.DOM.viewHome.appendChild(this.DOM.postsContainer); // Move feed back
+      this.filterPosts();
     }
-    
+
     // Update Nav
     this.DOM.navBtns.forEach(b => b.classList.toggle('active', b.dataset.target === viewId));
-    
+
     // Update Views
     this.DOM.views.forEach(v => {
       v.classList.remove('active');
-      if(v.id === `view-${viewId}`) v.classList.add('active');
+      if (v.id === `view-${viewId}`) v.classList.add('active');
     });
 
     // Update Mobile Header
     const titles = { home: 'Home', explore: 'Explore', profile: 'Profile' };
     this.DOM.mobileTitle.textContent = titles[viewId];
-    
+
     this.state.activeView = viewId;
     window.scrollTo(0, 0);
   }
@@ -134,10 +134,34 @@ class NexysNetApp {
   parseURL() {
     const p = new URLSearchParams(location.search);
     const postId = p.get('post');
-    if(postId) {
+    if (postId) {
       this.switchView('home');
       this.state.pendingHighlight = postId;
     }
+  }
+
+  getUserColor(name) {
+    // Hash the name to a consistent number
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      hash |= 0; // Convert to 32-bit int
+    }
+
+    // Map to a set of nice-looking gradient pairs
+    const gradients = [
+      ['#4fc3f7', '#a78bfa'], // blue → purple
+      ['#f87171', '#fb923c'], // red → orange
+      ['#34d399', '#4fc3f7'], // green → blue
+      ['#f472b6', '#a78bfa'], // pink → purple
+      ['#fb923c', '#fbbf24'], // orange → yellow
+      ['#a78bfa', '#f472b6'], // purple → pink
+      ['#34d399', '#a78bfa'], // green → purple
+      ['#60a5fa', '#34d399'], // blue → green
+    ];
+
+    const index = Math.abs(hash) % gradients.length;
+    return gradients[index];
   }
 
   // --- EVENTS & UI LOGIC ---
@@ -150,12 +174,12 @@ class NexysNetApp {
 
     // Fix for Search: dynamically move feed to Explore when searching
     this.DOM.searchInputs.forEach(input => {
-      if(!input) return;
+      if (!input) return;
       input.addEventListener('input', (e) => {
         const q = e.target.value.toLowerCase().trim();
-        this.DOM.searchInputs.forEach(i => { if(i && i !== e.target) i.value = q; });
+        this.DOM.searchInputs.forEach(i => { if (i && i !== e.target) i.value = q; });
         this.state.searchQuery = q;
-        
+
         if (q.length > 0) {
           this.DOM.exploreGrid.style.display = 'none';
           this.DOM.viewExplore.appendChild(this.DOM.postsContainer);
@@ -163,7 +187,7 @@ class NexysNetApp {
           this.DOM.exploreGrid.style.display = '';
           this.DOM.viewHome.appendChild(this.DOM.postsContainer);
         }
-        
+
         this.filterPosts();
       });
     });
@@ -171,11 +195,11 @@ class NexysNetApp {
     // Trend Click Support (Click a trend to auto-search)
     document.addEventListener('click', e => {
       const trendItem = e.target.closest('.trending-item');
-      if(trendItem && trendItem.dataset.tag) {
-         this.switchView('explore');
-         const sInput = this.DOM.searchInputs[0];
-         sInput.value = trendItem.dataset.tag;
-         sInput.dispatchEvent(new Event('input')); // Trigger search logic
+      if (trendItem && trendItem.dataset.tag) {
+        this.switchView('explore');
+        const sInput = this.DOM.searchInputs[0];
+        sInput.value = trendItem.dataset.tag;
+        sInput.dispatchEvent(new Event('input')); // Trigger search logic
       }
     });
 
@@ -260,7 +284,7 @@ class NexysNetApp {
     const left = 500 - len;
     this.DOM.charCount.textContent = left;
     this.DOM.charCount.style.color = left < 0 ? 'var(--accent-danger)' : 'var(--text-muted)';
-    
+
     const hasContent = this.DOM.composeInput.value.trim() || this.DOM.postImageURL.value.trim();
     this.DOM.submitBtn.disabled = left < 0 || !hasContent;
   }
@@ -269,7 +293,7 @@ class NexysNetApp {
   initAuth() {
     signInAnonymously(this.auth).catch(() => this.showToast('Connection failed.', 'error'));
     onAuthStateChanged(this.auth, user => {
-      if(!user) return;
+      if (!user) return;
       this.state.uid = user.uid;
       const savedName = localStorage.getItem('nexysUserName');
       if (savedName) {
@@ -308,9 +332,13 @@ class NexysNetApp {
     this.state.user = name;
     this.DOM.profileName.textContent = name;
     this.DOM.userNameInput.value = name;
-    
-    const initials = name.split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase();
-    this.DOM.avatars.forEach(av => av.textContent = initials);
+
+    const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+    const [c1, c2] = this.getUserColor(name);  // ← add this
+    this.DOM.avatars.forEach(av => {
+      av.textContent = initials;
+      av.style.background = `linear-gradient(135deg, ${c1}, ${c2})`; // ← add this
+    });
   }
 
   initPresence() {
@@ -320,11 +348,11 @@ class NexysNetApp {
       onDisconnect(conn).remove();
       set(conn, { user: this.state.user, ts: serverTimestamp() });
     });
-    
+
     onValue(this.connRef, snap => {
       const c = snap.exists() ? snap.size : 0;
-      this.DOM.onlineCounts.forEach(el => { if(el) el.textContent = `${c} online`; });
-      if(this.DOM.statUsers) this.DOM.statUsers.textContent = c;
+      this.DOM.onlineCounts.forEach(el => { if (el) el.textContent = `${c} online`; });
+      if (this.DOM.statUsers) this.DOM.statUsers.textContent = c;
     });
   }
 
@@ -338,8 +366,8 @@ class NexysNetApp {
       const el = this.buildPost(snap.key, snap.val());
       this.DOM.postsContainer.prepend(el);
       this.filterPosts();
-      
-      if(this.state.pendingHighlight === snap.key) {
+
+      if (this.state.pendingHighlight === snap.key) {
         setTimeout(() => this.highlightPost(el), 300);
         this.state.pendingHighlight = null;
       }
@@ -347,41 +375,41 @@ class NexysNetApp {
 
     onChildChanged(this.postsRef, snap => {
       const el = document.querySelector(`[data-post-id="${snap.key}"]`);
-      if(el) this.updatePostDOM(el, snap.val());
+      if (el) this.updatePostDOM(el, snap.val());
     });
 
     onChildRemoved(this.postsRef, snap => {
       const el = document.querySelector(`[data-post-id="${snap.key}"]`);
-      if(el) { el.style.opacity = '0'; setTimeout(()=>el.remove(), 300); }
+      if (el) { el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }
     });
 
     // Global Stats Aggregation
     onValue(this.postsRef, snap => {
-      if(!snap.exists()) return;
+      if (!snap.exists()) return;
       const posts = snap.val();
       const count = Object.keys(posts).length;
       let reactions = 0;
       let tags = {};
-      
+
       for (const k in posts) {
-        reactions += Object.values(posts[k].reactions || {}).reduce((a,b)=>a+b, 0);
-        if(posts[k].tags) {
+        reactions += Object.values(posts[k].reactions || {}).reduce((a, b) => a + b, 0);
+        if (posts[k].tags) {
           posts[k].tags.split(/\s+/).filter(Boolean).forEach(t => {
             const tl = t.toLowerCase();
             tags[tl] = (tags[tl] || 0) + 1;
           });
         }
       }
-      
-      if(this.DOM.statPosts) this.DOM.statPosts.textContent = count;
-      if(this.DOM.statReactions) this.DOM.statReactions.textContent = reactions;
-      
-      const sortedTags = Object.entries(tags).sort((a,b)=>b[1]-a[1]).slice(0, 5);
-      const trendsHtml = sortedTags.length 
+
+      if (this.DOM.statPosts) this.DOM.statPosts.textContent = count;
+      if (this.DOM.statReactions) this.DOM.statReactions.textContent = reactions;
+
+      const sortedTags = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 5);
+      const trendsHtml = sortedTags.length
         ? sortedTags.map(([t, c]) => `<div class="trending-item" data-tag="${this.escapeHTML(t)}"><span class="trend-tag">${this.escapeHTML(t)}</span><span class="trend-count">${c} posts</span></div>`).join('')
         : '<p style="color:var(--text-muted);font-size:0.85rem">No trends yet.</p>';
-        
-      this.DOM.trendLists.forEach(l => { if(l) l.innerHTML = trendsHtml; });
+
+      this.DOM.trendLists.forEach(l => { if (l) l.innerHTML = trendsHtml; });
     });
   }
 
@@ -390,7 +418,7 @@ class NexysNetApp {
     const content = this.DOM.composeInput.value.trim();
     const imageUrl = this.DOM.postImageURL.value.trim();
     const tags = this.DOM.postTags.value.trim();
-    
+
     this.DOM.submitBtn.disabled = true;
     this.DOM.submitBtn.textContent = 'Posting...';
 
@@ -410,9 +438,11 @@ class NexysNetApp {
     const clone = this.DOM.postTemplate.content.cloneNode(true);
     const card = clone.querySelector('.post-card');
     card.dataset.postId = id;
-    card.dataset.searchable = (post.content + ' ' + post.author + ' ' + (post.tags||'')).toLowerCase();
+    card.dataset.searchable = (post.content + ' ' + post.author + ' ' + (post.tags || '')).toLowerCase();
 
     card.querySelector('[data-author-initials]').textContent = this.getInitials(post.author);
+    const [c1, c2] = this.getUserColor(post.author);
+    card.querySelector('[data-author-initials]').style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
     card.querySelector('[data-author-name]').textContent = this.escapeHTML(post.author);
     card.querySelector('[data-timestamp]').textContent = this.timeAgo(post.timestamp);
 
@@ -436,7 +466,7 @@ class NexysNetApp {
 
     card.querySelector('[data-reactions-panel]').innerHTML = this.state.reactionsList
       .map(r => `<button class="reaction-btn" data-action="react" data-reaction="${r}">${r}</button>`).join('');
-      
+
     card.querySelector('[data-share-link]').value = `${location.origin}${location.pathname}?post=${id}`;
     card.querySelector('[data-current-user-initials]').textContent = this.getInitials(this.state.user);
 
@@ -445,40 +475,45 @@ class NexysNetApp {
   }
 
   updatePostDOM(card, post) {
-    const totalReactions = Object.values(post.reactions || {}).reduce((a,b)=>a+b, 0);
+    const totalReactions = Object.values(post.reactions || {}).reduce((a, b) => a + b, 0);
     const myReaction = post.userReactions?.[this.state.uid];
-    
+
     card.dataset.userReaction = myReaction || '';
     card.querySelector('[data-reaction-emoji]').textContent = myReaction || '🤍';
     card.querySelector('[data-reaction-count]').textContent = totalReactions;
-    
+
     const commentsCount = post.comments ? Object.keys(post.comments).length : 0;
     card.querySelector('[data-comment-count]').textContent = commentsCount;
 
     const cList = card.querySelector('[data-comments-container]');
     cList.innerHTML = '';
-    if(post.comments) {
-      Object.values(post.comments).sort((a,b)=>a.timestamp - b.timestamp).forEach(c => {
-        const div = document.createElement('div');
-        div.className = 'comment-item';
-        div.innerHTML = `
-          <div class="user-avatar comment-avatar">${this.getInitials(c.author)}</div>
-          <div class="comment-bubble">
-            <div class="comment-header">
-              <span class="comment-author">${this.escapeHTML(c.author)}</span>
-              <span class="comment-time">${this.timeAgo(c.timestamp)}</span>
-            </div>
-            <div class="comment-text">${this.escapeHTML(c.text)}</div>
-          </div>`;
-        cList.appendChild(div);
-      });
-    }
+    if (post.comments) {
+  Object.values(post.comments).sort((a, b) => a.timestamp - b.timestamp).forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'comment-item';
+    div.innerHTML = `
+      <div class="user-avatar comment-avatar">${this.getInitials(c.author)}</div>
+      <div class="comment-bubble">
+        <div class="comment-header">
+          <span class="comment-author">${this.escapeHTML(c.author)}</span>
+          <span class="comment-time">${this.timeAgo(c.timestamp)}</span>
+        </div>
+        <div class="comment-text">${this.formatRichText(c.text)}</div>
+      </div>`;
+
+    // Apply per-user color to comment avatar
+    const [c1, c2] = this.getUserColor(c.author);
+    div.querySelector('.comment-avatar').style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
+
+    cList.appendChild(div);
+  });
+}
   }
 
   // --- INTERACTIONS ---
   handleFeedClick(e) {
     const btn = e.target.closest('[data-action]');
-    if(!btn) return;
+    if (!btn) return;
     const card = btn.closest('.post-card');
     const pid = card.dataset.postId;
     const action = btn.dataset.action;
@@ -486,29 +521,29 @@ class NexysNetApp {
     const togglePanel = (sel) => {
       const panel = card.querySelector(sel);
       const isOpen = panel.classList.toggle('active');
-      card.querySelectorAll('.action-btn').forEach(b => { if(b!==btn) b.classList.remove('active'); });
-      if(btn.classList.contains('action-btn')) btn.classList.toggle('active', isOpen);
-      if(isOpen && sel.includes('comments')) panel.querySelector('[data-comment-input]').focus();
+      card.querySelectorAll('.action-btn').forEach(b => { if (b !== btn) b.classList.remove('active'); });
+      if (btn.classList.contains('action-btn')) btn.classList.toggle('active', isOpen);
+      if (isOpen && sel.includes('comments')) panel.querySelector('[data-comment-input]').focus();
     };
 
-    if(action === 'toggle-reactions') togglePanel('[data-reactions-panel]');
-    if(action === 'toggle-comments') togglePanel('[data-comments-section]');
-    if(action === 'toggle-share') togglePanel('[data-share-panel]');
-    
-    if(action === 'delete') this.deletePost(pid, card);
-    if(action === 'copy-share-link') {
+    if (action === 'toggle-reactions') togglePanel('[data-reactions-panel]');
+    if (action === 'toggle-comments') togglePanel('[data-comments-section]');
+    if (action === 'toggle-share') togglePanel('[data-share-panel]');
+
+    if (action === 'delete') this.deletePost(pid, card);
+    if (action === 'copy-share-link') {
       navigator.clipboard.writeText(card.querySelector('[data-share-link]').value);
       btn.textContent = 'Copied!';
       setTimeout(() => btn.textContent = 'Copy', 2000);
     }
-    
-    if(action === 'react') {
-      if(this.state.user === 'Guest') return this.showToast('Please set your username first.', 'error');
+
+    if (action === 'react') {
+      if (this.state.user === 'Guest') return this.showToast('Please set your username first.', 'error');
       this.toggleReaction(pid, btn.dataset.reaction, card);
     }
-    
-    if(action === 'add-comment') {
-      if(this.state.user === 'Guest') return this.showToast('Please set your username first.', 'error');
+
+    if (action === 'add-comment') {
+      if (this.state.user === 'Guest') return this.showToast('Please set your username first.', 'error');
       this.addComment(pid, card);
     }
   }
@@ -516,22 +551,22 @@ class NexysNetApp {
   toggleReaction(pid, reaction, card) {
     const old = card.dataset.userReaction;
     const updates = {};
-    if(old === reaction) {
+    if (old === reaction) {
       updates[`posts/${pid}/reactions/${old}`] = increment(-1);
       updates[`posts/${pid}/userReactions/${this.state.uid}`] = null;
     } else {
-      if(old) updates[`posts/${pid}/reactions/${old}`] = increment(-1);
+      if (old) updates[`posts/${pid}/reactions/${old}`] = increment(-1);
       updates[`posts/${pid}/reactions/${reaction}`] = increment(1);
       updates[`posts/${pid}/userReactions/${this.state.uid}`] = reaction;
     }
-    update(ref(this.db), updates).catch(()=>this.showToast('Reaction failed', 'error'));
+    update(ref(this.db), updates).catch(() => this.showToast('Reaction failed', 'error'));
   }
 
   addComment(pid, card) {
     const input = card.querySelector('[data-comment-input]');
     const text = input.value.trim();
-    if(!text) return;
-    
+    if (!text) return;
+
     set(push(ref(this.db, `posts/${pid}/comments`)), {
       author: this.state.user,
       authorUid: this.state.uid,
@@ -541,7 +576,7 @@ class NexysNetApp {
   }
 
   deletePost(pid, card) {
-    if(!confirm('Permanently delete this post?')) return;
+    if (!confirm('Permanently delete this post?')) return;
     remove(ref(this.db, `posts/${pid}`))
       .then(() => this.showToast('Post deleted', 'success'))
       .catch(() => this.showToast('Failed to delete', 'error'));
@@ -572,32 +607,34 @@ class NexysNetApp {
   }
 
   getInitials(name) {
-    return (name || '??').split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase();
+    return (name || '??').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
   }
 
   escapeHTML(str) {
-    if(!str) return '';
-    const map = { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' };
-    return str.replace(/[&<>"']/g, m => map[m]);
+    if (!str) return '';
+    const escapeMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
+    return String(str).replace(/[&<>"]/g, m => escapeMap[m]); // ← apostrophe REMOVED
   }
 
   formatRichText(text) {
-    if(!text) return '';
+    if (!text) return '';
     let t = this.escapeHTML(text);
-    t = t.replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}" target="_blank">${url}</a>`);
+    t = t.replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
     t = t.replace(/(#[\w-]+)/g, tag => `<span class="hashtag">${tag}</span>`);
+    t = t.replace(/\n/g, '<br>');
     return t;
   }
+  // ← second formatRichText is GONE
 
   timeAgo(ts) {
-    if(!ts) return '';
+    if (!ts) return '';
     const s = (Date.now() - ts) / 1000;
     if (s < 60) return `${Math.floor(s)}s`;
     const m = s / 60;
     if (m < 60) return `${Math.floor(m)}m`;
     const h = m / 60;
     if (h < 24) return `${Math.floor(h)}h`;
-    return new Date(ts).toLocaleDateString('en-US', { month:'short', day:'numeric' });
+    return new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 }
 
