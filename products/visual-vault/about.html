@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>About VisualVault | The Story Behind the Multi-Source Image Search</title>
+  <meta name="title" content="About VisualVault | The Story Behind the Multi-Source Image Search" />
+  <meta name="description" content="Discover how VisualVault by Vylex simplifies creative workflows by aggregating the world's best free stock photo and GIF libraries into one interface." />
+  <meta name="keywords" content="about VisualVault, Vylex projects, image search mission, stock photo aggregator technology, free creative tools, Unsplash Pexels Pixabay API" />
+  <meta name="author" content="Vylex" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://vylex.co.za/products/visual-vault/about.html" />
+  <meta property="og:title" content="About VisualVault - A Project by Vylex" />
+  <meta property="og:description" content="One search, infinite inspiration. Learn how we built a faster way to find high-quality visuals from Unsplash, Pexels, and Giphy." />
+  <meta property="og:image" content="https://vylex.co.za/products/visual-vault/assets/visualvault-thumbnail.jpg" />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://vylex.co.za/products/visual-vault/about.html" />
+  <meta property="twitter:title" content="About VisualVault | Built by Vylex" />
+  <meta property="twitter:description" content="Discover the mission and technology behind our free image and GIF aggregator." />
+  <meta property="twitter:image" content="https://vylex.co.za/products/visual-vault/assets/visualvault-thumbnail.jpg" />
+
+  <link rel="canonical" href="https://vylex.co.za/products/visual-vault/about.html" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "mainEntity": {
+        "@type": "WebApplication",
+        "name": "VisualVault",
+        "url": "https://vylex.co.za/products/visual-vault/",
+        "author": {
+          "@type": "Organization",
+          "name": "Vylex",
+          "url": "https://vylex.co.za"
+        }
+      },
+      "description": "Information about the development, mission, and features of the VisualVault image discovery engine."
+    }
+  </script>
+
+  <style>
+    :root {
+            --primary: #3a6ea5;
+            --secondary: #4a90e2;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Ensure footer stays at bottom if content is short */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        i a{
+            color: #aaa;
+        }
+
+        /* Hamburger menu */
+        .burger-menu {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+        }
+        .burger-bar {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+        
+        /* Mobile menu active state */
+        .nav-active {
+            transform: translateX(0) !important;
+        }
+        
+        /* Hamburger animation */
+        .burger-active .bar1 {
+            transform: translateY(8px) rotate(45deg);
+        }
+        
+        .burger-active .bar2 {
+            opacity: 0;
+        }
+        
+        .burger-active .bar3 {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: var(--transition);
+            font-weight: 500;
+            padding: 0.5rem 0; /* Added padding for better touch targets */
+            position: relative; /* For potential active state indicator */
+        }
+
+        /* Simple active state indicator */
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        .nav-link:hover {
+            opacity: 1;
+        }
+        
+        /* Removed Hero styles as they are not needed for About page */
+        /* Removed Search Container styles */
+        /* Removed Results Grid styles */
+        /* Removed Modal styles */
+
+        /* Keep Main Content padding */
+        .main-content {
+            padding: 2rem 0;
+            flex-grow: 1; /* Make content area grow to push footer down */
+        }
+
+        /* Simple styling for About page content */
+        .about-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .about-section h1, .about-section h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .about-section h1 {
+            font-size: 2.2rem;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .about-section h2 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .about-section p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .about-section ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-section li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .about-section a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .about-section a:hover {
+            text-decoration: underline;
+            color: var(--primary);
+        }
+
+        /* Re-add button style for potential CTA */
+         .cta-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.75rem;
+            font-size: 1rem;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex; /* Changed from flex */
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+            text-decoration: none; /* Ensure links styled as buttons don't have underlines */
+            margin-top: 1rem;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 144, 226, 0.4);
+            color: white; /* Ensure hover color remains white */
+            text-decoration: none;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            position: relative;
+            margin-top: auto; /* Push footer to bottom */
+        }
+
+        footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.25rem;
+            color: var(--accent);
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent);
+            border-radius: 3px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-link {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-link a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-link a:hover {
+            color: white;
+            transform: translateX(3px);
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icon {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .social-icon:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        /* Removed Newsletter Form styles */
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: flex;
+                z-index: 101; /* Ensure burger is above nav */
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                max-width: 300px; /* Max width for larger tablets */
+                height: 100vh;
+                background-color: var(--primary);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+            
+            .nav-links li {
+                opacity: 0;
+                animation: fadeIn 0.5s ease-in-out forwards;
+                animation-delay: calc(0.1s * var(--i));
+                width: 80%; /* Give list items width */
+                text-align: center;
+            }
+            
+            .nav-link {
+                font-size: 1.2rem;
+                display: block; 
+                width: 100%;
+            }
+
+            /* Make active indicator work on mobile too */
+            .nav-link.active::after {
+                bottom: -5px; /* Adjust position slightly */
+                height: 3px;
+                background-color: var(--accent);
+            }
+            
+            /* Overlay for when mobile menu is open */
+            .menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+                display: none;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .menu-overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            .about-section h1 {
+                font-size: 1.8rem;
+            }
+            .about-section h2 {
+                font-size: 1.3rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .footer-section {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0.5rem 0;
+            }
+             .about-section {
+                padding: 1.5rem;
+            }
+             .about-section h1 {
+                font-size: 1.6rem;
+            }
+             .about-section h2 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Dark mode styles (Optional - kept for consistency if you implement toggle) */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+        body.dark-mode .about-section {
+             background-color: #2d2d2d;
+             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+        }
+        body.dark-mode .about-section h1,
+        body.dark-mode .about-section h2 {
+            color: var(--secondary); /* Adjust heading colors for dark mode */
+        }
+         body.dark-mode .about-section h1 {
+             border-bottom-color: var(--primary);
+         }
+
+        body.dark-mode .about-section p,
+        body.dark-mode .about-section li {
+            color: #ccc;
+        }
+         body.dark-mode .about-section a {
+            color: var(--accent);
+        }
+         body.dark-mode .about-section a:hover {
+            color: #ff8a8a; /* Lighter accent hover */
+        }
+        /* --- [End of Copied CSS] --- */
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <i class="fas fa-images"></i>
+                    <span>VisualVault</span>
+                </div>
+                <div class="burger-menu">
+                    <div class="burger-bar bar1"></div>
+                    <div class="burger-bar bar2"></div>
+                    <div class="burger-bar bar3"></div>
+                </div>
+                <ul class="nav-links">
+                    <li style="--i:1"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li style="--i:5"><a href="https://vylex.co.za/" class="nav-link"><i class="fas fa-layer-group"></i> Vylex </a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Overlay for mobile menu -->
+    <div class="menu-overlay"></div>
+    
+    <!-- Main Content Area for About Page -->
+    <main class="main-content">
+        <div class="container">
+            <div class="about-section">
+                <h1>About VisualVault</h1>
+                
+                <p>Welcome to VisualVault, your streamlined gateway to a world of stunning, free-to-use images! Tired of hopping between different stock photo websites to find the perfect visual? VisualVault simplifies your search by aggregating results from multiple high-quality sources into one convenient platform.</p>
+                
+                <h2>Our Mission</h2>
+                <p>Our mission is to make the process of finding high-quality, free images and GIFs faster, easier, and more efficient for creators, designers, marketers, and anyone in need of visual content. We believe that accessing great visuals shouldn't be a chore.</p>
+                
+                <h2>How It Works</h2>
+                <p>VisualVault connects to the APIs of leading free media platforms. When you enter a search query, we:</p>
+                <ul>
+                    <li>Simultaneously search across selected sources like Unsplash, Pexels, Pixabay, and Giphy.</li>
+                    <li>Gather the results and present them in a unified, easy-to-browse interface.</li>
+                    <li>Provide options to view images in detail, see source information, and download directly.</li>
+                </ul>
+                
+                <h2>Key Features</h2>
+                <ul>
+                    <li><strong>Multi-Source Search:</strong> Find images and GIFs from multiple platforms with a single query.</li>
+                    <li><strong>Source Toggling:</strong> Choose which platforms you want to include in your search.</li>
+                    <li><strong>Clean Interface:</strong> Browse results seamlessly in a grid or list view.</li>
+                    <li><strong>Direct Downloads:</strong> Download images directly, respecting the terms of the source platform.</li>
+                    <li><strong>Responsive Design:</strong> Search for images easily on any device, desktop or mobile.</li>
+                </ul>
+
+                <h2>Image Sources</h2>
+                <p>We currently fetch images and GIFs from these fantastic platforms (all credit goes to them and their talented contributors!):</p>
+                <ul>
+                    <li><a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer">Unsplash</a></li>
+                    <li><a href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer">Pexels</a></li>
+                    <li><a href="https://pixabay.com/" target="_blank" rel="noopener noreferrer">Pixabay</a></li>
+                    <li><a href="https://giphy.com/" target="_blank" rel="noopener noreferrer">Giphy</a> (for GIFs)</li>
+                </ul>
+                <p>Please remember to respect the licensing terms of each source platform when using images.</p>
+
+                <h2>Developed By</h2>
+                <p>VisualVault was created by <strong>Vylex </strong> as a project to simplify image discovery.</p>
+
+                <p>Ready to find your next perfect image?</p>
+                <a href="index.html" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg transition duration-300">
+                    <i class="fas fa-search"></i> Start Searching Now
+                </a>
+                
+
+            </div>
+        </div>
+    </main>
+    <!-- End of Main Content Area -->
+    
+    <!-- Footer remains the same -->
+     <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">VisualVault</h3>
+                    <p>Find the perfect images from multiple free sources with just one search.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="index.html">Home</a></li>
+                        <li class="footer-link"><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2025 VisualVault by <a href="https://vylex.co.za/">Vylex .</a> All images are provided by their respective platforms.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Minimal JS for Mobile Menu ONLY -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const burger = document.querySelector('.burger-menu');
+            const nav = document.querySelector('.nav-links');
+            const overlay = document.querySelector('.menu-overlay');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Toggle burger menu
+            burger.addEventListener('click', function() {
+                const isActive = nav.classList.contains('nav-active');
+                burger.classList.toggle('burger-active', !isActive);
+                nav.classList.toggle('nav-active', !isActive);
+                overlay.classList.toggle('active', !isActive);
+                
+                // Disable/enable body scroll
+                document.body.style.overflow = !isActive ? 'hidden' : 'auto';
+            });
+            
+            // Function to close menu
+            function closeMenu() {
+                burger.classList.remove('burger-active');
+                nav.classList.remove('nav-active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Close menu when clicking on a link
+            navLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+            
+            // Close menu when clicking on overlay
+            overlay.addEventListener('click', closeMenu);
+
+            // Close menu on ESC key press
+             document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && nav.classList.contains('nav-active')) {
+                    closeMenu();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
