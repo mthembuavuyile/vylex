@@ -34,7 +34,7 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   min-height: 100vh;
-  overflow-x: hidden;
+  /* REMOVED: overflow-x: hidden — was blocking horizontal scroll context and interfering with touch scroll */
 }
 
 /* Ambient Background */
@@ -54,6 +54,8 @@ body::before {
   max-width: 1280px;
   margin: 0 auto;
   min-height: 100vh;
+  /* Prevent horizontal overflow without blocking vertical scroll */
+  overflow-x: clip;
 }
 
 .app-main {
@@ -76,6 +78,8 @@ body::before {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  /* ADDED: prevent nav itself from being a scroll trap */
+  overflow-y: auto;
 }
 
 .nav-brand {
@@ -124,7 +128,7 @@ body::before {
 }
 .widget-title { font-family: var(--font-heading); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 16px; }
 
-/* UTILS & INPUTS - iOS auto-zoom fix applies specifically 16px minimum font size */
+/* UTILS & INPUTS - iOS auto-zoom fix: minimum 16px font size */
 .standard-input, .search-box input, .compose-input {
   font-size: 16px !important;
 }
@@ -273,152 +277,148 @@ body::before {
 
 
 /* ========================================================= */
-/* CONSOLIDATED MOBILE RESPONSIVE UPGRADES             */
+/* MOBILE RESPONSIVE — SCROLL-FRIENDLY REWRITE               */
 /* ========================================================= */
 @media (max-width: 860px) {
-  /* 1. Global & Layout Resets */
-  body, html { 
-    overflow-x: hidden; 
-    width: 100vw; 
-    overscroll-behavior-y: contain; /* Prevents unwanted pull-to-refresh */
+
+  /* 1. Global resets — NO overflow blocking, NO overscroll trapping */
+  html {
+    /* Allow normal browser scroll everywhere */
+    overflow-y: auto;
   }
-  
-  .app-container { 
-    flex-direction: column; 
+
+  body {
+    /* Do NOT set overflow-x: hidden here — it creates a new stacking context
+       that can block touch-scroll on iOS. Use clip on the container instead. */
+    overflow-x: clip;
+    width: 100%;
+    /* REMOVED: overscroll-behavior-y: contain — was preventing natural scroll momentum */
+  }
+
+  .app-container {
+    flex-direction: column;
     width: 100%;
     min-height: auto;
+    overflow-x: clip;
   }
-  
+
   .hidden-mobile { display: none !important; }
-  
-  /* 2. Main Content Area */
-  .app-main { 
-    border-left: none; 
-    border-right: none; 
-    padding-top: 60px; /* Clears sticky header */
-    padding-bottom: 120px; /* Clears bottom nav */
+
+  /* 2. Main content — natural document flow, not height-constrained */
+  .app-main {
+    border-left: none;
+    border-right: none;
+    padding-top: 60px;   /* Offset for fixed header */
+    padding-bottom: 80px; /* Offset for fixed bottom nav + safe area */
     width: 100%;
-    min-height: 100vh;
+    /* REMOVED: min-height: 100vh — was fighting natural content height and scroll */
   }
-  
-  .view { 
+
+  .view {
     padding: 16px 12px;
-    min-height: calc(100vh - 180px);
+    /* REMOVED: min-height: calc(100vh - 180px) — forces scroll context issues */
   }
-  
-  /* 3. Native-style Sticky Top Header */
+
+  /* 3. Fixed top header — pointer-events none on backdrop so touches pass through */
   .mobile-header {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 0 16px; 
+    padding: 0 16px;
     height: 60px;
-    background: rgba(8, 11, 18, 0.9); 
+    background: rgba(8, 11, 18, 0.92);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    position: fixed; 
+    position: fixed;
     top: 0; left: 0; right: 0;
-    z-index: 1000; 
+    z-index: 100;
     border-bottom: 1px solid var(--border-color);
+    /* Ensure touches on header don't bleed through */
+    touch-action: none;
   }
-  
-  .mobile-header h1 { 
-    font-family: var(--font-heading); 
-    font-size: 1.2rem; 
-    flex: 1; 
-    text-align: center; 
-    margin: 0; 
+
+  .mobile-header h1 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    flex: 1;
+    text-align: center;
+    margin: 0;
   }
-  
-  /* 4. Native-style Bottom Tab Navigation */
-  /* 4. Native-style Bottom Tab Navigation */
+
+  /* 4. Fixed bottom nav — allow-touch on nav buttons, not the whole bar */
   .app-nav {
-    position: fixed; 
-    top: auto; 
-    bottom: 0; 
-    left: 0; 
-    right: 0; 
-    height: auto; 
-    min-height: 60px; 
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
     width: 100%;
-    flex-direction: row; 
+    flex-direction: row;
     align-items: center;
-    padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
-    background: rgba(15, 22, 35, 0.95); 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid var(--border-color); 
-    z-index: 9999;
-    
-    /* ADD THIS LINE for smooth animation */
-    transition: transform 0.3s ease-in-out; 
+    /* Use safe-area for notched phones */
+    padding: 8px 12px env(safe-area-inset-bottom, 8px);
+    background: rgba(15, 22, 35, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border-color);
+    z-index: 100;
+    transition: transform 0.3s ease-in-out;
+    /* CRITICAL: prevent nav bar from intercepting page scroll */
+    touch-action: none;
+    overflow: visible;
   }
 
   .app-nav.nav-hidden {
-    /* Pushes the nav down by 100% of its own height */
-    transform: translateY(100%); 
+    transform: translateY(100%);
   }
-  
-  .nav-brand { 
-    display: none; /* Hides the logo to save space */
-  }
-  
-  .nav-links { 
+
+  .nav-brand { display: none; }
+
+  .nav-links {
     display: flex;
-    flex-direction: row; 
-    justify-content: space-around; 
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    width: 100%; 
+    width: 100%;
     gap: 0;
-    flex: unset; /* Crucial: stops the desktop flex: 1 from stretching it vertically */
+    flex: unset;
   }
-  
-  .nav-btn { 
+
+  .nav-btn {
     display: flex;
-    flex-direction: column; 
-    gap: 4px; 
-    padding: 8px; 
-    flex: 1; /* Distributes the 3 buttons evenly across the width */
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    flex: 1;
     justify-content: center;
     align-items: center;
     background: transparent !important;
     border-radius: var(--radius-sm);
-    height: auto; /* Prevents button height stretching */
-  }
-  
-  .nav-btn span { 
-    font-size: 0.7rem; 
-    font-weight: 500; 
-  }
-  
-  .nav-btn svg { 
-    width: 24px; 
-    height: 24px; 
-  }
-  
-  .nav-btn.active {
-    background: transparent !important; /* Keeps the background clean on mobile */
+    height: auto;
+    /* Allow tap but not scroll interception */
+    touch-action: manipulation;
   }
 
-  .nav-btn.active span {
+  .nav-btn span { font-size: 0.7rem; font-weight: 500; }
+  .nav-btn svg { width: 24px; height: 24px; }
+  .nav-btn.active { background: transparent !important; }
+  .nav-btn.active span { color: var(--accent-primary); }
+  .nav-btn.active svg {
     color: var(--accent-primary);
+    filter: drop-shadow(0 0 8px rgba(79,195,247,0.4));
   }
-  
-  .nav-btn.active svg { 
-    color: var(--accent-primary); 
-    filter: drop-shadow(0 0 8px rgba(79,195,247,0.4)); 
-  }
-  
-  /* 5. UI Spacing & Grid Adjustments */
+
+  /* 5. Feed & cards */
   .explore-grid { grid-template-columns: 1fr; }
   .post-card { padding: 16px; margin-bottom: 12px; border-radius: var(--radius-md); }
-  
-  /* 6. Composer Adjustments for Touch Targets */
+
+  /* 6. Composer */
   .composer { padding: 16px 12px; }
-  .composer-footer { 
-    flex-direction: column; 
-    align-items: stretch; 
-    gap: 16px; 
+  .composer-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
   }
   .composer-actions {
     display: grid;
@@ -430,14 +430,21 @@ body::before {
     padding: 12px;
     font-size: 1rem;
   }
-  
-  /* 7. Toasts visibility */
-  .toast { 
-    left: 12px; 
-    right: 12px; 
-    bottom: 90px; 
+
+  /* 7. Toast — sits above bottom nav */
+  .toast {
+    left: 12px;
+    right: 12px;
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
     width: auto;
-    text-align: center; 
-    justify-content: center; 
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* 8. Sidebar sticky — on mobile just flow naturally */
+  .app-sidebar {
+    position: static;
+    height: auto;
+    overflow-y: visible;
   }
 }

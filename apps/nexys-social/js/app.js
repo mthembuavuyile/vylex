@@ -89,6 +89,7 @@ class NexysNetApp {
     this.initFirebase();
     this.generateCaptcha();
     this.parseURL();
+    this.initScrollBehavior(); // Separated and improved
   }
 
   // --- SPA ROUTER ---
@@ -181,6 +182,57 @@ class NexysNetApp {
     this.DOM.saveUserBtn.addEventListener('click', () => this.saveProfile());
     this.DOM.captchaA.addEventListener('keypress', e => e.key === 'Enter' && this.saveProfile());
     this.DOM.postsContainer.addEventListener('click', e => this.handleFeedClick(e));
+  }
+
+  // --- SCROLL BEHAVIOR (mobile hide/show nav) ---
+  initScrollBehavior() {
+    const bottomNav = document.querySelector('.app-nav');
+    if (!bottomNav) return;
+
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    // Use requestAnimationFrame to throttle scroll handler — prevents jank
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // Only run on mobile
+          if (window.innerWidth <= 860) {
+            const currentScrollY = window.scrollY;
+            const delta = currentScrollY - lastScrollY;
+
+            // Only react to meaningful scroll (>4px threshold prevents micro-jitter)
+            if (Math.abs(delta) > 4) {
+              if (delta > 0 && currentScrollY > 80) {
+                // Scrolling down — hide nav
+                bottomNav.classList.add('nav-hidden');
+              } else if (delta < 0) {
+                // Scrolling up — show nav
+                bottomNav.classList.remove('nav-hidden');
+              }
+              lastScrollY = currentScrollY;
+            }
+          } else {
+            // Always visible on desktop
+            bottomNav.classList.remove('nav-hidden');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    // passive: true is CRITICAL — tells browser this handler won't call preventDefault()
+    // which allows the browser to scroll immediately without waiting for JS
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Also show nav when at the very top (handles momentum scroll past 0)
+    const onScrollEnd = () => {
+      if (window.scrollY <= 10) {
+        bottomNav.classList.remove('nav-hidden');
+      }
+    };
+    window.addEventListener('scrollend', onScrollEnd, { passive: true });
   }
 
   expandComposer() {
