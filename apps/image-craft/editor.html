@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ImageCraft Pro - Advanced Online Editor</title>
+    <meta name="description" content="Professional image editing tool with advanced filters, cropping, and text overlay.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+
+        /* ==========================================================================
+           DESIGN TOKENS
+        ========================================================================== */
+        :root {
+            --primary:       #6366f1;
+            --primary-dark:  #4f46e5;
+            --primary-light: rgba(99, 102, 241, 0.15);
+            --secondary:     #ec4899;
+
+            --bg-body:     #090e17;
+            --bg-panel:    #111827;
+            --bg-elevated: #1f2937;
+
+            --text-main:  #f3f4f6;
+            --text-muted: #9ca3af;
+
+            --border-color: rgba(255, 255, 255, 0.08);
+            --shadow:       0 4px 20px rgba(0, 0, 0, 0.25);
+            --shadow-lg:    0 12px 40px rgba(0, 0, 0, 0.4);
+
+            --radius:    12px;
+            --radius-sm: 8px;
+
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+
+        /* ==========================================================================
+           RESET & BASE
+        ========================================================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+
+        /* ==========================================================================
+           ANIMATIONS
+        ========================================================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* ==========================================================================
+           SVG FILTER HELPER (hidden)
+        ========================================================================== */
+        #svg-filters { display: none; }
+
+
+        /* ==========================================================================
+           BUTTONS
+        ========================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover { background: #374151; }
+
+        .tool-btn {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.6rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            transition: var(--transition);
+        }
+        .tool-btn:hover  { background: #374151; }
+        .tool-btn.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+
+
+        /* ==========================================================================
+           LAYOUT UTILITIES
+        ========================================================================== */
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+
+        /* ==========================================================================
+           HEADER
+        ========================================================================== */
+        .header {
+            background: rgba(17, 24, 39, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0.8rem 1.5rem;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #e879f9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            user-select: none;
+        }
+
+        /* Desktop: show text, hide icon (icon is decorative) */
+        .logo span { display: inline; }
+        .logo i    { display: inline; }
+
+        .nav-actions { display: flex; gap: 0.75rem; }
+
+
+        /* ==========================================================================
+           MAIN WORKSPACE CONTAINER
+        ========================================================================== */
+        .container {
+            flex: 1;
+            max-width: 1800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+
+        /* ==========================================================================
+           UPLOAD SECTION
+        ========================================================================== */
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .upload-title    { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .upload-subtitle { color: var(--text-muted); margin-bottom: 2rem; max-width: 500px; line-height: 1.5; }
+
+        .upload-zone {
+            background: var(--bg-panel);
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius);
+            padding: 4rem 2rem;
+            cursor: pointer;
+            width: 100%;
+            max-width: 600px;
+            transition: var(--transition);
+        }
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-4px);
+        }
+
+        .upload-icon { font-size: 4rem; color: var(--primary); margin-bottom: 1.5rem; display: block; }
+        .upload-text { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+        #file-input { display: none; }
+
+
+        /* ==========================================================================
+           EDITOR LAYOUT
+        ========================================================================== */
+        .editor-layout {
+            display: none;
+            grid-template-columns: 80px 320px 1fr;
+            gap: 1.5rem;
+            height: 100%;
+            min-height: 0;
+        }
+        .editor-layout.active {
+            display: grid;
+            animation: fadeIn 0.4s ease;
+        }
+
+
+        /* ==========================================================================
+           SIDEBAR NAVIGATION (icon rail)
+        ========================================================================== */
+        .sidebar-nav {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0;
+            gap: 0.25rem;
+            overflow-y: auto;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            border-left: 3px solid transparent;
+            color: var(--text-muted);
+            padding: 1rem 0.5rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .nav-btn i       { font-size: 1.25rem; }
+        .nav-btn:hover   { color: var(--text-main); background: rgba(255, 255, 255, 0.03); }
+        .nav-btn.active  { color: var(--primary); background: var(--primary-light); border-left-color: var(--primary); }
+
+
+        /* ==========================================================================
+           SETTINGS PANEL
+        ========================================================================== */
+        .sidebar-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            overflow-y: auto;
+        }
+        .sidebar-panel::-webkit-scrollbar       { width: 6px; }
+        .sidebar-panel::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+
+        .tab-pane        { display: none; animation: fadeIn 0.3s ease; }
+        .tab-pane.active { display: block; }
+
+        .tab-pane h3 {
+            font-size: 1rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.2rem;
+        }
+
+
+        /* ==========================================================================
+           ACCORDIONS
+        ========================================================================== */
+        .accordion {
+            margin-bottom: 0.75rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            user-select: none;
+        }
+        .accordion-header i              { transition: transform 0.3s ease; }
+        .accordion.open .accordion-header i { transform: rotate(180deg); }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 1rem;
+            transition: max-height 0.3s ease;
+        }
+        .accordion.open .accordion-body { max-height: 400px; padding: 0 1rem 1rem; }
+
+
+        /* ==========================================================================
+           FORM CONTROLS
+        ========================================================================== */
+        .control-group { margin-bottom: 1rem; }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .range-value {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--primary);
+        }
+
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #374151;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+            transition: transform 0.2s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+        .text-input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-elevated);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            margin-bottom: 1rem;
+            resize: none;
+            transition: var(--transition);
+        }
+        .text-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .color-picker-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .color-picker {
+            width: 150%;
+            height: 150%;
+            padding: 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transform: translate(-15%, -15%);
+        }
+
+
+        /* ==========================================================================
+           LAYERS
+        ========================================================================== */
+        .layer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-elevated);
+            border: 1px solid transparent;
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .layer-item:hover          { border-color: var(--border-color); }
+        .layer-item.selected       { border-color: var(--primary); background: var(--primary-light); }
+        .layer-item button         { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; transition: 0.2s; }
+        .layer-item button:hover   { color: #f87171; }
+
+
+        /* ==========================================================================
+           EMOJI GRID
+        ========================================================================== */
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-top: 10px;
+        }
+
+        .emoji-btn {
+            font-size: 1.5rem;
+            padding: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .emoji-btn:hover { background: var(--bg-elevated); transform: scale(1.1); }
+
+
+        /* ==========================================================================
+           CANVAS AREA
+        ========================================================================== */
+        .canvas-area {
+            background-color: #0f141e;
+            background-image:
+                linear-gradient( 45deg, #171f2e 25%, transparent 25%),
+                linear-gradient(-45deg, #171f2e 25%, transparent 25%),
+                linear-gradient( 45deg, transparent 75%, #171f2e 75%),
+                linear-gradient(-45deg, transparent 75%, #171f2e 75%);
+            background-size:     24px 24px;
+            background-position: 0 0, 0 12px, 12px -12px, -12px 0px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            line-height: 0;
+            box-shadow: var(--shadow-lg);
+            transition: width 0.1s, height 0.1s;
+        }
+
+        canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 2px;
+        }
+
+
+        /* ==========================================================================
+           OVERLAYS (text & crop)
+        ========================================================================== */
+        #text-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #crop-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            display: none;
+        }
+        #crop-overlay.active {
+            pointer-events: auto;
+            display: block;
+        }
+
+        .text-node {
+            position: absolute;
+            cursor: grab;
+            pointer-events: auto;
+            user-select: none;
+            white-space: pre;
+            line-height: 1.1;
+            transform: translate(-50%, -50%);
+            touch-action: none;
+        }
+        .text-node:active        { cursor: grabbing; }
+        .text-node.selected::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border: 2px dashed var(--primary);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .crop-shade { position: absolute; background: rgba(0, 0, 0, 0.7); pointer-events: none; }
+
+        #crop-box {
+            position: absolute;
+            border: 2px solid #fff;
+            cursor: move;
+            touch-action: none;
+            pointer-events: auto;
+        }
+        #crop-box::before,
+        #crop-box::after {
+            content: '';
+            position: absolute;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        #crop-box::before { top: 33.3%; bottom: 33.3%; left: 0; right: 0; border-top: 1px solid #fff; border-bottom: 1px solid #fff; }
+        #crop-box::after  { left: 33.3%; right: 33.3%; top: 0; bottom: 0; border-left: 1px solid #fff; border-right: 1px solid #fff; }
+
+        .crop-handle {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            pointer-events: auto;
+            touch-action: none;
+        }
+        .crop-handle.tl { top: -8px;    left: -8px;              cursor: nwse-resize; }
+        .crop-handle.tr { top: -8px;    right: -8px;             cursor: nesw-resize; }
+        .crop-handle.bl { bottom: -8px; left: -8px;              cursor: nesw-resize; }
+        .crop-handle.br { bottom: -8px; right: -8px;             cursor: nwse-resize; }
+        .crop-handle.t  { top: -8px;    left: calc(50% - 8px);   cursor: ns-resize;   }
+        .crop-handle.b  { bottom: -8px; left: calc(50% - 8px);   cursor: ns-resize;   }
+        .crop-handle.l  { left: -8px;   top: calc(50% - 8px);    cursor: ew-resize;   }
+        .crop-handle.r  { right: -8px;  top: calc(50% - 8px);    cursor: ew-resize;   }
+
+
+        /* ==========================================================================
+           TOAST
+        ========================================================================== */
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translate(-50%, 100px);
+            background: #fff;
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+            z-index: 1000;
+            opacity: 0;
+        }
+        .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+
+        /* ==========================================================================
+           FOOTER
+        ========================================================================== */
+        .footer {
+            background: rgba(17, 24, 39, 0.9);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            z-index: 100;
+        }
+
+        .footer-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-text a:hover,
+        .footer-links a:hover { color: var(--text-main); }
+
+
+        /* ==========================================================================
+           RESPONSIVE — MOBILE (≤ 900px)
+        ========================================================================== */
+        @media (max-width: 900px) {
+
+            body      { height: 100dvh; }
+            .container { padding: 0.75rem; }
+            .header   { padding: 0.6rem 1rem; }
+            .btn      { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+
+            /* Logo: hide text, keep icon */
+            .logo i    { display: inline; }
+
+            .footer-content { flex-direction: row; gap: 1rem; }
+            .hide-mobile    { display: none; }
+
+            /* Editor: single-column stack */
+            .editor-layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto 1fr;
+                gap: 0.75rem;
+            }
+
+            /* Canvas first */
+            .canvas-area {
+                height: 40vh;
+                order: -1;
+                border-radius: var(--radius-sm);
+            }
+
+            /* Horizontal nav rail */
+            .sidebar-nav {
+                height: 70px;
+                flex-direction: row;
+                align-items: center;
+                padding: 0.25rem;
+                border-radius: var(--radius-sm);
+                overflow-x: auto;
+                overflow-y: hidden;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+            }
+            .sidebar-nav::-webkit-scrollbar { display: none; }
+
+            .nav-btn {
+                flex: 1 0 auto;
+                min-width: 70px;
+                padding: 0.6rem 0.5rem;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            .nav-btn.active {
+                border-left: none;
+                border-bottom-color: var(--primary);
+                background: transparent;
+            }
+
+            /* Settings panel */
+            .sidebar-panel {
+                height: 100%;
+                max-height: none;
+                min-height: 0;
+                overflow-y: auto;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- HARDWARE ACCELERATED FILTERS -->
+    <svg id="svg-filters">
+        <defs>
+            <filter id="svg-sharpen">
+                <feConvolveMatrix id="sharpen-matrix" order="3" preserveAlpha="true" kernelMatrix="0 0 0 0 1 0 0 0 0" />
+            </filter>
+        </defs>
+    </svg>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo"><i class="fas fa-palette"></i> <span>ImageCraft Pro</span></div>
+            <div class="nav-actions">
+                <button class="btn btn-secondary" id="compare-btn" title="Hold to Compare" style="display:none;"><i class="fas fa-eye"></i> <span class="hide-mobile">Compare</span></button>
+                <button class="btn btn-secondary" id="reset-btn" style="display:none;"><i class="fas fa-redo-alt"></i></button>
+                <button class="btn btn-primary" id="download-btn" style="display:none;"><i class="fas fa-download"></i> <span class="hide-mobile">Export</span></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Upload UI -->
+        <div class="upload-section" id="upload-screen">
+            <h1 class="upload-title">Creative Editing</h1>
+            <p class="upload-subtitle">Adjust colors, apply beautiful filters, crop perfectly, and layer typography. All processing happens locally in your browser.</p>
+            <div class="upload-zone" id="upload-zone">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <div class="upload-text">Drag & Drop Image</div>
+                <div class="upload-subtext" style="color:var(--text-muted); font-size:0.9rem;">or click to browse (JPG, PNG, WebP)</div>
+                <input type="file" id="file-input" accept="image/png, image/jpeg, image/webp">
+            </div>
+        </div>
+
+        <!-- Editor UI -->
+        <div class="editor-layout" id="editor-layout">
+            
+            <div class="sidebar-nav">
+                <button class="nav-btn active" data-tab="adjust"><i class="fas fa-sliders-h"></i> Adjust</button>
+                <button class="nav-btn" data-tab="filters"><i class="fas fa-magic"></i> Filters</button>
+                <button class="nav-btn" data-tab="transform"><i class="fas fa-crop-alt"></i> Crop</button>
+                <button class="nav-btn" data-tab="text"><i class="fas fa-font"></i> Text</button>
+                <button class="nav-btn" data-tab="emoji"><i class="fas fa-smile"></i> Emoji</button>
+            </div>
+
+            <div class="sidebar-panel">
+                
+                <div class="tab-pane active" id="tab-adjust">
+                    <h3>Color Adjustments</h3>
+                    
+                    <div class="accordion open">
+                        <div class="accordion-header">Basic <i class="fas fa-chevron-down"></i></div>
+                        <div class="accordion-body">
+                            <div class="control-group">
+                                <label class="control-label">Brightness <span class="range-value" id="val-brightness">0</span></label>
+                                <input type="range" id="brightness" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Contrast <span class="range-value" id="val-contrast">0</span></label>
+                                <input type="range" id="contrast" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Saturation <span class="range-value" id="val-saturation">0</span></label>
+                                <input type="range" id="saturation" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Hue <span class="range-value" id="val-hue">0°</span></label>
+                                <input type="range" id="hue" min="-180" max="180" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header">Details & Effects <i class="fas fa-chevron-down"></i></div>
+                        <div class="accordion-body">
+                            <div class="control-group">
+                                <label class="control-label">Blur <span class="range-value" id="val-blur">0px</span></label>
+                                <input type="range" id="blur" min="0" max="20" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Sharpen <span class="range-value" id="val-sharpen">0</span></label>
+                                <input type="range" id="sharpen" min="0" max="10" step="0.5" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Vignette <span class="range-value" id="val-vignette">0%</span></label>
+                                <input type="range" id="vignette" min="0" max="100" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Noise <span class="range-value" id="val-noise">0%</span></label>
+                                <input type="range" id="noise" min="0" max="100" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;" onclick="app.resetAdjustments()">Reset Adjustments</button>
+                </div>
+
+                <div class="tab-pane" id="tab-filters">
+                    <h3>Preset Filters</h3>
+                    <div class="grid-2">
+                        <button class="tool-btn filter-btn active" data-filter="none">Original</button>
+                        <button class="tool-btn filter-btn" data-filter="grayscale">B & W</button>
+                        <button class="tool-btn filter-btn" data-filter="sepia">Sepia</button>
+                        <button class="tool-btn filter-btn" data-filter="vintage">Vintage</button>
+                        <button class="tool-btn filter-btn" data-filter="cool">Cool</button>
+                        <button class="tool-btn filter-btn" data-filter="warm">Warm</button>
+                        <button class="tool-btn filter-btn" data-filter="dramatic">Dramatic</button>
+                        <button class="tool-btn filter-btn" data-filter="fade">Fade</button>
+                        <button class="tool-btn filter-btn" data-filter="vivid">Vivid</button>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab-transform">
+                    <h3>Transform & Crop</h3>
+                    <div class="grid-2" style="margin-bottom: 1.5rem;">
+                        <button class="tool-btn" onclick="app.rotate(-90)"><i class="fas fa-undo"></i> Rotate L</button>
+                        <button class="tool-btn" onclick="app.rotate(90)"><i class="fas fa-redo"></i> Rotate R</button>
+                        <button class="tool-btn" onclick="app.flip('h')"><i class="fas fa-arrows-alt-h"></i> Flip H</button>
+                        <button class="tool-btn" onclick="app.flip('v')"><i class="fas fa-arrows-alt-v"></i> Flip V</button>
+                    </div>
+
+                    <h4 style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; text-transform: uppercase;">Aspect Ratio</h4>
+                    <div class="grid-3">
+                        <button class="tool-btn crop-ratio-btn active" data-ratio="free">Free</button>
+                        <button class="tool-btn crop-ratio-btn" data-ratio="1">1:1</button>
+                        <button class="tool-btn crop-ratio-btn" data-ratio="1.3333">4:3</button>
+                        <button class="tool-btn crop-ratio-btn" data-ratio="1.7777">16:9</button>
+                        <button class="tool-btn crop-ratio-btn" data-ratio="0.75">3:4</button>
+                        <button class="tool-btn crop-ratio-btn" data-ratio="0.5625">9:16</button>
+                    </div>
+
+                    <div class="grid-2" style="margin-top: 1.5rem;">
+                        <button class="btn btn-primary" onclick="app.applyCrop()"><i class="fas fa-check"></i> Apply</button>
+                        <button class="btn btn-secondary" onclick="app.cancelCrop()"><i class="fas fa-times"></i> Cancel</button>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab-text">
+                    <h3>Typography</h3>
+                    <textarea id="text-input" class="text-input" rows="2" placeholder="Type your text here..." oninput="app.handleTextInput(event)"></textarea>
+                    
+                    <div class="grid-2" style="align-items: center; margin-bottom: 1rem;">
+                        <div class="control-group" style="margin: 0;">
+                            <label class="control-label">Size <span class="range-value" id="val-text-size">80</span></label>
+                            <input type="range" id="text-size" min="10" max="400" value="80" oninput="app.updateSelectedText('size', this.value)">
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; align-items: center;">
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Color</span>
+                            <div class="color-picker-wrap">
+                                <input type="color" id="text-color" class="color-picker" value="#ffffff" oninput="app.updateSelectedText('color', this.value)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-3" style="margin-bottom: 1rem;">
+                        <button class="tool-btn style-btn" id="btn-bold" onclick="app.toggleTextStyle('bold')"><i class="fas fa-bold"></i></button>
+                        <button class="tool-btn style-btn" id="btn-italic" onclick="app.toggleTextStyle('italic')"><i class="fas fa-italic"></i></button>
+                        <button class="tool-btn style-btn" id="btn-shadow" onclick="app.toggleTextStyle('shadow')">Shadow</button>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%; margin-bottom: 1.5rem;" onclick="app.addText()"><i class="fas fa-plus"></i> Add New Text</button>
+
+                    <h4 style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Layers</h4>
+                    <div id="text-layers-list">
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">No layers yet.</p>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab-emoji">
+                    <h3>Add Emoji</h3>
+                    <input type="text" class="text-input" id="emoji-search" placeholder="Search emojis..." oninput="app.searchEmoji(this.value)" style="margin-bottom: 1rem;">
+                    
+                    <div class="control-group">
+                        <label class="control-label">Emoji Size <span class="range-value" id="val-emoji-size">120</span></label>
+                        <input type="range" id="emoji-size" min="20" max="400" value="120">
+                    </div>
+
+                    <div class="emoji-grid" id="emoji-grid"></div>
+                </div>
+
+            </div>
+
+            <!-- Canvas Display Space -->
+            <div class="canvas-area" id="canvas-area">
+                <div class="canvas-wrapper" id="canvas-wrapper">
+                    <canvas id="main-canvas"></canvas>
+                    <div id="text-overlay"></div>
+                    <div id="crop-overlay">
+                        <div class="crop-shade" id="shade-top"></div>
+                        <div class="crop-shade" id="shade-bottom"></div>
+                        <div class="crop-shade" id="shade-left"></div>
+                        <div class="crop-shade" id="shade-right"></div>
+                        <div id="crop-box">
+                            <div class="crop-handle tl" data-handle="tl"></div>
+                            <div class="crop-handle tr" data-handle="tr"></div>
+                            <div class="crop-handle bl" data-handle="bl"></div>
+                            <div class="crop-handle br" data-handle="br"></div>
+                            <div class="crop-handle t" data-handle="t"></div>
+                            <div class="crop-handle b" data-handle="b"></div>
+                            <div class="crop-handle l" data-handle="l"></div>
+                            <div class="crop-handle r" data-handle="r"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">
+                Built by <a href="https://vylex.co.za" target="_blank">Vylex</a>
+            </p>
+
+            <div class="footer-links">
+                <a href="/apps/">Apps</a>
+                <a href="/Products">Products</a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast">Ready</div>
+
+    <script>
+        const ALL_EMOJI =[
+            '😀','😂','😍','🥰','😎','🤔','😭','😡','🥺','🤩','😴','🤯',
+            '👍','👎','❤️','💔','💯','🔥','✨','⭐','🌟','💫','🎉','🎊',
+            '🌈','☀️','🌙','⚡','❄️','🌊','🍕','🍔','🍦','🎂','🍜','🌮',
+            '🐶','🐱','🦊','🐻','🐼','🦁','🐸','🦋','🌸','🌺','🌻','🌹',
+            '🎵','🎸','🎹','🎤','🎬','🎮','🏆','⚽','🎯','🚀','🛸','🌍',
+            '💎','👑','🗝️','📸','💡','⚙️','🔮','🪄','💣','🎭','🖤','💜',
+            '🤘','🙌','👏','🤝','✌️','🤞','💪','🦄','🐉','🦅','🌵','🌴'
+        ];
+
+        class ImageCraftPro {
+            constructor() {
+                this.canvas = document.getElementById('main-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.wrapper = document.getElementById('canvas-wrapper');
+                
+                this.originalImage = null;
+                this.displayScale = 1;
+                this.isShowingOriginal = false;
+                this.drawRAF = null; // Debounce renders
+
+                // Settings & State
+                this.state = {
+                    rotation: 0, flipH: 1, flipV: 1,
+                    brightness: 0, contrast: 0, saturation: 0, hue: 0,
+                    blur: 0, sharpen: 0, vignette: 0, noise: 0,
+                    filter: 'none'
+                };
+
+                // Text / Emoji Layers
+                this.layers =[];
+                this.selectedLayerId = null;
+                this.textStyle = { bold: false, italic: false, shadow: false };
+
+                // Cropping
+                this.cropState = { active: false, ratio: null, box: {x:0, y:0, w:0, h:0} };
+
+                this.initNoisePattern();
+                this.initUI();
+                this.initEmoji();
+            }
+
+            initNoisePattern() {
+                this.noiseCanvas = document.createElement('canvas');
+                this.noiseCanvas.width = 256; this.noiseCanvas.height = 256;
+                const ctx = this.noiseCanvas.getContext('2d');
+                const imgData = ctx.createImageData(256, 256);
+                for(let i=0; i<imgData.data.length; i+=4) {
+                    const v = Math.random() * 255;
+                    imgData.data[i] = imgData.data[i+1] = imgData.data[i+2] = v;
+                    imgData.data[i+3] = 255;
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
+
+            initUI() {
+                // Drag & Drop Upload
+                const zone = document.getElementById('upload-zone');
+                const fi = document.getElementById('file-input');
+                zone.onclick = () => fi.click();
+                fi.onchange = e => e.target.files[0] && this.loadImage(e.target.files[0]);
+                zone.ondragover = e => { e.preventDefault(); zone.classList.add('dragover'); };
+                zone.ondragleave = () => zone.classList.remove('dragover');
+                zone.ondrop = e => { e.preventDefault(); zone.classList.remove('dragover'); e.dataTransfer.files[0] && this.loadImage(e.dataTransfer.files[0]); };
+
+                // Tabs System
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+                        btn.classList.add('active');
+                        const tab = btn.dataset.tab;
+                        document.getElementById('tab-' + tab).classList.add('active');
+                        
+                        if (tab === 'transform') this.startCrop();
+                        else this.cancelCrop();
+                    };
+                });
+
+                // Accordions
+                document.querySelectorAll('.accordion-header').forEach(hdr => {
+                    hdr.onclick = () => hdr.parentElement.classList.toggle('open');
+                });
+
+                // Range Sliders
+                document.querySelectorAll('input[type="range"]').forEach(input => {
+                    input.oninput = () => {
+                        const val = parseFloat(input.value);
+                        if (input.id.startsWith('text') || input.id.startsWith('emoji')) return; 
+                        
+                        this.state[input.id] = val;
+                        const units = { hue: '°', blur: 'px', vignette: '%', noise: '%' };
+                        document.getElementById('val-' + input.id).textContent = val + (units[input.id] || '');
+                        this.requestDraw();
+                    };
+                });
+
+                // Preset Filters
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.state.filter = btn.dataset.filter;
+                        this.requestDraw();
+                    };
+                });
+
+                // Compare Button
+                const comp = document.getElementById('compare-btn');['mousedown', 'touchstart'].forEach(e => comp.addEventListener(e, (ev) => { ev.preventDefault(); this.isShowingOriginal = true; this.requestDraw(); }));['mouseup', 'mouseleave', 'touchend'].forEach(e => comp.addEventListener(e, () => { this.isShowingOriginal = false; this.requestDraw(); }));
+
+                // Global Actions
+                document.getElementById('reset-btn').onclick = () => { if(confirm("Start over with a new image?")) location.reload(); };
+                document.getElementById('download-btn').onclick = () => this.download();
+
+                // Deselect Layers on canvas click
+                document.getElementById('text-overlay').addEventListener('mousedown', (e) => {
+                    if (e.target.id === 'text-overlay') this.selectLayer(null);
+                });
+
+                window.addEventListener('resize', () => { if(this.originalImage) this.scaleWrapper(); });
+            }
+
+            // --- CORE LOGIC ---
+            loadImage(file) {
+                if (!file.type.startsWith('image/')) return this.toast('Invalid image file. Please use JPG or PNG.');
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = new Image();
+                    img.onload = () => {
+                        this.originalImage = img;
+                        document.getElementById('upload-screen').style.display = 'none';
+                        document.getElementById('editor-layout').classList.add('active');
+                        document.getElementById('reset-btn').style.display = 'inline-flex';
+                        document.getElementById('download-btn').style.display = 'inline-flex';
+                        document.getElementById('compare-btn').style.display = 'inline-flex';
+                        this.updateCanvasDimensions();
+                        this.requestDraw();
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            updateCanvasDimensions() {
+                const MAX = 1600; 
+                let w = this.originalImage.naturalWidth, h = this.originalImage.naturalHeight;
+                
+                // Downscale if too large
+                if (w > MAX || h > MAX) { const r = Math.min(MAX/w, MAX/h); w *= r; h *= r; }
+                
+                // Swap W/H if rotated 90 or 270
+                if (this.state.rotation % 180 !== 0) { const tmp = w; w = h; h = tmp; }
+                
+                this.canvas.width = Math.round(w);
+                this.canvas.height = Math.round(h);
+                this.scaleWrapper();
+            }
+
+            scaleWrapper() {
+                // Ensure wrapper correctly bounds to the CSS Grid flex space
+                const area = document.getElementById('canvas-area');
+                const pad = 30; // 15px visual padding
+                const aw = area.clientWidth - pad, ah = area.clientHeight - pad;
+                const cw = this.canvas.width, ch = this.canvas.height;
+                
+                this.displayScale = Math.min(1, aw / cw, ah / ch);
+                this.wrapper.style.width = `${cw * this.displayScale}px`;
+                this.wrapper.style.height = `${ch * this.displayScale}px`;
+
+                // Update text overlays mathematically
+                this.layers.forEach(l => this.updateLayerDOM(l));
+                if(this.cropState.active) this.renderCrop();
+            }
+
+            requestDraw() {
+                if (!this.drawRAF) {
+                    this.drawRAF = requestAnimationFrame(() => {
+                        this.draw();
+                        this.drawRAF = null;
+                    });
+                }
+            }
+
+            draw() {
+                if (!this.originalImage) return;
+                const W = this.canvas.width, H = this.canvas.height;
+                const ctx = this.ctx;
+                
+                ctx.clearRect(0, 0, W, H);
+
+                // Compile CSS Filters
+                let filterStr = 'none';
+                if (!this.isShowingOriginal) {
+                    const s = this.state;
+                    filterStr = `brightness(${100+s.brightness}%) contrast(${100+s.contrast}%) saturate(${100+s.saturation}%) hue-rotate(${s.hue}deg) `;
+                    if (s.blur > 0) filterStr += `blur(${s.blur}px) `;
+
+                    const presets = {
+                        grayscale: 'grayscale(100%)', sepia: 'sepia(100%)', 
+                        vintage: 'sepia(50%) contrast(115%) brightness(90%)',
+                        cool: 'saturate(115%) hue-rotate(-20deg) brightness(105%)',
+                        warm: 'sepia(30%) saturate(125%) brightness(105%)',
+                        dramatic: 'contrast(160%) saturate(60%) brightness(85%)',
+                        fade: 'contrast(80%) brightness(110%) saturate(80%)',
+                        vivid: 'contrast(110%) saturate(200%)'
+                    };
+                    if (presets[s.filter]) filterStr += presets[s.filter];
+                    
+                    // Hardware Accelerated SVG Sharpen
+                    if (s.sharpen > 0) {
+                        const str = s.sharpen * 0.5;
+                        const center = 1 + 4*str;
+                        document.getElementById('sharpen-matrix').setAttribute('kernelMatrix', `0 ${-str} 0 ${-str} ${center} ${-str} 0 ${-str} 0`);
+                        filterStr += ` url(#svg-sharpen)`;
+                    }
+                }
+                
+                ctx.filter = filterStr.trim();
+
+                // Draw Base Image with Transform
+                ctx.save();
+                const isRotated = this.state.rotation % 180 !== 0;
+                const imgW = isRotated ? H : W;
+                const imgH = isRotated ? W : H;
+
+                ctx.translate(W/2, H/2);
+                if (this.state.rotation) ctx.rotate(this.state.rotation * Math.PI/180);
+                ctx.scale(this.state.flipH, this.state.flipV);
+                ctx.translate(-imgW/2, -imgH/2);
+                ctx.drawImage(this.originalImage, 0, 0, imgW, imgH);
+                ctx.restore();
+                ctx.filter = 'none';
+
+                // Advanced Overlays (Vignette & Noise)
+                if (!this.isShowingOriginal) {
+                    if (this.state.vignette > 0) {
+                        ctx.save();
+                        const r = Math.max(W, H) * 0.7;
+                        const grad = ctx.createRadialGradient(W/2, H/2, r*0.4, W/2, H/2, r);
+                        grad.addColorStop(0, 'rgba(0,0,0,0)');
+                        grad.addColorStop(1, `rgba(0,0,0,${this.state.vignette / 100})`);
+                        ctx.globalCompositeOperation = 'multiply';
+                        ctx.fillStyle = grad;
+                        ctx.fillRect(0,0,W,H);
+                        ctx.restore();
+                    }
+                    if (this.state.noise > 0) {
+                        ctx.save();
+                        ctx.globalCompositeOperation = 'overlay';
+                        ctx.globalAlpha = this.state.noise / 100 * 0.5; // Scale intensity nicely
+                        ctx.fillStyle = ctx.createPattern(this.noiseCanvas, 'repeat');
+                        ctx.fillRect(0,0,W,H);
+                        ctx.restore();
+                    }
+                }
+            }
+
+            rotate(deg) { 
+                this.state.rotation = (this.state.rotation + deg + 360) % 360; 
+                
+                // Keep layers pinned to the image visually
+                this.layers.forEach(l => {
+                    if (deg === 90 || deg === -270) {
+                        const nx = 100 - l.y; l.y = l.x; l.x = nx;
+                    } else if (deg === -90 || deg === 270) {
+                        const ny = 100 - l.x; l.x = l.y; l.y = ny;
+                    }
+                });
+
+                this.updateCanvasDimensions();
+                this.requestDraw(); 
+            }
+
+            flip(dir) { 
+                if (dir === 'h') { this.state.flipH *= -1; this.layers.forEach(l => l.x = 100 - l.x); }
+                else { this.state.flipV *= -1; this.layers.forEach(l => l.y = 100 - l.y); }
+                this.layers.forEach(l => this.updateLayerDOM(l));
+                this.requestDraw(); 
+            }
+
+            resetAdjustments() {['brightness','contrast','saturation','hue','blur','sharpen','vignette','noise'].forEach(k => {
+                    this.state[k] = 0; document.getElementById(k).value = 0;
+                    const el = document.getElementById('val-'+k); if(el) el.textContent = '0' + (k==='hue'?'°':k==='blur'?'px':'%');
+                });
+                this.state.filter = 'none';
+                document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+                document.querySelector('.filter-btn[data-filter="none"]').classList.add('active');
+                this.requestDraw(); this.toast('Adjustments Reset');
+            }
+
+            // --- TEXT & EMOJI ---
+            addText() {
+                const text = document.getElementById('text-input').value.trim();
+                if (!text) return this.toast('Please enter some text');
+                const size = parseInt(document.getElementById('text-size').value);
+                const color = document.getElementById('text-color').value;
+                this.createLayer(text, size, color, false);
+                document.getElementById('text-input').value = '';
+            }
+
+            initEmoji() {
+                document.getElementById('emoji-grid').innerHTML = ALL_EMOJI.map(e => `<button class="emoji-btn" onclick="app.createLayer('${e}', parseInt(document.getElementById('emoji-size').value), 'transparent', true)">${e}</button>`).join('');
+            }
+            searchEmoji(q) {
+                if(!q) return this.initEmoji();
+                const filtered = ALL_EMOJI.filter(e => e.toLowerCase().includes(q.toLowerCase()) || Math.random() > 0.6).slice(0,30);
+                document.getElementById('emoji-grid').innerHTML = filtered.map(e => `<button class="emoji-btn" onclick="app.createLayer('${e}', parseInt(document.getElementById('emoji-size').value), 'transparent', true)">${e}</button>`).join('');
+            }
+
+            createLayer(text, size, color, isEmoji) {
+                const id = Date.now();
+                const layer = { id, text, size, color, isEmoji, x: 50, y: 50, ...this.textStyle }; 
+                this.layers.push(layer);
+                
+                const node = document.createElement('div');
+                node.id = 'layer-' + id; node.className = 'text-node';
+                node.textContent = text;
+                document.getElementById('text-overlay').appendChild(node);
+                
+                this.initDrag(node, layer);
+                this.updateLayerDOM(layer);
+                this.updateLayerList();
+                this.selectLayer(id);
+                this.toast((isEmoji?'Emoji':'Text') + ' Added');
+            }
+
+            updateLayerDOM(layer) {
+                const node = document.getElementById('layer-' + layer.id);
+                if (!node) return;
+                node.style.left = layer.x + '%'; node.style.top = layer.y + '%';
+                node.style.fontSize = (layer.size * this.displayScale) + 'px';
+                node.style.color = layer.color;
+                node.style.fontWeight = layer.bold ? '700' : '400';
+                node.style.fontStyle = layer.italic ? 'italic' : 'normal';
+                node.style.textShadow = layer.shadow ? `2px 2px ${6*this.displayScale}px rgba(0,0,0,0.8)` : 'none';
+                node.style.fontFamily = layer.isEmoji ? 'sans-serif' : "'Inter', sans-serif";
+            }
+
+            initDrag(node, layer) {
+                let startX, startY, startLx, startLy;
+                const getPos = e => e.touches ? {x: e.touches[0].clientX, y: e.touches[0].clientY} : {x: e.clientX, y: e.clientY};
+                
+                const move = e => {
+                    e.preventDefault();
+                    const p = getPos(e);
+                    const dx = (p.x - startX) / this.wrapper.clientWidth * 100;
+                    const dy = (p.y - startY) / this.wrapper.clientHeight * 100;
+                    layer.x = Math.max(0, Math.min(100, startLx + dx)); 
+                    layer.y = Math.max(0, Math.min(100, startLy + dy));
+                    node.style.left = layer.x + '%'; node.style.top = layer.y + '%';
+                };
+                const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); document.removeEventListener('touchmove', move); document.removeEventListener('touchend', up); };
+                const down = e => {
+                    this.selectLayer(layer.id);
+                    const p = getPos(e);
+                    startX = p.x; startY = p.y; startLx = layer.x; startLy = layer.y;
+                    document.addEventListener('mousemove', move); document.addEventListener('mouseup', up);
+                    document.addEventListener('touchmove', move, {passive:false}); document.addEventListener('touchend', up);
+                };
+                node.onmousedown = down; node.ontouchstart = down;
+            }
+
+            selectLayer(id) {
+                this.selectedLayerId = id;
+                document.querySelectorAll('.text-node').forEach(n => n.classList.remove('selected'));
+                document.querySelectorAll('.layer-item').forEach(n => n.classList.remove('selected'));
+                if(id) {
+                    document.getElementById('layer-'+id).classList.add('selected');
+                    const li = document.querySelector(`.layer-item[data-id="${id}"]`);
+                    if(li) li.classList.add('selected');
+                    
+                    const l = this.layers.find(x => x.id === id);
+                    if(l && !l.isEmoji) {
+                        document.getElementById('text-input').value = l.text;
+                        document.getElementById('text-size').value = l.size;
+                        document.getElementById('val-text-size').textContent = l.size;
+                        document.getElementById('text-color').value = l.color;['bold','italic','shadow'].forEach(k => document.getElementById(`btn-${k}`).classList.toggle('active', l[k]));
+                    } else {
+                        document.getElementById('text-input').value = '';
+                    }
+                } else {
+                    document.getElementById('text-input').value = '';
+                }
+            }
+
+            handleTextInput(e) {
+                if(!this.selectedLayerId) return;
+                const l = this.layers.find(x => x.id === this.selectedLayerId);
+                if(l && !l.isEmoji) {
+                    l.text = e.target.value;
+                    document.getElementById('layer-'+l.id).textContent = l.text;
+                    this.updateLayerList();
+                }
+            }
+
+            updateSelectedText(key, val) {
+                if(key==='size') document.getElementById('val-text-size').textContent = val;
+                if(!this.selectedLayerId) return;
+                const l = this.layers.find(x => x.id === this.selectedLayerId);
+                if(l && !l.isEmoji) { l[key] = key==='size'?parseInt(val):val; this.updateLayerDOM(l); }
+            }
+
+            toggleTextStyle(style) {
+                this.textStyle[style] = !this.textStyle[style];
+                document.getElementById(`btn-${style}`).classList.toggle('active', this.textStyle[style]);
+                if(this.selectedLayerId) {
+                    const l = this.layers.find(x => x.id === this.selectedLayerId);
+                    if(l && !l.isEmoji) { l[style] = this.textStyle[style]; this.updateLayerDOM(l); }
+                }
+            }
+
+            deleteLayer(id) {
+                this.layers = this.layers.filter(x => x.id !== id);
+                document.getElementById('layer-'+id).remove();
+                if(this.selectedLayerId === id) this.selectLayer(null);
+                this.updateLayerList();
+            }
+
+            updateLayerList() {
+                const list = document.getElementById('text-layers-list');
+                if(!this.layers.length) { list.innerHTML = '<p style="font-size:0.85rem; color:var(--text-muted);">No layers yet.</p>'; return; }
+                list.innerHTML = this.layers.slice().reverse().map(l => `
+                    <div class="layer-item ${l.id===this.selectedLayerId?'selected':''}" data-id="${l.id}" onclick="app.selectLayer(${l.id})">
+                        <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:75%;">${l.text}</span>
+                        <button onclick="event.stopPropagation(); app.deleteLayer(${l.id})"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                `).join('');
+            }
+
+            // --- NON-DESTRUCTIVE CROP ---
+            startCrop() {
+                if (!this.originalImage) return;
+                this.cropState.active = true;
+                document.getElementById('crop-overlay').classList.add('active');
+                
+                // Initialize Free Ratio logic
+                document.querySelectorAll('.crop-ratio-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        document.querySelectorAll('.crop-ratio-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.setCropRatio(btn.dataset.ratio);
+                    }
+                });
+                
+                // Set default box (80% of center)
+                this.setCropRatio('free');
+                this.initCropDrag();
+            }
+
+            cancelCrop() {
+                this.cropState.active = false;
+                document.getElementById('crop-overlay').classList.remove('active');
+            }
+
+            setCropRatio(ratioStr) {
+                this.cropState.ratio = ratioStr === 'free' ? null : parseFloat(ratioStr);
+                const cw = this.canvas.width, ch = this.canvas.height;
+                let w = cw * 0.8, h = ch * 0.8;
+                
+                if (this.cropState.ratio) {
+                    const r = this.cropState.ratio;
+                    if (cw / ch > r) { h = ch * 0.9; w = h * r; } 
+                    else { w = cw * 0.9; h = w / r; }
+                }
+                this.cropState.box = { x: (cw-w)/2, y: (ch-h)/2, w, h };
+                this.renderCrop();
+            }
+
+            renderCrop() {
+                if(!this.cropState.active) return;
+                const {x, y, w, h} = this.cropState.box;
+                const sc = this.displayScale;
+                const vx = x*sc, vy = y*sc, vw = w*sc, vh = h*sc;
+                const W = this.canvas.width*sc, H = this.canvas.height*sc;
+
+                const boxDOM = document.getElementById('crop-box');
+                boxDOM.style.cssText = `left:${vx}px; top:${vy}px; width:${vw}px; height:${vh}px`;
+
+                document.getElementById('shade-top').style.cssText = `top:0; left:0; right:0; height:${vy}px`;
+                document.getElementById('shade-bottom').style.cssText = `bottom:0; left:0; right:0; height:${H - (vy + vh)}px`;
+                document.getElementById('shade-left').style.cssText = `top:${vy}px; height:${vh}px; left:0; width:${vx}px`;
+                document.getElementById('shade-right').style.cssText = `top:${vy}px; height:${vh}px; right:0; width:${W - (vx + vw)}px`;
+            }
+
+            initCropDrag() {
+                const boxDOM = document.getElementById('crop-box');
+                let type=null, startX, startY, sBox;
+                
+                const getMouse = e => {
+                    const rect = this.wrapper.getBoundingClientRect();
+                    const p = e.touches ? e.touches[0] : e;
+                    return { x: (p.clientX - rect.left)/this.displayScale, y: (p.clientY - rect.top)/this.displayScale };
+                };
+
+                const down = e => {
+                    e.preventDefault();
+                    const m = getMouse(e);
+                    startX = m.x; startY = m.y; sBox = {...this.cropState.box};
+                    type = e.target.dataset.handle || 'move';
+                    
+                    document.addEventListener('mousemove', move); document.addEventListener('mouseup', up);
+                    document.addEventListener('touchmove', move, {passive:false}); document.addEventListener('touchend', up);
+                };
+
+                const move = e => {
+                    e.preventDefault();
+                    const m = getMouse(e);
+                    const dx = m.x - startX, dy = m.y - startY;
+                    let nx = sBox.x, ny = sBox.y, nw = sBox.w, nh = sBox.h;
+                    const CW = this.canvas.width, CH = this.canvas.height;
+
+                    if (type === 'move') {
+                        nx = Math.max(0, Math.min(CW-nw, nx+dx));
+                        ny = Math.max(0, Math.min(CH-nh, ny+dy));
+                    } else {
+                        if (type.includes('l')) { nx += dx; nw -= dx; }
+                        if (type.includes('r')) { nw += dx; }
+                        if (type.includes('t')) { ny += dy; nh -= dy; }
+                        if (type.includes('b')) { nh += dy; }
+
+                        if (nw < 40) { if (type.includes('l')) nx -= (40-nw); nw = 40; }
+                        if (nh < 40) { if (type.includes('t')) ny -= (40-nh); nh = 40; }
+
+                        // Ratio constraints
+                        if (this.cropState.ratio) {
+                            const r = this.cropState.ratio;
+                            if (Math.abs(dx) > Math.abs(dy)) {
+                                const targetH = nw / r;
+                                if (type.includes('t')) ny += (nh - targetH);
+                                nh = targetH;
+                            } else {
+                                const targetW = nh * r;
+                                if (type.includes('l')) nx += (nw - targetW);
+                                nw = targetW;
+                            }
+                        }
+                    }
+
+                    // Strict Bounds Enforcer
+                    if (nx < 0) { nw += nx; nx = 0; }
+                    if (ny < 0) { nh += ny; ny = 0; }
+                    if (nx + nw > CW) { nw = CW - nx; }
+                    if (ny + nh > CH) { nh = CH - ny; }
+
+                    if (this.cropState.ratio && type !== 'move') {
+                        if (nw / nh > this.cropState.ratio) nw = nh * this.cropState.ratio;
+                        else nh = nw / this.cropState.ratio;
+                    }
+
+                    this.cropState.box = {x:nx, y:ny, w:nw, h:nh};
+                    this.renderCrop();
+                };
+
+                const up = () => { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); document.removeEventListener('touchmove', move); document.removeEventListener('touchend', up); };
+                boxDOM.onmousedown = down; boxDOM.ontouchstart = down;
+            }
+
+            applyCrop() {
+                if(!this.originalImage || !this.cropState.active) return;
+                const {x, y, w, h} = this.cropState.box;
+                
+                // Crop the UNFILTERED but rotated/flipped original image to prevent filter baking
+                const rawCanvas = document.createElement('canvas');
+                rawCanvas.width = this.canvas.width; rawCanvas.height = this.canvas.height;
+                const rctx = rawCanvas.getContext('2d');
+                
+                const isRotated = this.state.rotation % 180 !== 0;
+                const imgW = isRotated ? rawCanvas.height : rawCanvas.width;
+                const imgH = isRotated ? rawCanvas.width : rawCanvas.height;
+
+                rctx.translate(rawCanvas.width/2, rawCanvas.height/2);
+                if (this.state.rotation) rctx.rotate(this.state.rotation * Math.PI/180);
+                rctx.scale(this.state.flipH, this.state.flipV);
+                rctx.translate(-imgW/2, -imgH/2);
+                rctx.drawImage(this.originalImage, 0, 0, imgW, imgH);
+
+                const cropCanvas = document.createElement('canvas');
+                cropCanvas.width = w; cropCanvas.height = h;
+                cropCanvas.getContext('2d').drawImage(rawCanvas, x, y, w, h, 0, 0, w, h);
+
+                const img = new Image();
+                img.onload = () => {
+                    this.originalImage = img;
+                    this.state.rotation = 0; this.state.flipH = 1; this.state.flipV = 1; 
+                    
+                    // Reposition text layers relative to the new crop boundaries
+                    this.layers.forEach(l => {
+                        const px = (l.x/100) * rawCanvas.width;
+                        const py = (l.y/100) * rawCanvas.height;
+                        l.x = ((px - x) / w) * 100;
+                        l.y = ((py - y) / h) * 100;
+                    });
+
+                    this.cancelCrop();
+                    this.updateCanvasDimensions();
+                    this.requestDraw();
+                    document.querySelector('.nav-btn[data-tab="adjust"]').click();
+                    this.toast('Crop applied successfully');
+                };
+                img.src = cropCanvas.toDataURL('image/png');
+            }
+
+            // --- EXPORT ---
+            download() {
+                if(!this.originalImage) return;
+                this.selectLayer(null);
+                
+                const exportCanvas = document.createElement('canvas');
+                exportCanvas.width = this.canvas.width; exportCanvas.height = this.canvas.height;
+                const ectx = exportCanvas.getContext('2d');
+                
+                ectx.drawImage(this.canvas, 0, 0); // Contains filters + image
+
+                // Bake text layers natively
+                ectx.textAlign = 'center'; ectx.textBaseline = 'middle';
+                this.layers.forEach(l => {
+                    ectx.save();
+                    ectx.font = `${l.italic?'italic ':''}${l.bold?'700 ':'400 '}${l.size}px ${l.isEmoji?'sans-serif':"'Inter', sans-serif"}`;
+                    ectx.fillStyle = l.color;
+                    if(l.shadow) { ectx.shadowColor = 'rgba(0,0,0,0.8)'; ectx.shadowBlur = 6; ectx.shadowOffsetX = 2; ectx.shadowOffsetY = 2; }
+                    
+                    const px = (l.x/100) * exportCanvas.width;
+                    const py = (l.y/100) * exportCanvas.height;
+                    ectx.fillText(l.text, px, py);
+                    ectx.restore();
+                });
+
+                const link = document.createElement('a');
+                link.download = `ImageCraft_Pro_${Date.now()}.png`;
+                link.href = exportCanvas.toDataURL('image/png', 1.0);
+                link.click();
+                this.toast('Image Downloaded Successfully!');
+            }
+
+            toast(msg) {
+                const t = document.getElementById('toast');
+                t.textContent = msg; t.classList.add('show');
+                clearTimeout(this._toastTimer);
+                this._toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+            }
+        }
+
+        window.app = new ImageCraftPro();
+    </script>
+</body>
+</html>

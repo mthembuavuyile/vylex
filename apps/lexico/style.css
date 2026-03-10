@@ -1,0 +1,243 @@
+/* Basic Setup & CSS Variables */
+:root {
+    --background: #1a1a1a;
+    --text: #e2e8f0;
+    --card: #2d2d2d;
+    --accent: #818cf8;
+    --border: #4a4a4a;
+    --shadow: rgba(0, 0, 0, 0.2);
+    --input-bg: #2d2d2d;
+}
+
+html[data-theme='light'] {
+    --background: #f8fafc;
+    --text: #1e293b;
+    --card: #ffffff;
+    --accent: #4f46e5;
+    --border: #e2e8f0;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --input-bg: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 700px;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--accent);
+}
+
+.theme-btn {
+    background: none;
+    border: 2px solid var(--border);
+    color: var(--text);
+    font-size: 1.2rem;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.theme-btn:hover {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* Search Box */
+.search-box {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+#word-input {
+    flex-grow: 1;
+    padding: 1rem;
+    font-size: 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px 0 0 8px;
+    background-color: var(--input-bg);
+    color: var(--text);
+    outline: none;
+}
+#word-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3);
+}
+
+#search-btn {
+    padding: 1rem;
+    font-size: 1.1rem;
+    border: 1px solid var(--accent);
+    background-color: var(--accent);
+    color: white;
+    cursor: pointer;
+    border-radius: 0 8px 8px 0;
+    transition: background-color 0.3s;
+}
+
+#search-btn:hover {
+    opacity: 0.9;
+}
+
+/* Message Area (Loading/Error) */
+#message-area {
+    text-align: center;
+    padding: 1rem;
+    min-height: 60px;
+}
+
+.loading {
+    font-style: italic;
+    color: var(--accent);
+}
+
+.error {
+    background-color: #581c1c;
+    color: #fca5a5;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #991b1b;
+}
+
+/* Results Container */
+#results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.word-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: var(--card);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px var(--shadow);
+}
+
+.word-header h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.word-header p {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-top: 5px;
+}
+
+#play-audio-btn {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 10px;
+}
+#play-audio-btn:disabled {
+    color: var(--border);
+    cursor: not-allowed;
+}
+
+.meaning {
+    background-color: var(--card);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px var(--shadow);
+}
+
+.part-of-speech {
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+.definition-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.definition-list li {
+    margin-bottom: 1.2rem;
+}
+
+.definition-list p {
+    line-height: 1.6;
+}
+
+.example {
+    font-style: italic;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--accent);
+}
+
+.synonyms {
+    margin-top: 1rem;
+}
+
+.synonyms span {
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.synonyms a {
+    color: var(--text);
+    text-decoration: none;
+    margin-left: 8px;
+    padding: 4px 8px;
+    background-color: var(--input-bg);
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.synonyms a:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+footer a {
+    color: var(--accent);
+    text-decoration: none;
+}

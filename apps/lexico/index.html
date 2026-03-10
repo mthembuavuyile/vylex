@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexico - Free Dictionary</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>Lexico</h1>
+            <button id="theme-toggle" class="theme-btn">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+
+        <main>
+            <div class="search-box">
+                <input type="text" id="word-input" placeholder="Search for a word..." autocomplete="off">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div id="message-area">
+                <!-- Loading indicator and error messages will appear here -->
+            </div>
+
+            <div id="results-container">
+                <!-- Search results will be dynamically inserted here -->
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by <a href="https://dictionaryapi.dev/" target="_blank">Free Dictionary API</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

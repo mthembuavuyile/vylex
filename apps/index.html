@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Web & Mobile Apps | Vylex</title>
+
+    <meta name="description"
+        content="Explore our web and mobile applications. Powerful, scalable, and beautifully designed apps for every need.">
+    <meta name="keywords" content="Vylex Apps, Mobile Apps, Web Apps, iOS, Android, SaaS, App Development">
+    <meta name="author" content="Vylex">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        mono: ["JetBrains Mono", "monospace"],
+                    },
+                    colors: {
+                        brand: {
+                            navy: "#051b38",
+                            lightNavy: "#0a2e5c",
+                            orange: "#fba919",
+                            gray: "#f3f4f6",
+                            slate: "#e2e8f0",
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <script src="/js/menu.js" defer></script>
+
+    <style>
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            border-color: rgba(251, 169, 25, 0.4);
+        }
+
+        .product-card:hover .icon-badge {
+            background-color: #fba919;
+            color: #051b38;
+            transform: scale(1.1);
+        }
+
+        .hero-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-700 antialiased" data-subtitle="Apps">
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-28 bg-brand-navy overflow-hidden">
+            <div class="absolute inset-0 hero-pattern opacity-30 pointer-events-none"></div>
+            <div
+                class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-lightNavy/50 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none">
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
+                <div class="max-w-4xl">
+                    <h1
+                        class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white mb-6">
+                        Seamless experiences across <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-yellow-200">
+                            any device, anywhere.
+                        </span>
+                    </h1>
+
+                    <p class="text-lg text-gray-300 mb-10 font-light max-w-2xl leading-relaxed">
+                        Browse our directory of web and mobile applications built for modern businesses and users.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#app-directory"
+                            class="px-8 py-4 bg-brand-orange text-brand-navy font-bold rounded-xl hover:bg-white transition-colors text-center shadow-lg shadow-orange-500/20">
+                            Browse Apps
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-300 mt-4">
+                        Looking for tools and utilities instead?
+                        <a href="/products/" class="text-brand-orange font-semibold hover:underline">
+                            Explore our products →
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="app-directory" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-12 border-l-4 border-brand-orange pl-6">
+                    <h2 class="text-3xl font-extrabold text-brand-navy">App Directory</h2>
+                    <p class="text-gray-600 mt-2">Explore our complete list of web and mobile applications.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+
+
+                    <a href="global-dictionary/"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Global Dictionary</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Web · Words & Slang</p>
+                    </a>
+
+                    <a href="lexico/"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-language"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Lexico</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Web · Dictionary & TTS</p>
+                    </a>
+
+                    <a href="/nexora/"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg transition-shadow">
+                        <div
+                            class="icon-badge w-12 h-12 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Nexora</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Web · Utility App</p>
+                    </a>
+
+                    <a href="nexys-social/"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">Nexys Social</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Mobile · Social Media</p>
+                    </a>
+
+                    <a href="image-craft/"
+                        class="product-card group p-6 bg-white border border-gray-100 rounded-xl hover:shadow-lg">
+                        <div
+                            class="icon-badge w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-lg mb-4 transition-colors group-hover:bg-indigo-100">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-1 group-hover:text-brand-orange">ImageCraft Pro</h4>
+                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wide">Web · Image Editor</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gray-50 border-t border-gray-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-extrabold text-brand-navy mb-6">Need a custom app developed?</h2>
+                <p class="text-gray-600 mb-10 text-lg">We build high-performance native iOS, Android, and Web
+                    applications from scratch. Let's turn your idea into a reality.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="mailto:info@vylex.co.za"
+                        class="px-8 py-4 bg-brand-navy text-white font-bold rounded-xl hover:bg-brand-lightNavy transition-all shadow-xl hover:-translate-y-1">
+                        Hire App Developers
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+</body>
+
+</html>
