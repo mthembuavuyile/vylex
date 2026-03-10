@@ -1,0 +1,389 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SATS — Bitcoin Terminal</title>
+    <meta name="description" content="SATS — a real-time Bitcoin terminal by Vylex. Track BTC price, mempool fees, Fear & Greed, network stats, and crypto news in one dashboard.">
+    <meta name="keywords" content="bitcoin dashboard, BTC price live, mempool fees, crypto terminal, fear and greed index, bitcoin halving, sats, vylex">
+    <meta name="author" content="Vylex">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="SATS — Bitcoin Terminal by Vylex">
+    <meta property="og:description" content="Real-time Bitcoin price, network stats, mempool fees, and crypto news — all in one terminal.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vylex.co.za/products/crypto">
+    <meta property="og:image" content="https://vylex.co.za/assets/images/sats-og-image.png"> <!-- Add your OG image -->
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SATS — Bitcoin Terminal by Vylex">
+    <meta name="twitter:description" content="Live BTC price, mempool, Fear & Greed, halving countdown and more.">
+    <meta name="twitter:image" content="https://vylex.co.za/assets/images/sats-og-image.png"> <!-- Same image as OG -->
+
+    <!-- Fonts & Scripts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.0/dist/chartjs-chart-financial.min.js"></script>
+</head>
+
+<body>
+
+    <div class="scanline"></div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">₿</div>
+            <div>
+                SATS
+                <span class="logo-sub">Bitcoin Terminal</span>
+            </div>
+        </div>
+        <div class="header-center">
+            <span class="header-stat">DOMINANCE <strong id="hDominance">—</strong></span>
+            <span class="header-stat">FEAR&amp;GREED <strong id="hFG">—</strong></span>
+            <span class="header-stat">BLOCK <strong id="hBlock">—</strong></span>
+            <span class="header-stat">HALVING <strong id="hHalving">—</strong></span>
+        </div>
+        <div class="header-right">
+            <div class="live-dot">LIVE</div>
+            <select class="currency-select" id="currencySelect">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+                <option value="gbp">GBP</option>
+                <option value="jpy">JPY</option>
+                <option value="zar">ZAR</option>
+            </select>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <!-- PRICE HERO -->
+        <div class="price-hero">
+            <div class="price-main">
+                <div class="label">Bitcoin / <span id="heroCurrency">USD</span></div>
+                <div class="price" id="heroPrice">Loading…</div>
+                <div id="heroChange" class="change up">—</div>
+            </div>
+            <div class="price-stats">
+                <div class="price-stat">
+                    <div class="sl">24h High</div>
+                    <div class="sv" id="heroHigh">—</div>
+                </div>
+                <div class="price-stat">
+                    <div class="sl">24h Low</div>
+                    <div class="sv" id="heroLow">—</div>
+                </div>
+                <div class="price-stat">
+                    <div class="sl">Market Cap</div>
+                    <div class="sv" id="heroMcap">—</div>
+                </div>
+                <div class="price-stat">
+                    <div class="sl">24h Volume</div>
+                    <div class="sv" id="heroVol">—</div>
+                </div>
+            </div>
+            <div class="price-meta">
+                <div class="last-update" id="heroUpdated">Waiting for data…</div>
+                <button class="refresh-btn" id="refreshBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+                    </svg>
+                    Refresh
+                </button>
+                <label class="auto-toggle">
+                    <div class="toggle-input">
+                        <input type="checkbox" id="autoRefresh" checked>
+                        <div class="toggle-slider"></div>
+                    </div>
+                    Auto 30s
+                </label>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="grid">
+
+            <!-- CHART (full width) -->
+            <div class="card grid-full">
+                <div class="card-header">
+                    <div class="card-title">Price Chart</div>
+                    <div class="chart-controls">
+                        <div class="tf-group" id="tfButtons">
+                            <button class="tf-btn active" data-tf="1H">1H</button>
+                            <button class="tf-btn" data-tf="4H">4H</button>
+                            <button class="tf-btn" data-tf="1D">1D</button>
+                            <button class="tf-btn" data-tf="1W">1W</button>
+                        </div>
+                        <button class="chart-type-btn" id="chartTypeBtn">Candles OFF</button>
+                        <div class="card-badge orange" id="chartStatus">Loading</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="priceChart"></canvas>
+                    <div class="chart-spinner" id="chartSpinner">
+                        <div class="spinner-ring"></div>
+                    </div>
+                </div>
+                <div class="status-bar">
+                    <span class="status-text" id="statusMsg">Initializing…</span>
+                    <span id="lastUpdatedTime">—</span>
+                </div>
+            </div>
+
+            <!-- MARKET STATS -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Market Stats</div>
+                    <div class="card-badge orange">CoinGecko</div>
+                </div>
+                <div class="card-body" id="marketStatsBody">
+                    <div class="metric">
+                        <span class="metric-label">BTC Dominance</span>
+                        <span class="metric-value" id="mDominance">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Circulating Supply</span>
+                        <span class="metric-value orange" id="mCirc">—</span>
+                    </div>
+                    <div class="metric" style="flex-direction:column; align-items:stretch; gap:6px;">
+                        <div style="display:flex;justify-content:space-between;">
+                            <span class="metric-label">Supply Mined</span>
+                            <span class="metric-value" id="mSupplyPct">—</span>
+                        </div>
+                        <div class="supply-bar">
+                            <div class="supply-fill" id="supplyFill"></div>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">All-Time High</span>
+                        <span class="metric-value orange" id="mATH">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">From ATH</span>
+                        <span class="metric-value" id="mATHPct">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">7d Change</span>
+                        <span class="metric-value" id="m7d">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">30d Change</span>
+                        <span class="metric-value" id="m30d">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NETWORK STATS -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Network</div>
+                    <div class="card-badge blue">mempool.space</div>
+                </div>
+                <div class="card-body">
+                    <div class="metric">
+                        <span class="metric-label">Hash Rate</span>
+                        <span class="metric-value" id="nHash">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Difficulty</span>
+                        <span class="metric-value" id="nDiff">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Next Adj.</span>
+                        <span class="metric-value" id="nNextDiff">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Block Height</span>
+                        <span class="metric-value orange" id="nBlockHeight">—</span>
+                    </div>
+                    <div style="margin-top:16px;">
+                        <div class="halving-display">
+                            <div class="halving-blocks" id="halvingBlocks">—</div>
+                            <div class="halving-sub">blocks until halving</div>
+                            <div style="margin-top:6px; font-size:0.68rem; color:var(--text3);" id="halvingDays">
+                                estimating…</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FEAR & GREED -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Fear &amp; Greed</div>
+                    <div class="card-badge green">Alternative.me</div>
+                </div>
+                <div class="fg-container">
+                    <div class="fg-gauge-wrap">
+                        <canvas id="fearGreedGauge" width="200" height="110"></canvas>
+                    </div>
+                    <div class="fg-value" id="fgValue">—</div>
+                    <div class="fg-label" id="fgLabel">Loading…</div>
+                    <div class="fg-update" id="fgUpdate">—</div>
+                </div>
+            </div>
+
+            <!-- MEMPOOL FEES -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Mempool Fees</div>
+                    <div class="card-badge blue">mempool.space</div>
+                </div>
+                <div class="card-body">
+                    <div class="fee-grid">
+                        <div class="fee-item">
+                            <div class="fee-label">Fast</div>
+                            <div class="fee-value" id="feeHigh">—</div>
+                            <div class="fee-unit">sat/vB</div>
+                        </div>
+                        <div class="fee-item">
+                            <div class="fee-label">Medium</div>
+                            <div class="fee-value" id="feeMed">—</div>
+                            <div class="fee-unit">sat/vB</div>
+                        </div>
+                        <div class="fee-item">
+                            <div class="fee-label">Slow</div>
+                            <div class="fee-value" id="feeLow">—</div>
+                            <div class="fee-unit">sat/vB</div>
+                        </div>
+                    </div>
+                    <div class="metric" style="margin-top:12px;">
+                        <span class="metric-label">Mempool Size</span>
+                        <span class="metric-value" id="mempoolSize">—</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Pending Txs</span>
+                        <span class="metric-value" id="mempoolTxs">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECENT BLOCKS -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Recent Blocks</div>
+                    <div class="card-badge blue">mempool.space</div>
+                </div>
+                <div class="card-body" id="recentBlocksBody">
+                    <div class="skeleton"></div>
+                    <div class="skeleton" style="width:80%"></div>
+                    <div class="skeleton"></div>
+                    <div class="skeleton" style="width:90%"></div>
+                </div>
+            </div>
+
+            <!-- MARKET OVERVIEW -->
+            <div class="card grid-2col">
+                <div class="card-header">
+                    <div class="card-title">Market Overview</div>
+                    <div class="card-badge orange">Top Coins</div>
+                </div>
+                <div class="card-body" id="marketOverviewBody">
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                    <div class="skeleton"></div>
+                </div>
+            </div>
+
+            <!-- CONVERTER -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Converter</div>
+                    <div class="card-badge orange">Live Rates</div>
+                </div>
+                <div class="card-body">
+                    <div class="converter-grid">
+                        <div class="conv-field">
+                            <label>Amount</label>
+                            <input class="conv-input" type="number" id="convAmount" value="1" step="any" min="0">
+                        </div>
+                        <div class="conv-arrow">→</div>
+                        <div class="conv-field">
+                            <label>To</label>
+                            <select class="conv-select" id="convTo">
+                                <option value="BTC">BTC</option>
+                                <option value="USD" selected>USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                                <option value="JPY">JPY</option>
+                                <option value="ZAR">ZAR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="conv-field" style="margin-bottom:10px;">
+                        <label>From</label>
+                        <select class="conv-select" id="convFrom" style="width:100%">
+                            <option value="BTC" selected>BTC</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                            <option value="JPY">JPY</option>
+                            <option value="ZAR">ZAR</option>
+                        </select>
+                    </div>
+                    <button class="conv-btn" id="convBtn">Convert</button>
+                    <div class="conv-result" id="convResult">Enter amount and click Convert</div>
+                </div>
+            </div>
+
+            <!-- CRYPTO TERM -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Terminology</div>
+                </div>
+                <div class="card-body" style="display:flex;flex-direction:column;">
+                    <div class="term-word" id="termWord">Loading…</div>
+                    <div class="term-def" id="termDef">—</div>
+                    <button class="card-action" id="newTermBtn">→ New Term</button>
+                </div>
+            </div>
+
+            <!-- CRYPTO QUOTE -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Wisdom</div>
+                </div>
+                <div class="card-body" style="display:flex;flex-direction:column;">
+                    <div class="quote-text" id="quoteText">Loading…</div>
+                    <button class="card-action" id="newQuoteBtn">→ New Quote</button>
+                </div>
+            </div>
+
+            <!-- NEWS FEED (full width) -->
+            <div class="card grid-full">
+                <div class="card-header">
+                    <div class="card-title">News Feed</div>
+                    <div class="news-tabs" id="newsTabs">
+                        <button class="news-tab active" data-src="all_crypto">All Crypto</button>
+                        <button class="news-tab" data-src="bitcoin">Bitcoin</button>
+                        <button class="news-tab" data-src="ethereum">Ethereum</button>
+                        <button class="news-tab" data-src="altcoins">Altcoins</button>
+                        <button class="news-tab" data-src="defi">DeFi</button>
+                        <button class="news-tab" data-src="nfts">NFTs</button>
+                    </div>
+                </div>
+                <div class="news-grid" id="newsGrid">
+                    <div
+                        style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text3); font-size:0.8rem; letter-spacing:0.1em;">
+                        LOADING NEWS…</div>
+                </div>
+            </div>
+
+        </div><!-- end .grid -->
+    </main>
+
+    <footer class="site-footer">
+        <p>by <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer">vylex</a></p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
