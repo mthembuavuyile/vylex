@@ -1,102 +1,194 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
-
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!--  created with Free Online Sitemap Generator www.xml-sitemaps.com  -->
 <url>
-  <loc>https://vylex.co.za/</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>1.00</priority>
+<loc>https://vylex.co.za/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>1.00</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/services/</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://vylex.co.za/services/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://vylex.co.za/products/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://vylex.co.za/games/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/services/web/</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/apps/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/services/mobile/</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/services/web/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/services/cybersecurity/</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/services/mobile/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/mr-racer-ultimate.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/services/cybersecurity/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/zombie-shooter.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/products/certificate-generator/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/zombie-shooterv2.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/products/writer/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/bitcoin-adventure.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/products/image-to-text/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/memory-match.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/products/qr/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/outbreak-protocol/index.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/products/sinc-legal/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/sa-quiz-challenge.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/products/sinc-prototype/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/car-racing.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/games/mr-racer-ultimate.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/slither.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/games/zombie-shooter.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/30-seconds.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/games/zombie-shooterv2.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/3dportfolio.html</loc>
-  <lastmod>2026-02-25T20:42:04+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://vylex.co.za/games/bitcoin-adventure.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
 </url>
-
-
+<url>
+<loc>https://vylex.co.za/games/memory-match.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/games/outbreak-protocol/index.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/games/sa-quiz-challenge.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/games/car-racing.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/games/slither.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/games/30-seconds.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/games/3dportfolio.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/apps/global-dictionary/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/apps/lexico/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/apps/nexys-social/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/apps/image-craft/</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.64</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/products/qr/generator.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/products/qr/scanner.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/products/sinc-legal/login.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/products/sinc-prototype/dashboard.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/products/sinc-prototype/dashboardv2.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/products/sinc-prototype/dashboardv3.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/products/sinc-prototype/whitepaper.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/apps/image-craft/editor.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.51</priority>
+</url>
+<url>
+<loc>https://vylex.co.za/products/sinc-prototype/index.html</loc>
+<lastmod>2026-03-10T12:13:00+00:00</lastmod>
+<priority>0.41</priority>
+</url>
 </urlset>
