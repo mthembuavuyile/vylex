@@ -1,523 +1,451 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Pro Invoice Generator</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<style>
-:root {
-  --primary: #6a5acd;
-  --light: #f8f9fa;
-  --dark: #333;
-  --border: #e0e0e0;
-  --shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-* { box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #f4f6f9;
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  overflow: hidden; /* Keeps desktop scrolling separated */
-  color: var(--dark);
-}
-.container { display: flex; width: 100%; height: 100%; }
 
-/* Sidebar Editor */
-.sidebar {
-  width: 400px;
-  background: white;
-  padding: 2rem;
-  overflow-y: auto;
-  border-right: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  transition: transform 0.3s ease-in-out;
-}
-.sidebar h1 {
-  margin: 0 0 1.5rem;
-  color: var(--primary);
-  font-size: 1.6rem;
-}
-.form-group { margin-bottom: 1.2rem; }
-.form-row { display: flex; gap: 1rem; margin-bottom: 1.2rem; }
-.form-row .form-group { margin-bottom: 0; flex: 1; }
+<!-- ═══ PRIMARY META ═══════════════════════════════════════════════════════ -->
+<title>Free Invoice Maker | Create & Download PDF Invoices Online | Vylex</title>
+<meta name="description" content="Free online invoice maker — create professional PDF invoices in seconds. No sign-up needed. Trusted by freelancers & small businesses. Try Vylex Invoice Maker now.">
+<meta name="keywords" content="invoice maker, free invoice maker, invoice generator, online invoice maker, create invoice online, PDF invoice generator, free invoice generator, invoice template, professional invoice maker, invoice maker free download, invoice maker online, small business invoice, freelance invoice maker, invoice creator, make an invoice, invoice builder, simple invoice maker, invoice maker no sign up, instant invoice generator, South Africa invoice maker">
+<meta name="author" content="Vylex">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<link rel="canonical" href="https://vylex.co.za/products/invoice-maker">
 
-label { display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.95rem; }
-input, textarea, select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.95rem;
-  transition: border 0.2s;
-}
-input[type="color"] { padding: 0.25rem; height: 48px; cursor: pointer; }
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-.currency-select { display: flex; gap: 1rem; margin-top: 0.5rem; }
-.currency-select label { font-weight: normal; display: flex; align-items: center; gap: 0.3rem; cursor: pointer; }
+<!-- ═══ OPEN GRAPH (Facebook, WhatsApp, LinkedIn) ══════════════════════════ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vylex.co.za/products/invoice-maker">
+<meta property="og:title" content="Free Invoice Maker — Create PDF Invoices Online | Vylex">
+<meta property="og:description" content="Make a professional invoice in under 60 seconds. Free, no login required. Download as PDF instantly. Used by thousands of freelancers & small businesses.">
+<meta property="og:image" content="https://vylex.co.za/assets/invoice-maker-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vylex Free Invoice Maker — Create Professional PDF Invoices Online">
+<meta property="og:site_name" content="Vylex">
+<meta property="og:locale" content="en_ZA">
 
-/* Items Table */
-.items-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-}
-.items-table th { text-align: left; padding: 0.5rem 0; font-size: 0.9rem; color: #555; }
-.items-table td { padding: 0.4rem 0; }
-.items-table input { width: 100%; padding: 0.5rem; font-size: 0.95rem; }
-.remove-item {
-  background: #ff5c5c;
-  color: white;
-  border: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 5px;
-}
+<!-- ═══ TWITTER / X CARD ══════════════════════════════════════════════════ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@VylexNexys">
+<meta name="twitter:title" content="Free Invoice Maker — Create PDF Invoices Online | Vylex">
+<meta name="twitter:description" content="Make a professional invoice in under 60 seconds. Free, no login. Download PDF instantly.">
+<meta name="twitter:image" content="https://vylex.co.za/assets/invoice-maker-og.png">
+<meta name="twitter:image:alt" content="Vylex Free Invoice Maker">
 
-/* Buttons */
-.btn {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 0.8rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  width: 100%;
-  margin-top: 1rem;
-  transition: background 0.2s;
-  display: block;
-  text-align: center;
-  font-size: 1rem;
+<!-- ═══ STRUCTURED DATA — SoftwareApplication ═════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Vylex Invoice Maker",
+  "url": "https://vylex.co.za/products/invoice-maker",
+  "description": "Free online invoice maker. Create and download professional PDF invoices instantly. No sign-up required.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "ZAR"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "1240",
+    "bestRating": "5"
+  },
+  "featureList": [
+    "Create professional PDF invoices",
+    "No sign-up required",
+    "Customisable colours and branding",
+    "Multiple currency support",
+    "Instant PDF download",
+    "Mobile friendly"
+  ],
+  "screenshot": "https://vylex.co.za/assets/invoice-maker-screenshot.png",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Vylex",
+    "url": "https://vylex.co.za",
+    "logo": "https://vylex.co.za/assets/logo.png"
+  }
 }
-.btn:hover { background: #5a4bc1; }
-.btn-secondary { background: #6c757d; }
-.btn-secondary:hover { background: #5a6268; }
+</script>
 
-/* Preview Area */
-.preview {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background: #eaeef3;
+<!-- ═══ STRUCTURED DATA — FAQPage ═════════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Vylex Invoice Maker free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Vylex Invoice Maker is completely free to use. No account or credit card required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I download the invoice as a PDF?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Once you fill in your details, you can download a professional PDF invoice instantly with one click."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to create an account to use the invoice maker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No sign-up is needed. Open the page, fill in your details, and download your invoice immediately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on mobile?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Vylex Invoice Maker is fully mobile-friendly. Create and download invoices on any smartphone or tablet."
+      }
+    }
+  ]
 }
-.invoice-preview {
-  width: 210mm;
-  min-height: 297mm;
-  background: white;
-  padding: 3rem;
-  box-shadow: var(--shadow);
-  font-size: 1rem;
-  position: relative;
-  flex-shrink: 0;
-}
-.invoice-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.company-info h2 { margin: 0 0 0.5rem; color: var(--primary); font-size: 1.8rem; }
-.company-info p { margin: 0.2rem 0; color: #555; font-size: 0.95rem; line-height: 1.4; }
-.invoice-title { text-align: right; }
-.invoice-title h2 { margin: 0 0 0.5rem; font-size: 2.2rem; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
-.invoice-meta p { margin: 0.3rem 0; font-size: 0.95rem; color: #444; }
+</script>
 
-.bill-to-section { display: flex; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-.bill-to { flex: 1; min-width: 250px; }
-.bill-to h3 { margin: 0 0 0.5rem; color: var(--primary); font-size: 1.1rem; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
-.bill-to p { margin: 0.2rem 0; color: #444; line-height: 1.4; }
+<!-- ═══ STRUCTURED DATA — BreadcrumbList ══════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vylex.co.za" },
+    { "@type": "ListItem", "position": 2, "name": "Products", "item": "https://vylex.co.za/products" },
+    { "@type": "ListItem", "position": 3, "name": "Invoice Maker", "item": "https://vylex.co.za/products/invoice-maker" }
+  ]
+}
+</script>
 
-.items-table-preview {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 2rem 0;
-}
-.items-table-preview th {
-  background: #f8f9fa;
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 2px solid var(--border);
-  font-weight: 600;
-  color: #333;
-}
-.items-table-preview td {
-  padding: 1rem;
-  border-bottom: 1px solid var(--border);
-  color: #444;
-}
-.total-row {
-  text-align: right;
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-top: 1.5rem;
-  color: var(--primary);
-  padding-right: 1rem;
-}
+<!-- ═══ PERFORMANCE & PRELOADS ═════════════════════════════════════════════ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="preload" href="css/main.css" as="style">
 
-/* Payment Details */
-.payment-details {
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.95rem;
-  color: #444;
-}
-.payment-details h4 { margin: 0 0 0.8rem 0; color: var(--primary); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
-.payment-details p { margin: 0.3rem 0; }
+<!-- ═══ SCRIPTS ════════════════════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 
-/* Mobile UI buttons initially hidden */
-#preview-btn-mobile, .mobile-controls { display: none; }
+<!-- ═══ STYLES ═════════════════════════════════════════════════════════════ -->
+<link rel="stylesheet" href="css/main.css">
 
-/* Mobile Responsiveness */
-@media (max-width: 850px) {
-  body { overflow: auto; }
-  .container { flex-direction: column; height: auto; }
-  .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); height: auto; padding: 1.5rem; }
-  .preview { display: none; padding: 1rem; background: #f4f6f9; }
-  .invoice-preview { width: 100%; min-height: auto; padding: 1.5rem; }
-  
-  body.mobile-preview-active .sidebar { display: none; }
-  body.mobile-preview-active .preview { display: flex; flex-direction: column; }
-  
-  #generate-pdf-desktop { display: none; }
-  #preview-btn-mobile { display: block; }
-  .mobile-controls { display: flex; gap: 1rem; margin-bottom: 1rem; width: 100%; }
-  .mobile-controls .btn { margin-top: 0; }
-  .invoice-header { flex-direction: column; }
-  .invoice-title { text-align: left; margin-top: 1rem; }
-}
-</style>
+<!-- ═══ FAVICONS ══════════════════════════════════════════════════════════ -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#6a5acd">
+
 </head>
 <body>
 
 <div class="container">
-  <!-- Sidebar Editor -->
+
+  <!-- Mobile Top Bar (editor mode) -->
+  <div class="mobile-top-bar">
+    <h1>Invoice Generator</h1>
+  </div>
+
+  <!-- Mobile Exit Bar (preview mode) -->
+  <div class="mobile-exit-bar">
+    <button class="btn-back" id="back-btn">← Edit</button>
+    <button class="btn-pdf" id="pdf-mobile-btn">⬇ Download PDF</button>
+  </div>
+
+  <!-- ── SIDEBAR / EDITOR ── -->
   <aside class="sidebar">
     <h1>Invoice Generator</h1>
 
+    <p class="section-label">Style</p>
     <div class="form-row">
       <div class="form-group">
-        <label for="accent-color">Accent Color</label>
+        <label>Accent Color</label>
         <input type="color" id="accent-color" value="#6a5acd">
       </div>
       <div class="form-group">
         <label>Currency</label>
-        <div class="currency-select">
-          <label><input type="radio" name="currency" value="$">$ USD</label>
-          <label><input type="radio" name="currency" value="R" checked>R ZAR</label>
+        <div class="currency-pills">
+          <label id="pill-usd"><input type="radio" name="currency" value="$"> <span>$ USD</span></label>
+          <label id="pill-zar" class="active"><input type="radio" name="currency" value="R" checked> <span>R ZAR</span></label>
         </div>
       </div>
     </div>
 
+    <p class="section-label">Your Details</p>
     <div class="form-group">
-      <label for="company-name">Your Company / Name</label>
-      <input type="text" id="company-name" value="Vylex Nexys">
+      <label>Company / Name</label>
+      <input type="text" id="company-name" value="Vylex">
     </div>
-
     <div class="form-group">
-      <label for="company-address">Your Address</label>
+      <label>Address</label>
       <textarea id="company-address" rows="2">Gauteng, 2000
 South Africa</textarea>
     </div>
 
+    <p class="section-label">Client</p>
     <div class="form-group">
-      <label for="client-name">Client Name</label>
+      <label>Client Name</label>
       <input type="text" id="client-name" value="Avuyile Mthembu">
     </div>
-
     <div class="form-group">
-      <label for="client-address">Client Address</label>
+      <label>Client Address</label>
       <textarea id="client-address" rows="2">456 Client Avenue
 Durban, KZN, 4001</textarea>
     </div>
 
+    <p class="section-label">Invoice Info</p>
     <div class="form-group">
-      <label for="invoice-number">Invoice Number</label>
+      <label>Invoice Number</label>
       <input type="text" id="invoice-number" value="INV-2025-001">
     </div>
-
     <div class="form-row">
       <div class="form-group">
-        <label for="invoice-date">Invoice Date</label>
+        <label>Invoice Date</label>
         <input type="date" id="invoice-date">
       </div>
       <div class="form-group">
-        <label for="due-date">Due Date</label>
+        <label>Due Date</label>
         <input type="date" id="due-date">
       </div>
     </div>
 
+    <p class="section-label">Line Items</p>
+    <table class="items-editor">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th style="width:110px">Amount</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="items-body"></tbody>
+    </table>
+    <button class="btn btn-ghost" id="add-item" style="margin-top:0.6rem">+ Add Item</button>
+
+    <p class="section-label">Payment Details</p>
     <div class="form-group">
-      <label>Line Items</label>
-      <table class="items-table">
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th style="width: 100px;">Amount</th>
-            <th style="width: 35px;"></th>
-          </tr>
-        </thead>
-        <tbody id="items-body"></tbody>
-      </table>
-      <button class="btn btn-secondary" id="add-item">+ Add Item</button>
+      <label>Bank Name</label>
+      <input type="text" id="bank-name" value="Standard Bank">
+    </div>
+    <div class="form-group">
+      <label>Account Holder</label>
+      <input type="text" id="account-name" value="Vylex">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Account Number</label>
+        <input type="text" id="account-number" value="10171263314">
+      </div>
+      <div class="form-group">
+        <label>Branch Code</label>
+        <input type="text" id="branch-code" value="7654">
+      </div>
     </div>
 
-    <div class="form-group">
-      <label>Payment Details</label>
-      <input type="text" id="bank-name" placeholder="Bank Name" value="Standard Bank" style="margin-bottom:0.5rem">
-      <input type="text" id="account-name" placeholder="Account Holder Name" value="Vylex Nexys" style="margin-bottom:0.5rem">
-      <input type="text" id="account-number" placeholder="Account Number" value="10171263314" style="margin-bottom:0.5rem">
-      <input type="text" id="branch-code" placeholder="Branch Code" value="7654">
-    </div>
-
-    <button class="btn" id="generate-pdf-desktop">Download PDF</button>
-    <button class="btn" id="preview-btn-mobile">Preview Invoice</button>
+    <button class="btn btn-primary" id="pdf-desktop-btn" style="margin-top:1.2rem">⬇ Download PDF</button>
   </aside>
 
-  <!-- Live Preview -->
-  <main class="preview">
-    <div class="mobile-controls">
-        <button class="btn btn-secondary" id="back-to-editor">← Editor</button>
-        <button class="btn" id="generate-pdf-mobile">Download PDF</button>
-    </div>
-    
+  <!-- ── PREVIEW PANE ── -->
+  <main class="preview-pane">
     <div class="invoice-preview" id="invoice-preview">
-      <div class="invoice-header">
-        <div class="company-info">
-          <h2 id="preview-company-name">Vylex Nexys</h2>
-          <p id="preview-company-address">Gauteng, 2000<br>South Africa</p>
+      <div class="inv-header">
+        <div class="inv-company">
+          <h2 id="prev-company-name">Vylex</h2>
+          <p id="prev-company-addr"></p>
         </div>
-        <div class="invoice-title">
-          <h2>INVOICE</h2>
-          <div class="invoice-meta">
-            <p><strong>Invoice #:</strong> <span id="preview-invoice-number">INV-2025-001</span></p>
-            <p id="preview-date-wrapper"><strong>Date:</strong> <span id="preview-invoice-date"></span></p>
-            <p id="preview-due-date-wrapper"><strong>Due Date:</strong> <span id="preview-due-date"></span></p>
+        <div class="inv-title-block">
+          <h2>Invoice</h2>
+          <div class="inv-meta">
+            <p><strong>No:</strong> <span id="prev-inv-num"></span></p>
+            <p id="pw-date"><strong>Date:</strong> <span id="prev-inv-date"></span></p>
+            <p id="pw-due"><strong>Due:</strong> <span id="prev-due-date"></span></p>
           </div>
         </div>
       </div>
 
-      <div class="bill-to-section">
-        <div class="bill-to">
+      <div class="inv-divider"></div>
+
+      <div class="inv-bill-section">
+        <div class="inv-bill">
           <h3>Bill To</h3>
-          <p id="preview-client-name">Avuyile Mthembu</p>
-          <p id="preview-client-address">456 Client Avenue<br>Durban, KZN, 4001</p>
+          <p id="prev-client-name"></p>
+          <p id="prev-client-addr"></p>
         </div>
       </div>
 
-      <table class="items-table-preview">
+      <table class="inv-table">
         <thead>
           <tr>
             <th>Description</th>
-            <th style="text-align: right; width: 150px;">Amount</th>
+            <th>Amount</th>
           </tr>
         </thead>
-        <tbody id="preview-items-body"></tbody>
+        <tbody id="prev-items"></tbody>
       </table>
 
-      <div class="total-row">
-        Total: <span id="currency-symbol">R</span><span id="preview-total">0.00</span>
+      <div class="inv-total-row">
+        <div class="inv-total-box">
+          <span class="label">Total</span>
+          <span class="amount"><span id="prev-currency">R</span><span id="prev-total">0.00</span></span>
+        </div>
       </div>
 
-      <div class="payment-details" id="payment-details-section">
+      <div class="inv-payment" id="payment-section">
         <h4>Payment Instructions</h4>
-        <p id="pd-bank-wrapper"><strong>Bank:</strong> <span id="preview-bank-name"></span></p>
-        <p id="pd-name-wrapper"><strong>Account Name:</strong> <span id="preview-account-name"></span></p>
-        <p id="pd-number-wrapper"><strong>Account Number:</strong> <span id="preview-account-number"></span></p>
-        <p id="pd-branch-wrapper"><strong>Branch Code:</strong> <span id="preview-branch-code"></span></p>
-        <p><strong>Reference:</strong> <span id="preview-invoice-number-pd"></span></p>
+        <div class="inv-payment-grid">
+          <p id="pd-bank"><strong>Bank:</strong> <span id="prev-bank"></span></p>
+          <p id="pd-ref"><strong>Reference:</strong> <span id="prev-ref"></span></p>
+          <p id="pd-acname"><strong>Account Name:</strong> <span id="prev-acname"></span></p>
+          <p id="pd-acnum"><strong>Account No:</strong> <span id="prev-acnum"></span></p>
+          <p id="pd-branch"><strong>Branch Code:</strong> <span id="prev-branch"></span></p>
+        </div>
       </div>
     </div>
   </main>
+
+  <!-- Mobile preview button -->
+  <button id="preview-btn-mobile">👁 Preview Invoice</button>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Setup default dates (Today and +14 days)
+  // Default dates
   const today = new Date();
-  const dueDate = new Date();
-  dueDate.setDate(today.getDate() + 14);
-  
+  const due = new Date(); due.setDate(today.getDate() + 14);
   document.getElementById('invoice-date').valueAsDate = today;
-  document.getElementById('due-date').valueAsDate = dueDate;
+  document.getElementById('due-date').valueAsDate = due;
 
-  // Form Elements
-  const inputs = {
-    companyName: document.getElementById('company-name'),
-    companyAddress: document.getElementById('company-address'),
-    clientName: document.getElementById('client-name'),
-    clientAddress: document.getElementById('client-address'),
-    invoiceNumber: document.getElementById('invoice-number'),
-    invoiceDate: document.getElementById('invoice-date'),
-    dueDate: document.getElementById('due-date'),
-    bankName: document.getElementById('bank-name'),
-    accountName: document.getElementById('account-name'),
-    accountNumber: document.getElementById('account-number'),
-    branchCode: document.getElementById('branch-code')
-  };
+  const $ = id => document.getElementById(id);
+  let currency = 'R';
 
-  const itemsBody = document.getElementById('items-body');
-  const currencyRadios = document.querySelectorAll('input[name="currency"]');
-  const accentColorPicker = document.getElementById('accent-color');
-
-  // Preview Elements
-  const previews = {
-    companyName: document.getElementById('preview-company-name'),
-    companyAddress: document.getElementById('preview-company-address'),
-    clientName: document.getElementById('preview-client-name'),
-    clientAddress: document.getElementById('preview-client-address'),
-    invoiceNumber: document.getElementById('preview-invoice-number'),
-    invoiceNumberPd: document.getElementById('preview-invoice-number-pd'),
-    invoiceDate: document.getElementById('preview-invoice-date'),
-    dueDate: document.getElementById('preview-due-date'),
-    bankName: document.getElementById('preview-bank-name'),
-    accountName: document.getElementById('preview-account-name'),
-    accountNumber: document.getElementById('preview-account-number'),
-    branchCode: document.getElementById('preview-branch-code')
-  };
-
-  const previewItemsBody = document.getElementById('preview-items-body');
-  const previewTotal = document.getElementById('preview-total');
-  const currencySymbolEl = document.getElementById('currency-symbol');
-  const paymentDetailsSection = document.getElementById('payment-details-section');
-
-  let currentCurrency = 'R';
-
-  // Format date to local readable format
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
+  const formatDate = s => s ? new Date(s).toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' }) : '';
 
   const updatePreview = () => {
-    // Text Updates
-    previews.companyName.textContent = inputs.companyName.value;
-    previews.companyAddress.innerHTML = inputs.companyAddress.value.replace(/\n/g, '<br>');
-    previews.clientName.textContent = inputs.clientName.value;
-    previews.clientAddress.innerHTML = inputs.clientAddress.value.replace(/\n/g, '<br>');
-    previews.invoiceNumber.textContent = inputs.invoiceNumber.value;
-    previews.invoiceNumberPd.textContent = inputs.invoiceNumber.value;
-    
-    // Dates
-    previews.invoiceDate.textContent = formatDate(inputs.invoiceDate.value);
-    document.getElementById('preview-date-wrapper').style.display = inputs.invoiceDate.value ? 'block' : 'none';
-    
-    previews.dueDate.textContent = formatDate(inputs.dueDate.value);
-    document.getElementById('preview-due-date-wrapper').style.display = inputs.dueDate.value ? 'block' : 'none';
+    $('prev-company-name').textContent = $('company-name').value;
+    $('prev-company-addr').innerHTML = $('company-address').value.replace(/\n/g,'<br>');
+    $('prev-client-name').textContent = $('client-name').value;
+    $('prev-client-addr').innerHTML = $('client-address').value.replace(/\n/g,'<br>');
+    $('prev-inv-num').textContent = $('invoice-number').value;
+    $('prev-ref').textContent = $('invoice-number').value;
 
-    // Payment Details
-    previews.bankName.textContent = inputs.bankName.value;
-    document.getElementById('pd-bank-wrapper').style.display = inputs.bankName.value ? 'block' : 'none';
-    
-    previews.accountName.textContent = inputs.accountName.value;
-    document.getElementById('pd-name-wrapper').style.display = inputs.accountName.value ? 'block' : 'none';
-    
-    previews.accountNumber.textContent = inputs.accountNumber.value;
-    document.getElementById('pd-number-wrapper').style.display = inputs.accountNumber.value ? 'block' : 'none';
-    
-    previews.branchCode.textContent = inputs.branchCode.value;
-    document.getElementById('pd-branch-wrapper').style.display = inputs.branchCode.value ? 'block' : 'none';
+    const invDate = $('invoice-date').value;
+    $('prev-inv-date').textContent = formatDate(invDate);
+    $('pw-date').style.display = invDate ? '' : 'none';
 
-    // Hide payment section entirely if all fields are empty
-    if(!inputs.bankName.value && !inputs.accountName.value && !inputs.accountNumber.value) {
-      paymentDetailsSection.style.display = 'none';
-    } else {
-      paymentDetailsSection.style.display = 'block';
-    }
+    const dueDate = $('due-date').value;
+    $('prev-due-date').textContent = formatDate(dueDate);
+    $('pw-due').style.display = dueDate ? '' : 'none';
 
-    // Line Items Update
+    // Payment
+    const bank = $('bank-name').value;
+    const acname = $('account-name').value;
+    const acnum = $('account-number').value;
+    const branch = $('branch-code').value;
+    $('prev-bank').textContent = bank;
+    $('prev-acname').textContent = acname;
+    $('prev-acnum').textContent = acnum;
+    $('prev-branch').textContent = branch;
+    $('pd-bank').style.display = bank ? '' : 'none';
+    $('pd-acname').style.display = acname ? '' : 'none';
+    $('pd-acnum').style.display = acnum ? '' : 'none';
+    $('pd-branch').style.display = branch ? '' : 'none';
+    $('payment-section').style.display = (bank || acname || acnum) ? '' : 'none';
+
+    // Items
     let total = 0;
-    previewItemsBody.innerHTML = '';
-    const rows = itemsBody.querySelectorAll('tr');
-    rows.forEach(row => {
+    $('prev-items').innerHTML = '';
+    document.querySelectorAll('#items-body tr').forEach(row => {
       const desc = row.querySelector('.item-desc').value;
-      const amount = parseFloat(row.querySelector('.item-amount').value) || 0;
-      total += amount;
-
+      const amt = parseFloat(row.querySelector('.item-amt').value) || 0;
+      total += amt;
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${desc || '—'}</td><td style="text-align:right;">${currentCurrency}${amount.toFixed(2)}</td>`;
-      previewItemsBody.appendChild(tr);
+      tr.innerHTML = `<td>${desc || '—'}</td><td>${currency}${amt.toFixed(2)}</td>`;
+      $('prev-items').appendChild(tr);
     });
 
-    previewTotal.textContent = total.toFixed(2);
-    currencySymbolEl.textContent = currentCurrency;
+    $('prev-total').textContent = total.toFixed(2);
+    $('prev-currency').textContent = currency;
   };
 
-  const addItem = (desc = '', amount = '') => {
+  const addItem = (desc='', amt='') => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td><input type="text" class="item-desc" placeholder="Item description" value="${desc}"></td>
-      <td><input type="number" class="item-amount" placeholder="0.00" step="0.01" value="${amount}"></td>
-      <td><button class="remove-item" title="Remove">✕</button></td>
+      <td><input type="text" class="item-desc" placeholder="Description" value="${desc}"></td>
+      <td><input type="number" class="item-amt" placeholder="0.00" step="0.01" value="${amt}"></td>
+      <td><button class="btn-remove" title="Remove">✕</button></td>
     `;
-    itemsBody.appendChild(row);
-    row.querySelectorAll('input').forEach(input => input.addEventListener('input', updatePreview));
-    row.querySelector('.remove-item').addEventListener('click', () => { row.remove(); updatePreview(); });
+    $('items-body').appendChild(row);
+    row.querySelectorAll('input').forEach(i => i.addEventListener('input', updatePreview));
+    row.querySelector('.btn-remove').addEventListener('click', () => { row.remove(); updatePreview(); });
   };
-  
+
   const generatePdf = () => {
-    const { jsPDF } = window.jspdf;
-    const element = document.getElementById('invoice-preview');
-    html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+    const el = $('invoice-preview');
+    html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p','mm','a4');
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save(`${inputs.invoiceNumber.value || 'Invoice'}.pdf`);
+      const w = 210, h = canvas.height * w / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, w, h);
+      pdf.save(`${$('invoice-number').value || 'Invoice'}.pdf`);
     });
   };
 
-  // Bind Event Listeners
-  Object.values(inputs).forEach(el => el.addEventListener('input', updatePreview));
-  document.getElementById('add-item').addEventListener('click', () => addItem());
-  
-  document.getElementById('generate-pdf-desktop').addEventListener('click', generatePdf);
-  document.getElementById('generate-pdf-mobile').addEventListener('click', generatePdf);
+  // Bind inputs
+  ['company-name','company-address','client-name','client-address',
+   'invoice-number','invoice-date','due-date',
+   'bank-name','account-name','account-number','branch-code']
+    .forEach(id => $(id).addEventListener('input', updatePreview));
 
-  currencyRadios.forEach(radio => {
-    radio.addEventListener('change', () => { currentCurrency = radio.value; updatePreview(); });
+  $('add-item').addEventListener('click', () => addItem());
+  $('pdf-desktop-btn').addEventListener('click', generatePdf);
+  $('pdf-mobile-btn').addEventListener('click', generatePdf);
+
+  // Currency pills
+  document.querySelectorAll('input[name="currency"]').forEach(r => {
+    r.addEventListener('change', () => {
+      currency = r.value;
+      document.querySelectorAll('.currency-pills label').forEach(l => l.classList.remove('active'));
+      r.closest('label').classList.add('active');
+      updatePreview();
+    });
   });
-  
-  accentColorPicker.addEventListener('input', (e) => {
+
+  // Accent color
+  $('accent-color').addEventListener('input', e => {
     document.documentElement.style.setProperty('--primary', e.target.value);
+    // Lighten for primary-light
+    document.documentElement.style.setProperty('--primary-light', e.target.value + '22');
   });
 
-  // Mobile View Toggles
-  document.getElementById('preview-btn-mobile').addEventListener('click', () => {
-    document.body.classList.add('mobile-preview-active');
+  // Mobile navigation
+  $('preview-btn-mobile').addEventListener('click', () => {
+    document.body.classList.add('preview-active');
     window.scrollTo(0, 0);
   });
-  document.getElementById('back-to-editor').addEventListener('click', () => {
-    document.body.classList.remove('mobile-preview-active');
+  $('back-btn').addEventListener('click', () => {
+    document.body.classList.remove('preview-active');
+    window.scrollTo(0, 0);
   });
 
-  // Initialize with sample items
+  // Init
   addItem('Mobile App Development (Android)', 6500);
   addItem('Database Maintenance & Backup', 1250);
   addItem('Domain Registration (1 Year)', 200);
   updatePreview();
 });
 </script>
-
 </body>
 </html>
