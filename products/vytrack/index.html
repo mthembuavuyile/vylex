@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VyTrack Finance Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">VyTrack Finance Tracker</div>
+        <div class="burger-menu" id="burger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav class="main-nav" id="main-nav">
+            <ul>
+                <li><a href="#dashboard" class="active">Dashboard</a></li>
+                <li><a href="#transactions">Transactions</a></li>
+                <li><a href="#budgets">Budgets</a></li>
+                <li><a href="#reports">Reports</a></li>
+            </ul>
+        </nav>
+        <div class="profile-section">
+            <div class="profile-icon" id="profile-icon"></div>
+            <div class="profile-dropdown" id="profile-dropdown">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <span id="display-name" style="font-weight: bold;"></span>
+                </div>
+                <input type="text" id="profile-name-input" placeholder="Your Name">
+                <button onclick="saveName()">Save Name</button>
+                <div style="border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px;">
+                    <!-- Logout button will be inserted here by JS -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">     
+        <main class="main-content">
+            <section id="dashboard" class="section">
+                <div class="dashboard-summary">
+                    <div class="summary-card">
+                        <h3>Total Income</h3>
+                        <p id="total-income">$0.00</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Total Expenses</h3>
+                        <p id="total-expenses">$0.00</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Balance</h3>
+                        <p id="balance">$0.00</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Savings Rate</h3>
+                        <p id="savings-rate">0%</p>
+                    </div>
+                </div>
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h2>Expense Distribution</h2>
+                        <div class="chart-container">
+                            <canvas id="expense-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h2>Monthly Income vs Expenses</h2>
+                        <div class="chart-container">
+                            <canvas id="monthly-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="transactions" class="section">
+                <div id="transaction-form">
+                    <h2>Add Transaction</h2>
+                    <form id="transaction-form-element">
+                        <div class="form-group">
+                            <label for="transaction-type">Type</label>
+                            <select id="transaction-type" required>
+                                <option value="">Select Type</option>
+                                <option value="income">Income</option>
+                                <option value="expense">Expense</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transaction-category">Category</label>
+                            <select id="transaction-category" required>
+                                <option value="">Select Category</option>
+                                <!-- Categories will be populated by JS -->
+                            </select>
+                        </div>
+                        <div class="form-group" id="subcategory-group" style="display: none;">
+                            <label for="transaction-subcategory">Subcategory</label>
+                            <select id="transaction-subcategory">
+                                <option value="">Select Subcategory</option>
+                                <!-- Subcategories will be populated by JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transaction-description">Description</label>
+                            <input type="text" id="transaction-description" placeholder="Description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transaction-amount">Amount</label>
+                            <input type="number" id="transaction-amount" placeholder="Amount" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transaction-date">Date</label>
+                            <input type="date" id="transaction-date">
+                        </div>
+                        <button type="submit">Add Transaction</button>
+                    </form>
+                </div>
+
+                <ul id="transactions-list">
+                    <!-- Transactions will be listed here -->
+                </ul>
+            </section>
+
+            <section id="budgets" class="section">
+                <div id="budget-form">
+                    <h2>Set Budget</h2>
+                    <form id="budget-form-element">
+                        <div class="form-group">
+                            <label for="budget-category">Category</label>
+                            <select id="budget-category" required>
+                                <option value="">Select Category</option>
+                                <!-- Budget categories will be populated by JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget-amount">Budget Amount</label>
+                            <input type="number" id="budget-amount" placeholder="Budget Amount" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget-period">Period</label>
+                            <select id="budget-period">
+                                <option value="monthly">Monthly</option>
+                                <option value="weekly">Weekly</option>
+                            </select>
+                        </div>
+                        <button type="submit">Set Budget</button>
+                    </form>
+                </div>
+
+                <div id="budget-progress">
+                    <!-- Budget progress bars will be shown here -->
+                </div>
+            </section>
+
+            <section id="reports" class="section">
+                <h2>Financial Report</h2>
+                <div id="report-message">
+                    <!-- Report message will be displayed here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <center>
+            
+        <div class="copyright">
+            &copy; 2025 VyTrack Finance Tracker by <a href="https://vylex.co.za" target="_blank">vylex</a>
+        </div>
+        <br>
+
+        </center>
+
+    <script src="script.js"></script>
+</body>
+</html>

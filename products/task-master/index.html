@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskMaster Pro | Smart Task & Calendar Organizer</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <meta name="description" content="TaskMaster Pro is your intelligent task and calendar management system—empowering productivity, visual organization, and effortless scheduling.">
+  <meta name="keywords" content="task manager, productivity app, calendar planner, to-do list, schedule organizer, TaskMaster Pro">
+  <meta name="author" content="Avuyile Mthembu, South Africa">
+
+  <meta property="og:title" content="TaskMaster Pro - Master Your Tasks, Rule Your Day">
+  <meta property="og:description" content="Transform chaos into clarity with TaskMaster Pro. Organize tasks, filter priorities, and navigate your week with grace.">
+  <meta property="og:url" content="https://vylex.co.za/TaskMaster">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="css/main.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TaskMaster Pro",
+    "operatingSystem": "Web",
+    "applicationCategory": "ProductivityApplication",
+    "description": "A modern task and calendar organizer designed to streamline your workflow with visual tagging, smart filters, and an intuitive dashboard.",
+    "url": "https://vylex.co.za/TaskMaster",
+    "author": { "@type": "Person", "name": "Avuyile Mthembu" }
+  }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="gradient-navbar text-white shadow-md sticky top-0 z-30">
+        <div class="brand">
+            <button id="menuToggle" class="md:hidden focus:outline-none" aria-label="Toggle menu">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+            <i class="fas fa-check-circle" aria-hidden="true"></i>
+            <h1>TaskMaster Pro</h1>
+        </div>
+        <div class="nav-right">
+            <div class="nav-user hidden md:flex">
+                Hey, <span id="userName">User</span>
+            </div>
+            <button id="logoutBtn" aria-label="Logout">
+                <i class="fas fa-sign-out-alt" style="margin-right:5px; font-size:0.75rem;"></i>Logout
+            </button>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <div class="flex flex-grow relative">
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+
+            <!-- Mobile welcome -->
+            <div class="md:hidden flex items-center space-x-2 mb-2">
+                <span style="color:var(--text-secondary); font-size:0.85rem;">Hey, </span>
+                <span id="userNameMobile" style="color:var(--accent-2); font-weight:600; font-size:0.85rem;">User</span>
+            </div>
+
+            <!-- Navigation -->
+            <div>
+                <h3>Navigation</h3>
+                <ul id="navigationTabs">
+                    <li><button data-tab="dashboard" class="tab-button active" aria-label="Dashboard tab">
+                        <i class="fas fa-home" aria-hidden="true"></i><span>Dashboard</span>
+                    </button></li>
+                    <li><button data-tab="tasks" class="tab-button" aria-label="Tasks tab">
+                        <i class="fas fa-tasks" aria-hidden="true"></i><span>Tasks</span>
+                    </button></li>
+                    <li><button data-tab="calendar" class="tab-button" aria-label="Calendar tab">
+                        <i class="fas fa-calendar-alt" aria-hidden="true"></i><span>Calendar</span>
+                    </button></li>
+                    <li><button data-tab="tags" class="tab-button" aria-label="Tags tab">
+                        <i class="fas fa-tags" aria-hidden="true"></i><span>Tags</span>
+                    </button></li>
+                </ul>
+            </div>
+
+            <!-- Tags section -->
+            <div class="sidebar-section">
+                <h3>Tags</h3>
+                <ul id="tagsListSidebar">
+                    <li class="filter-tag-button" data-tag-filter="all">
+                        <span class="text-sm font-medium flex items-center">
+                            <i class="fas fa-layer-group w-5 text-center mr-2" aria-hidden="true"></i> All tasks
+                        </span>
+                        <span class="bg-white text-indigo-600 px-2 rounded-full text-xs font-mono" id="allTagsCountSidebar">0</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Quick Filters -->
+            <div class="sidebar-section">
+                <h3>Quick Filters</h3>
+                <ul id="quickFilters">
+                    <li><button class="filter-button" data-filter="today" aria-label="Filter tasks due today">
+                        <i class="fas fa-calendar-day" aria-hidden="true"></i><span>Due Today</span>
+                    </button></li>
+                    <li><button class="filter-button" data-filter="week" aria-label="Filter tasks due this week">
+                        <i class="fas fa-calendar-week" aria-hidden="true"></i><span>Due This Week</span>
+                    </button></li>
+                    <li><button class="filter-button" data-filter="high" aria-label="Filter high priority tasks">
+                        <i class="fas fa-exclamation-circle" aria-hidden="true"></i><span>High Priority</span>
+                    </button></li>
+                    <li><button class="filter-button" data-filter="overdue" aria-label="Filter overdue tasks">
+                        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>Overdue</span>
+                    </button></li>
+                    <li><button class="filter-button active" data-filter="all" aria-label="Show all active tasks">
+                        <i class="fas fa-infinity" aria-hidden="true"></i><span>Show All Active</span>
+                    </button></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <main class="flex-grow p-4 md:p-6 lg:p-8 overflow-y-auto custom-scrollbar">
+
+            <!-- Dashboard Tab -->
+            <div class="tab-content" id="dashboard-tab">
+                <h2>Dashboard</h2>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-lg shadow text-center">
+                        <h3 class="text-gray-500 text-sm mb-1">Total Tasks</h3>
+                        <p id="totalTasks" class="text-2xl font-bold text-indigo-600">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow text-center">
+                        <h3 class="text-gray-500 text-sm mb-1">Completed</h3>
+                        <p id="completedTasks" class="text-2xl font-bold text-green-600">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow text-center">
+                        <h3 class="text-gray-500 text-sm mb-1">Pending</h3>
+                        <p id="pendingTasks" class="text-2xl font-bold text-yellow-600">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow text-center">
+                        <h3 class="text-gray-500 text-sm mb-1">Overdue</h3>
+                        <p id="overdueTasks" class="text-2xl font-bold text-red-600">0</p>
+                    </div>
+                </div>
+
+                <!-- Today & Upcoming -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg shadow p-6 flex flex-col">
+                        <h3 class="text-xl font-semibold mb-4 flex-shrink-0">Today's Tasks</h3>
+                        <div class="flex-grow overflow-y-auto max-h-60 custom-scrollbar">
+                            <ul id="todaysList" class="space-y-3"></ul>
+                            <div id="todaysEmptyState" class="hidden text-center py-8 opacity-70">
+                                <i class="fas fa-sun text-5xl text-yellow-300 mb-3" aria-hidden="true"></i>
+                                <p class="text-gray-500">Nothing due today. Enjoy the day!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-6 flex flex-col">
+                        <h3 class="text-xl font-semibold mb-4 flex-shrink-0">Upcoming · Next 7 Days</h3>
+                        <div class="flex-grow overflow-y-auto max-h-60 custom-scrollbar">
+                            <ul id="upcomingList" class="space-y-3"></ul>
+                            <div id="upcomingEmptyState" class="hidden text-center py-8 opacity-70">
+                                <i class="fas fa-calendar-check text-5xl text-indigo-300 mb-3" aria-hidden="true"></i>
+                                <p class="text-gray-500">Clear ahead for the next week.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="dashboardAddTaskBtn" data-tab="tasks" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-indigo-600 text-white h-14 w-14 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 flex items-center justify-center" aria-label="Add new task">
+                    <i class="fas fa-plus text-xl" aria-hidden="true"></i>
+                    <span class="sr-only">Add Task</span>
+                </button>
+            </div>
+
+            <!-- Tasks Tab -->
+            <div class="tab-content hidden" id="tasks-tab">
+                <h2>Manage Tasks</h2>
+
+                <!-- Add Task Form -->
+                <div class="bg-white rounded-lg shadow p-6 mb-6">
+                    <h3 class="text-xl font-semibold mb-4">New Task</h3>
+                    <form id="addTaskForm">
+                        <div class="space-y-4">
+                            <div>
+                                <label for="todoInput" class="sr-only">Task description</label>
+                                <input id="todoInput" type="text" placeholder="What needs to get done?" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="prioritySelect" class="block mb-1">Priority</label>
+                                    <select id="prioritySelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="tagSelect" class="block mb-1">Tag</label>
+                                    <select id="tagSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="">No Tag</option>
+                                        <option value="work">Work</option>
+                                        <option value="personal">Personal</option>
+                                        <option value="school">School</option>
+                                        <option value="shopping">Shopping</option>
+                                        <option value="health">Health</option>
+                                        <option value="finance">Finance</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="dueDateInput" class="block mb-1">Due Date</label>
+                                    <input type="date" id="dueDateInput" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="notesInput" class="sr-only">Notes</label>
+                                <textarea id="notesInput" placeholder="Notes (optional)" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                            </div>
+                            <div class="text-right">
+                                <button id="addTaskFormBtn" type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 disabled:opacity-50">
+                                    <i class="fas fa-plus mr-2" aria-hidden="true"></i>Add Task
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <p id="errorMessage" class="text-red-500 mt-2 text-sm hidden"></p>
+                </div>
+
+                <!-- Filters & Search -->
+                <div class="bg-white rounded-lg shadow p-6 mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="relative w-full md:w-1/3">
+                            <label for="searchInput" class="sr-only">Search tasks</label>
+                            <input type="text" id="searchInput" class="w-full px-4 py-2 border border-gray-300 rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Search tasks...">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" aria-hidden="true"></i>
+                        </div>
+                        <div class="flex flex-wrap justify-end gap-2 w-full md:w-auto">
+                            <label for="tagFilterSelect" class="sr-only">Filter by tag</label>
+                            <select id="tagFilterSelect" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="all">All Tags</option>
+                                <option value="work">Work</option>
+                                <option value="personal">Personal</option>
+                                <option value="school">School</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="health">Health</option>
+                                <option value="finance">Finance</option>
+                                <option value="none">No Tag</option>
+                            </select>
+                            <label for="statusFilterSelect" class="sr-only">Filter by status</label>
+                            <select id="statusFilterSelect" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="active">Active</option>
+                                <option value="completed">Completed</option>
+                                <option value="all">All Tasks</option>
+                            </select>
+                            <label for="sortSelect" class="sr-only">Sort tasks</label>
+                            <select id="sortSelect" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="dueDate">Sort: Due Date</option>
+                                <option value="priority">Sort: Priority</option>
+                                <option value="createdAt">Sort: Created</option>
+                                <option value="name">Sort: Name</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task List -->
+                <div class="bg-white rounded-lg shadow p-6 min-h-[300px] relative">
+                    <h3 class="text-xl font-semibold mb-4">Your Tasks</h3>
+                    <ul id="todoList" class="space-y-3" role="list" aria-label="Your task list"></ul>
+                    <div id="emptyState" class="hidden absolute inset-0 flex items-center justify-center text-center py-12 opacity-70 pointer-events-none">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-clipboard-list text-6xl text-gray-300 mb-4" aria-hidden="true"></i>
+                            <p class="text-gray-500 text-lg">No tasks match your filters.</p>
+                            <p class="text-gray-400 text-sm">Try adjusting the filters above.</p>
+                        </div>
+                    </div>
+                    <div id="noTasksState" class="hidden absolute inset-0 flex items-center justify-center text-center py-12 opacity-70 pointer-events-none">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-magic text-6xl text-indigo-300 mb-4" aria-hidden="true"></i>
+                            <p class="text-gray-500 text-lg">Your task list is empty!</p>
+                            <p class="text-gray-400 text-sm">Use the form above to add your first task.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Tab -->
+            <div class="tab-content hidden" id="calendar-tab">
+                <h2>Calendar View</h2>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <button id="prevMonth" class="text-indigo-600 hover:text-indigo-800 p-2 rounded-full hover:bg-indigo-100 transition duration-150" aria-label="Previous month">
+                            <i class="fas fa-chevron-left fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <h3 id="currentMonthYear" class="text-xl font-semibold text-center">Month Year</h3>
+                        <button id="nextMonth" class="text-indigo-600 hover:text-indigo-800 p-2 rounded-full hover:bg-indigo-100 transition duration-150" aria-label="Next month">
+                            <i class="fas fa-chevron-right fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-7 gap-px bg-gray-200 border border-gray-200" role="rowgroup">
+                        <div class="bg-indigo-100 p-2 text-center font-semibold text-sm text-indigo-800" role="columnheader">Sun</div>
+                        <div class="bg-indigo-100 p-2 text-center font-semibold text-sm text-indigo-800" role="columnheader">Mon</div>
+                        <div class="bg-indigo-100 p-2 text-center font-semibold text-sm text-indigo-800" role="columnheader">Tue</div>
+                        <div class="bg-indigo-100 p-2 text-center font-semibold text-sm text-indigo-800" role="columnheader">Wed</div>
+                        <div class="bg-indigo-100 p-2 text-center font-semibold text-sm text-indigo-800" role="columnheader">Thu</div>
+                        <div class="bg-indigo-100 p-2 text-center font-semibold text-sm text-indigo-800" role="columnheader">Fri</div>
+                        <div class="bg-indigo-100 p-2 text-center font-semibold text-sm text-indigo-800" role="columnheader">Sat</div>
+                    </div>
+                    <div id="calendarGrid" class="grid grid-cols-7 gap-px bg-gray-200 border border-gray-200 border-t-0" role="grid" aria-label="Calendar showing tasks by date"></div>
+                </div>
+
+                <button id="calendarAddTaskBtn" data-tab="tasks" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-indigo-600 text-white h-14 w-14 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 flex items-center justify-center" aria-label="Add new task">
+                    <i class="fas fa-plus text-xl" aria-hidden="true"></i>
+                    <span class="sr-only">Add Task</span>
+                </button>
+            </div>
+
+            <!-- Tags Tab -->
+            <div class="tab-content hidden" id="tags-tab">
+                <h2>Tasks by Tag</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="tagsOverviewContainer" role="list" aria-label="Tasks organized by tags">
+                    <div id="noTagsState" class="hidden md:col-span-2 lg:col-span-3 text-center py-12 opacity-70">
+                        <i class="fas fa-tags text-6xl text-gray-300 mb-4" aria-hidden="true"></i>
+                        <p class="text-gray-500 text-lg">No tagged tasks found.</p>
+                        <p class="text-gray-400 text-sm">Add tags to your tasks to see them organized here.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Task Detail Modal -->
+    <div id="taskDetailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] hidden p-4" role="dialog" aria-labelledby="modalTaskTitle" aria-modal="true">
+        <div class="bg-white rounded-lg p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold" id="modalTaskTitle">Edit Task</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl leading-none" aria-label="Close modal">×</button>
+            </div>
+            <form id="editTaskForm">
+                <div class="space-y-4">
+                    <input type="hidden" id="modalTaskId">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-1" for="modalTaskText">Description</label>
+                        <input type="text" id="modalTaskText" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-1" for="modalDueDate">Due Date</label>
+                            <input type="date" id="modalDueDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-1" for="modalStatus">Status</label>
+                            <select id="modalStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="false">Active</option>
+                                <option value="true">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-1" for="modalPriority">Priority</label>
+                            <select id="modalPriority" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-1" for="modalTag">Tag</label>
+                            <select id="modalTag" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="">No Tag</option>
+                                <option value="work">Work</option>
+                                <option value="personal">Personal</option>
+                                <option value="school">School</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="health">Health</option>
+                                <option value="finance">Finance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-1" for="modalNotes">Notes</label>
+                        <textarea id="modalNotes" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3"></textarea>
+                    </div>
+                    <p id="modalErrorMessage" class="text-red-500 text-sm hidden"></p>
+                    <div class="pt-2 flex flex-col sm:flex-row justify-between gap-3">
+                        <button type="button" id="deleteTaskBtn" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 disabled:opacity-50 order-2 sm:order-1" aria-label="Delete task">
+                            <i class="fas fa-trash mr-2" aria-hidden="true"></i>Delete
+                        </button>
+                        <button type="submit" id="saveTaskBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 disabled:opacity-50 order-1 sm:order-2" aria-label="Save task changes">
+                            <i class="fas fa-save mr-2" aria-hidden="true"></i>Save Changes
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notificationToast" class="fixed bottom-5 right-5 shadow-lg rounded-lg p-4 transform translate-y-[200%] opacity-0 transition-all duration-500 ease-out flex items-center z-[70] max-w-sm text-white" role="alert" aria-live="polite">
+        <div id="notificationIcon" class="mr-3 text-xl flex-shrink-0 w-6 text-center" aria-hidden="true"></div>
+        <div class="flex-1">
+            <h4 id="notificationTitle" class="font-semibold">Notification</h4>
+            <p id="notificationMessage" class="text-sm opacity-90">Message here.</p>
+        </div>
+        <button id="closeNotification" class="ml-4 text-gray-200 hover:text-white flex-shrink-0" aria-label="Close notification">×</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-4 mt-auto">
+        <div class="container mx-auto px-4 text-center text-sm">
+            <p>TaskMaster Pro © <span id="currentYear"></span> · Developed by <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer" class="text-green-500">vylex</a></p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

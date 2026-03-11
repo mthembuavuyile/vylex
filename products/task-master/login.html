@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMaster Pro - Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #7c3aed;
+            --accent-color: #10b981; /* Adjusted accent for logo */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f3f4f6; /* Fallback */
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px) saturate(180%); /* Enhanced glass effect */
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px) saturate(150%);
+             -webkit-backdrop-filter: blur(8px) saturate(150%);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(20px); /* Start slightly lower for animation */
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .brand-logo {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Removed ::before pseudo-element for logo background for cleaner look */
+
+        .login-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transition: all 0.6s ease;
+        }
+
+        .login-btn:hover::after {
+            left: 100%;
+        }
+
+        .testimonial {
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: "\201C";
+            position: absolute;
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.1);
+            top: -1.5rem;
+            left: -1rem;
+            font-family: serif;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .container-wrapper {
+                flex-direction: column;
+            }
+
+            .feature-card {
+                margin-bottom: 1.5rem;
+            }
+             .glass-card {
+                 order: -1; /* Show login card first on mobile */
+                 margin-bottom: 2rem;
+             }
+             #features h1 {
+                 font-size: 2.5rem; /* Adjust heading size */
+             }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out 0.2s forwards; /* Added delay */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); } /* Added scale */
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Spinner for button */
+        .loading-spinner svg {
+             animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+             from { transform: rotate(0deg); }
+             to { transform: rotate(360deg); }
+         }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="fixed top-0 left-0 w-full h-full gradient-bg z-0"></div>
+
+    <!-- Animated background elements -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+        <div class="bg-shape absolute w-96 h-96 rounded-full bg-white opacity-5 -top-20 -left-20"></div>
+        <div class="bg-shape absolute w-80 h-80 rounded-full bg-white opacity-5 bottom-10 right-10"></div>
+        <div class="bg-shape absolute w-64 h-64 rounded-full bg-white opacity-5 top-1/2 left-1/3"></div>
+    </div>
+
+    <header class="relative z-10 flex justify-between items-center w-full max-w-7xl mx-auto p-6">
+        <div class="brand-logo">
+            <h2 class="text-white text-2xl font-bold tracking-tight"><i class="fas fa-tasks mr-2"></i>TaskMaster<span class="text-indigo-300 font-light">Pro</span></h2> <!-- Adjusted color slightly -->
+        </div>
+        <nav>
+            <ul class="flex space-x-6">
+                <li><a href="#features" class="text-white hover:text-white/80 transition-colors text-sm font-medium">Features</a></li>
+                 <li><a href="https://vylexnexys.co.za" target="_blank" rel="noopener noreferrer" class="text-white hover:text-white/80 transition-colors text-sm font-medium">Developer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="relative z-10 flex items-center justify-center min-h-screen p-6 pt-0 md:pt-6"> <!-- Reduced top padding on mobile -->
+        <div class="container-wrapper flex md:flex-row flex-col items-center max-w-6xl w-full gap-12 py-10">
+            <!-- Login Card -->
+            <div class="glass-card md:w-2/5 w-full p-8 fade-in">
+                <div class="text-center mb-10">
+                    <div class="flex justify-center mb-4">
+                        <div class="relative">
+                            <i class="fas fa-tasks text-4xl text-indigo-600"></i>
+                            <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <h1 class="text-3xl font-extrabold text-gray-800 mb-2">TaskMaster<span class="text-indigo-600">Pro</span></h1>
+                    <p class="text-gray-600">Your premium productivity solution</p>
+                     <p class="text-xs uppercase tracking-wider text-gray-500 mt-1">BY VYLEX NEXYS</p>
+                </div>
+
+                <div id="authSection" class="flex flex-col items-center">
+                    <button id="googleSignInBtn" class="login-btn w-full flex items-center justify-center bg-indigo-600 text-white py-3 px-4 rounded-xl shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-300 mb-4">
+                         <!-- Placeholder for spinner -->
+                         <span id="loginBtnContent">
+                             <img src="https://img.icons8.com/color/20/000000/google-logo.png" alt="Google logo" class="inline-block mr-3 h-5 w-5 align-middle">
+                            <span class="font-medium align-middle">Sign in with Google</span>
+                         </span>
+                         <div id="loadingSpinner" class="loading-spinner hidden ml-3">
+                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                             </svg>
+                         </div>
+                    </button>
+                    <!-- Removed OR separator as it's Google only -->
+
+                    <p id="errorMessage" class="text-red-600 text-sm font-medium mt-4 text-center h-5 hidden"></p> <!-- Added height to prevent layout shift -->
+
+                    <p class="text-gray-500 text-sm mt-6 text-center">
+                        By signing in, you agree to our <a href="#" class="text-indigo-600 hover:text-indigo-800 underline">Terms</a> and <a href="#" class="text-indigo-600 hover:text-indigo-800 underline">Privacy Policy</a>.
+                    </p>
+
+                    <div class="mt-8 p-5 border border-gray-200 rounded-xl bg-gray-50 w-full">
+                        <h3 class="text-gray-800 text-center font-semibold mb-3">TaskMaster Pro Features:</h3>
+                        <ul class="text-gray-600 space-y-3">
+                            <li class="flex items-center"><div class="flex-shrink-0 h-5 w-5 rounded-full bg-green-100 flex items-center justify-center mr-3"><i class="fas fa-check text-green-600 text-xs"></i></div><span>Intuitive, professional interface</span></li>
+                            <li class="flex items-center"><div class="flex-shrink-0 h-5 w-5 rounded-full bg-green-100 flex items-center justify-center mr-3"><i class="fas fa-check text-green-600 text-xs"></i></div><span>Advanced cloud synchronization</span></li>
+                             <li class="flex items-center"><div class="flex-shrink-0 h-5 w-5 rounded-full bg-green-100 flex items-center justify-center mr-3"><i class="fas fa-check text-green-600 text-xs"></i></div><span>Powerful Filtering & Sorting</span></li>
+                            <li class="flex items-center"><div class="flex-shrink-0 h-5 w-5 rounded-full bg-green-100 flex items-center justify-center mr-3"><i class="fas fa-check text-green-600 text-xs"></i></div><span>Free tier with essential features</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Information Section -->
+            <section id="features" class="md:w-3/5 w-full text-white slide-up">
+                <div class="mb-10">
+                    <span class="inline-block px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm font-medium mb-4">PRODUCTIVITY REDEFINED</span>
+                    <h1 class="text-4xl lg:text-5xl font-bold mb-4 leading-tight">Accomplish more with <span class="text-indigo-200">TaskMaster</span><span class="text-white">Pro</span></h1>
+                    <p class="text-lg lg:text-xl opacity-90 leading-relaxed">A sophisticated task management platform designed to elevate your productivity and streamline your workflow.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Feature Card 1 -->
+                    <div class="feature-card p-5">
+                        <div class="flex items-start"><div class="flex-shrink-0 h-12 w-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-4"><i class="fas fa-check-circle text-xl text-green-300"></i></div><div><h3 class="text-xl font-semibold mb-2">Intelligent Task Management</h3><p class="opacity-80 leading-relaxed">Create, prioritize and organize tasks with customizable categories, labels and due dates to optimize your workflow.</p></div></div>
+                    </div>
+                    <!-- Feature Card 2 -->
+                    <div class="feature-card p-5">
+                         <div class="flex items-start"><div class="flex-shrink-0 h-12 w-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-4"><i class="fas fa-cloud-upload-alt text-xl text-blue-300"></i></div><div><h3 class="text-xl font-semibold mb-2">Real-time Sync</h3><p class="opacity-80 leading-relaxed">Your tasks stay updated across all your devices instantly, powered by robust cloud infrastructure.</p></div></div>
+                    </div>
+                     <!-- Feature Card 3 -->
+                     <div class="feature-card p-5">
+                         <div class="flex items-start"><div class="flex-shrink-0 h-12 w-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-4"><i class="fas fa-calendar-alt text-xl text-purple-300"></i></div><div><h3 class="text-xl font-semibold mb-2">Calendar View</h3><p class="opacity-80 leading-relaxed">Visualize your schedule and deadlines with an integrated calendar view for better planning.</p></div></div>
+                    </div>
+                </div>
+
+                <!-- Testimonial -->
+                 <div class="mt-10 bg-white bg-opacity-10 p-6 rounded-xl border border-white border-opacity-10 testimonial">
+                     <div class="flex items-center mb-4">
+                         <img src="https://avuyilemthembu.co.za/assets/images/avuyile2.jpg" alt="Avuyile M" class="w-10 h-10 rounded-full mr-3 border-2 border-white/50">
+                        <div><h4 class="font-medium">MR A. Mthembu</h4><p class="text-sm opacity-70">Project Lead</p></div>
+                         <div class="ml-auto flex"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i></div>
+                    </div>
+                    <p class="italic opacity-90">"TaskMasterPro completely transformed how I manage my projects. The intuitive interface and seamless sync have boosted my team's efficiency significantly!"</p>
+                </div>
+
+                <!-- Stats -->
+                <div class="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
+                     <div class="bg-white bg-opacity-10 px-5 py-3 rounded-lg flex items-center"><i class="fas fa-users text-indigo-200 mr-3 text-xl"></i><div><p class="text-sm opacity-70">Active Users</p><p class="font-bold text-2xl">100+</p></div></div>
+                     <div class="bg-white bg-opacity-10 px-5 py-3 rounded-lg flex items-center"><i class="fas fa-tasks text-indigo-200 mr-3 text-xl"></i><div><p class="text-sm opacity-70">Tasks Completed</p><p class="font-bold text-2xl">1000</p></div></div>
+                     <div class="bg-white bg-opacity-10 px-5 py-3 rounded-lg flex items-center"><i class="fas fa-award text-indigo-200 mr-3 text-xl"></i><div><p class="text-sm opacity-70">Satisfaction</p><p class="font-bold text-2xl">90%</p></div></div>
+                 </div>
+             </section>
+         </div>
+     </main>
+
+    <footer class="relative z-10 py-6 text-center">
+        <p class="text-white text-sm opacity-70">© <span id="currentYear"></span> TaskMasterPro by <a href="https://vylexnexys.co.za" target="_blank" rel="noopener noreferrer" class="underline hover:text-indigo-200">Vylex Nexys</a>. All rights reserved.</p>
+    </footer>
+
+    <!-- Firebase SDK (Modular) -->
+    <script type="module">
+        // Import necessary Firebase functions
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAnEO8oaqwEJzq9yiDnlyCY1qGlGqQt9Es",
+            authDomain: "to-do-list-6ce28.firebaseapp.com",
+            projectId: "to-do-list-6ce28",
+            storageBucket: "to-do-list-6ce28.firebasestorage.app",
+            messagingSenderId: "1029497276623",
+            appId: "1:1029497276623:web:1840e90ebcb2b6f4a68fba",
+            measurementId: "G-2CGRDCJ3WS"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // DOM Elements
+        const googleSignInBtn = document.getElementById('googleSignInBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const errorMessage = document.getElementById('errorMessage');
+        const currentYearEl = document.getElementById('currentYear');
+        const featureCards = document.querySelectorAll('.feature-card');
+
+        // Set current year in footer
+        currentYearEl.textContent = new Date().getFullYear();
+
+        // Animation for feature cards
+        setTimeout(() => {
+            featureCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.animation = `slideUp 0.6s ease-out ${index * 0.15}s forwards`;
+                }, 300 + (index * 100));
+            });
+        }, 500);
+
+        // Utility Functions
+        const showLoading = () => {
+            googleSignInBtn.disabled = true;
+            loadingSpinner.classList.remove('hidden');
+        };
+
+        const hideLoading = () => {
+            googleSignInBtn.disabled = false;
+            loadingSpinner.classList.add('hidden');
+        };
+
+        const displayError = (message) => {
+            errorMessage.textContent = message;
+            errorMessage.classList.remove('hidden');
+        };
+
+        const clearError = () => {
+            errorMessage.textContent = '';
+            errorMessage.classList.add('hidden');
+        };
+
+        // Authentication Logic
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, redirect to the main app page
+                console.log('User already logged in. Redirecting...');
+                window.location.href = 'index.html';
+            } else {
+                // User is signed out, ensure login button is enabled
+                console.log('User is signed out. Login page ready.');
+                hideLoading();
+            }
+        });
+
+        // Handle Google Sign-In button click
+        googleSignInBtn.addEventListener('click', async () => {
+            clearError();
+            showLoading();
+
+            try {
+                // Start the Google Sign-In popup flow
+                const result = await signInWithPopup(auth, provider);
+                console.log('Google Sign-In Successful:', result.user);
+                // Redirect handled by onAuthStateChanged
+
+            } catch (error) {
+                console.error("Google Sign-In Error:", error);
+                let friendlyMessage = 'An error occurred during sign-in. Please try again.';
+                
+                if (error.code === 'auth/popup-closed-by-user') {
+                    friendlyMessage = 'Sign-in cancelled. Please try again if you wish to log in.';
+                } else if (error.code === 'auth/network-request-failed') {
+                    friendlyMessage = 'Network error. Please check your connection and try again.';
+                } else {
+                    friendlyMessage = error.message || friendlyMessage;
+                }
+                
+                displayError(friendlyMessage);
+                hideLoading();
+            }
+        });
+    </script>
+</body>
+</html>
