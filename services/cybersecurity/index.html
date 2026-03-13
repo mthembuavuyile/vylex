@@ -6,14 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Cybersecurity & Compliance | Vylex Technology Group</title>
 
-    <meta name="description" content="Enterprise-grade cybersecurity for SMEs. Vulnerability assessments, POPIA compliance, network hardening, and disaster recovery solutions.">
-    <meta name="keywords" content="Cybersecurity South Africa, POPIA Compliance, Network Security, Penetration Testing, Vylex, IT Security, Ransomware Protection">
+    <meta name="description"
+        content="Enterprise-grade cybersecurity for SMEs. Vulnerability assessments, POPIA compliance, network hardening, and disaster recovery solutions.">
+    <meta name="keywords"
+        content="Cybersecurity South Africa, POPIA Compliance, Network Security, Penetration Testing, Vylex, IT Security, Ransomware Protection">
     <meta name="author" content="Vylex Tech">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <!-- Tailwind -->
@@ -49,24 +53,19 @@
         .security-card {
             transition: all 0.3s ease;
         }
+
         .security-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
             border-color: #051b38;
         }
-        .hero-grid {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-        }
+
         .threat-bg {
-            background: repeating-linear-gradient(
-                45deg,
-                #fef2f2,
-                #fef2f2 10px,
-                #fff 10px,
-                #fff 20px
-            );
+            background: repeating-linear-gradient(45deg,
+                    #fef2f2,
+                    #fef2f2 10px,
+                    #fff 10px,
+                    #fff 20px);
         }
     </style>
 </head>
@@ -79,17 +78,35 @@
         <!-- Hero Section -->
         <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-brand-navy overflow-hidden">
             <!-- Background Elements -->
-            <div class="absolute inset-0 hero-grid"></div>
-            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-red-900/20 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <svg class="absolute inset-0 w-full h-full opacity-25" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="hex" x="0" y="0" width="56" height="100" patternUnits="userSpaceOnUse">
+                            <polygon points="28,2 54,16 54,44 28,58 2,44 2,16" fill="none" stroke="rgba(251,169,25,0.5)"
+                                stroke-width="1" />
+                            <polygon points="28,52 54,66 54,94 28,108 2,94 2,66" fill="none"
+                                stroke="rgba(251,169,25,0.5)" stroke-width="1" />
+                            <polygon points="56,27 82,41 82,69 56,83 30,69 30,41" fill="none"
+                                stroke="rgba(251,169,25,0.5)" stroke-width="1" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#hex)" />
+                </svg>
+            </div>
+            <div
+                class="absolute top-0 right-0 w-[600px] h-[600px] bg-red-900/20 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none">
+            </div>
 
             <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-3xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-xs font-bold tracking-wider uppercase text-red-400 mb-6">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-xs font-bold tracking-wider uppercase text-red-400 mb-6">
                         <i class="fa-solid fa-shield-virus"></i>
                         Security & Risk Management
                     </div>
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white mb-6">
+                    <h1
+                        class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white mb-6">
                         Protect your business <br>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-brand-orange">
                             from the invisible.
@@ -97,14 +114,17 @@
                     </h1>
 
                     <p class="text-lg text-gray-300 mb-8 font-light max-w-2xl leading-relaxed">
-                        Cyber threats don't discriminate by size. We provide enterprise-grade vulnerability assessments, POPIA compliance, and network hardening for growing South African businesses.
+                        Cyber threats don't discriminate by size. We provide enterprise-grade vulnerability assessments,
+                        POPIA compliance, and network hardening for growing South African businesses.
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#audit" class="px-8 py-4 bg-brand-orange text-brand-navy font-bold rounded-xl hover:bg-white transition-colors text-center shadow-lg shadow-orange-500/20">
+                        <a href="#audit"
+                            class="px-8 py-4 bg-brand-orange text-brand-navy font-bold rounded-xl hover:bg-white transition-colors text-center shadow-lg shadow-orange-500/20">
                             Book Security Audit
                         </a>
-                        <a href="#compliance" class="px-8 py-4 border border-white/30 bg-white/5 text-white font-bold rounded-xl hover:bg-white hover:text-brand-navy transition-colors text-center backdrop-blur-sm">
+                        <a href="#compliance"
+                            class="px-8 py-4 border border-white/30 bg-white/5 text-white font-bold rounded-xl hover:bg-white hover:text-brand-navy transition-colors text-center backdrop-blur-sm">
                             View Compliance
                         </a>
                     </div>
@@ -136,20 +156,23 @@
         <section id="services" class="py-20 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="mb-12">
-                    <h2 class="text-brand-orange font-bold uppercase tracking-widest text-sm mb-2">Defensive Strategy</h2>
+                    <h2 class="text-brand-orange font-bold uppercase tracking-widest text-sm mb-2">Defensive Strategy
+                    </h2>
                     <h3 class="text-3xl font-extrabold text-brand-navy">Comprehensive Protection</h3>
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    
+
                     <!-- Service 1 -->
                     <div class="security-card bg-white p-8 rounded-2xl border border-gray-200">
-                        <div class="w-12 h-12 bg-blue-50 text-brand-navy rounded-lg flex items-center justify-center text-xl mb-6">
+                        <div
+                            class="w-12 h-12 bg-blue-50 text-brand-navy rounded-lg flex items-center justify-center text-xl mb-6">
                             <i class="fa-solid fa-magnifying-glass-chart"></i>
                         </div>
                         <h4 class="text-xl font-bold text-brand-navy mb-3">Vulnerability Assessments</h4>
                         <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                            We simulate attacks on your network to find weak points before hackers do. You receive a detailed report with a prioritized fix list.
+                            We simulate attacks on your network to find weak points before hackers do. You receive a
+                            detailed report with a prioritized fix list.
                         </p>
                         <ul class="text-xs font-mono text-gray-500 space-y-2">
                             <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Port Scanning</li>
@@ -159,12 +182,14 @@
 
                     <!-- Service 2 -->
                     <div class="security-card bg-white p-8 rounded-2xl border border-gray-200">
-                        <div class="w-12 h-12 bg-red-50 text-red-600 rounded-lg flex items-center justify-center text-xl mb-6">
+                        <div
+                            class="w-12 h-12 bg-red-50 text-red-600 rounded-lg flex items-center justify-center text-xl mb-6">
                             <i class="fa-solid fa-shield-halved"></i>
                         </div>
                         <h4 class="text-xl font-bold text-brand-navy mb-3">Network Hardening</h4>
                         <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                            Closing the doors. We configure your firewalls, secure your endpoints, and implement Zero Trust principles for remote access.
+                            Closing the doors. We configure your firewalls, secure your endpoints, and implement Zero
+                            Trust principles for remote access.
                         </p>
                         <ul class="text-xs font-mono text-gray-500 space-y-2">
                             <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Firewall Config</li>
@@ -174,12 +199,14 @@
 
                     <!-- Service 3 -->
                     <div id="compliance" class="security-card bg-white p-8 rounded-2xl border border-gray-200">
-                        <div class="w-12 h-12 bg-green-50 text-green-600 rounded-lg flex items-center justify-center text-xl mb-6">
+                        <div
+                            class="w-12 h-12 bg-green-50 text-green-600 rounded-lg flex items-center justify-center text-xl mb-6">
                             <i class="fa-solid fa-file-contract"></i>
                         </div>
                         <h4 class="text-xl font-bold text-brand-navy mb-3">POPIA Compliance</h4>
                         <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                            South African data privacy laws are strict. We audit your data flow and help you implement the necessary technical controls to remain compliant.
+                            South African data privacy laws are strict. We audit your data flow and help you implement
+                            the necessary technical controls to remain compliant.
                         </p>
                         <ul class="text-xs font-mono text-gray-500 space-y-2">
                             <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Data Mapping</li>
@@ -189,12 +216,14 @@
 
                     <!-- Service 4 -->
                     <div class="security-card bg-white p-8 rounded-2xl border border-gray-200">
-                        <div class="w-12 h-12 bg-orange-50 text-brand-orange rounded-lg flex items-center justify-center text-xl mb-6">
+                        <div
+                            class="w-12 h-12 bg-orange-50 text-brand-orange rounded-lg flex items-center justify-center text-xl mb-6">
                             <i class="fa-solid fa-cloud-arrow-up"></i>
                         </div>
                         <h4 class="text-xl font-bold text-brand-navy mb-3">Backup & Recovery</h4>
                         <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                            Ransomware protection isn't just about blocking attacks; it's about recovery. We set up immutable, off-site backups so you can't be held hostage.
+                            Ransomware protection isn't just about blocking attacks; it's about recovery. We set up
+                            immutable, off-site backups so you can't be held hostage.
                         </p>
                         <ul class="text-xs font-mono text-gray-500 space-y-2">
                             <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Automated Backups</li>
@@ -204,12 +233,14 @@
 
                     <!-- Service 5 -->
                     <div class="security-card bg-white p-8 rounded-2xl border border-gray-200">
-                        <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center text-xl mb-6">
+                        <div
+                            class="w-12 h-12 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center text-xl mb-6">
                             <i class="fa-solid fa-users-viewfinder"></i>
                         </div>
                         <h4 class="text-xl font-bold text-brand-navy mb-3">Staff Training</h4>
                         <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                            Your employees are your first line of defense. We provide phishing simulations and security awareness training to reduce human error.
+                            Your employees are your first line of defense. We provide phishing simulations and security
+                            awareness training to reduce human error.
                         </p>
                         <ul class="text-xs font-mono text-gray-500 space-y-2">
                             <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Phishing Sims</li>
@@ -219,12 +250,14 @@
 
                     <!-- Service 6 -->
                     <div class="security-card bg-white p-8 rounded-2xl border border-gray-200">
-                        <div class="w-12 h-12 bg-cyan-50 text-cyan-600 rounded-lg flex items-center justify-center text-xl mb-6">
+                        <div
+                            class="w-12 h-12 bg-cyan-50 text-cyan-600 rounded-lg flex items-center justify-center text-xl mb-6">
                             <i class="fa-solid fa-code"></i>
                         </div>
                         <h4 class="text-xl font-bold text-brand-navy mb-3">Secure Development</h4>
                         <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                            For clients building software: We review code and implement DevSecOps pipelines to ensure your app is secure by design.
+                            For clients building software: We review code and implement DevSecOps pipelines to ensure
+                            your app is secure by design.
                         </p>
                         <ul class="text-xs font-mono text-gray-500 space-y-2">
                             <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Code Review</li>
@@ -239,34 +272,38 @@
         <!-- Why It Matters (Visual) -->
         <section class="py-20 bg-brand-navy text-white relative overflow-hidden">
             <div class="absolute right-0 top-0 h-full w-1/2 bg-brand-lightNavy/50 skew-x-12 translate-x-20"></div>
-            
+
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div>
                         <h2 class="text-3xl font-bold mb-6">Security is a Business Enabler, not a Cost Center.</h2>
                         <p class="text-gray-300 mb-6 leading-relaxed">
-                            Clients today demand trust. Being able to prove your systems are secure and POPIA compliant helps you win bigger contracts and avoid reputational suicide.
+                            Clients today demand trust. Being able to prove your systems are secure and POPIA compliant
+                            helps you win bigger contracts and avoid reputational suicide.
                         </p>
                         <div class="space-y-4">
                             <div class="flex items-start">
                                 <i class="fa-solid fa-shield-halved text-brand-orange mt-1 mr-4"></i>
                                 <div>
                                     <h4 class="font-bold">Protect Client Data</h4>
-                                    <p class="text-sm text-gray-400">Avoid the nightmare of notifying clients their data was stolen.</p>
+                                    <p class="text-sm text-gray-400">Avoid the nightmare of notifying clients their data
+                                        was stolen.</p>
                                 </div>
                             </div>
                             <div class="flex items-start">
                                 <i class="fa-solid fa-server text-brand-orange mt-1 mr-4"></i>
                                 <div>
                                     <h4 class="font-bold">Ensure Uptime</h4>
-                                    <p class="text-sm text-gray-400">Ransomware halts operations. We keep the lights on.</p>
+                                    <p class="text-sm text-gray-400">Ransomware halts operations. We keep the lights on.
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Code Snippet / Technical Visual -->
-                    <div class="bg-black/40 rounded-xl p-6 font-mono text-xs border border-white/10 shadow-2xl backdrop-blur-md">
+                    <div
+                        class="bg-black/40 rounded-xl p-6 font-mono text-xs border border-white/10 shadow-2xl backdrop-blur-md">
                         <div class="flex gap-2 mb-4">
                             <div class="w-3 h-3 rounded-full bg-red-500"></div>
                             <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -274,10 +311,14 @@
                         </div>
                         <div class="text-green-400">$ vylex-sec-audit --target=client_network</div>
                         <div class="text-gray-400 mt-2">> Initializing scanning protocols...</div>
-                        <div class="text-gray-400">> Checking port configurations... <span class="text-green-500">[SECURE]</span></div>
-                        <div class="text-gray-400">> Validating SSL certificates... <span class="text-green-500">[VALID]</span></div>
-                        <div class="text-gray-400">> Testing SQL injection vectors... <span class="text-green-500">[BLOCKED]</span></div>
-                        <div class="text-gray-400">> Analyzing backup integrity... <span class="text-green-500">[VERIFIED]</span></div>
+                        <div class="text-gray-400">> Checking port configurations... <span
+                                class="text-green-500">[SECURE]</span></div>
+                        <div class="text-gray-400">> Validating SSL certificates... <span
+                                class="text-green-500">[VALID]</span></div>
+                        <div class="text-gray-400">> Testing SQL injection vectors... <span
+                                class="text-green-500">[BLOCKED]</span></div>
+                        <div class="text-gray-400">> Analyzing backup integrity... <span
+                                class="text-green-500">[VERIFIED]</span></div>
                         <div class="text-brand-orange mt-4">> SYSTEM STATUS: HARDENED</div>
                     </div>
                 </div>
@@ -287,31 +328,38 @@
         <!-- CTA Section -->
         <section id="audit" class="py-20 bg-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="w-16 h-16 bg-red-50 text-red-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6">
+                <div
+                    class="w-16 h-16 bg-red-50 text-red-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6">
                     <i class="fa-solid fa-user-shield"></i>
                 </div>
                 <h2 class="text-3xl font-extrabold text-brand-navy mb-4">Don't wait for a breach.</h2>
                 <p class="text-gray-600 mb-10 text-lg">
-                    Schedule a preliminary vulnerability assessment. We'll identify your most critical risks and give you a roadmap to fix them.
+                    Schedule a preliminary vulnerability assessment. We'll identify your most critical risks and give
+                    you a roadmap to fix them.
                 </p>
                 <form class="max-w-md mx-auto text-left bg-gray-50 p-6 rounded-xl border border-gray-200">
                     <div class="mb-4">
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Business Email</label>
-                        <input type="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none" placeholder="security@yourcompany.co.za">
+                        <input type="email"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-brand-orange focus:ring-1 focus:ring-brand-orange outline-none"
+                            placeholder="security@yourcompany.co.za">
                     </div>
                     <div class="mb-6">
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Primary Concern</label>
-                        <select class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:border-brand-orange outline-none">
+                        <select
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white focus:border-brand-orange outline-none">
                             <option>General Vulnerability Audit</option>
                             <option>POPIA Compliance Check</option>
                             <option>Ransomware Protection</option>
                             <option>Staff Security Training</option>
                         </select>
                     </div>
-                    <button type="button" onclick="window.location.href='mailto:security@vylex.co.za'" class="w-full bg-brand-navy text-white font-bold py-4 rounded-lg hover:bg-brand-lightNavy transition-colors shadow-lg">
+                    <button type="button" onclick="window.location.href='mailto:security@vylex.co.za'"
+                        class="w-full bg-brand-navy text-white font-bold py-4 rounded-lg hover:bg-brand-lightNavy transition-colors shadow-lg">
                         Request Assessment
                     </button>
-                    <p class="text-xs text-center text-gray-400 mt-4"><i class="fa-solid fa-lock mr-1"></i> Communication is encrypted.</p>
+                    <p class="text-xs text-center text-gray-400 mt-4"><i class="fa-solid fa-lock mr-1"></i>
+                        Communication is encrypted.</p>
                 </form>
             </div>
         </section>
@@ -320,4 +368,5 @@
     <div id="footer-placeholder"></div>
 
 </body>
+
 </html>
