@@ -1,0 +1,276 @@
+/* ── Rich Widgets ───────────────────────────── */
+.rich-widget {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  width: 100%;
+}
+
+.widget-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+/* Weather */
+.weather-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.weather-temp {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.weather-icon {
+  font-size: 3rem;
+  color: var(--accent);
+}
+
+.weather-desc {
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-bottom: 14px;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.weather-grid div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.reddit-list {
+    margin-top: 10px;
+}
+
+.reddit-post {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+}
+
+.reddit-post:last-child {
+    border-bottom: none;
+}
+
+.reddit-meta i {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+/* News */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.news-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.news-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.news-item-content h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 5px;
+  color: var(--text);
+}
+
+.news-item-content a {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.news-item-content a:hover {
+  text-decoration: underline;
+}
+
+/* Math */
+.math-expr {
+  font-family: 'DM Mono', monospace;
+  background: var(--surface2);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.math-result {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--success);
+  margin-top: 8px;
+}
+
+/* Quote */
+.quote-text {
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.rich-widget.quote-widget {
+  border-left: 4px solid var(--warn);
+}
+
+/* Dictionary */
+.dict-word {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.dict-phonetic {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.dict-pos {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.dict-defs {
+  padding-left: 16px;
+  line-height: 1.6;
+  font-size: 0.88rem;
+}
+
+/* Joke */
+.joke-body {
+  padding: 8px 0;
+}
+
+.joke-single, 
+.joke-setup {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.joke-delivery {
+  font-size: 1rem;
+  line-height: 1.65;
+  font-weight: 600;
+  color: var(--primary);
+  margin-top: 6px;
+}
+
+.joke-text {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* "Another one" Button */
+.widget-refresh-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.widget-refresh-btn:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+/* Bible */
+.bible-ref {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.bible-text {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  font-style: italic;
+}
+
+.bible-translation {
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* Help list */
+.help-list {
+  padding-left: 16px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 2;
+}
+
+/* ── Mobile Widget Tweaks ──────────────────────────── */
+@media (max-width: 480px) {
+  .weather-temp {
+    font-size: 2.2rem;
+  }
+}
