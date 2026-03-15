@@ -66,49 +66,61 @@ window.NexoraRegistry.register({
     }
 });
 
-// ─── Method 1: Reddit JSON API ───────────────────────────────────────────────
-async function fetchViaJSON(subreddit) {
-    const url = `https://corsproxy.io/?${encodeURIComponent(
-        `https://www.reddit.com/r/${subreddit}/hot.json?limit=10&raw_json=1`
-    )}`;
+// ─── Proxy Waterfall Orchestrator ────────────────────────────────────────────
+async function fetchWithProxyWaterfall(targetUrl) {
+    const proxies = [
+        { name: 'allorigins', url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}` },
+        { name: 'corsproxy', url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}` },
+        { name: 'codetabs', url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}` }
+    ];
 
-    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    let lastError = new Error("All proxies failed");
 
-    if (res.status === 404) throw new Error(`r/${subreddit} not found`);
-    if (res.status === 403) throw new Error(`r/${subreddit} is private`);
-    if (!res.ok) throw new Error(`Reddit JSON error ${res.status}`);
+    for (const proxy of proxies) {
+        try {
+            const res = await fetch(proxy.url);
 
-    const data = await res.json();
-    const posts = data?.data?.children;
-    if (!posts?.length) throw new Error('No posts returned');
+            // Handle AllOrigins wrapper specifically
+            if (proxy.name === 'allorigins') {
+                const json = await res.json();
+                
+                if (json.status && json.status.http_code) {
+                    if (json.status.http_code === 404) throw new Error('not found');
+                    if (json.status.http_code === 403) throw new Error('private');
+                    if (json.status.http_code >= 400) throw new Error(`HTTP ${json.status.http_code}`);
+                }
+                
+                if (json.contents) return json.contents;
+                throw new Error('AllOrigins returned empty contents');
+            } 
+            
+            // Handle standard raw proxies
+            if (res.status === 404) throw new Error('not found');
+            if (res.status === 403) throw new Error('private');
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            
+            return await res.text();
 
-    return posts.slice(0, 5).map(({ data: p }) => ({
-        title:     p.title,
-        url:       `https://reddit.com${p.permalink}`,
-        ups:       p.ups,
-        comments:  p.num_comments,
-        author:    p.author,
-        flair:     p.link_flair_text || '',
-        thumbnail: p.thumbnail?.startsWith('http') ? p.thumbnail : null,
-        source:    'json'
-    }));
+        } catch (err) {
+            // Bubble up Reddit logic errors instantly, don't fall back to next proxy
+            if (err.message === 'not found' || err.message === 'private') {
+                throw err;
+            }
+            
+            // Otherwise, it's a proxy/network failure. Log and try the next one.
+            console.warn(`[Proxy] ${proxy.name} failed:`, err.message);
+            lastError = err;
+        }
+    }
+
+    throw lastError;
 }
 
-// ─── Method 2: Reddit RSS Feed ───────────────────────────────────────────────
+// ─── Method 1: Reddit RSS Feed ───────────────────────────────────────────────
 async function fetchViaRSS(subreddit) {
-    const url = `https://corsproxy.io/?${encodeURIComponent(
-        `https://www.reddit.com/r/${subreddit}/hot.rss?limit=10`
-    )}`;
-
-    const res = await fetch(url, { headers: { 'Accept': 'application/rss+xml, application/xml, text/xml' } });
-
-    if (res.status === 404) throw new Error(`r/${subreddit} not found`);
-    if (res.status === 403) throw new Error(`r/${subreddit} is private`);
-    if (!res.ok) throw new Error(`Reddit RSS error ${res.status}`);
-
-    const text = await res.text();
-    const xml  = new DOMParser().parseFromString(text, 'application/xml');
-
+    const rawText = await fetchWithProxyWaterfall(`https://www.reddit.com/r/${subreddit}/hot.rss?limit=10`);
+    
+    const xml = new DOMParser().parseFromString(rawText, 'application/xml');
     if (xml.querySelector('parsererror')) throw new Error('RSS parse failed');
 
     const entries = Array.from(xml.querySelectorAll('entry, item'));
@@ -134,33 +146,53 @@ async function fetchViaRSS(subreddit) {
     });
 }
 
+// ─── Method 2: Reddit JSON API ───────────────────────────────────────────────
+async function fetchViaJSON(subreddit) {
+    const rawText = await fetchWithProxyWaterfall(`https://www.reddit.com/r/${subreddit}/hot.json?limit=10&raw_json=1`);
+    
+    const data = JSON.parse(rawText);
+    const posts = data?.data?.children;
+    if (!posts?.length) throw new Error('No posts returned');
+
+    return posts.slice(0, 5).map(({ data: p }) => ({
+        title:     p.title,
+        url:       `https://reddit.com${p.permalink}`,
+        ups:       p.ups,
+        comments:  p.num_comments,
+        author:    p.author,
+        flair:     p.link_flair_text || '',
+        thumbnail: p.thumbnail?.startsWith('http') ? p.thumbnail : null,
+        source:    'json'
+    }));
+}
+
 // ─── Render + orchestrate with fallback ──────────────────────────────────────
 async function fetchAndRenderReddit(subreddit) {
     let posts  = null;
     let method = '';
     let warning = '';
 
+    // Fix 1: Try RSS first, then fallback to JSON API
     try {
-        posts  = await fetchViaJSON(subreddit);
-        method = 'JSON API (.json)';
-    } catch (jsonErr) {
-        if (jsonErr.message.includes('not found')) {
+        posts  = await fetchViaRSS(subreddit);
+        method = 'RSS Feed (.rss)';
+    } catch (rssErr) {
+        if (rssErr.message === 'not found') {
             return { text: `r/${subreddit} doesn't seem to exist on Reddit.` };
         }
-        if (jsonErr.message.includes('private')) {
+        if (rssErr.message === 'private') {
             return { text: `r/${subreddit} is a private community.` };
         }
 
-        warning = `JSON unavailable (${jsonErr.message}), using RSS.`;
+        warning = `RSS unavailable (${rssErr.message}), using JSON.`;
         try {
-            posts  = await fetchViaRSS(subreddit);
-            method = 'RSS Feed (.rss)';
-        } catch (rssErr) {
-            return { text: `Couldn't load r/${subreddit} via either method. Try again shortly. (${rssErr.message})` };
+            posts  = await fetchViaJSON(subreddit);
+            method = 'JSON API (.json)';
+        } catch (jsonErr) {
+            return { text: `Couldn't load r/${subreddit} via either method. Try again shortly. (${jsonErr.message})` };
         }
     }
 
-    // Now using the clean CSS classes instead of inline styles
     const items = posts.map(({ title, url, ups, comments, author, flair, thumbnail }) => {
         const imgHtml = thumbnail
             ? `<img src="${thumbnail}" alt="" class="news-thumb">`
@@ -195,8 +227,6 @@ async function fetchAndRenderReddit(subreddit) {
         ? `<div style="font-size:0.72rem;opacity:0.5;margin-bottom:8px;">⚠️ ${escapeHtml(warning)}</div>`
         : '';
 
-    // Leaving the outer wrapper's basic padding/layout inline as requested to not break the master widget layout, 
-    // but the list inside is now fully mapped to your CSS.
     const html = `
     <div class="rich-widget" style="padding:10px;">
         <div class="widget-title" style="font-weight:bold;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
