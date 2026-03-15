@@ -324,33 +324,7 @@
             text-decoration: underline;
         }
 
-        /* --- FIXED FOOTER NOTE (MISTAKE ACKNOWLEDGEMENT) --- */
-        .footer-note {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--bg);
-            color: var(--text-light);
-            text-align: center;
-            padding: 12px 20px;
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-            z-index: 1000;
-            backdrop-filter: blur(8px);
-            background-color: rgba(var(--bg), 0.9);
-        }
-
-        .footer-note a {
-            color: var(--text);
-            text-decoration: underline;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .footer-note a:hover {
-            color: var(--primary);
-        }
+        
 
         @media (max-width: 768px) {
             .help-container {
@@ -373,11 +347,6 @@
             
             .feature-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .footer-note {
-                font-size: 0.75rem;
-                padding: 10px;
             }
         }
     </style>
@@ -538,9 +507,7 @@
         </div>
     </div>
 
-    <div class="footer-note">
-        Nexora AI by Vylex · may make mistakes. <a href="#ai-limitations">Learn more</a>
-    </div>
+   
 
     <script>
         // Modernized Theme Toggle Script
