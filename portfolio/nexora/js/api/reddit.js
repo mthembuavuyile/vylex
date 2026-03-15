@@ -3,17 +3,10 @@ window.NexoraRegistry.register({
     name: 'Reddit Posts',
     example: 'show me crypto news',
     intents: [
-        // 1. Explicit r/ mention
         /(?:show me |top posts (?:on|from|in) |what'?s? (?:hot|trending|popular) on )?r\/([A-Za-z0-9_]+)/i,
-
-        // 2. Topic + news/posts
         /\b(crypto(?:currency)?|bitcoin|finance|stock|market|tech(?:nology)?|science|gaming|south\s?african?|sa\s?news|world|global|politics?|ai|programming|dev(?:eloper)?)\b.*?\b(?:news|posts?|updates?|trending|hot|top)\b/i,
-
-        // 3. Fallback: "reddit <topic>" or "show me news"
         /\breddit\s+([A-Za-z0-9_\s]+)/i,
         /(?:give me|what'?s?|show me)\s+(?:the\s+)?(?:\w+\s+)?news\b/i,
-
-        // 4. Catch-all
         /^\s*news\s*$/i
     ],
 
@@ -33,11 +26,9 @@ window.NexoraRegistry.register({
 
         let subreddit = '';
 
-        // Priority 1: Explicit r/subreddit
         const explicit = raw.match(/\br\/([a-z0-9_]+)/i);
         if (explicit) subreddit = explicit[1];
 
-        // Priority 2: Keyword mapping (longest match wins)
         if (!subreddit) {
             let bestLen = 0;
             for (const entry of TOPIC_MAP) {
@@ -50,7 +41,6 @@ window.NexoraRegistry.register({
             }
         }
 
-        // Priority 3: Capture group from regex
         if (!subreddit) {
             for (let i = 1; i < match.length; i++) {
                 if (match[i]) {
@@ -61,76 +51,67 @@ window.NexoraRegistry.register({
         }
 
         if (!subreddit) subreddit = 'news';
-
         return await fetchAndRenderReddit(subreddit);
     }
 });
 
-// ─── Proxy Waterfall Orchestrator ────────────────────────────────────────────
-async function fetchWithProxyWaterfall(targetUrl) {
-    const proxies = [
-        { name: 'allorigins', url: `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}` },
-        { name: 'corsproxy', url: `https://corsproxy.io/?${encodeURIComponent(targetUrl)}` },
-        { name: 'codetabs', url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}` }
-    ];
+// ─── CORS Proxy list (tried in order) ────────────────────────────────────────
+const CORS_PROXIES = [
+    url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
 
-    let lastError = new Error("All proxies failed");
-
-    for (const proxy of proxies) {
+async function fetchWithProxyFallback(targetUrl, options = {}) {
+    let lastErr;
+    for (const makeProxy of CORS_PROXIES) {
         try {
-            const res = await fetch(proxy.url);
-
-            // Handle AllOrigins wrapper specifically
-            if (proxy.name === 'allorigins') {
-                const json = await res.json();
-                
-                if (json.status && json.status.http_code) {
-                    if (json.status.http_code === 404) throw new Error('not found');
-                    if (json.status.http_code === 403) throw new Error('private');
-                    if (json.status.http_code >= 400) throw new Error(`HTTP ${json.status.http_code}`);
-                }
-                
-                if (json.contents) return json.contents;
-                throw new Error('AllOrigins returned empty contents');
-            } 
-            
-            // Handle standard raw proxies
-            if (res.status === 404) throw new Error('not found');
-            if (res.status === 403) throw new Error('private');
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            
-            return await res.text();
-
-        } catch (err) {
-            // Bubble up Reddit logic errors instantly, don't fall back to next proxy
-            if (err.message === 'not found' || err.message === 'private') {
-                throw err;
-            }
-            
-            // Otherwise, it's a proxy/network failure. Log and try the next one.
-            console.warn(`[Proxy] ${proxy.name} failed:`, err.message);
-            lastError = err;
+            const res = await fetch(makeProxy(targetUrl), options);
+            // allorigins wraps 404/403 as 200 with error body — handled downstream
+            if (res.ok) return res;
+            lastErr = new Error(`HTTP ${res.status}`);
+        } catch (e) {
+            lastErr = e;
         }
     }
-
-    throw lastError;
+    throw lastErr || new Error('All proxies failed');
 }
 
-// ─── Method 1: Reddit RSS Feed ───────────────────────────────────────────────
+// ─── Method 1: RSS Feed (most reliable through proxies) ──────────────────────
 async function fetchViaRSS(subreddit) {
-    const rawText = await fetchWithProxyWaterfall(`https://www.reddit.com/r/${subreddit}/hot.rss?limit=10`);
-    
-    const xml = new DOMParser().parseFromString(rawText, 'application/xml');
+    const target = `https://www.reddit.com/r/${subreddit}/hot.rss?limit=10`;
+    const res = await fetchWithProxyFallback(target, {
+        headers: { 'Accept': 'application/rss+xml, application/xml, text/xml, */*' }
+    });
+
+    const text = await res.text();
+
+    // allorigins returns JSON wrapper sometimes
+    let xmlText = text;
+    try {
+        const json = JSON.parse(text);
+        if (json?.contents) xmlText = json.contents;
+    } catch (_) { /* not JSON, use as-is */ }
+
+    // Detect Reddit error pages
+    if (xmlText.includes('"reason": "private"') || xmlText.includes('"error": 403')) {
+        throw new Error(`r/${subreddit} is private`);
+    }
+    if (xmlText.includes('"error": 404')) {
+        throw new Error(`r/${subreddit} not found`);
+    }
+
+    const xml = new DOMParser().parseFromString(xmlText, 'application/xml');
     if (xml.querySelector('parsererror')) throw new Error('RSS parse failed');
 
     const entries = Array.from(xml.querySelectorAll('entry, item'));
-    if (!entries.length) throw new Error('No RSS entries');
+    if (!entries.length) throw new Error('No RSS entries found');
 
     return entries.slice(0, 5).map(el => {
-        const linkEl  = el.querySelector('link');
-        const href    = linkEl?.getAttribute('href') || linkEl?.textContent?.trim() || '';
-        const title   = el.querySelector('title')?.textContent?.trim() || 'Untitled';
-        const author  = el.querySelector('author name, dc\\:creator, creator')?.textContent?.trim() || '';
+        const linkEl = el.querySelector('link');
+        const href = linkEl?.getAttribute('href') || linkEl?.textContent?.trim() || '';
+        const title = el.querySelector('title')?.textContent?.trim() || 'Untitled';
+        const author = el.querySelector('author name, dc\\:creator, creator')?.textContent?.trim() || '';
 
         let thumbnail = null;
         const mediaThumbnail = el.querySelector('thumbnail');
@@ -146,11 +127,27 @@ async function fetchViaRSS(subreddit) {
     });
 }
 
-// ─── Method 2: Reddit JSON API ───────────────────────────────────────────────
+// ─── Method 2: JSON API (fallback) ───────────────────────────────────────────
 async function fetchViaJSON(subreddit) {
-    const rawText = await fetchWithProxyWaterfall(`https://www.reddit.com/r/${subreddit}/hot.json?limit=10&raw_json=1`);
-    
-    const data = JSON.parse(rawText);
+    const target = `https://www.reddit.com/r/${subreddit}/hot.json?limit=10&raw_json=1`;
+    const res = await fetchWithProxyFallback(target, {
+        headers: { 'Accept': 'application/json' }
+    });
+
+    const text = await res.text();
+
+    let data;
+    try {
+        // allorigins wraps in { contents, status }
+        const wrapper = JSON.parse(text);
+        data = wrapper?.contents ? JSON.parse(wrapper.contents) : wrapper;
+    } catch (_) {
+        throw new Error('JSON parse failed');
+    }
+
+    if (data?.reason === 'private' || data?.error === 403) throw new Error(`r/${subreddit} is private`);
+    if (data?.error === 404) throw new Error(`r/${subreddit} not found`);
+
     const posts = data?.data?.children;
     if (!posts?.length) throw new Error('No posts returned');
 
@@ -166,30 +163,30 @@ async function fetchViaJSON(subreddit) {
     }));
 }
 
-// ─── Render + orchestrate with fallback ──────────────────────────────────────
+// ─── Orchestrate: RSS first, then JSON ───────────────────────────────────────
 async function fetchAndRenderReddit(subreddit) {
-    let posts  = null;
+    let posts = null;
     let method = '';
-    let warning = '';
 
-    // Fix 1: Try RSS first, then fallback to JSON API
     try {
-        posts  = await fetchViaRSS(subreddit);
-        method = 'RSS Feed (.rss)';
+        posts = await fetchViaRSS(subreddit);
+        method = 'RSS Feed';
     } catch (rssErr) {
-        if (rssErr.message === 'not found') {
+        if (rssErr.message.includes('not found'))
             return { text: `r/${subreddit} doesn't seem to exist on Reddit.` };
-        }
-        if (rssErr.message === 'private') {
-            return { text: `r/${subreddit} is a private community.` };
-        }
+        if (rssErr.message.includes('private'))
+            return { text: `r/${subreddit} is a private community and can't be accessed.` };
 
-        warning = `RSS unavailable (${rssErr.message}), using JSON.`;
         try {
-            posts  = await fetchViaJSON(subreddit);
-            method = 'JSON API (.json)';
+            posts = await fetchViaJSON(subreddit);
+            method = 'JSON API';
         } catch (jsonErr) {
-            return { text: `Couldn't load r/${subreddit} via either method. Try again shortly. (${jsonErr.message})` };
+            if (jsonErr.message.includes('not found'))
+                return { text: `r/${subreddit} doesn't seem to exist on Reddit.` };
+            if (jsonErr.message.includes('private'))
+                return { text: `r/${subreddit} is a private community and can't be accessed.` };
+
+            return { text: `Couldn't load r/${subreddit} right now — Reddit may be blocking the request. Try again shortly.` };
         }
     }
 
@@ -213,19 +210,11 @@ async function fetchAndRenderReddit(subreddit) {
             ${imgHtml}
             <div class="news-item-content">
                 ${flairHtml}
-                <h4>
-                    <a href="${escapeHtml(url)}" target="_blank">
-                        ${escapeHtml(title)}
-                    </a>
-                </h4>
+                <h4><a href="${escapeHtml(url)}" target="_blank">${escapeHtml(title)}</a></h4>
                 ${metaHtml ? `<div class="reddit-meta">${metaHtml}</div>` : ''}
             </div>
         </li>`;
     }).join('');
-
-    const warningHtml = warning
-        ? `<div style="font-size:0.72rem;opacity:0.5;margin-bottom:8px;">⚠️ ${escapeHtml(warning)}</div>`
-        : '';
 
     const html = `
     <div class="rich-widget" style="padding:10px;">
@@ -236,12 +225,7 @@ async function fetchAndRenderReddit(subreddit) {
             </span>
             <span style="font-size:0.7rem;font-weight:400;opacity:0.45;">${escapeHtml(method)}</span>
         </div>
-        ${warningHtml}
-        
-        <ul class="reddit-list news-list">
-            ${items}
-        </ul>
-
+        <ul class="reddit-list news-list">${items}</ul>
         <a href="https://reddit.com/r/${encodeURIComponent(subreddit)}" target="_blank"
            style="display:block;text-align:center;margin-top:12px;font-size:0.8rem;opacity:0.6;text-decoration:none;">
             View more on Reddit ↗
@@ -260,9 +244,9 @@ function formatNum(n) {
 
 function escapeHtml(str) {
     return String(str)
-        .replace(/&/g,  '&amp;')
-        .replace(/</g,  '&lt;')
-        .replace(/>/g,  '&gt;')
-        .replace(/"/g,  '&quot;')
-        .replace(/'/g,  '&#39;');
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
