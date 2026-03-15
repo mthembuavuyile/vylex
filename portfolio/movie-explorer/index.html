@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character Encoding -->
+    <meta charset="UTF-8">
+
+    <!-- Mobile Responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Search and explore movies using the IMDb API. Get detailed movie information, ratings, cast, and more.">
+    <meta name="keywords" content="movie search, IMDb API, film ratings, movie details, Vylex Nexys, movie database">
+    <meta name="author" content="Vylex Nexys">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta Tags (For Social Media Sharing) -->
+    <meta property="og:title" content="Movie Explorer | Vylex Nexys IT">
+    <meta property="og:description" content="Discover movies with IMDb API. Get ratings, cast info, and reviews.">
+    <meta property="og:image" content="https://yourwebsite.com/preview.jpg">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card (For Twitter Sharing) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Movie Explorer | Vylex Nexys IT">
+    <meta name="twitter:description" content="Discover movies with IMDb API. Get ratings, cast info, and reviews.">
+    <meta name="twitter:image" content="https://yourwebsite.com/preview.jpg">
+
+    <!-- Title -->
+    <title>Movie Explorer | Vylex Nexys IT</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://yourwebsite.com/favicon.png">
+
+    <!-- Stylesheets -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Vylex Nexys Movie Search",
+      "description": "Search movies using IMDb API with detailed ratings, reviews, and cast information.",
+      "url": "https://yourwebsite.com",
+      "applicationCategory": "Entertainment",
+      "operatingSystem": "Web"
+    }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-container:focus-within {
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        input[type="text"] {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .poster-hover {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .poster-hover:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .rating-badge {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .movie-card {
+            transition: all 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .tab {
+            cursor: pointer;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .tab:not(.active) {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-action {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .floating-action:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .floating-action {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        .youtube-embed {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .genre-tag {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+            border-radius: 20px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+                🎬 Movie Explorer
+            </h1>
+            <p class="text-lg opacity-80">Discover amazing movies and explore cinema</p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="mb-8">
+            <div class="search-container max-w-2xl mx-auto">
+                <div class="flex items-center">
+                    <div class="flex-1">
+                        <input type="text" id="search" placeholder="Search for any movie..." class="w-full">
+                    </div>
+                    <button onclick="searchMovie()" class="btn-primary ml-3">
+                        🔍 Search
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quick Search Suggestions -->
+            <div class="flex flex-wrap justify-center gap-2 mt-4">
+                <span class="btn-secondary" onclick="quickSearch('Inception')">Inception</span>
+                <span class="btn-secondary" onclick="quickSearch('The Dark Knight')">The Dark Knight</span>
+                <span class="btn-secondary" onclick="quickSearch('Pulp Fiction')">Pulp Fiction</span>
+                <span class="btn-secondary" onclick="quickSearch('The Matrix')">The Matrix</span>
+                <span class="btn-secondary" onclick="quickSearch('Avengers')">Avengers</span>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex justify-center mb-6">
+            <div class="glass p-1 rounded-3xl">
+                <div class="flex space-x-1">
+                    <div class="tab active" onclick="switchTab('results')">🎬 Results</div>
+                    <div class="tab" onclick="switchTab('history')">📚 History</div>
+                    <div class="tab" onclick="switchTab('favorites')">❤️ Favorites</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div id="results-tab" class="tab-content">
+            <div id="results" class="animate-fade-in">
+                <div class="glass rounded-xl p-8 text-center">
+                    <div class="mb-4 text-6xl">🎭</div>
+                    <h3 class="text-2xl font-semibold mb-2">Ready to Explore Movies?</h3>
+                    <p class="opacity-70">Search for any movie to get detailed information, ratings, and more!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="history-tab" class="tab-content hidden">
+            <div class="glass rounded-xl p-6">
+                <h3 class="text-2xl font-semibold mb-4">🕐 Search History</h3>
+                <div id="history-list">
+                    <p class="text-center opacity-70">Your search history will appear here</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="favorites-tab" class="tab-content hidden">
+            <div class="glass rounded-xl p-6">
+                <h3 class="text-2xl font-semibold mb-4">❤️ Favorite Movies</h3>
+                <div id="favorites-list">
+                    <p class="text-center opacity-70">Add movies to favorites by clicking the heart icon</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="floating-action" onclick="scrollToTop()" title="Back to top">
+        ↑
+    </div>
+
+    <script>
+        const API_KEY = '798172ac';
+        let searchHistory = JSON.parse(localStorage.getItem('movieSearchHistory') || '[]');
+        let favorites = JSON.parse(localStorage.getItem('movieFavorites') || '[]');
+        let currentTab = 'results';
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateHistoryDisplay();
+            updateFavoritesDisplay();
+        });
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            currentTab = tabName;
+        }
+
+        function quickSearch(movieName) {
+            document.getElementById('search').value = movieName;
+            searchMovie();
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function searchMovie() {
+            const search = document.getElementById('search').value.trim();
+            if (!search) return;
+
+            // Switch to results tab
+            switchTab('results');
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector('.tab').classList.add('active');
+
+            const results = document.getElementById('results');
+            results.innerHTML = `
+                <div class="glass rounded-xl p-8 animate-fade-in text-center">
+                    <div class="loading-spinner mb-4"></div>
+                    <div class="text-xl">Searching for "${search}"...</div>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(search)}&apikey=${API_KEY}&plot=full`);
+                const data = await response.json();
+
+                if (data.Response === 'False') {
+                    throw new Error(data.Error);
+                }
+
+                // Add to search history
+                addToHistory(search, data);
+                
+                displayMovie(data);
+                setTimeout(() => fetchRecommendations(data.Genre), 500);
+                
+            } catch (error) {
+                results.innerHTML = `
+                    <div class="glass rounded-xl p-8 animate-fade-in text-center">
+                        <div class="text-6xl mb-4">😞</div>
+                        <div class="text-xl text-red-300 mb-2">Oops! Something went wrong</div>
+                        <div class="opacity-70">${error.message}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function displayMovie(movie) {
+            const results = document.getElementById('results');
+            const isFavorite = favorites.some(fav => fav.imdbID === movie.imdbID);
+
+            let boxOfficeHTML = '';
+            if (movie.BoxOffice && movie.BoxOffice !== 'N/A') {
+                boxOfficeHTML = `<p><span class="font-semibold">💰 Box Office:</span> ${movie.BoxOffice}</p>`;
+            }
+
+            const genreTags = movie.Genre.split(', ').map(genre => 
+                `<span class="genre-tag">${genre}</span>`
+            ).join(' ');
+
+            results.innerHTML = `
+                <div class="glass rounded-xl p-6 animate-fade-in">
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <div class="lg:w-1/3">
+                            <div class="relative">
+                                <img 
+                                    src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x450/667eea/white?text=No+Poster'}"
+                                    alt="${movie.Title} Poster"
+                                    class="w-full rounded-xl shadow-2xl poster-hover"
+                                >
+                                <button 
+                                    onclick="toggleFavorite('${movie.imdbID}', '${movie.Title.replace(/'/g, "\\'")}', '${movie.Poster}', '${movie.Year}')"
+                                    class="absolute top-4 right-4 bg-black bg-opacity-50 rounded-full p-2 text-2xl hover:bg-opacity-70 transition-all"
+                                >
+                                    ${isFavorite ? '❤️' : '🤍'}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/3">
+                            <div class="flex items-start justify-between mb-4">
+                                <h2 class="text-4xl font-bold">${movie.Title}</h2>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-3 mb-6">
+                                <span class="rating-badge">${movie.Year}</span>
+                                <span class="rating-badge">${movie.Rated}</span>
+                                <span class="rating-badge">⏱️ ${movie.Runtime}</span>
+                                <span class="rating-badge">🌍 ${movie.Language}</span>
+                            </div>
+
+                            <div class="mb-6">
+                                ${genreTags}
+                            </div>
+                            
+                            <p class="mb-6 text-lg leading-relaxed opacity-90">${movie.Plot}</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-4 mb-6 text-gray-200">
+                                <div class="space-y-3">
+                                    <p><span class="font-semibold">🎬 Director:</span> ${movie.Director}</p>
+                                    <p><span class="font-semibold">✍️ Writer:</span> ${movie.Writer}</p>
+                                    <p><span class="font-semibold">🎭 Cast:</span> ${movie.Actors}</p>
+                                </div>
+                                <div class="space-y-3">
+                                    <p><span class="font-semibold">🏆 Awards:</span> ${movie.Awards}</p>
+                                    <p><span class="font-semibold">🌍 Country:</span> ${movie.Country}</p>
+                                    ${boxOfficeHTML}
+                                </div>
+                            </div>
+                            
+                            ${movie.Ratings && movie.Ratings.length > 0 ? `
+                            <div class="mb-6">
+                                <h4 class="text-xl font-semibold mb-3">📊 Ratings</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    ${movie.Ratings.map(rating => `
+                                        <div class="glass p-4 rounded-lg text-center">
+                                            <div class="text-sm opacity-80 mb-1">${rating.Source}</div>
+                                            <div class="text-2xl font-bold">${rating.Value}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            ` : ''}
+                            
+                            <div class="flex flex-wrap gap-3">
+                                <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(movie.Title + ' ' + movie.Year + ' trailer')}" 
+                                   target="_blank" class="btn-primary">
+                                    🎥 Watch Trailer
+                                </a>
+                                <a href="https://www.imdb.com/title/${movie.imdbID}" 
+                                   target="_blank" class="btn-secondary">
+                                    📝 IMDb Page
+                                </a>
+                                <button onclick="shareMovie('${movie.Title}', '${movie.Year}')" class="btn-secondary">
+                                    📤 Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function fetchRecommendations(genre) {
+            const resultsDiv = document.getElementById('results');
+            
+            // Show loading for recommendations
+            resultsDiv.innerHTML += `
+                <div id="recommendations-loading" class="glass rounded-xl p-6 animate-slide-up mt-6">
+                    <div class="flex items-center justify-center space-x-3">
+                        <div class="loading-spinner"></div>
+                        <span>Finding similar movies...</span>
+                    </div>
+                </div>
+            `;
+
+            try {
+                // Search for movies of the same genre
+                const genreKeyword = genre.split(',')[0].trim(); // Use first genre
+                const response = await fetch(`https://www.omdbapi.com/?s=${genreKeyword}&type=movie&apikey=${API_KEY}`);
+                const data = await response.json();
+
+                // Remove loading
+                document.getElementById('recommendations-loading')?.remove();
+
+                if (data.Response === 'True' && data.Search) {
+                    const recommendationsHTML = `
+                        <div class="glass rounded-xl p-6 animate-slide-up mt-6">
+                            <h3 class="text-2xl font-semibold mb-4">🎯 More Like This</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                                ${data.Search.slice(0, 6).map(movie => `
+                                    <div class="movie-card poster-hover" onclick="searchMovieByTitle('${movie.Title}')">
+                                        <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/200x300/667eea/white?text=No+Poster'}"
+                                             alt="${movie.Title} Poster" 
+                                             class="rounded-lg shadow-lg w-full">
+                                        <p class="text-sm mt-2 text-center font-medium">${movie.Title}</p>
+                                        <p class="text-xs text-center opacity-70">${movie.Year}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    resultsDiv.innerHTML += recommendationsHTML;
+                }
+            } catch (error) {
+                document.getElementById('recommendations-loading')?.remove();
+                console.log('Could not fetch recommendations');
+            }
+        }
+
+        function searchMovieByTitle(title) {
+            document.getElementById('search').value = title;
+            searchMovie();
+            scrollToTop();
+        }
+
+        function addToHistory(searchTerm, movieData) {
+            const historyItem = {
+                searchTerm,
+                movie: {
+                    title: movieData.Title,
+                    year: movieData.Year,
+                    poster: movieData.Poster,
+                    imdbID: movieData.imdbID
+                },
+                timestamp: new Date().toISOString()
+            };
+
+            // Remove if already exists
+            searchHistory = searchHistory.filter(item => item.movie.imdbID !== movieData.imdbID);
+            
+            // Add to beginning
+            searchHistory.unshift(historyItem);
+            
+            // Keep only last 20 items
+            searchHistory = searchHistory.slice(0, 20);
+            
+            localStorage.setItem('movieSearchHistory', JSON.stringify(searchHistory));
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('history-list');
+            
+            if (searchHistory.length === 0) {
+                historyList.innerHTML = '<p class="text-center opacity-70">Your search history will appear here</p>';
+                return;
+            }
+
+            historyList.innerHTML = searchHistory.map(item => `
+                <div class="history-item" onclick="searchMovieByTitle('${item.movie.title}')">
+                    <div class="flex items-center space-x-4">
+                        <img src="${item.movie.poster !== 'N/A' ? item.movie.poster : 'https://via.placeholder.com/60x90/667eea/white?text=No+Poster'}" 
+                             alt="${item.movie.title}" class="w-12 h-18 rounded object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-semibold">${item.movie.title}</h4>
+                            <p class="text-sm opacity-70">${item.movie.year}</p>
+                            <p class="text-xs opacity-50">${new Date(item.timestamp).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleFavorite(imdbID, title, poster, year) {
+            const existingIndex = favorites.findIndex(fav => fav.imdbID === imdbID);
+            
+            if (existingIndex > -1) {
+                favorites.splice(existingIndex, 1);
+            } else {
+                favorites.push({ imdbID, title, poster, year, addedAt: new Date().toISOString() });
+            }
+            
+            localStorage.setItem('movieFavorites', JSON.stringify(favorites));
+            updateFavoritesDisplay();
+            
+            // Update the heart icon
+            const heartButton = document.querySelector(`button[onclick*="${imdbID}"]`);
+            if (heartButton) {
+                heartButton.innerHTML = existingIndex > -1 ? '🤍' : '❤️';
+            }
+        }
+
+        function updateFavoritesDisplay() {
+            const favoritesList = document.getElementById('favorites-list');
+            
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = '<p class="text-center opacity-70">Add movies to favorites by clicking the heart icon</p>';
+                return;
+            }
+
+            favoritesList.innerHTML = `
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    ${favorites.map(movie => `
+                        <div class="movie-card poster-hover" onclick="searchMovieByTitle('${movie.title}')">
+                            <div class="relative">
+                                <img src="${movie.poster !== 'N/A' ? movie.poster : 'https://via.placeholder.com/200x300/667eea/white?text=No+Poster'}"
+                                     alt="${movie.title} Poster" 
+                                     class="rounded-lg shadow-lg w-full">
+                                <button onclick="event.stopPropagation(); toggleFavorite('${movie.imdbID}', '${movie.title.replace(/'/g, "\\'")}', '${movie.poster}', '${movie.year}')"
+                                        class="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1 text-sm hover:bg-opacity-70 transition-all">
+                                    ❤️
+                                </button>
+                            </div>
+                            <p class="text-sm mt-2 text-center font-medium">${movie.title}</p>
+                            <p class="text-xs text-center opacity-70">${movie.year}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function shareMovie(title, year) {
+            if (navigator.share) {
+                navigator.share({
+                    title: `Check out ${title}`,
+                    text: `I just discovered this amazing movie: ${title} (${year})`,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const text = `Check out this amazing movie: ${title} (${year}) - ${window.location.href}`;
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Movie details copied to clipboard!');
+                });
+            }
+        }
+
+        // Event listeners
+        document.getElementById('search').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchMovie();
+        });
+
+        // Auto-search on input (with debounce)
+        let searchTimeout;
+        document.getElementById('search').addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+            if (query.length > 2) {
+                searchTimeout = setTimeout(() => {
+                    // Show quick suggestions based on popular movies
+                    // This is a simple implementation - you could expand this
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

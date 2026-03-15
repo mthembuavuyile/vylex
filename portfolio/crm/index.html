@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevCRM - Client Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338CA;
+            --secondary: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --light: #F3F4F6;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--dark);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-item {
+            color: var(--white);
+            padding: 12px 16px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--gray);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .client-card {
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .client-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .client-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .client-email {
+            color: var(--gray);
+            margin-bottom: 12px;
+        }
+
+        .project-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--light);
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-completed {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: var(--light);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+
+        .task-completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: var(--light);
+        }
+
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: var(--light);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+
+        .communication-item {
+            border-left: 2px solid var(--light);
+            padding-left: 20px;
+            margin-left: 10px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .communication-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .communication-date {
+            font-size: 12px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .nav-item {
+                padding: 10px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">📊 DevCRM</div>
+            <nav>
+                <div class="nav-item active" data-section="dashboard">
+                    <span>🏠</span> Dashboard
+                </div>
+                <div class="nav-item" data-section="clients">
+                    <span>👥</span> Clients
+                </div>
+                <div class="nav-item" data-section="projects">
+                    <span>💼</span> Projects
+                </div>
+                <div class="nav-item" data-section="tasks">
+                    <span>✓</span> Tasks
+                </div>
+                <div class="nav-item" data-section="calendar">
+                    <span>📅</span> Calendar
+                </div>
+                <div class="nav-item" data-section="communications">
+                    <span>💬</span> Communications
+                </div>
+                <div class="nav-item" data-section="notes">
+                    <span>📝</span> Notes
+                </div>
+                <div class="nav-item" data-section="services">
+                    <span>🛠️</span> Services
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <div class="section active" id="dashboard">
+                <div class="header">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back! Here's your overview.</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalClients">0</div>
+                        <div class="stat-label">Total Clients</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="activeProjects">0</div>
+                        <div class="stat-label">Active Projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="pendingTasks">0</div>
+                        <div class="stat-label">Pending Tasks</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalRevenue">$0</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Activities</h3>
+                    <div id="recentActivities" class="empty-state">
+                        <p>No recent activities</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clients Section -->
+            <div class="section" id="clients">
+                <div class="header">
+                    <h1>Clients</h1>
+                    <p>Manage your client relationships</p>
+                    <button class="btn btn-primary" onclick="openClientModal()">
+                        + Add New Client
+                    </button>
+                </div>
+                
+                <div class="grid" id="clientsList"></div>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="section" id="projects">
+                <div class="header">
+                    <h1>Projects</h1>
+                    <p>Track all your development projects</p>
+                    <button class="btn btn-primary" onclick="openProjectModal()">
+                        + Add New Project
+                    </button>
+                </div>
+                
+                <div class="grid" id="projectsList"></div>
+            </div>
+
+            <!-- Tasks Section -->
+            <div class="section" id="tasks">
+                <div class="header">
+                    <h1>Tasks</h1>
+                    <p>Manage your to-do list</p>
+                    <button class="btn btn-primary" onclick="openTaskModal()">
+                        + Add New Task
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div id="tasksList"></div>
+                </div>
+            </div>
+
+            <!-- Calendar Section -->
+            <div class="section" id="calendar">
+                <div class="header">
+                    <h1>Calendar</h1>
+                    <p>Schedule and track important dates</p>
+                    <button class="btn btn-primary" onclick="openEventModal()">
+                        + Add Event
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div id="calendarContainer"></div>
+                    <div id="eventsList" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Communications Section -->
+            <div class="section" id="communications">
+                <div class="header">
+                    <h1>Communications</h1>
+                    <p>Track all client interactions</p>
+                    <button class="btn btn-primary" onclick="openCommunicationModal()">
+                        + Log Communication
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div id="communicationsList"></div>
+                </div>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="section" id="notes">
+                <div class="header">
+                    <h1>Notes</h1>
+                    <p>Keep track of important information</p>
+                    <button class="btn btn-primary" onclick="openNoteModal()">
+                        + Add Note
+                    </button>
+                </div>
+                
+                <div class="grid" id="notesList"></div>
+            </div>
+
+            <!-- Services Section -->
+            <div class="section" id="services">
+                <div class="header">
+                    <h1>Services</h1>
+                    <p>Manage your service offerings</p>
+                    <button class="btn btn-primary" onclick="openServiceModal()">
+                        + Add Service
+                    </button>
+                </div>
+                
+                <div class="grid" id="servicesList"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Client Modal -->
+    <div class="modal" id="clientModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Client</h2>
+            </div>
+            <form id="clientForm">
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" name="phone">
+                </div>
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" name="company">
+                </div>
+                <div class="form-group">
+                    <label>Website</label>
+                    <input type="url" name="website">
+                </div>
+                <div class="form-group">
+                    <label>GitHub</label>
+                    <input type="text" name="github" placeholder="username or URL">
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea name="notes"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('clientModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Client</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Project</h2>
+            </div>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label>Project Name *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Client *</label>
+                    <select name="clientId" required id="projectClientSelect">
+                        <option value="">Select a client</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Service Type</label>
+                    <select name="serviceType">
+                        <option value="website">Website Development</option>
+                        <option value="app">App Development</option>
+                        <option value="logo">Logo Design</option>
+                        <option value="seo">SEO</option>
+                        <option value="hosting">Hosting</option>
+                        <option value="consulting">Consulting</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="pending">Pending</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="on-hold">On Hold</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Budget</label>
+                    <input type="number" name="budget" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" name="startDate">
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" name="endDate">
+                </div>
+                <div class="form-group">
+                    <label>GitHub Repository</label>
+                    <input type="text" name="githubRepo" placeholder="repository URL">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('projectModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Task</h2>
+            </div>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label>Task Title *</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Project</label>
+                    <select name="projectId" id="taskProjectSelect">
+                        <option value="">No specific project</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select name="priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" name="dueDate">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('taskModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Event</h2>
+            </div>
+            <form id="eventForm">
+                <div class="form-group">
+                    <label>Event Title *</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="time" name="time">
+                </div>
+                <div class="form-group">
+                    <label>Client</label>
+                    <select name="clientId" id="eventClientSelect">
+                        <option value="">No specific client</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('eventModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Communication Modal -->
+    <div class="modal" id="communicationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Log Communication</h2>
+            </div>
+            <form id="communicationForm">
+                <div class="form-group">
+                    <label>Client *</label>
+                    <select name="clientId" required id="commClientSelect">
+                        <option value="">Select a client</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select name="type">
+                        <option value="email">Email</option>
+                        <option value="phone">Phone Call</option>
+                        <option value="meeting">Meeting</option>
+                        <option value="message">Message</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" name="subject">
+                </div>
+                <div class="form-group">
+                    <label>Details *</label>
+                    <textarea name="details" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('communicationModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Communication</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Note</h2>
+            </div>
+            <form id="noteForm">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category">
+                        <option value="general">General</option>
+                        <option value="technical">Technical</option>
+                        <option value="business">Business</option>
+                        <option value="ideas">Ideas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Content *</label>
+                    <textarea name="content" required style="min-height: 200px;"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('noteModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Service Modal -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Service</h2>
+            </div>
+            <form id="serviceForm">
+                <div class="form-group">
+                    <label>Service Name *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category">
+                        <option value="development">Development</option>
+                        <option value="design">Design</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="consulting">Consulting</option>
+                        <option value="maintenance">Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Base Price</label>
+                    <input type="number" name="price" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Duration (estimated)</label>
+                    <input type="text" name="duration" placeholder="e.g., 2-4 weeks">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('serviceModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data structure
+        let data = {
+            clients: [],
+            projects: [],
+            tasks: [],
+            events: [],
+            communications: [],
+            notes: [],
+            services: []
+        };
+
+        // Initialize app
+        function init() {
+            loadData();
+            setupEventListeners();
+            renderDashboard();
+            renderClients();
+            renderProjects();
+            renderTasks();
+            renderCalendar();
+            renderCommunications();
+            renderNotes();
+            renderServices();
+        }
+
+        // Load data from localStorage
+        function loadData() {
+            const stored = localStorage.getItem('devCRMData');
+            if (stored) {
+                data = JSON.parse(stored);
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('devCRMData', JSON.stringify(data));
+        }
+
+        // Generate unique ID
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const section = this.dataset.section;
+                    showSection(section);
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Forms
+            document.getElementById('clientForm').addEventListener('submit', handleClientSubmit);
+            document.getElementById('projectForm').addEventListener('submit', handleProjectSubmit);
+            document.getElementById('taskForm').addEventListener('submit', handleTaskSubmit);
+            document.getElementById('eventForm').addEventListener('submit', handleEventSubmit);
+            document.getElementById('communicationForm').addEventListener('submit', handleCommunicationSubmit);
+            document.getElementById('noteForm').addEventListener('submit', handleNoteSubmit);
+            document.getElementById('serviceForm').addEventListener('submit', handleServiceSubmit);
+
+            // Close modals on background click
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        // Show section
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionName).classList.add('active');
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openClientModal() {
+            openModal('clientModal');
+        }
+
+        function openProjectModal() {
+            updateClientSelects();
+            openModal('projectModal');
+        }
+
+        function openTaskModal() {
+            updateProjectSelects();
+            openModal('taskModal');
+        }
+
+        function openEventModal() {
+            updateClientSelects();
+            openModal('eventModal');
+        }
+
+        function openCommunicationModal() {
+            updateClientSelects();
+            openModal('communicationModal');
+        }
+
+        function openNoteModal() {
+            openModal('noteModal');
+        }
+
+        function openServiceModal() {
+            openModal('serviceModal');
+        }
+
+        // Update select dropdowns
+        function updateClientSelects() {
+            const selects = ['projectClientSelect', 'eventClientSelect', 'commClientSelect'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    const currentValue = select.value;
+                    select.innerHTML = '<option value="">Select a client</option>';
+                    data.clients.forEach(client => {
+                        select.innerHTML += `<option value="${client.id}">${client.name}</option>`;
+                    });
+                    select.value = currentValue;
+                }
+            });
+        }
+
+        function updateProjectSelects() {
+            const select = document.getElementById('taskProjectSelect');
+            if (select) {
+                select.innerHTML = '<option value="">No specific project</option>';
+                data.projects.forEach(project => {
+                    select.innerHTML += `<option value="${project.id}">${project.name}</option>`;
+                });
+            }
+        }
+
+        // Form handlers
+        function handleClientSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const client = {
+                id: generateId(),
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                company: formData.get('company'),
+                website: formData.get('website'),
+                github: formData.get('github'),
+                notes: formData.get('notes'),
+                createdAt: new Date().toISOString()
+            };
+            data.clients.push(client);
+            saveData();
+            renderClients();
+            renderDashboard();
+            closeModal('clientModal');
+            e.target.reset();
+        }
+
+        function handleProjectSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const project = {
+                id: generateId(),
+                name: formData.get('name'),
+                clientId: formData.get('clientId'),
+                serviceType: formData.get('serviceType'),
+                status: formData.get('status'),
+                budget: parseFloat(formData.get('budget')) || 0,
+                startDate: formData.get('startDate'),
+                endDate: formData.get('endDate'),
+                githubRepo: formData.get('githubRepo'),
+                description: formData.get('description'),
+                createdAt: new Date().toISOString()
+            };
+            data.projects.push(project);
+            saveData();
+            renderProjects();
+            renderDashboard();
+            closeModal('projectModal');
+            e.target.reset();
+        }
+
+        function handleTaskSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const task = {
+                id: generateId(),
+                title: formData.get('title'),
+                projectId: formData.get('projectId'),
+                priority: formData.get('priority'),
+                dueDate: formData.get('dueDate'),
+                description: formData.get('description'),
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+            data.tasks.push(task);
+            saveData();
+            renderTasks();
+            renderDashboard();
+            closeModal('taskModal');
+            e.target.reset();
+        }
+
+        function handleEventSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const event = {
+                id: generateId(),
+                title: formData.get('title'),
+                date: formData.get('date'),
+                time: formData.get('time'),
+                clientId: formData.get('clientId'),
+                description: formData.get('description'),
+                createdAt: new Date().toISOString()
+            };
+            data.events.push(event);
+            saveData();
+            renderCalendar();
+            closeModal('eventModal');
+            e.target.reset();
+        }
+
+        function handleCommunicationSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const communication = {
+                id: generateId(),
+                clientId: formData.get('clientId'),
+                type: formData.get('type'),
+                subject: formData.get('subject'),
+                details: formData.get('details'),
+                createdAt: new Date().toISOString()
+            };
+            data.communications.push(communication);
+            saveData();
+            renderCommunications();
+            closeModal('communicationModal');
+            e.target.reset();
+        }
+
+        function handleNoteSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const note = {
+                id: generateId(),
+                title: formData.get('title'),
+                category: formData.get('category'),
+                content: formData.get('content'),
+                createdAt: new Date().toISOString()
+            };
+            data.notes.push(note);
+            saveData();
+            renderNotes();
+            closeModal('noteModal');
+            e.target.reset();
+        }
+
+        function handleServiceSubmit(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const service = {
+                id: generateId(),
+                name: formData.get('name'),
+                category: formData.get('category'),
+                price: parseFloat(formData.get('price')) || 0,
+                duration: formData.get('duration'),
+                description: formData.get('description'),
+                createdAt: new Date().toISOString()
+            };
+            data.services.push(service);
+            saveData();
+            renderServices();
+            closeModal('serviceModal');
+            e.target.reset();
+        }
+
+        // Render functions
+        function renderDashboard() {
+            document.getElementById('totalClients').textContent = data.clients.length;
+            document.getElementById('activeProjects').textContent = 
+                data.projects.filter(p => p.status === 'active').length;
+            document.getElementById('pendingTasks').textContent = 
+                data.tasks.filter(t => !t.completed).length;
+            
+            const totalRevenue = data.projects.reduce((sum, p) => sum + (p.budget || 0), 0);
+            document.getElementById('totalRevenue').textContent = 
+                '$' + totalRevenue.toLocaleString();
+
+            // Recent activities (simplified)
+            const activities = document.getElementById('recentActivities');
+            const recentItems = [
+                ...data.clients.map(c => ({...c, type: 'client', label: 'New client added'})),
+                ...data.projects.map(p => ({...p, type: 'project', label: 'New project created'})),
+                ...data.tasks.map(t => ({...t, type: 'task', label: 'Task added'}))
+            ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
+
+            if (recentItems.length > 0) {
+                activities.innerHTML = recentItems.map(item => `
+                    <div style="padding: 10px 0; border-bottom: 1px solid var(--light);">
+                        <div style="font-weight: 500;">${item.label}: ${item.name || item.title}</div>
+                        <div style="font-size: 12px; color: var(--gray);">
+                            ${new Date(item.createdAt).toLocaleDateString()}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderClients() {
+            const container = document.getElementById('clientsList');
+            if (data.clients.length === 0) {
+                container.innerHTML = '<div class="empty-state">No clients yet. Add your first client!</div>';
+                return;
+            }
+            
+            container.innerHTML = data.clients.map(client => {
+                const projects = data.projects.filter(p => p.clientId === client.id);
+                return `
+                    <div class="card client-card">
+                        <div class="client-name">${client.name}</div>
+                        <div class="client-email">${client.email}</div>
+                        ${client.company ? `<div style="margin-bottom: 8px;">🏢 ${client.company}</div>` : ''}
+                        ${client.phone ? `<div style="margin-bottom: 8px;">📞 ${client.phone}</div>` : ''}
+                        ${client.website ? `<div style="margin-bottom: 8px;">🌐 <a href="${client.website}" target="_blank">${client.website}</a></div>` : ''}
+                        ${client.github ? `<div style="margin-bottom: 8px;">💻 GitHub: ${client.github}</div>` : ''}
+                        <div style="margin-top: 12px;">
+                            ${projects.map(p => `<span class="project-badge">${p.name}</span>`).join('')}
+                        </div>
+                        <div style="margin-top: 12px; display: flex; gap: 10px;">
+                            <button class="btn btn-danger" onclick="deleteClient('${client.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderProjects() {
+            const container = document.getElementById('projectsList');
+            if (data.projects.length === 0) {
+                container.innerHTML = '<div class="empty-state">No projects yet. Start your first project!</div>';
+                return;
+            }
+            
+            container.innerHTML = data.projects.map(project => {
+                const client = data.clients.find(c => c.id === project.clientId);
+                const statusClass = `status-${project.status}`;
+                return `
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <div class="client-name">${project.name}</div>
+                                <div class="client-email">${client ? client.name : 'No client'}</div>
+                            </div>
+                            <span class="status-badge ${statusClass}">${project.status}</span>
+                        </div>
+                        <div style="margin-top: 12px;">
+                            <div>💼 ${project.serviceType}</div>
+                            ${project.budget ? `<div>💰 $${project.budget.toLocaleString()}</div>` : ''}
+                            ${project.startDate ? `<div>📅 ${project.startDate} - ${project.endDate || 'Ongoing'}</div>` : ''}
+                            ${project.githubRepo ? `<div>💻 <a href="${project.githubRepo}" target="_blank">GitHub Repo</a></div>` : ''}
+                        </div>
+                        ${project.description ? `<div style="margin-top: 12px; color: var(--gray);">${project.description}</div>` : ''}
+                        <div style="margin-top: 12px;">
+                            <button class="btn btn-danger" onclick="deleteProject('${project.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('tasksList');
+            if (data.tasks.length === 0) {
+                container.innerHTML = '<div class="empty-state">No tasks yet. Add your first task!</div>';
+                return;
+            }
+            
+            const sortedTasks = [...data.tasks].sort((a, b) => {
+                if (a.completed !== b.completed) return a.completed ? 1 : -1;
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
+            
+            container.innerHTML = sortedTasks.map(task => {
+                const project = data.projects.find(p => p.id === task.projectId);
+                const priorityColors = {
+                    high: 'var(--danger)',
+                    medium: 'var(--warning)',
+                    low: 'var(--gray)'
+                };
+                return `
+                    <div class="task-item ${task.completed ? 'task-completed' : ''}">
+                        <input type="checkbox" class="task-checkbox" 
+                            ${task.completed ? 'checked' : ''} 
+                            onchange="toggleTask('${task.id}')">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 500;">${task.title}</div>
+                            ${project ? `<div style="font-size: 12px; color: var(--gray);">Project: ${project.name}</div>` : ''}
+                            ${task.dueDate ? `<div style="font-size: 12px; color: var(--gray);">Due: ${task.dueDate}</div>` : ''}
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="width: 8px; height: 8px; background: ${priorityColors[task.priority]}; border-radius: 50%;"></span>
+                            <button class="btn btn-danger" onclick="deleteTask('${task.id}')">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderCalendar() {
+            const container = document.getElementById('calendarContainer');
+            const eventsList = document.getElementById('eventsList');
+            
+            // Simple calendar view (current month)
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+            
+            let calendarHTML = `
+                <h3>${firstDay.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h3>
+                <div class="calendar-grid" style="margin-top: 20px;">
+                    <div style="font-weight: 600;">Sun</div>
+                    <div style="font-weight: 600;">Mon</div>
+                    <div style="font-weight: 600;">Tue</div>
+                    <div style="font-weight: 600;">Wed</div>
+                    <div style="font-weight: 600;">Thu</div>
+                    <div style="font-weight: 600;">Fri</div>
+                    <div style="font-weight: 600;">Sat</div>
+            `;
+            
+            // Add empty cells for days before month starts
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                calendarHTML += '<div></div>';
+            }
+            
+            // Add days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasEvent = data.events.some(e => e.date === dateStr);
+                calendarHTML += `
+                    <div class="calendar-day ${hasEvent ? 'has-event' : ''}" 
+                         data-date="${dateStr}">
+                        ${day}
+                    </div>
+                `;
+            }
+            
+            calendarHTML += '</div>';
+            container.innerHTML = calendarHTML;
+            
+            // Render events list
+            if (data.events.length === 0) {
+                eventsList.innerHTML = '<div class="empty-state">No events scheduled</div>';
+            } else {
+                const sortedEvents = [...data.events].sort((a, b) => 
+                    new Date(a.date) - new Date(b.date)
+                );
+                eventsList.innerHTML = '<h3>Upcoming Events</h3>' + 
+                    sortedEvents.map(event => {
+                        const client = data.clients.find(c => c.id === event.clientId);
+                        return `
+                            <div class="card" style="margin-top: 10px;">
+                                <div style="font-weight: 500;">${event.title}</div>
+                                <div style="color: var(--gray); font-size: 14px;">
+                                    📅 ${event.date} ${event.time ? `at ${event.time}` : ''}
+                                </div>
+                                ${client ? `<div style="font-size: 14px;">Client: ${client.name}</div>` : ''}
+                                ${event.description ? `<div style="margin-top: 8px; font-size: 14px;">${event.description}</div>` : ''}
+                                <button class="btn btn-danger" style="margin-top: 10px;" onclick="deleteEvent('${event.id}')">Delete</button>
+                            </div>
+                        `;
+                    }).join('');
+            }
+        }
+
+        function renderCommunications() {
+            const container = document.getElementById('communicationsList');
+            if (data.communications.length === 0) {
+                container.innerHTML = '<div class="empty-state">No communications logged yet</div>';
+                return;
+            }
+            
+            const sortedComms = [...data.communications].sort((a, b) => 
+                new Date(b.createdAt) - new Date(a.createdAt)
+            );
+            
+            container.innerHTML = sortedComms.map(comm => {
+                const client = data.clients.find(c => c.id === comm.clientId);
+                const typeIcons = {
+                    email: '✉️',
+                    phone: '📞',
+                    meeting: '🤝',
+                    message: '💬',
+                    other: '📝'
+                };
+                return `
+                    <div class="communication-item">
+                        <div class="communication-date">
+                            ${new Date(comm.createdAt).toLocaleString()}
+                        </div>
+                        <div style="font-weight: 500;">
+                            ${typeIcons[comm.type]} ${comm.subject || comm.type}
+                        </div>
+                        <div style="color: var(--gray); font-size: 14px;">
+                            Client: ${client ? client.name : 'Unknown'}
+                        </div>
+                        <div style="margin-top: 8px;">${comm.details}</div>
+                        <button class="btn btn-danger" style="margin-top: 10px;" onclick="deleteCommunication('${comm.id}')">Delete</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderNotes() {
+            const container = document.getElementById('notesList');
+            if (data.notes.length === 0) {
+                container.innerHTML = '<div class="empty-state">No notes yet. Start taking notes!</div>';
+                return;
+            }
+            
+            container.innerHTML = data.notes.map(note => {
+                const categoryColors = {
+                    general: 'var(--gray)',
+                    technical: 'var(--primary)',
+                    business: 'var(--secondary)',
+                    ideas: 'var(--warning)'
+                };
+                return `
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div class="client-name">${note.title}</div>
+                            <span style="padding: 4px 12px; background: ${categoryColors[note.category]}; color: white; border-radius: 20px; font-size: 12px;">
+                                ${note.category}
+                            </span>
+                        </div>
+                        <div style="margin-top: 12px; white-space: pre-wrap;">${note.content}</div>
+                        <div style="margin-top: 12px; font-size: 12px; color: var(--gray);">
+                            ${new Date(note.createdAt).toLocaleDateString()}
+                        </div>
+                        <button class="btn btn-danger" style="margin-top: 10px;" onclick="deleteNote('${note.id}')">Delete</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderServices() {
+            const container = document.getElementById('servicesList');
+            if (data.services.length === 0) {
+                container.innerHTML = '<div class="empty-state">No services defined. Add your service offerings!</div>';
+                return;
+            }
+            
+            container.innerHTML = data.services.map(service => {
+                const categoryIcons = {
+                    development: '💻',
+                    design: '🎨',
+                    marketing: '📈',
+                    consulting: '💡',
+                    maintenance: '🔧'
+                };
+                return `
+                    <div class="card">
+                        <div style="font-size: 24px; margin-bottom: 10px;">
+                            ${categoryIcons[service.category]}
+                        </div>
+                        <div class="client-name">${service.name}</div>
+                        <div style="color: var(--primary); font-size: 20px; font-weight: 600; margin: 10px 0;">
+                            ${service.price ? `$${service.price.toLocaleString()}` : 'Custom Pricing'}
+                        </div>
+                        ${service.duration ? `<div style="color: var(--gray); margin-bottom: 10px;">⏱️ ${service.duration}</div>` : ''}
+                        ${service.description ? `<div style="margin-top: 12px;">${service.description}</div>` : ''}
+                        <button class="btn btn-danger" style="margin-top: 10px;" onclick="deleteService('${service.id}')">Delete</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Delete functions
+        function deleteClient(id) {
+            if (confirm('Are you sure you want to delete this client? This will also affect related projects.')) {
+                data.clients = data.clients.filter(c => c.id !== id);
+                saveData();
+                renderClients();
+                renderDashboard();
+            }
+        }
+
+        function deleteProject(id) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                data.projects = data.projects.filter(p => p.id !== id);
+                saveData();
+                renderProjects();
+                renderDashboard();
+            }
+        }
+
+        function deleteTask(id) {
+            data.tasks = data.tasks.filter(t => t.id !== id);
+            saveData();
+            renderTasks();
+            renderDashboard();
+        }
+
+        function deleteEvent(id) {
+            data.events = data.events.filter(e => e.id !== id);
+            saveData();
+            renderCalendar();
+        }
+
+        function deleteCommunication(id) {
+            data.communications = data.communications.filter(c => c.id !== id);
+            saveData();
+            renderCommunications();
+        }
+
+        function deleteNote(id) {
+            data.notes = data.notes.filter(n => n.id !== id);
+            saveData();
+            renderNotes();
+        }
+
+        function deleteService(id) {
+            data.services = data.services.filter(s => s.id !== id);
+            saveData();
+            renderServices();
+        }
+
+        // Toggle task completion
+        function toggleTask(id) {
+            const task = data.tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                saveData();
+                renderTasks();
+                renderDashboard();
+            }
+        }
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>

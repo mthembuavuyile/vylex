@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>unilink - Your Digital Campus</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            'primary': { DEFAULT: '#4A55E7', light: '#6875F5', dark: '#3B47D9', contrast: '#ffffff' },
+            'secondary': { DEFAULT: '#F59E0B', contrast: '#1E293B' },
+            'accent': { DEFAULT: '#10B981', contrast: '#ffffff' },
+            'neutral': {
+              50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8',
+              500: '#64748B', 600: '#475569', 700: '#334155', 800: '#1E293B', 900: '#0F172A'
+            },
+            'danger': '#EF4444', 'success': '#22C55E', 'warning': '#F59E0B',
+          },
+          backgroundImage: {
+            'primary-gradient': 'linear-gradient(135deg, #4A55E7, #6875F5)',
+            'login-gradient': 'linear-gradient(135deg, #0F172A, #1E293B)',
+            'card-gradient': 'linear-gradient(145deg, #4A55E7, #3B47D9)',
+          },
+          boxShadow: {
+            'interactive': '0 0 0 4px rgba(74, 85, 231, 0.2)',
+            'card': '0 4px 12px rgba(0, 0, 0, 0.05)',
+            'card-hover': '0 10px 25px rgba(74, 85, 231, 0.1)',
+          },
+          keyframes: {
+            fadeInUp: { from: { opacity: '0', transform: 'translateY(15px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+            pulseGlow: { '50%': { boxShadow: '0 0 0 4px rgba(74, 85, 231, 0.4)' } },
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+            'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #0F172A;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body.app-loaded { background-color: #F8FAFC; }
+    .view-content { animation: fadeInUp 0.5s ease-out forwards; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #E2E8F0; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #94A3B8; border-radius: 3px; }
+    
+    .modal-container { 
+      position: fixed;
+      inset: 0;
+      pointer-events: none; 
+      opacity: 0; 
+      transition: opacity 0.25s ease;
+      z-index: 50;
+    }
+    .modal-container.is-open { pointer-events: auto; opacity: 1; }
+    .modal-content { transform: scale(0.95); transition: transform 0.25s ease; }
+    .modal-container.is-open .modal-content { transform: scale(1); }
+
+    .toast { transform: translateY(100%); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    .tab-list { display: flex; border-bottom: 2px solid #e2e8f0; }
+    .tab-trigger { padding: 0.75rem 1rem; font-weight: 600; color: #64748b; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
+    .tab-trigger[data-state="active"] { color: #4a55e7; border-bottom-color: #4a55e7; }
+    @media (min-width: 640px) { .tab-trigger { padding: 0.75rem 1.5rem; } }
+  </style>
+</head>
+<body class="text-neutral-800">
+  <div id="app"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // =================================================================================
+      // --- STATE & DATA ---
+      // =================================================================================
+      const state = {
+        isAuthenticated: true, // Always authenticated
+        user: { name: 'Alex Student', email: 'student@wits.ac.za', studentNumber: 'ST12345678', university: 'Wits University' },
+        activeView: 'dashboard',
+        isSidebarOpen: false,
+        activeTab: 'institutions',
+        modals: { profileSection: null, applicationSubmit: false },
+        searchQuery: { institutions: '', funding: '' },
+        filters: { institutions: { type: 'all' }, funding: { type: 'all', field: 'all' } },
+        selectedInstitutions: new Set(),
+        universalProfile: {
+          personal: { name: 'Alex', surname: 'Student', idNumber: '0102031234089', email: 'student@wits.ac.za', phone: '0821234567', address: '123 Main St, JHB', nextOfKin: 'Jane Student', nextOfKinContact: '0831234567' },
+          academic: { 
+            grade11: [], 
+            grade12: [
+              { name: 'Mathematics', mark: 85 }, 
+              { name: 'Physical Sciences', mark: 78 },
+              { name: 'English FAL', mark: 81 },
+              { name: 'Afrikaans HL', mark: 75 },
+              { name: 'Life Orientation', mark: 90 },
+              { name: 'Life Sciences', mark: 82 }
+            ],
+            priorQuals: [] 
+          },
+          documents: { id: { name: 'Certified_ID.pdf' }, transcript: { name: 'Matric_Results.pdf' }, proofResidence: { name: 'Utility_Bill.pdf' } },
+          get completion() {
+            const p = Object.values(this.personal).filter(v => v).length / Object.keys(this.personal).length * 100;
+            const a = (this.academic.grade12.length >= 6 ? 100 : 0);
+            const d = Object.values(this.documents).filter(v => v).length / 3 * 100;
+            return { personal: Math.round(p), academic: Math.round(a), documents: Math.round(d), total: Math.round((p + a + d) / 3) };
+          }
+        },
+        applications: [
+          { institution: 'University of Cape Town', date: '2025-10-28T10:00:00Z', status: 'Under Review' }
+        ],
+        shortlist: { institutions: new Set(), funding: new Set() },
+        qrCodeValue: `unilink-ID-ST12345678-${Date.now()}`,
+      };
+
+      const constants = {
+        navItems: [
+          { id: 'dashboard', label: 'Dashboard', icon: 'fa-solid fa-house' },
+          { id: 'digital-id', label: 'SA Student Pass', icon: 'fa-solid fa-id-card' },
+          { id: 'unilink-campus', label: 'unilink Campus', icon: 'fa-solid fa-school' },
+          { id: 'profile', label: 'Universal Profile', icon: 'fa-solid fa-user-pen' },
+          { id: 'apply', label: 'Institutions', icon: 'fa-solid fa-building-columns' },
+          { id: 'funding', label: 'Funding', icon: 'fa-solid fa-sack-dollar' },
+          { id: 'shortlist', label: 'My Shortlist', icon: 'fa-solid fa-star' },
+        ],
+        allInstitutions: [
+          { id: "inst1", name: "University of Cape Town", shortName: "UCT", location: "Western Cape", type: "Public University", logo: "building-columns", fields: ["Engineering", "Medicine", "Commerce"], requirements: { aps: 38, nbt: true } },
+          { id: "inst2", name: "University of the Witwatersrand", shortName: "Wits", location: "Gauteng", type: "Public University", logo: "landmark", fields: ["Law", "Health Sciences", "Humanities"], requirements: { aps: 40, nbt: true } },
+          { id: "inst3", name: "Stellenbosch University", shortName: "Maties", location: "Western Cape", type: "Public University", logo: "graduation-cap", fields: ["AgriSciences", "Arts", "Science"], requirements: { aps: 37, nbt: false } },
+          { id: "inst4", name: "Tshwane University of Technology", shortName: "TUT", location: "Gauteng", type: "University of Technology", logo: "gears", fields: ["Engineering", "ICT", "Management"], requirements: { aps: 28, nbt: false } },
+          { id: "inst5", name: "Cape Peninsula University of Technology", shortName: "CPUT", location: "Western Cape", type: "University of Technology", logo: "laptop-code", fields: ["Applied Sciences", "Business", "Design"], requirements: { aps: 30, nbt: false } },
+          { id: "tvet1", name: "False Bay TVET College", shortName: "False Bay", location: "Western Cape", type: "TVET College", logo: "tools", fields: ["Hospitality", "Business Studies", "Engineering"], requirements: { aps: 0, nbt: false } },
+        ],
+        fundingOpportunities: [
+          { id: "fund1", name: "NSFAS Funding", provider: "DHET", type: "Grant", value: "Full Cost of Study", eligibility: "SA Citizen, income < R350k/yr", closingDate: "2025-11-30", field: "All" },
+          { id: "fund2", name: "Funza Lushaka Bursary", provider: "Department of Education", type: "Bursary", value: "Full tuition + allowance", eligibility: "Intending to teach, 60%+ in matric", closingDate: "2026-02-28", field: "Education" },
+          { id: "fund3", name: "Vodacom Bursary", provider: "Vodacom", type: "Bursary", value: "Full tuition, books, accommodation", eligibility: "Under 25, 70%+ avg in STEM", closingDate: "2026-08-31", field: "STEM" },
+          { id: "fund4", name: "Sasol Bursary", provider: "Sasol", type: "Bursary", value: "Full tuition + allowance", eligibility: "Engineering/Chemistry, SA citizen", closingDate: "2026-06-15", field: "Engineering" },
+          { id: "fund5", name: "Allan Gray Orbis Fellowship", provider: "Allan Gray", type: "Scholarship", value: "Full tuition + mentorship", eligibility: "Grade 12, leadership potential", closingDate: "2026-05-30", field: "Commerce" },
+        ],
+        fieldsOfStudy: ['all', 'STEM', 'Commerce', 'Humanities', 'Health Sciences', 'Engineering', 'Education', 'Law', 'Arts', 'IT'],
+        institutionTypes: ['all', 'Public University', 'University of Technology', 'TVET College'],
+        fundingTypes: ['all', 'Bursary', 'Grant', 'Scholarship'],
+      };
+
+      const appContainer = document.getElementById('app');
+
+      // =================================================================================
+      // --- UTILITY FUNCTIONS ---
+      // =================================================================================
+      const createIcon = (name, className = '') => `<i class="${name} ${className}"></i>`;
+      const createTag = (text, colorKey = 'primary') => {
+        const colors = { primary: 'bg-primary/10 text-primary', accent: 'bg-accent/10 text-accent', success: 'bg-success/10 text-success', danger: 'bg-danger/10 text-danger', warning: 'bg-warning/10 text-warning', neutral: 'bg-neutral-200 text-neutral-600' };
+        return `<span class="inline-block rounded-full font-semibold uppercase tracking-wider px-2.5 py-1 text-xs ${colors[colorKey] || colors.primary}">${text}</span>`;
+      };
+      const createButton = ({ text, variant = 'primary', size = 'md', className = '', iconLeft = '', iconRight = '', action = '', disabled = false, type = 'button' }) => {
+        const base = 'inline-flex items-center justify-center font-semibold rounded-lg focus:outline-none focus:ring-4 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98]';
+        const variants = { 
+          primary: 'bg-primary-gradient text-primary-contrast hover:shadow-lg focus:ring-primary/30 shadow-md', 
+          secondary: 'bg-white text-neutral-800 border-2 border-neutral-200 hover:border-primary focus:ring-primary/30', 
+          ghost: 'bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-primary focus:ring-primary/30',
+        };
+        const sizes = { sm: 'px-3 py-2 text-sm', md: 'px-5 py-2.5 text-base', lg: 'px-7 py-3 text-lg' };
+        return `<button type="${type}" ${disabled ? 'disabled' : ''} class="${base} ${variants[variant]} ${sizes[size]} ${className}" data-action="${action}">
+          ${iconLeft ? createIcon(iconLeft, 'mr-2') : ''}${text}${iconRight ? createIcon(iconRight, 'ml-2') : ''}
+        </button>`;
+      };
+      const createProgressBar = (value) => `<div class="w-full bg-neutral-200 rounded-full h-2.5">
+        <div class="bg-primary h-2.5 rounded-full transition-all duration-500" style="width: ${Math.max(0, Math.min(100, value))}%"></div>
+      </div>`;
+      const createEmptyState = (icon, title, text, action = null) => `<div class="text-center p-8 sm:p-12 bg-neutral-100 rounded-2xl border-2 border-dashed border-neutral-200 col-span-full">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-neutral-200 flex items-center justify-center text-3xl text-neutral-500">${createIcon(icon)}</div>
+        <h3 class="text-xl font-bold text-neutral-800">${title}</h3>
+        <p class="text-base text-neutral-500 mt-2 max-w-md mx-auto">${text}</p>
+        ${action ? `<div class="mt-6">${action}</div>` : ''}
+      </div>`;
+      const createViewHeader = (title, subtitle, actions = '') => `<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 md:mb-8">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-extrabold text-neutral-900 tracking-tight">${title}</h1>
+          <p class="text-lg text-neutral-500 mt-1 md:mt-2">${subtitle}</p>
+        </div>
+        <div class="flex-shrink-0">${actions}</div>
+      </div>`;
+      const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
+      const showToast = (message, type = 'success', duration = 3000) => {
+        const toast = document.createElement('div');
+        toast.className = `toast fixed bottom-6 right-6 z-50 px-6 py-4 rounded-xl shadow-xl text-white font-semibold flex items-center gap-3 ${type === 'success' ? 'bg-success' : type === 'danger' ? 'bg-danger' : 'bg-primary'}`;
+        toast.innerHTML = `${createIcon(type === 'success' ? 'fa-solid fa-check-circle' : type === 'danger' ? 'fa-solid fa-exclamation-triangle' : 'fa-solid fa-info-circle')} <span>${message}</span>`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => document.body.removeChild(toast), 300);
+        }, duration);
+      };
+      const debounce = (func, wait) => {
+        let timeout;
+        return (...args) => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+      };
+
+      // =================================================================================
+      // --- UI COMPONENTS ---
+      // =================================================================================
+      const createSearchBar = (placeholder, value, action) => `
+        <div class="relative">
+          <input type="text" placeholder="${placeholder}" value="${value}" class="w-full pl-12 pr-4 py-3 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition text-base" data-action="${action}">
+          <div class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400">${createIcon('fa-solid fa-magnifying-glass')}</div>
+        </div>`;
+      const createFilterDropdown = (label, options, selected, action) => `
+        <div>
+          <label class="block text-sm font-medium text-neutral-600 mb-2">${label}</label>
+          <select class="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition" data-action="${action}">
+            ${options.map(opt => `<option value="${opt.value}" ${opt.value === selected ? 'selected' : ''}>${opt.label}</option>`).join('')}
+          </select>
+        </div>`;
+
+      // =================================================================================
+      // --- VIEWS ---
+      // =================================================================================
+      const renderDashboardView = () => {
+        const comp = state.universalProfile.completion;
+        const tasks = [
+          comp.personal < 100 && 'Complete your personal details',
+          comp.academic < 100 && 'Add your matric results',
+          comp.documents < 100 && 'Upload required documents',
+          state.shortlist.institutions.size < 1 && 'Shortlist at least 1 institution',
+        ].filter(Boolean);
+        return `
+          ${createViewHeader(`Welcome, ${state.user.name.split(' ')[0]}!`, "Here's your student journey at a glance.")}
+          <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div class="lg:col-span-3 space-y-6">
+              <div class="bg-gradient-to-br from-primary to-primary-dark p-6 sm:p-8 rounded-2xl shadow-xl text-white">
+                <div class="flex justify-between items-start mb-4">
+                  <div>
+                    <h2 class="text-2xl font-bold">Universal Application</h2>
+                    <p class="mt-1 opacity-80">Apply once, reach everywhere.</p>
+                  </div>
+                  <span class="text-5xl font-extrabold">${comp.total}%</span>
+                </div>
+                ${createProgressBar(comp.total)}
+                <div class="grid grid-cols-3 gap-3 text-center mt-6">
+                  <div><p class="font-bold text-lg">${comp.personal}%</p><p class="text-xs opacity-80">Personal</p></div>
+                  <div><p class="font-bold text-lg">${comp.academic}%</p><p class="text-xs opacity-80">Academic</p></div>
+                  <div><p class="font-bold text-lg">${comp.documents}%</p><p class="text-xs opacity-80">Documents</p></div>
+                </div>
+                <div class="mt-6">${createButton({ text: 'Continue Profile', action: 'navigate:profile', size: 'sm', variant: 'secondary', iconRight:'fa-solid fa-arrow-right' })}</div>
+              </div>
+
+              <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+                <h2 class="text-xl font-bold text-neutral-800 mb-4">Application Status</h2>
+                ${state.applications.length > 0 ? `<div class="space-y-4">
+                    ${state.applications.map(app => `
+                      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-4 rounded-xl bg-neutral-50">
+                        <div class="flex items-center gap-3">
+                          <div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center">${createIcon('fa-solid fa-building-columns')}</div>
+                          <div>
+                            <p class="font-semibold text-neutral-800">${app.institution}</p>
+                            <p class="text-sm text-neutral-500">Applied: ${formatDate(app.date)}</p>
+                          </div>
+                        </div>
+                        ${createTag(app.status, { 'Submitted': 'warning', 'Under Review': 'primary', 'Accepted': 'success' }[app.status] || 'neutral')}
+                      </div>`).join('')}
+                  </div>` : createEmptyState('fa-solid fa-inbox', 'No Applications Yet', 'Start applying to institutions to see your status here.', createButton({ text: 'Start Applying', action: 'navigate:apply', variant: 'primary', size: 'sm' }))}
+              </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+              <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+                <h2 class="text-xl font-bold text-neutral-800 mb-4">Quick Actions</h2>
+                <div class="grid grid-cols-2 gap-3">
+                  ${createButton({ text: 'Student Pass', action: 'navigate:digital-id', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-id-card' })}
+                  ${createButton({ text: 'Campus', action: 'navigate:unilink-campus', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-school' })}
+                  ${createButton({ text: 'Profile', action: 'navigate:profile', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-user-pen' })}
+                  ${createButton({ text: 'Shortlist', action: 'navigate:shortlist', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-star' })}
+                </div>
+              </div>
+              <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+                <h2 class="text-xl font-bold text-neutral-800 mb-4">To-Do List</h2>
+                ${tasks.length > 0 ? `<ul class="space-y-3">
+                    ${tasks.slice(0, 3).map(task => `<li class="flex items-center gap-3 text-sm">
+                        <div class="w-5 h-5 rounded-full border-2 border-neutral-300 flex-shrink-0"></div>
+                        <span class="text-neutral-600">${task}</span>
+                      </li>`).join('')}
+                  </ul>` : `<p class="text-sm text-success font-semibold flex items-center gap-2">${createIcon('fa-solid fa-check-circle')} You're all set!</p>`}
+              </div>
+            </div>
+          </div>`;
+      };
+
+      const renderDigitalIdView = () => {
+        return `
+          ${createViewHeader('SA Student Pass', 'Your secure digital identity for campus access.')}
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+              <div class="bg-card-gradient text-white p-6 sm:p-8 rounded-2xl shadow-2xl relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
+                <div class="absolute -bottom-12 -left-8 w-32 h-32 bg-white/10 rounded-full"></div>
+                <div class="relative z-10">
+                  <div class="flex flex-col-reverse sm:flex-row sm:items-start sm:justify-between mb-6">
+                    <div>
+                      <h2 class="text-2xl font-bold tracking-tight">${state.user.name}</h2>
+                      <p class="text-base opacity-80">${state.user.university}</p>
+                      <p class="text-sm opacity-60">Student No: ${state.user.studentNumber}</p>
+                    </div>
+                    <img src="https://i.pravatar.cc/80?u=${state.user.email}" class="w-20 h-20 rounded-full border-4 border-white/50 shadow-lg mb-4 sm:mb-0"/>
+                  </div>
+                  <div class="bg-white p-4 rounded-xl flex items-center justify-center">
+                    <canvas id="qr-code"></canvas>
+                  </div>
+                  <p class="text-center font-semibold mt-4 text-sm">Scan for library, access, and partner discounts</p>
+                  <p class="text-center text-xs opacity-80 mt-1">(Refreshes every 5 minutes for security)</p>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-6">
+              <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+                <div class="w-12 h-12 rounded-xl bg-danger/10 text-danger flex items-center justify-center text-2xl mb-4">${createIcon('fa-solid fa-file-signature')}</div>
+                <h3 class="text-xl font-bold text-neutral-800">Exam Entry</h3>
+                <p class="text-neutral-600 mt-2 text-sm">For official exams, please present your physical university-issued exam card.</p>
+              </div>
+              <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+                <div class="w-12 h-12 rounded-xl bg-success/10 text-success flex items-center justify-center text-2xl mb-4">${createIcon('fa-solid fa-wifi')}</div>
+                <h3 class="text-xl font-bold text-neutral-800">Works Offline</h3>
+                <p class="text-neutral-600 mt-2 text-sm">Your pass works without an internet connection. Just open the app.</p>
+              </div>
+            </div>
+          </div>`;
+      };
+
+      const renderunilinkCampusView = () => {
+        return `
+          ${createViewHeader('unilink Digital Campus', 'Your unified academic and social hub.')}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+              <h3 class="text-xl font-bold text-neutral-800 mb-3">Personal Dashboard</h3>
+              <p class="text-neutral-600">Assignments, events, deadlines, and study group summaries will be displayed here.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+              <h3 class="text-xl font-bold text-neutral-800 mb-3">Course Channels</h3>
+              <p class="text-neutral-600">Threaded discussions by course and topic.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+              <h3 class="text-xl font-bold text-neutral-800 mb-3">Community Spaces</h3>
+              <p class="text-neutral-600">University-wide and cross-institutional communities.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+              <h3 class="text-xl font-bold text-neutral-800 mb-3">Collaborative Tools</h3>
+              <p class="text-neutral-600">File sharing and real-time document editing.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+              <h3 class="text-xl font-bold text-neutral-800 mb-3">Mentorship</h3>
+              <p class="text-neutral-600">Connect with verified mentors based on interests.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
+              <h3 class="text-xl font-bold text-neutral-800 mb-3">Wellness & Gamification</h3>
+              <p class="text-neutral-600">Mood tracking and study streak rewards.</p>
+            </div>
+          </div>`;
+      };
+
+      const renderProfileView = () => {
+        const { personal, academic, documents, total } = state.universalProfile.completion;
+        const section = (title, icon, progress, description, sectionId) => `
+          <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200 cursor-pointer hover:shadow-card-hover transition" data-action="open-modal:profileSection:${sectionId}">
+            <div class="flex items-center mb-3">
+              <div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mr-4 text-xl">${createIcon(icon)}</div>
+              <h3 class="text-lg sm:text-xl font-bold text-neutral-800 flex-grow">${title}</h3>
+              <span class="font-bold text-primary">${progress}%</span>
+            </div>
+            ${createProgressBar(progress)}
+            <p class="text-neutral-500 text-sm my-4 h-10">${description}</p>
+            <div class="flex justify-end">
+              ${createButton({ text: progress === 100 ? 'View' : 'Edit', variant: 'secondary', size: 'sm', iconLeft: 'fa-solid fa-pen-to-square' })}
+            </div>
+          </div>`;
+        return `
+          ${createViewHeader('Universal Profile', `Complete once, apply everywhere. Overall progress: <strong class="text-primary">${total}%</strong>`)}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${section('Personal Details', 'fa-solid fa-id-card', personal, 'Name, contact info, and next of kin details.', 'personal')}
+            ${section('Academic History', 'fa-solid fa-graduation-cap', academic, 'Matric results and prior qualifications.', 'academic')}
+            ${section('Documents', 'fa-solid fa-file-arrow-up', documents, 'Certified ID, transcripts, and proof of residence.', 'documents')}
+          </div>
+        `;
+      };
+
+      const renderInstitutionCard = (inst) => {
+        const isShortlisted = state.shortlist.institutions.has(inst.id);
+        const isSelected = state.selectedInstitutions.has(inst.id);
+        return `
+          <div class="bg-white rounded-2xl border-2 ${isShortlisted ? 'border-primary' : isSelected ? 'border-accent' : 'border-neutral-200'} overflow-hidden transition-all duration-300 group shadow-card hover:shadow-card-hover hover:-translate-y-1 flex flex-col h-full">
+            <div class="p-5 flex flex-col h-full">
+              <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-2xl">${createIcon(`fa-solid fa-${inst.logo}`)}</div>
+                <button data-action="toggle-shortlist:institutions:${inst.id}" class="w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isShortlisted ? 'text-yellow-400 bg-yellow-400/10' : 'text-neutral-400 hover:bg-neutral-100'}">
+                  ${createIcon(`fa-${isShortlisted ? 'solid' : 'regular'} fa-star`, 'text-xl')}
+                </button>
+              </div>
+              <div class="flex-grow">
+                <h3 class="font-bold text-lg text-neutral-800 group-hover:text-primary transition-colors">${inst.name}</h3>
+                <p class="text-sm text-neutral-500 flex items-center mt-1">${createIcon('fa-solid fa-location-dot', 'mr-1.5')} ${inst.location}</p>
+                <div class="flex flex-wrap gap-1.5 mt-3">
+                  ${inst.fields.slice(0, 3).map(field => createTag(field, 'neutral')).join('')}
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-neutral-200">
+                <div class="flex justify-between text-xs text-neutral-500 mb-2">
+                  <span>Min APS: <strong>${inst.requirements.aps}</strong></span>
+                  <span>NBT: ${inst.requirements.nbt ? 'Required' : 'Not required'}</span>
+                </div>
+                <button data-action="toggle-selection:institutions:${inst.id}" class="w-full text-center py-2.5 mt-2 rounded-lg border-2 ${isSelected ? 'border-accent bg-accent/5 text-accent' : 'border-neutral-300 hover:border-accent'} text-sm font-semibold transition">
+                  ${isSelected ? `${createIcon('fa-solid fa-check', 'mr-2')}Selected` : 'Select for Application'}
+                </button>
+              </div>
+            </div>
+          </div>`;
+      };
+
+      const renderFundingCard = (fund) => {
+        const isShortlisted = state.shortlist.funding.has(fund.id);
+        const daysLeft = Math.ceil((new Date(fund.closingDate) - new Date()) / 86400000);
+        const status = daysLeft <= 0 ? 'Closed' : daysLeft <= 14 ? 'Closing Soon' : 'Open';
+        return `
+          <div class="bg-white rounded-2xl border-2 ${isShortlisted ? 'border-primary' : 'border-neutral-200'} overflow-hidden transition-all duration-300 group shadow-card hover:shadow-card-hover hover:-translate-y-1 flex flex-col h-full">
+            <div class="p-5 flex flex-col h-full">
+              <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-lg text-neutral-800 group-hover:text-primary transition-colors flex-grow pr-4">${fund.name}</h3>
+                <button data-action="toggle-shortlist:funding:${fund.id}" class="w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isShortlisted ? 'text-yellow-400 bg-yellow-400/10' : 'text-neutral-400 hover:bg-neutral-100'}">
+                  ${createIcon(`fa-${isShortlisted ? 'solid' : 'regular'} fa-star`, 'text-xl')}
+                </button>
+              </div>
+              <p class="text-sm text-neutral-500 font-medium mb-3">${fund.provider}</p>
+              <div class="flex-grow space-y-2 text-sm text-neutral-600 mb-4">
+                <p><strong class="font-semibold text-neutral-700">Value:</strong> ${fund.value}</p>
+                <p><strong class="font-semibold text-neutral-700">Field:</strong> ${fund.field}</p>
+              </div>
+              <div class="mt-4 pt-4 border-t border-neutral-200 flex justify-between items-center text-sm">
+                ${createTag(status, status === 'Open' ? 'success' : status === 'Closing Soon' ? 'warning' : 'neutral')}
+                <span class="text-neutral-500 font-medium">${daysLeft > 0 ? `${daysLeft} days left` : 'Closed'}</span>
+              </div>
+            </div>
+          </div>`;
+      };
+
+      const renderApplyView = () => {
+        const filteredInstitutions = constants.allInstitutions
+          .filter(inst => state.searchQuery.institutions === '' || inst.name.toLowerCase().includes(state.searchQuery.institutions.toLowerCase()))
+          .filter(inst => state.filters.institutions.type === 'all' || inst.type === state.filters.institutions.type);
+        return `
+          ${createViewHeader('Institution Discovery', 'Select up to 5 institutions to apply to.', 
+            `${createButton({ text: `Submit (${state.selectedInstitutions.size})`, action: 'open-modal:applicationSubmit', variant: 'primary', disabled: state.selectedInstitutions.size === 0 })}`)}
+          <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-card border border-neutral-200 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <div class="md:col-span-3">${createSearchBar('Search institutions...', state.searchQuery.institutions, 'search:institutions')}</div>
+              <div class="md:col-span-2">${createFilterDropdown('Type', constants.institutionTypes.map(t => ({ label: t === 'all' ? 'All Types' : t, value: t })), state.filters.institutions.type, 'filter:institutions:type')}</div>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            ${filteredInstitutions.length ? filteredInstitutions.map(renderInstitutionCard).join('') : createEmptyState('fa-solid fa-building', 'No institutions found', 'Try adjusting your search or filters.')}
+          </div>`;
+      };
+
+      const renderFundingView = () => {
+        const filteredFunding = constants.fundingOpportunities
+          .filter(fund => state.searchQuery.funding === '' || fund.name.toLowerCase().includes(state.searchQuery.funding.toLowerCase()))
+          .filter(fund => state.filters.funding.type === 'all' || fund.type === state.filters.funding.type)
+          .filter(fund => state.filters.funding.field === 'all' || fund.field === state.filters.funding.field);
+        return `
+          ${createViewHeader('Funding Opportunities', 'Discover bursaries, grants, and scholarships.')}
+          <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-card border border-neutral-200 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              ${createSearchBar('Search funding...', state.searchQuery.funding, 'search:funding')}
+              ${createFilterDropdown('Type', constants.fundingTypes.map(t => ({ label: t === 'all' ? 'All Types' : t, value: t })), state.filters.funding.type, 'filter:funding:type')}
+              ${createFilterDropdown('Field', constants.fieldsOfStudy.map(f => ({ label: f, value: f })), state.filters.funding.field, 'filter:funding:field')}
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${filteredFunding.length ? filteredFunding.map(renderFundingCard).join('') : createEmptyState('fa-solid fa-sack-dollar', 'No funding found', 'Try adjusting your search or filters.')}
+          </div>`;
+      };
+
+      const renderShortlistView = () => {
+        const instShortlist = Array.from(state.shortlist.institutions).map(id => constants.allInstitutions.find(i => i.id === id)).filter(Boolean);
+        const fundShortlist = Array.from(state.shortlist.funding).map(id => constants.fundingOpportunities.find(f => f.id === id)).filter(Boolean);
+        return `
+          ${createViewHeader('My Shortlist', "Review your saved items.")}
+          <div class="tab-list mb-6 overflow-x-auto">
+            <button class="tab-trigger" data-state="${state.activeTab === 'institutions' ? 'active' : 'inactive'}" data-action="switch-tab:institutions">
+              ${createIcon('fa-solid fa-building-columns', 'mr-2')} Institutions
+            </button>
+            <button class="tab-trigger" data-state="${state.activeTab === 'funding' ? 'active' : 'inactive'}" data-action="switch-tab:funding">
+              ${createIcon('fa-solid fa-sack-dollar', 'mr-2')} Funding
+            </button>
+          </div>
+          ${state.activeTab === 'institutions' ? `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              ${instShortlist.length ? instShortlist.map(renderInstitutionCard).join('') : createEmptyState('fa-solid fa-star', 'No institutions shortlisted', 'Browse the Institutions page to save your favorites.')}
+            </div>` : `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              ${fundShortlist.length ? fundShortlist.map(renderFundingCard).join('') : createEmptyState('fa-solid fa-star', 'No funding shortlisted', 'Explore the Funding page to find opportunities.')}
+            </div>`}`;
+      };
+
+      // =================================================================================
+      // --- MODALS ---
+      // =================================================================================
+      const renderProfileSectionModal = () => {
+        const section = state.modals.profileSection;
+        if (!section) return '';
+        const forms = {
+          personal: `<p class="text-neutral-600 text-center py-8">Personal details form would go here.</p>`,
+          academic: `<p class="text-neutral-600 text-center py-8">Academic history form would go here.</p>`,
+          documents: `<p class="text-neutral-600 text-center py-8">Document upload interface would go here.</p>`
+        };
+        const titles = { personal: 'Personal Details', academic: 'Academic History', documents: 'Upload Documents' };
+        return `<div class="modal-container is-open" data-modal="profileSection">
+          <div class="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm z-40" data-action="close-modal:profileSection"></div>
+          <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div class="modal-content bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+              <div class="p-6 border-b border-neutral-200 flex justify-between items-center">
+                <h2 class="text-xl font-bold text-neutral-800">${titles[section]}</h2>
+                <button class="text-neutral-400 hover:text-neutral-600" data-action="close-modal:profileSection">${createIcon('fa-solid fa-times', 'text-xl')}</button>
+              </div>
+              <div class="p-6 flex-grow overflow-y-auto custom-scrollbar">${forms[section]}</div>
+            </div>
+          </div>
+        </div>`;
+      };
+
+      const renderApplicationSubmitModal = () => {
+        if (!state.modals.applicationSubmit) return '';
+        return `<div class="modal-container is-open" data-modal="applicationSubmit">
+          <div class="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm z-40" data-action="close-modal:applicationSubmit"></div>
+          <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div class="modal-content bg-white rounded-2xl shadow-xl w-full max-w-lg">
+              <div class="p-6">
+                <h2 class="text-2xl font-bold text-neutral-800 text-center mb-2">Final Review</h2>
+                <p class="text-center text-neutral-500 mb-6">Submit your universal profile to ${state.selectedInstitutions.size} institution(s).</p>
+                <div class="space-y-3 mb-6">
+                  ${Array.from(state.selectedInstitutions).map(id => constants.allInstitutions.find(i => i.id === id)).filter(Boolean).map(inst => `
+                    <div class="flex items-center gap-3 p-3 bg-neutral-100 rounded-lg">
+                      <div class="w-8 h-8 rounded-md bg-primary/10 text-primary flex items-center justify-center">${createIcon(`fa-solid fa-${inst.logo}`)}</div>
+                      <p class="font-semibold text-neutral-700">${inst.name}</p>
+                    </div>`).join('')}
+                </div>
+                <div class="flex justify-end gap-3">
+                  ${createButton({ text: 'Cancel', variant: 'secondary', size: 'md', action: 'close-modal:applicationSubmit' })}
+                  ${createButton({ text: 'Confirm & Submit', variant: 'primary', size: 'md', action: 'confirm-submit' })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      };
+
+      // =================================================================================
+      // --- MAIN APP STRUCTURE ---
+      // =================================================================================
+      const renderSidebar = () => {
+        return `
+        <aside class="w-64 bg-neutral-900 text-neutral-200 flex flex-col p-4 fixed inset-y-0 left-0 z-40 transition-transform duration-300 lg:translate-x-0 ${state.isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}">
+          <div class="text-center py-4 mb-4">
+            <h1 class="text-3xl font-extrabold text-white">unilink<span class="text-primary-light">.</span></h1>
+          </div>
+          <nav class="flex-grow custom-scrollbar overflow-y-auto"><ul>
+            ${constants.navItems.map(item => `<li>
+                <a href="#" class="flex items-center px-4 py-3 my-1 rounded-lg transition-colors ${state.activeView === item.id ? 'bg-primary text-white font-semibold' : 'hover:bg-neutral-800'}" data-action="navigate:${item.id}">
+                  ${createIcon(item.icon, 'w-6 text-center text-lg')}
+                  <span class="ml-3">${item.label}</span>
+                </a></li>`).join('')}
+          </ul></nav>
+          <div class="pt-4 border-t border-neutral-700">
+            <div class="flex items-center gap-3 p-2 rounded-lg">
+              <img src="https://i.pravatar.cc/40?u=${state.user.email}" class="w-10 h-10 rounded-full"/>
+              <div class="flex-grow">
+                <p class="font-semibold text-white text-sm">${state.user.name}</p>
+                <p class="text-xs text-neutral-400">${state.user.email}</p>
+              </div>
+            </div>
+          </div>
+        </aside>`;
+      };
+
+      const renderMobileHeader = () => {
+        const currentNavItem = constants.navItems.find(item => item.id === state.activeView);
+        return `
+          <header class="sticky top-0 bg-neutral-50/80 backdrop-blur-sm z-20 flex items-center justify-between p-4 border-b border-neutral-200 lg:hidden">
+            <button data-action="open-sidebar" class="text-neutral-600">${createIcon('fa-solid fa-bars', 'text-2xl')}</button>
+            <h1 class="text-lg font-bold text-neutral-800">${currentNavItem?.label || 'Dashboard'}</h1>
+            <div class="w-8"></div>
+          </header>`;
+      };
+
+      const render = () => {
+        document.body.classList.add('app-loaded');
+
+        const viewRenderers = { 
+          dashboard: renderDashboardView, 
+          'digital-id': renderDigitalIdView, 
+          'unilink-campus': renderunilinkCampusView,
+          profile: renderProfileView, 
+          apply: renderApplyView, 
+          funding: renderFundingView, 
+          shortlist: renderShortlistView 
+        };
+        const viewContent = viewRenderers[state.activeView] ? viewRenderers[state.activeView]() : `<h2>Not Found</h2>`;
+
+        appContainer.innerHTML = `
+          <div class="flex min-h-screen">
+            ${renderSidebar()}
+            ${state.isSidebarOpen ? `<div class="fixed inset-0 bg-black/50 z-30 lg:hidden" data-action="close-sidebar"></div>` : ''}
+            <div class="flex-grow lg:ml-64 transition-all duration-300 flex flex-col">
+              ${renderMobileHeader()}
+              <main class="flex-grow p-4 sm:p-6 lg:p-8"><div class="view-content">${viewContent}</div></main>
+            </div>
+          </div>
+          ${state.modals.profileSection ? renderProfileSectionModal() : ''}
+          ${renderApplicationSubmitModal()}`;
+
+        // Generate QR Code
+        if (state.activeView === 'digital-id') {
+          setTimeout(() => {
+            const canvas = document.getElementById('qr-code');
+            if (canvas && window.QRious) {
+              new QRious({ element: canvas, value: state.qrCodeValue, size: 200, padding: 10 });
+            }
+          }, 100);
+        }
+      };
+
+      // =================================================================================
+      // --- EVENT HANDLING ---
+      // =================================================================================
+      const handleEvent = (e) => {
+        const actionTarget = e.target.closest('[data-action]');
+        const inputTarget = e.target.closest('input[data-action], select[data-action]');
+
+        if (e.type === 'click' && actionTarget) {
+          e.preventDefault();
+          const action = actionTarget.dataset.action;
+          const [type, ...params] = action.split(':');
+
+          switch (type) {
+            case 'navigate':
+              state.activeView = params[0];
+              if (window.innerWidth < 1024) state.isSidebarOpen = false;
+              window.scrollTo(0, 0);
+              break;
+            case 'open-sidebar': 
+              state.isSidebarOpen = true; 
+              break;
+            case 'close-sidebar': 
+              state.isSidebarOpen = false; 
+              break;
+            case 'open-modal':
+              if (params[0] === 'profileSection') state.modals.profileSection = params[1];
+              else state.modals[params[0]] = true;
+              break;
+            case 'close-modal':
+              if (params[0] === 'profileSection') state.modals.profileSection = null;
+              else state.modals[params[0]] = false;
+              break;
+            case 'toggle-shortlist':
+              const [list, id] = params;
+              if (state.shortlist[list].has(id)) state.shortlist[list].delete(id);
+              else state.shortlist[list].add(id);
+              break;
+            case 'toggle-selection':
+              const set = state.selectedInstitutions;
+              if (set.has(params[1])) set.delete(params[1]);
+              else if (set.size < 5) set.add(params[1]);
+              else showToast('You can select a maximum of 5 institutions.', 'warning');
+              break;
+            case 'switch-tab': 
+              state.activeTab = params[0]; 
+              break;
+            case 'confirm-submit':
+              Array.from(state.selectedInstitutions).forEach(id => {
+                const inst = constants.allInstitutions.find(i => i.id === id);
+                if(inst) state.applications.push({ institution: inst.name, date: new Date().toISOString(), status: 'Submitted' });
+              });
+              state.selectedInstitutions.clear();
+              state.modals.applicationSubmit = false;
+              state.activeView = 'dashboard';
+              showToast('Application submitted successfully!', 'success');
+              break;
+          }
+          render();
+        }
+
+        if (e.type === 'input' && inputTarget) {
+          const action = inputTarget.dataset.action;
+          const [type, list, filterType] = action.split(':');
+          if (type === 'search') {
+            state.searchQuery[list] = inputTarget.value;
+          } else if (type === 'filter') {
+            state.filters[list][filterType] = inputTarget.value;
+          }
+          render();
+        }
+      };
+
+      const init = () => {
+        const debouncedInputHandler = debounce(handleEvent, 300);
+        appContainer.addEventListener('click', handleEvent);
+        appContainer.addEventListener('input', e => {
+          const action = e.target.dataset.action || '';
+          if (action.startsWith('search')) debouncedInputHandler(e);
+          else handleEvent(e);
+        });
+        render();
+      };
+
+      init();
+    });
+  </script>
+</body>
+</html>

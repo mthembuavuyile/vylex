@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vylex Academy Advanced Encryption</title>
+    <link rel="icon" href="/assets/favicon.png" type="image/x-icon">
+    <meta name="description" content="Advanced symmetric encryption tool by Vylex Academy. Secure your messages with multiple encryption algorithms and customizable settings.">
+    <style>
+        :root {
+            --primary-color: #0a0e17;
+            --secondary-color: #1a1f2b;
+            --accent-color: #00e5ff;
+            --alt-accent: #ff3e7f;
+            --text-color: #ffffff;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image: linear-gradient(135deg, #0a0e17 0%, #141b2d 100%);
+        }
+
+        .container {
+            background-color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            display: inline-block;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--accent-color), var(--alt-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: -0.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            background: rgba(0, 229, 255, 0.1);
+            border-bottom: 3px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .section-title {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: "〉";
+            margin-right: 0.5rem;
+            color: var(--alt-accent);
+        }
+
+        .rotors, .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+
+        .rotor-group {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .rotor-label {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .rotor-input {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--primary-color);
+            border: 2px solid var(--accent-color);
+            color: var(--text-color);
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .algo-select, .key-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary-color);
+            border: 2px solid var(--accent-color);
+            color: var(--text-color);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .input-group, .output-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 1rem;
+            background: var(--primary-color);
+            border: 2px solid var(--accent-color);
+            color: var(--text-color);
+            border-radius: 10px;
+            resize: vertical;
+            font-size: 1rem;
+            transition: border-color var(--transition-speed);
+            font-family: 'Courier New', monospace;
+        }
+
+        textarea:focus, select:focus, input:focus {
+            outline: none;
+            border-color: var(--alt-accent);
+            box-shadow: 0 0 10px rgba(255, 62, 127, 0.3);
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 140px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(90deg, var(--accent-color), #00b8cc);
+            color: #001a1f;
+        }
+
+        .secondary-btn {
+            background: linear-gradient(90deg, var(--alt-accent), #cc1659);
+            color: #fff;
+        }
+
+        .utility-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .output {
+            background: var(--primary-color);
+            padding: 1rem;
+            border-radius: 10px;
+            min-height: 120px;
+            border: 2px solid var(--accent-color);
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+
+        .output-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
+        }
+
+        .output-controls button {
+            padding: 0.3rem 0.8rem;
+            min-width: auto;
+            font-size: 0.8rem;
+            background: rgba(0, 229, 255, 0.15);
+            margin-left: 0.5rem;
+        }
+
+        .calculation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .calculation-animation {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 229, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid var(--accent-color);
+            animation: spin 1s linear infinite;
+        }
+
+        .status-bar {
+            margin-top: 1rem;
+            width: 200px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .status-progress {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-color);
+            transition: width 0.3s linear;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .footer a:hover {
+            color: var(--alt-accent);
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .switch-label {
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-color);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--accent-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .info-tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 0.5rem;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: help;
+        }
+
+        .info-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #000 transparent transparent transparent;
+        }
+
+        .strength-meter {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s, background-color 0.3s;
+        }
+
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 0.5rem;
+        }
+
+        .history-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .history-item:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        .history-item-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+        }
+
+        .history-item-algo {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .advanced-settings {
+            display: none;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .advanced-toggle {
+            color: var(--accent-color);
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .rotors {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo">Vylex Academy</div>
+            <div class="tagline">Advanced Symmetric Encryption Tool</div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-panel="panel-classic">Classic Encryption</div>
+            <div class="tab" data-panel="panel-modern">Modern Encryption</div>
+            <div class="tab" data-panel="panel-history">History</div>
+            <div class="tab" data-panel="panel-learn">Learn</div>
+        </div>
+        
+        <!-- Classic Encryption Panel -->
+        <div class="panel active" id="panel-classic">
+            <div class="section">
+                <div class="section-title">Rotor Configuration</div>
+                <div class="rotors">
+                    <div class="rotor-group">
+                        <label class="rotor-label">ROTOR I</label>
+                        <input type="number" id="rotor1" class="rotor-input" min="0" max="25" value="0">
+                    </div>
+                    <div class="rotor-group">
+                        <label class="rotor-label">ROTOR II</label>
+                        <input type="number" id="rotor2" class="rotor-input" min="0" max="25" value="0">
+                    </div>
+                    <div class="rotor-group">
+                        <label class="rotor-label">ROTOR III</label>
+                        <input type="number" id="rotor3" class="rotor-input" min="0" max="25" value="0">
+                    </div>
+                    <div class="rotor-group">
+                        <label class="rotor-label">REFLECTOR</label>
+                        <select id="reflector" class="rotor-input">
+                            <option value="standard">Standard</option>
+                            <option value="wide">Wide</option>
+                            <option value="thin">Thin</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="switch-container">
+                    <label class="switch">
+                        <input type="checkbox" id="plugboard-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="switch-label">Enable Plugboard</span>
+                    <div class="info-tooltip">?
+                        <span class="tooltip-text">Plugboard allows for additional character swapping before and after rotor encryption</span>
+                    </div>
+                </div>
+                
+                <div id="plugboard-settings" style="display: none;">
+                    <label>Plugboard Pairs (ex: AB CD EF):</label>
+                    <input type="text" id="plugboard-pairs" class="key-input" placeholder="Enter character pairs separated by spaces">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="classic-input">MESSAGE:</label>
+                <textarea id="classic-input" placeholder="Enter message to encrypt/decrypt..."></textarea>
+            </div>
+
+            <div class="button-container">
+                <button class="primary-btn" onclick="processClassic('encrypt')">ENCRYPT</button>
+                <button class="secondary-btn" onclick="processClassic('decrypt')">DECRYPT</button>
+                <button class="utility-btn" onclick="randomizeRotors()">RANDOMIZE</button>
+                <button class="utility-btn" onclick="clearClassic()">CLEAR</button>
+            </div>
+
+            <div class="output-group">
+                <label>RESULT:</label>
+                <div id="classic-output" class="output"></div>
+                <div class="output-controls">
+                    <button onclick="copyToClipboard('classic-output')">Copy</button>
+                    <button onclick="downloadText('classic-output', 'vylex-encryption')">Download</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modern Encryption Panel -->
+        <div class="panel" id="panel-modern">
+            <div class="section">
+                <div class="section-title">Encryption Settings</div>
+                <div class="controls">
+                    <div style="flex: 2;">
+                        <label>Algorithm:</label>
+                        <select id="algorithm" class="algo-select">
+                            <option value="aes">AES (Advanced Encryption Standard)</option>
+                            <option value="des">Triple DES</option>
+                            <option value="rc4">RC4 Stream Cipher</option>
+                            <option value="custom">Custom Vylex Cipher</option>
+                        </select>
+                    </div>
+                    <div style="flex: 3;">
+                        <label>Encryption Key:</label>
+                        <input type="text" id="encrypt-key" class="key-input" placeholder="Enter your secret key">
+                        <div class="strength-meter">
+                            <div id="key-strength" class="strength-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="advanced-toggle" onclick="toggleAdvancedSettings()">Advanced Settings</div>
+                <div id="advanced-settings" class="advanced-settings">
+                    <div class="controls">
+                        <div style="flex: 1;">
+                            <label>Iterations:</label>
+                            <input type="number" id="iterations" class="key-input" value="1000" min="1">
+                        </div>
+                        <div style="flex: 1;">
+                            <label>IV Format:</label>
+                            <select id="iv-format" class="algo-select">
+                                <option value="random">Random (Recommended)</option>
+                                <option value="key-derived">Key-Derived</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label>Output Format:</label>
+                            <select id="output-format" class="algo-select">
+                                <option value="base64">Base64</option>
+                                <option value="hex">Hexadecimal</option>
+                                <option value="binary">Binary</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="modern-input">MESSAGE:</label>
+                <textarea id="modern-input" placeholder="Enter message to encrypt/decrypt..."></textarea>
+            </div>
+
+            <div class="button-container">
+                <button class="primary-btn" onclick="processModern('encrypt')">ENCRYPT</button>
+                <button class="secondary-btn" onclick="processModern('decrypt')">DECRYPT</button>
+                <button class="utility-btn" onclick="generateSecureKey()">GENERATE KEY</button>
+                <button class="utility-btn" onclick="clearModern()">CLEAR</button>
+            </div>
+
+            <div class="output-group">
+                <label>RESULT:</label>
+                <div id="modern-output" class="output"></div>
+                <div class="output-controls">
+                    <button onclick="copyToClipboard('modern-output')">Copy</button>
+                    <button onclick="downloadText('modern-output', 'vylex-encryption')">Download</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- History Panel -->
+        <div class="panel" id="panel-history">
+            <div class="section">
+                <div class="section-title">Encryption History</div>
+                <div id="history-list" class="history-list">
+                    <!-- History items will be populated here -->
+                </div>
+            </div>
+            
+            <div class="button-container">
+                <button class="utility-btn" onclick="clearHistory()">Clear History</button>
+            </div>
+        </div>
+        
+        <!-- Learn Panel -->
+        <div class="panel" id="panel-learn">
+            <div class="section">
+                <div class="section-title">Encryption Basics</div>
+                <p>Symmetric encryption uses the same key for both encryption and decryption. This makes it fast and efficient, but requires secure key exchange.</p>
+                <br>
+                <h3 style="color: var(--accent-color);">Available Algorithms:</h3>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li><strong>Classic Enigma:</strong> Based on the WWII encryption machine with rotors and reflectors.</li>
+                    <li><strong>AES:</strong> Advanced Encryption Standard, modern and highly secure.</li>
+                    <li><strong>Triple DES:</strong> An extension of the Data Encryption Standard.</li>
+                    <li><strong>RC4:</strong> A simple stream cipher (not recommended for high security).</li>
+                    <li><strong>Vylex Cipher:</strong> A custom-designed cipher for educational purposes.</li>
+                </ul>
+                <br>
+                <p>For maximum security:</p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>Use long, complex keys with mixed characters</li>
+                    <li>Never reuse the same key</li>
+                    <li>Choose modern algorithms (AES) for sensitive data</li>
+                    <li>Use a secure channel to share your encryption key</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            Vylex Academy Advanced Encryption Tool &copy; 2025<br>
+            <a href="https://vylexnexys.co.za/" target="_top">Visit Vylex Academy</a> | <a href="https://avuyilemthembu.co.za/" onclick="showCredits()">About</a>
+        </div>
+    </div>
+
+    <div class="calculation-overlay">
+        <div class="calculation-animation">PROCESSING ENCRYPTION</div>
+        <div class="loader"></div>
+        <div class="status-bar">
+            <div class="status-progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Core encryption algorithms
+        const rotor1 = 'EKMFLGDQVZNTOWYHXUSPAIBRCJ';
+        const rotor2 = 'AJDKSIRUXBLHWTMCQGZNPYFVOE';
+        const rotor3 = 'BDFHJLCPRTXVZNYEIWGAKMUSQO';
+        const rotor4 = 'ESOVPZJAYQUIRHXLNFTGKDCMWB'; // Additional rotor
+        const rotor5 = 'VZBRGITYUPSDNHLXAWMJQOFECK'; // Additional rotor
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        
+        // Reflectors
+        const reflectors = {
+            standard: 'YRUHQSLDPXNGOKMIEBFZCWVJAT',
+            wide: 'FVPJIAOYEDRZXWGCTKUQSBNMHL',
+            thin: 'ENKQAUYWJICOPBLMDXZVFTHRGS'
+        };
+        
+        // Encryption history storage
+        let encryptionHistory = [];
+        
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.panel).classList.add('active');
+            });
+        });
+        
+        // Plugboard toggle
+        document.getElementById('plugboard-toggle').addEventListener('change', function() {
+            document.getElementById('plugboard-settings').style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Function to toggle advanced settings
+        function toggleAdvancedSettings() {
+            const advancedSettings = document.getElementById('advanced-settings');
+            advancedSettings.style.display = advancedSettings.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Classic Enigma functions
+        function rotateString(str, positions) {
+            return str.slice(positions) + str.slice(0, positions);
+        }
+        
+        function applyPlugboard(char, pairs) {
+            if (!alphabet.includes(char.toUpperCase())) {
+                return char;
+            }
+            
+            const pairsArray = pairs.toUpperCase().split(' ');
+            for (const pair of pairsArray) {
+                if (pair.length === 2) {
+                    if (char.toUpperCase() === pair[0]) {
+                        return char === char.toLowerCase() ? pair[1].toLowerCase() : pair[1];
+                    }
+                    if (char.toUpperCase() === pair[1]) {
+                        return char === char.toLowerCase() ? pair[0].toLowerCase() : pair[0];
+                    }
+                }
+            }
+            
+            return char;
+        }
+        
+        function processClassicChar(char, r1pos, r2pos, r3pos, reflectorType, plugboardPairs, reverse = false) {
+            if (!alphabet.includes(char.toUpperCase())) {
+                return char;
+            }
+            
+            const usePlugboard = document.getElementById('plugboard-toggle').checked;
+            
+            // Initial character (potentially through plugboard)
+            let c = char.toUpperCase();
+            if (usePlugboard) {
+                c = applyPlugboard(c, plugboardPairs);
+            }
+            
+            const rot1 = rotateString(rotor1, r1pos);
+            const rot2 = rotateString(rotor2, r2pos);
+            const rot3 = rotateString(rotor3, r3pos);
+            const reflector = reflectors[reflectorType];
+            
+            if (!reverse) {
+                // Forward through the rotors
+                let pos = alphabet.indexOf(c);
+                c = rot1[pos];
+                pos = alphabet.indexOf(c);
+                c = rot2[pos];
+                pos = alphabet.indexOf(c);
+                c = rot3[pos];
+                
+                // Through the reflector
+                pos = alphabet.indexOf(c);
+                c = reflector[pos];
+                
+                // Backward through the rotors
+                pos = rot3.indexOf(c);
+                c = alphabet[pos];
+                pos = rot2.indexOf(c);
+                c = alphabet[pos];
+                pos = rot1.indexOf(c);
+                c = alphabet[pos];
+            } else {
+                // For decryption, we do the same process (Enigma decryption is the same as encryption)
+                let pos = alphabet.indexOf(c);
+                c = rot1[pos];
+                pos = alphabet.indexOf(c);
+                c = rot2[pos];
+                pos = alphabet.indexOf(c);
+                c = rot3[pos];
+                
+                pos = alphabet.indexOf(c);
+                c = reflector[pos];
+                
+                pos = rot3.indexOf(c);
+                c = alphabet[pos];
+                pos = rot2.indexOf(c);
+                c = alphabet[pos];
+                pos = rot1.indexOf(c);
+                c = alphabet[pos];
+            }
+            
+            // Final character (potentially back through plugboard)
+            if (usePlugboard) {
+                c = applyPlugboard(c, plugboardPairs);
+            }
+            
+            return char === char.toLowerCase() ? c.toLowerCase() : c;
+        }
+        
+        function processClassicText(text, reverse = false) {
+            const r1pos = parseInt(document.getElementById('rotor1').value) % 26;
+            const r2pos = parseInt(document.getElementById('rotor2').value) % 26;
+            const r3pos = parseInt(document.getElementById('rotor3').value) % 26;
+            const reflectorType = document.getElementById('reflector').value;
+            const plugboardPairs = document.getElementById('plugboard-pairs').value;
+            
+            let result = '';
+            let currentR1 = r1pos;
+            let currentR2 = r2pos;
+            let currentR3 = r3pos;
+            
+            for (let i = 0; i < text.length; i++) {
+                // Rotate rotors (Enigma machine mechanism)
+                currentR1 = (currentR1 + 1) % 26;
+                if (currentR1 === 0) {
+                    currentR2 = (currentR2 + 1) % 26;
+                    if (currentR2 === 0) {
+                        currentR3 = (currentR3 + 1) % 26;
+                    }
+                }
+                
+                result += processClassicChar(text[i], currentR1, currentR2, currentR3, reflectorType, plugboardPairs, reverse);
+            }
+            
+            return result;
+        }
+        
+        function processClassic(action) {
+            showCalculationOverlay('PROCESSING ENIGMA ENCRYPTION');
+            
+            setTimeout(() => {
+                const input = document.getElementById('classic-input').value;
+                const output = processClassicText(input, action === 'decrypt');
+                
+                document.getElementById('classic-output').textContent = output;
+                
+                // Add to history
+                addToHistory('Classic Enigma', action, input.substring(0, 30) + (input.length > 30 ? '...' : ''));
+                
+                hideCalculationOverlay();
+            }, 1000);
+        }
+        
+        function randomizeRotors() {
+            document.getElementById('rotor1').value = Math.floor(Math.random() * 26);
+            document.getElementById('rotor2').value = Math.floor(Math.random() * 26);
+            document.getElementById('rotor3').value = Math.floor(Math.random() * 26);
+            
+            const reflectorOptions = ['standard', 'wide', 'thin'];
+            document.getElementById('reflector').value = reflectorOptions[Math.floor(Math.random() * reflectorOptions.length)];
+        }
+        
+        function clearClassic() {
+            document.getElementById('classic-input').value = '';
+            document.getElementById('classic-output').textContent = '';
+        }
+        
+        // Modern encryption functions
+        function sha256(message) {
+            // This is a simplified version for demonstration
+            // In a real application, use a proper crypto library
+            let hash = 0;
+            for (let i = 0; i < message.length; i++) {
+                const char = message.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return hash.toString(16);
+        }
+        
+        function deriveKey(key, salt, iterations) {
+            // Simulated key derivation
+            let result = key + salt;
+            for (let i = 0; i < iterations; i++) {
+                result = sha256(result + i);
+            }
+            return result;
+        }
+        
+        function aesEncrypt(text, key) {
+            // Simulated AES encryption (for demonstration only)
+            const salt = generateRandomString(16);
+            const iv = generateRandomString(16);
+            const derivedKey = deriveKey(key, salt, 1000);
+            
+            // In a real implementation, this would use proper AES encryption
+            let encrypted = btoa(text);
+            for (let i = 0; i < 3; i++) {
+                encrypted = btoa(encrypted + derivedKey.substring(0, 10));
+            }
+            
+            return {
+                salt,
+                iv,
+                ciphertext: encrypted
+            };
+        }
+        
+        function aesDecrypt(encrypted, key) {
+            // Simulated AES decryption (for demonstration only)
+            try {
+                // Parse the encrypted object
+                let encObj;
+                try {
+                    encObj = JSON.parse(encrypted);
+                } catch (e) {
+                    // If not JSON, assume it's just the ciphertext
+                    encObj = { ciphertext: encrypted, salt: 'default', iv: 'default' };
+                }
+                
+                const derivedKey = deriveKey(key, encObj.salt || 'default', 1000);
+                
+                // In a real implementation, this would use proper AES decryption
+                let decrypted = encObj.ciphertext;
+                for (let i = 0; i < 3; i++) {
+                    decrypted = atob(decrypted);
+                }
+                
+                // Remove the key parts that were added during encryption
+                decrypted = decrypted.replace(new RegExp(derivedKey.substring(0, 10), 'g'), '');
+                
+                return decrypted;
+            } catch (e) {
+                console.error("Decryption error:", e);
+                return "DECRYPTION ERROR: Invalid ciphertext or key";
+            }
+        }
+        
+        function desEncrypt(text, key) {
+            // Simulated Triple DES (for demonstration only)
+            const salt = generateRandomString(8);
+            const derivedKey = deriveKey(key, salt, 500);
+            
+            // In a real implementation, this would use proper Triple DES
+            let encrypted = btoa(text);
+            encrypted = btoa(encrypted + derivedKey.substring(0, 8));
+            
+            return {
+                salt,
+                ciphertext: encrypted
+            };
+        }
+        
+        function desDecrypt(encrypted, key) {
+            // Simulated Triple DES decryption
+            try {
+                let encObj;
+                try {
+                    encObj = JSON.parse(encrypted);
+                } catch (e) {
+                    encObj = { ciphertext: encrypted, salt: 'default' };
+                }
+                
+                const derivedKey = deriveKey(key, encObj.salt || 'default', 500);
+                
+                let decrypted = atob(encObj.ciphertext);
+                decrypted = decrypted.replace(derivedKey.substring(0, 8), '');
+                decrypted = atob(decrypted);
+                
+                return decrypted;
+            } catch (e) {
+                return "DECRYPTION ERROR: Invalid ciphertext or key";
+            }
+        }
+        
+        function rc4Encrypt(text, key) {
+            // Simplified RC4 (for demonstration)
+            const keyBytes = Array.from(key).map(c => c.charCodeAt(0));
+            const s = Array.from({length: 256}, (_, i) => i);
+            
+            let j = 0;
+            for (let i = 0; i < 256; i++) {
+                j = (j + s[i] + keyBytes[i % keyBytes.length]) % 256;
+                [s[i], s[j]] = [s[j], s[i]]; // Swap
+            }
+            
+            let i = 0;
+            j = 0;
+            let encrypted = '';
+            
+            for (let k = 0; k < text.length; k++) {
+                i = (i + 1) % 256;
+                j = (j + s[i]) % 256;
+                [s[i], s[j]] = [s[j], s[i]]; // Swap
+                
+                const t = (s[i] + s[j]) % 256;
+                const keyStream = s[t];
+                
+                encrypted += String.fromCharCode(text.charCodeAt(k) ^ keyStream);
+            }
+            
+            return btoa(encrypted);
+        }
+        
+        function rc4Decrypt(encrypted, key) {
+            try {
+                const ciphertext = atob(encrypted);
+                return rc4Encrypt(ciphertext, key); // RC4 is symmetric - same function for encrypt/decrypt
+            } catch (e) {
+                return "DECRYPTION ERROR: Invalid format";
+            }
+        }
+        
+        function customVylexCipher(text, key, encrypt = true) {
+            // Custom cipher for educational purposes
+            const keySum = Array.from(key).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+            let result = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text.charCodeAt(i);
+                const keyChar = key.charCodeAt(i % key.length);
+                const shift = (keyChar * keySum) % 256;
+                
+                if (encrypt) {
+                    result += String.fromCharCode((char + shift) % 256);
+                } else {
+                    result += String.fromCharCode((char - shift + 256) % 256);
+                }
+            }
+            
+            return encrypt ? btoa(result) : result;
+        }
+        
+        function processModern(action) {
+            const input = document.getElementById('modern-input').value;
+            const key = document.getElementById('encrypt-key').value;
+            const algorithm = document.getElementById('algorithm').value;
+            
+            if (!input) {
+                alert('Please enter text to ' + action);
+                return;
+            }
+            
+            if (!key) {
+                alert('Please enter an encryption key');
+                return;
+            }
+            
+            showCalculationOverlay('PROCESSING ' + algorithm.toUpperCase());
+            
+            setTimeout(() => {
+                let result;
+                
+                if (action === 'encrypt') {
+                    switch (algorithm) {
+                        case 'aes':
+                            result = JSON.stringify(aesEncrypt(input, key));
+                            break;
+                        case 'des':
+                            result = JSON.stringify(desEncrypt(input, key));
+                            break;
+                        case 'rc4':
+                            result = rc4Encrypt(input, key);
+                            break;
+                        case 'custom':
+                            result = customVylexCipher(input, key, true);
+                            break;
+                    }
+                } else { // decrypt
+                    switch (algorithm) {
+                        case 'aes':
+                            result = aesDecrypt(input, key);
+                            break;
+                        case 'des':
+                            result = desDecrypt(input, key);
+                            break;
+                        case 'rc4':
+                            result = rc4Decrypt(input, key);
+                            break;
+                        case 'custom':
+                            result = customVylexCipher(atob(input), key, false);
+                            break;
+                    }
+                }
+                
+                document.getElementById('modern-output').textContent = result;
+                
+                // Add to history
+                addToHistory(algorithm.toUpperCase(), action, input.substring(0, 30) + (input.length > 30 ? '...' : ''));
+                
+                hideCalculationOverlay();
+            }, 1500);
+        }
+        
+        function generateRandomString(length) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+        
+        function generateSecureKey() {
+            const keyLength = 16 + Math.floor(Math.random() * 16); // 16-32 characters
+            const key = generateRandomString(keyLength);
+            document.getElementById('encrypt-key').value = key;
+            updateKeyStrength(key);
+        }
+        
+        function updateKeyStrength(key) {
+            const strength = calculateKeyStrength(key);
+            const strengthEl = document.getElementById('key-strength');
+            
+            strengthEl.style.width = Math.min(100, strength) + '%';
+            
+            if (strength < 40) {
+                strengthEl.style.backgroundColor = '#ff3e7f'; // Weak - red
+            } else if (strength < 70) {
+                strengthEl.style.backgroundColor = '#ffcc00'; // Medium - yellow
+            } else {
+                strengthEl.style.backgroundColor = '#00e5ff'; // Strong - blue
+            }
+        }
+        
+        function calculateKeyStrength(key) {
+            if (!key) return 0;
+            
+            let strength = 0;
+            
+            // Length
+            strength += Math.min(30, key.length * 2);
+            
+            // Complexity
+            if (/[A-Z]/.test(key)) strength += 10;
+            if (/[a-z]/.test(key)) strength += 10;
+            if (/[0-9]/.test(key)) strength += 10;
+            if (/[^A-Za-z0-9]/.test(key)) strength += 15;
+            
+            // Entropy
+            const uniqueChars = new Set(key).size;
+            strength += Math.min(25, uniqueChars * 1.5);
+            
+            return strength;
+        }
+        
+        function clearModern() {
+            document.getElementById('modern-input').value = '';
+            document.getElementById('modern-output').textContent = '';
+        }
+        
+        // Utility functions
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            });
+        }
+        
+        function downloadText(elementId, filename) {
+            const text = document.getElementById(elementId).textContent;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename + '-' + new Date().toISOString().slice(0, 10) + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // History functions
+        function addToHistory(algorithm, action, snippet) {
+            const item = {
+                timestamp: new Date().toISOString(),
+                algorithm,
+                action,
+                snippet
+            };
+            
+            encryptionHistory.unshift(item);
+            if (encryptionHistory.length > 50) {
+                encryptionHistory.pop();
+            }
+            
+            updateHistoryDisplay();
+            
+            // Save to local storage
+            localStorage.setItem('vylexEncryptionHistory', JSON.stringify(encryptionHistory));
+        }
+        
+        function loadHistory() {
+            const saved = localStorage.getItem('vylexEncryptionHistory');
+            if (saved) {
+                try {
+                    encryptionHistory = JSON.parse(saved);
+                    updateHistoryDisplay();
+                } catch (e) {
+                    console.error('Failed to load history', e);
+                }
+            }
+        }
+        
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            
+            if (encryptionHistory.length === 0) {
+                historyList.innerHTML = '<div class="history-item">No history yet</div>';
+                return;
+            }
+            
+            encryptionHistory.forEach((item, index) => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'history-item';
+                
+                const date = new Date(item.timestamp).toLocaleString();
+                
+                itemEl.innerHTML = `
+                    <div class="history-item-title">${item.action === 'encrypt' ? 'Encrypted' : 'Decrypted'}: ${item.snippet}</div>
+                    <div class="history-item-algo">${item.algorithm} | ${date}</div>
+                `;
+                
+                historyList.appendChild(itemEl);
+            });
+        }
+        
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear your encryption history?')) {
+                encryptionHistory = [];
+                updateHistoryDisplay();
+                localStorage.removeItem('vylexEncryptionHistory');
+            }
+        }
+        
+        // UI effects
+        function showCalculationOverlay(message) {
+            const overlay = document.querySelector('.calculation-overlay');
+            const animation = document.querySelector('.calculation-animation');
+            const progress = document.querySelector('.status-progress');
+            
+            animation.textContent = message || 'PROCESSING ENCRYPTION';
+            overlay.style.display = 'flex';
+            
+            // Simulate progress
+            progress.style.width = '0%';
+            let width = 0;
+            
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width += Math.random() * 15;
+                    if (width > 100) width = 100;
+                    progress.style.width = width + '%';
+                }
+            }, 200);
+        }
+        
+        function hideCalculationOverlay() {
+            document.querySelector('.calculation-overlay').style.display = 'none';
+        }
+        
+        function showCredits() {
+            alert('Vylex Academy Advanced Encryption Tool\nVersion 3.7.2\n\nDeveloped by MR A for educational purposes only.\nThis tool is meant for learning about encryption concepts and should not be used for encrypting sensitive information.');
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHistory();
+            
+            // Set up key strength meter event
+            document.getElementById('encrypt-key').addEventListener('input', function() {
+                updateKeyStrength(this.value);
+            });
+            
+            // Generate a default key
+            if (!document.getElementById('encrypt-key').value) {
+                generateSecureKey();
+            }
+        });
+    </script>
+</body>
+</html>

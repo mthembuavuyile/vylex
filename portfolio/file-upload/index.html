@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vylex File Upload</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #121212;
+      color: #ffffff;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      color: #00ff00;
+    }
+    input[type="text"], input[type="file"], button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      background-color: #1e1e1e;
+      color: #ffffff;
+      border: 1px solid #00ff00;
+    }
+    button {
+      background-color: #004d00;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00ff00;
+      color: #000000;
+    }
+    #uploadsList a {
+      display: block;
+      margin-top: 5px;
+      color: #00ff00;
+      text-decoration: none;
+    }
+    #uploadsList a:hover {
+      text-decoration: underline;
+    }
+    #uploadSection {
+      display: none;
+    }
+    .quote {
+      font-style: italic;
+      margin: 20px 0;
+      color: #cccccc;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="authSection">
+    <h3>Enter Your Display Name</h3>
+    <input type="text" id="userName" placeholder="Your name" />
+    <p id="mathQuestion"></p>
+    <input type="text" id="mathAnswer" placeholder="Answer" />
+    <button onclick="validateAccess()">Enter</button>
+    <p id="authStatus"></p>
+  </div>
+
+  <div id="uploadSection">
+    <h2>Upload a File to Firebase</h2>
+    <input type="file" id="fileInput" />
+    <button onclick="uploadFile()">Upload</button>
+    <p id="status"></p>
+    <div>
+      <h3>Uploaded Files</h3>
+      <div id="uploadsList"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDlN29_TTt0URirRlLghNA2Xg7OTcMGZU",
+      authDomain: "file-upload-website.firebaseapp.com",
+      projectId: "file-upload-website",
+      storageBucket: "file-upload-website.appspot.com",
+      messagingSenderId: "786551147013",
+      appId: "1:786551147013:web:259dab6441e5db05b7aa6c",
+      measurementId: "G-MMTR1S11PH"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    // Generate random math challenge
+    let correctAnswer;
+    function generateChallenge() {
+      const a = Math.floor(Math.random() * 50) + 1;
+      const b = Math.floor(Math.random() * 50) + 1;
+      correctAnswer = a + b;
+      document.getElementById('mathQuestion').textContent = `What is ${a} + ${b}?`;
+    }
+
+    // Validate access and show upload section
+    window.validateAccess = function() {
+      const name = document.getElementById('userName').value.trim();
+      const answer = parseInt(document.getElementById('mathAnswer').value.trim(), 10);
+
+      if (!name) {
+        document.getElementById('authStatus').textContent = "Please enter a name.";
+        return;
+      }
+      if (answer !== correctAnswer) {
+        document.getElementById('authStatus').textContent = "Wrong answer. Try again.";
+        generateChallenge();
+        return;
+      }
+
+      // Hide auth form, show upload section
+      document.getElementById('authSection').style.display = 'none';
+      document.getElementById('uploadSection').style.display = 'block';
+      document.getElementById('status').textContent = `Welcome, ${name}!`;
+
+      // Load files after authentication
+      showUploadedFiles();
+    }
+
+    // Upload file and update UI
+    window.uploadFile = async function () {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      if (!file) {
+        document.getElementById('status').textContent = "No file selected.";
+        return;
+      }
+
+      const storageRef = ref(storage, 'uploads/' + file.name);
+      document.getElementById('status').textContent = "Uploading...";
+
+      try {
+        await uploadBytes(storageRef, file);
+        document.getElementById('status').textContent = "Upload successful!";
+        await showUploadedFiles(); // Refresh the list
+      } catch (error) {
+        document.getElementById('status').textContent = "Upload failed.";
+        console.error(error);
+      }
+    }
+
+    // Show all files in uploads/
+    async function showUploadedFiles() {
+      const listRef = ref(storage, 'uploads');
+      const uploadsList = document.getElementById('uploadsList');
+      uploadsList.innerHTML = "Loading...";
+
+      try {
+        const res = await listAll(listRef);
+        uploadsList.innerHTML = '';
+        for (const itemRef of res.items) {
+          const url = await getDownloadURL(itemRef);
+          const link = document.createElement('a');
+          link.href = url;
+          link.target = "_blank";
+          link.textContent = itemRef.name;
+          uploadsList.appendChild(link);
+        }
+      } catch (err) {
+        uploadsList.textContent = "Failed to load files.";
+        console.error(err);
+      }
+    }
+
+    // Initialize the page
+    generateChallenge();
+  </script>
+</body>
+</html>
+
+
+
