@@ -265,6 +265,66 @@
         url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
     ];
 
+    // ─── Subreddit expansion map ─────────────────────────────────────────
+    const SUBREDDIT_MAP = {
+        // Animals
+        cats:        ['cats', 'aww', 'catpictures', 'IllegallySmolCats', 'catpics'],
+        dogs:        ['dogs', 'aww', 'dogpictures', 'rarepuppers', 'dogsofredditt'],
+        animals:     ['aww', 'animals', 'NatureIsFuckingLit', 'AnimalsBeingBros'],
+        wildlife:    ['wildlife', 'NatureIsFuckingLit', 'earthporn', 'wildlifephotography'],
+        birds:       ['birds', 'birdpics', 'whatsthisbird', 'birding'],
+        
+        // Nature / Places
+        nature:      ['EarthPorn', 'NatureIsFuckingLit', 'nature', 'wildlifephotography'],
+        mountains:   ['EarthPorn', 'hiking', 'mountains', 'alpinism'],
+        ocean:       ['ocean', 'beachporn', 'AbandonedPorn', 'EarthPorn'],
+        space:       ['spaceporn', 'Astronomy', 'astrophotography', 'space'],
+        forest:      ['EarthPorn', 'forests', 'hiking', 'nature'],
+        sunset:      ['EarthPorn', 'sunset', 'skyporn', 'amateurphotography'],
+        sky:         ['skyporn', 'clouds', 'EarthPorn', 'amateurphotography'],
+        
+        // Urban / Architecture
+        city:        ['CityPorn', 'UrbanHell', 'architecture', 'UrbanPlanning'],
+        architecture:['architecture', 'ArchitecturePorn', 'brutalism', 'CityPorn'],
+        street:      ['streetphotography', 'analog', 'urbanphotography', 'photojournalism'],
+        
+        // Food
+        food:        ['FoodPorn', 'food', 'Cooking', 'recipes'],
+        pizza:       ['Pizza', 'FoodPorn', 'food'],
+        coffee:      ['Coffee', 'espresso', 'cafe', 'latteart'],
+        burger:      ['burgers', 'FoodPorn', 'food'],
+        sushi:       ['sushi', 'FoodPorn', 'japanesefood'],
+        
+        // Tech / Gaming
+        gaming:      ['gaming', 'pcgaming', 'games', 'GameScreens'],
+        cyberpunk:   ['cyberpunk', 'ImaginaryFuturism', 'retrofuturism', 'synthwave'],
+        retro:       ['retrogaming', 'PixelArt', 'retro', 'nostalgia'],
+        
+        // Art / Design
+        art:         ['Art', 'ImaginaryLandscapes', 'DigitalArt', 'drawing'],
+        photography: ['photos', 'amateurphotography', 'itookapicture', 'photojournalism'],
+        portrait:    ['portraits', 'analog', 'itookapicture', 'humanporn'],
+        minimal:     ['minimalism', 'malelivingspace', 'designporn'],
+        
+        // Sci-fi / Fantasy
+        fantasy:     ['ImaginaryLandscapes', 'ImaginaryMonsters', 'ImaginaryCharacters', 'Fantasy'],
+        scifi:       ['ImaginaryFuturism', 'ImaginaryTechnology', 'scifi', 'ImaginaryStarships'],
+        
+        // Moods / Aesthetics
+        dark:        ['DarkAesthetics', 'dark', 'goth', 'moody'],
+        cozy:        ['CozyPlaces', 'hygge', 'malelivingspace', 'cozygames'],
+        aesthetic:   ['aesthetic', 'softcore', 'DesignPorn', 'minimalism'],
+        vintage:     ['vintage', 'analog', 'OldSchoolCool', 'retro'],
+        
+        // Cars / Vehicles
+        cars:        ['carporn', 'cars', 'Autos', 'classiccars'],
+        motorcycles: ['motorcycles', 'motocamping', 'dirtbikes'],
+        
+        // Weather
+        rain:        ['rain', 'CozyPlaces', 'skyporn', 'EarthPorn'],
+        snow:        ['snowboarding', 'skiing', 'EarthPorn', 'winter'],
+    };
+
     // ─── Utilities ───────────────────────────────────────────────────────
     function escapeHtml(str) {
         return String(str || '')
@@ -282,91 +342,29 @@
         return array;
     }
 
-    // ─── 1. Improved Proxy Fetcher ───────────────────────────────────────
-    async function fetchWithProxyFallback(targetUrl) {
-        let lastErr;
-        for (const makeProxy of CORS_PROXIES) {
-            try {
-                const res = await fetch(makeProxy(targetUrl));
-                const text = await res.text();
-                
-                // allorigins often returns 200 OK but wraps errors in JSON.
-                // We need to unwrap it to see the real Reddit response.
-                let unwrappedText = text;
-                try {
-                    const json = JSON.parse(text);
-                    if (json?.contents) unwrappedText = json.contents;
-                } catch (_) { /* It's plain text/XML, leave it alone */ }
+    // Smart query → subreddit resolver
+    function resolveSubreddits(query) {
+        const q = query.toLowerCase().trim();
+        const matched = new Set();
 
-                // Check if Reddit actually blocked the proxy
-                if (unwrappedText.includes('"error": 403') || unwrappedText.includes('"reason": "private"')) {
-                    throw new Error('Reddit 403 Forbidden / Private');
-                }
-                if (unwrappedText.includes('"error": 429')) {
-                    throw new Error('Reddit 429 Rate Limited');
-                }
+        if (SUBREDDIT_MAP[q]) {
+            SUBREDDIT_MAP[q].forEach(s => matched.add(s));
+        }
 
-                return unwrappedText; // Return the raw text, not the fetch Response object
-            } catch (e) {
-                lastErr = e;
-                console.warn(`Proxy failed for ${targetUrl}:`, e.message);
+        for (const [key, subs] of Object.entries(SUBREDDIT_MAP)) {
+            if (q.includes(key) || key.includes(q)) {
+                subs.forEach(s => matched.add(s));
             }
         }
-        throw lastErr || new Error('All proxies failed');
+
+        matched.add(q.replace(/\s+/g, ''));
+        return [...matched];
     }
 
-    // ─── Fetchers ────────────────────────────────────────────────────────
-
-    // 2. Updated Reddit Search Fetcher
-    async function fetchRedditImages(query) {
-        const url = `https://www.reddit.com/search.json?q=${encodeURIComponent(query)}+nsfw:no&raw_json=1&limit=30`;
+    // Helper to parse RSS XML into image objects (Missing piece added here)
+    async function extractImagesFromRSS(xmlText, providerLabel) {
+        const images = [];
         try {
-            const jsonText = await fetchWithProxyFallback(url);
-            const data = JSON.parse(jsonText);
-
-            const posts = data?.data?.children || [];
-            const images = [];
-
-            posts.forEach(p => {
-                if (images.length >= RESULTS_PER_PROVIDER) return;
-                
-                const imgUrl = p.data.url || '';
-                const hint = p.data.post_hint;
-                let previewImg = p.data.preview?.images?.[0]?.source?.url;
-
-                if (previewImg) {
-                    images.push({
-                        src: previewImg.replace(/&amp;/g, '&'),
-                        title: p.data.title,
-                        link: `https://reddit.com${p.data.permalink}`,
-                        provider: 'Reddit Search'
-                    });
-                } else if (hint === 'image' || imgUrl.match(/\.(jpeg|jpg|gif|png)$/i)) {
-                    images.push({
-                        src: imgUrl.replace(/&amp;/g, '&'),
-                        title: p.data.title,
-                        link: `https://reddit.com${p.data.permalink}`,
-                        provider: 'Reddit Search'
-                    });
-                }
-            });
-            return images;
-        } catch (err) {
-            console.warn('Reddit Search failed:', err);
-            return []; 
-        }
-    }
-
-    // 3. Robust Subreddit Fetcher (RSS First, JSON Fallback)
-    async function fetchSubredditImages(query) {
-        const subName = query.replace(/\s+/g, '');
-        let images = [];
-
-        // Method A: RSS Feed (Most reliable live)
-        try {
-            const rssUrl = `https://www.reddit.com/r/${encodeURIComponent(subName)}/hot.rss?limit=30`;
-            const xmlText = await fetchWithProxyFallback(rssUrl);
-            
             const xml = new DOMParser().parseFromString(xmlText, 'application/xml');
             if (xml.querySelector('parsererror')) throw new Error('Invalid XML');
 
@@ -377,8 +375,7 @@
 
                 const title = el.querySelector('title')?.textContent?.trim() || 'Reddit Image';
                 const linkEl = el.querySelector('link');
-                const link = linkEl?.getAttribute('href') || `https://reddit.com/r/${subName}`;
-                
+                const link = linkEl?.getAttribute('href') || '#';
                 const content = el.querySelector('content')?.textContent || '';
                 
                 // Grab high-res direct links first, fallback to thumbnails
@@ -392,54 +389,90 @@
                         src: imgSrc.replace(/&amp;/g, '&'),
                         title: title,
                         link: link,
-                        provider: `r/${subName}`
+                        provider: providerLabel
                     });
                 }
             });
-
-            if (images.length > 0) return images;
-            throw new Error('RSS yielded no images, falling back to JSON');
-
-        } catch (rssErr) {
-            console.warn(`RSS failed for r/${subName}, trying JSON API...`, rssErr);
+        } catch (e) {
+            console.warn(`Failed to parse RSS for ${providerLabel}`);
         }
+        return images;
+    }
 
-        // Method B: JSON API (Fallback)
-        try {
-            const jsonUrl = `https://www.reddit.com/r/${encodeURIComponent(subName)}/hot.json?raw_json=1&limit=30`;
-            const jsonText = await fetchWithProxyFallback(jsonUrl);
-            const data = JSON.parse(jsonText);
-
-            const posts = data?.data?.children || [];
-            
-            posts.forEach(p => {
-                if (images.length >= RESULTS_PER_PROVIDER) return;
+    // Proxy Fetcher
+    async function fetchWithProxyFallback(targetUrl) {
+        let lastErr;
+        for (const makeProxy of CORS_PROXIES) {
+            try {
+                const res = await fetch(makeProxy(targetUrl));
+                const text = await res.text();
                 
-                const imgUrl = p.data.url || '';
-                const hint = p.data.post_hint;
-                let previewImg = p.data.preview?.images?.[0]?.source?.url;
+                let unwrappedText = text;
+                try {
+                    const json = JSON.parse(text);
+                    if (json?.contents) unwrappedText = json.contents;
+                } catch (_) { }
 
-                if (previewImg) {
-                    images.push({
-                        src: previewImg.replace(/&amp;/g, '&'),
-                        title: p.data.title,
-                        link: `https://reddit.com${p.data.permalink}`,
-                        provider: `r/${subName}`
-                    });
-                } else if (hint === 'image' || imgUrl.match(/\.(jpeg|jpg|gif|png)$/i)) {
-                    images.push({
-                        src: imgUrl.replace(/&amp;/g, '&'),
-                        title: p.data.title,
-                        link: `https://reddit.com${p.data.permalink}`,
-                        provider: `r/${subName}`
-                    });
+                if (unwrappedText.includes('"error": 403') || unwrappedText.includes('"reason": "private"')) {
+                    throw new Error('Reddit 403 Forbidden / Private');
                 }
-            });
+                if (unwrappedText.includes('"error": 429')) {
+                    throw new Error('Reddit 429 Rate Limited');
+                }
 
-            return images;
-        } catch (jsonErr) {
-            console.error(`Both RSS and JSON failed for r/${subName}:`, jsonErr);
-            return []; 
+                return unwrappedText;
+            } catch (e) {
+                lastErr = e;
+            }
+        }
+        throw lastErr || new Error('All proxies failed');
+    }
+
+    // ─── Fetchers ────────────────────────────────────────────────────────
+
+    // Fetch images from ONE subreddit via RSS
+    async function fetchSingleSubreddit(subName, labelOverride) {
+        const url = `https://www.reddit.com/r/${encodeURIComponent(subName)}/hot.rss?limit=25`;
+        try {
+            const xmlText = await fetchWithProxyFallback(url);
+            let unwrapped = xmlText;
+            try { const j = JSON.parse(xmlText); if (j?.contents) unwrapped = j.contents; } catch (_) {}
+            if (
+                unwrapped.includes('"reason": "private"') ||
+                unwrapped.includes('"error": 403') ||
+                unwrapped.includes('"error": 404')
+            ) return [];
+            return await extractImagesFromRSS(unwrapped, labelOverride || `r/${subName}`);
+        } catch {
+            return [];
+        }
+    }
+
+    // Fan-out: fetch all resolved subreddits in parallel
+    async function fetchSubredditImages(query) {
+        const subreddits = resolveSubreddits(query);
+        const limited = subreddits.slice(0, 6); // Cap at 6 to avoid hammering proxies
+
+        const results = await Promise.allSettled(
+            limited.map(sub => fetchSingleSubreddit(sub))
+        );
+
+        return results
+            .filter(r => r.status === 'fulfilled')
+            .flatMap(r => r.value);
+    }
+
+    // General Reddit search via RSS
+    async function fetchRedditImages(query) {
+        const url = `https://www.reddit.com/search.rss?q=${encodeURIComponent(query)}&limit=30`;
+        try {
+            const xmlText = await fetchWithProxyFallback(url);
+            let unwrapped = xmlText;
+            try { const j = JSON.parse(xmlText); if (j?.contents) unwrapped = j.contents; } catch (_) {}
+            return await extractImagesFromRSS(unwrapped, 'Reddit');
+        } catch (err) {
+            console.warn('Reddit Search RSS failed:', err);
+            return [];
         }
     }
 
@@ -463,7 +496,7 @@
 
     async function fetchPixabayImages(query) {
         try {
-            const res = await fetch(`https://api.pixabay.com/api/?key=${API_KEYS.pixabay}&q=${encodeURIComponent(query)}&image_type=photo&per_page=${RESULTS_PER_PROVIDER}&safesearch=true`);
+            const res = await fetch(`https://api.pixabay.com/api/?key=${API_KEYS.pixabay}&q=${encodeURIComponent(query)}&image_type=photo&per_page=${RESULTS_PER_PROVIDER}`);
             if (!res.ok) throw new Error('Pixabay Error');
             const data = await res.json();
             
@@ -511,7 +544,7 @@
         stats.style.display = 'none';
         status.innerHTML = `<i class="fas fa-circle-notch spinner"></i> Searching across multiple networks for "${escapeHtml(query)}"...`;
 
-        // Run all queries simultaneously, including the new exact-subreddit fetcher
+        // Run all queries simultaneously
         const results = await Promise.allSettled([
             fetchRedditImages(query),
             fetchSubredditImages(query),
