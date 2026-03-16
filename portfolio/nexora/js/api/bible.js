@@ -2,29 +2,46 @@ window.NexoraRegistry.register({
     id: 'bible',
     name: 'Bible API',
     intents: [
-        // Captures: "bible verse john 3:16", "show me bible verse genesis 1:1"
+        // 1. Generic / Random requests (No specific verse mentioned)
+        /^(?:give\s+me\s+a|tell\s+me\s+a|read\s+me\s+a|show\s+me\s+a)?\s*(?:random\s+)?(?:bible\s+verse|scripture|verse)s?$/i,
+
+        // 2. Captures: "bible verse john 3:16", "show me bible verse genesis 1:1"
         /(?:bible\s+verse|scripture|verse)\s+(?:of\s+|for\s+)?(.+)/i,
         
-        // Captures: "read john 3:16 from the bible", "read me psalm 23"
+        // 3. Captures: "read john 3:16 from the bible", "read me psalm 23"
         /read\s+(?:me\s+)?(.+?)(?:\s+from\s+the\s+bible)?$/i,
         
-        // Captures: "what does john 3:16 say?", "what says genesis 1:1"
+        // 4. Captures: "what does john 3:16 say?", "what says genesis 1:1"
         /what\s+(?:does\s+)?(.+?)\s+say\??$/i,
         
-        // Catch-all for bare references like "John 3:16" 
-        // Note: Place this last so specific phrases trigger first
+        // 5. Catch-all for bare references like "John 3:16" 
         /^(?:get\s+)?([1-3]?\s?[a-zA-Z]+\s+\d+[:\.]\d+(?:-\d+)?)$/i
     ],
 
     async handle(match) {
-        // match[1] will now be the reference across all new regex patterns
+        // match[1] might be undefined if the first generic regex catches it
         let reference = (match[1] || '').trim();
         
         // Clean up common trailing punctuation from natural language
         reference = reference.replace(/[?.!,]$/g, '').trim();
 
+        // Intercept generic phrases that might have slipped into the capture group 
+        // (e.g., if the user typed "read me a bible verse")
+        const genericPhrases = ['a bible verse', 'a verse', 'a random verse', 'a scripture', 'random', 'some scripture'];
+        if (genericPhrases.includes(reference.toLowerCase())) {
+            reference = ''; 
+        }
+
+        // If no specific reference is provided, pick a random one
         if (!reference) {
-            return { text: "Please provide a Bible reference, e.g. \"John 3:16\" or \"Psalm 23:1-3\"." };
+            const randomVerses = [
+                "John 3:16", "Jeremiah 29:11", "Romans 8:28", "Philippians 4:13", 
+                "Genesis 1:1", "Proverbs 3:5-6", "1 Corinthians 13:4-5", 
+                "Psalm 23:1-3", "Isaiah 41:10", "Matthew 6:33", "Romans 12:2",
+                "Joshua 1:9", "Hebrews 11:1", "James 1:2", "1 Peter 5:7",
+                "Ephesians 2:8", "Galatians 5:22-23", "Colossians 3:14", "Psalm 119:105"
+            ];
+            reference = randomVerses[Math.floor(Math.random() * randomVerses.length)];
         }
 
         const translation = 'kjv';

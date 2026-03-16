@@ -1,4 +1,5 @@
-/* ── Rich Widgets ───────────────────────────── */
+/* widgets.css
+── Rich Widgets ───────────────────────────── */
 .rich-widget {
   background: var(--surface);
   border: 1px solid var(--border);

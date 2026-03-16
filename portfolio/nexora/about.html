@@ -7,7 +7,7 @@
     <meta name="author" content="Avuyile Mthembu @ Vylex IT">
     <meta name="keywords" content="Nexora, AI assistant, user guide, help, Vylex, weather AI, dictionary AI, smart assistant, by Avuyile Mthembu, South African tech, Vylex.co.za">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://Vylex.co.za/apps/nexora/about" />
+    <link rel="canonical" href="https://Vylex.co.za/portfolio/nexora/about" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,6 @@
     
     <style>
         :root {
-            /* Modernized, softer color palette */
             --primary: #3b82f6;
             --primary-dark: #2563eb;
             --secondary: #eff6ff;
@@ -56,19 +55,14 @@
             --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.3);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             line-height: 1.7;
             background-color: var(--bg);
             color: var(--text);
-            /* Added padding to prevent content from hiding behind the fixed footer */
-            padding: 0 16px 80px 16px; 
+            padding: 0 16px 80px 16px;
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -82,7 +76,6 @@
             transition: background-color 0.3s;
         }
 
-        /* Top navigation / Theme toggle */
         .top-nav {
             display: flex;
             justify-content: space-between;
@@ -100,9 +93,7 @@
             transition: var(--transition);
         }
 
-        .back-link:hover {
-            color: var(--primary);
-        }
+        .back-link:hover { color: var(--primary); }
 
         .theme-btn {
             background: var(--code-bg);
@@ -119,10 +110,7 @@
             font-weight: 500;
         }
 
-        .theme-btn:hover {
-            background: var(--secondary);
-            border-color: var(--primary);
-        }
+        .theme-btn:hover { background: var(--secondary); border-color: var(--primary); }
 
         .header {
             display: flex;
@@ -146,16 +134,9 @@
             box-shadow: 0 8px 16px rgba(59, 130, 246, 0.25);
         }
 
-        h1, h2, h3, h4 {
-            color: var(--text);
-            font-weight: 600;
-        }
+        h1, h2, h3, h4 { color: var(--text); font-weight: 600; }
 
-        h1 {
-            font-size: 2.5rem;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
+        h1 { font-size: 2.5rem; line-height: 1.2; letter-spacing: -0.02em; }
 
         h2 {
             margin-top: 48px;
@@ -166,26 +147,13 @@
             letter-spacing: -0.01em;
         }
 
-        h3 {
-            font-size: 1.25rem;
-            margin-top: 32px;
-            margin-bottom: 16px;
-        }
+        h3 { font-size: 1.25rem; margin-top: 32px; margin-bottom: 16px; }
 
-        p, li {
-            font-size: 1.05rem;
-            margin-bottom: 16px;
-            color: var(--text);
-        }
+        p, li { font-size: 1.05rem; margin-bottom: 16px; color: var(--text); }
 
-        ul, ol {
-            padding-left: 24px;
-            margin-bottom: 24px;
-        }
+        ul, ol { padding-left: 24px; margin-bottom: 24px; }
 
-        li {
-            margin-bottom: 8px;
-        }
+        li { margin-bottom: 8px; }
 
         code, .key-term-inline {
             background-color: var(--code-bg);
@@ -197,10 +165,7 @@
             border: 1px solid var(--border);
         }
 
-        .icon {
-            margin-right: 12px;
-            color: var(--primary);
-        }
+        .icon { margin-right: 12px; color: var(--primary); }
 
         .note {
             background-color: var(--secondary);
@@ -210,13 +175,8 @@
             border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
         }
 
-        .note strong {
-            color: var(--primary-dark);
-            display: block;
-            margin-bottom: 8px;
-        }
+        .note strong { color: var(--primary-dark); display: block; margin-bottom: 8px; }
 
-        /* Disclaimer Section Styling */
         .disclaimer-section {
             background-color: var(--warning-bg);
             border: 1px solid var(--warning-border);
@@ -225,12 +185,8 @@
             border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             margin: 40px 0;
         }
-        
-        .disclaimer-section h2 {
-            color: var(--warning-text);
-            margin-top: 0;
-            border: none;
-        }
+
+        .disclaimer-section h2 { color: var(--warning-text); margin-top: 0; border: none; }
 
         .button-example {
             background-color: var(--primary);
@@ -253,16 +209,8 @@
             transition: var(--transition);
         }
 
-        .settings-item h3 {
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .settings-item h3 i {
-            margin-right: 12px;
-            color: var(--primary);
-        }
+        .settings-item h3 { margin-top: 0; display: flex; align-items: center; }
+        .settings-item h3 i { margin-right: 12px; color: var(--primary); }
 
         .feature-grid {
             display: grid;
@@ -300,9 +248,47 @@
             border-radius: 12px;
         }
 
-        .feature-title h4 {
-            font-size: 1.25rem;
-            margin: 0;
+        .feature-title h4 { font-size: 1.25rem; margin: 0; }
+
+        /* Command Table */
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 0.98rem;
+        }
+
+        .command-table th {
+            background-color: var(--secondary);
+            color: var(--primary-dark);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .command-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .command-table tr:last-child td { border-bottom: none; }
+
+        .command-table tr:hover td { background-color: var(--secondary); }
+
+        .command-table .examples code {
+            display: inline-block;
+            margin: 2px 4px 2px 0;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-light);
+            margin: 40px 0 12px 0;
         }
 
         .main-footer {
@@ -313,41 +299,19 @@
             color: var(--text-light);
             font-size: 0.95rem;
         }
-        
-        .main-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
 
-        .main-footer a:hover {
-            text-decoration: underline;
-        }
-
-        
+        .main-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
+        .main-footer a:hover { text-decoration: underline; }
 
         @media (max-width: 768px) {
-            .help-container {
-                padding: 32px 24px;
-                margin: 20px auto;
-            }
-            
+            .help-container { padding: 32px 24px; margin: 20px auto; }
             h1 { font-size: 2rem; }
             h2 { font-size: 1.5rem; }
-            
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .logo {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
+            .header { flex-direction: column; text-align: center; }
+            .logo { margin-right: 0; margin-bottom: 20px; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .command-table { font-size: 0.9rem; }
+            .command-table th, .command-table td { padding: 10px 12px; }
         }
     </style>
 </head>
@@ -356,7 +320,7 @@
     <div class="help-container">
         
         <div class="top-nav">
-            <a href="https://Vylex.co.za/apps/nexora" class="back-link">
+            <a href="index.html" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Nexora
             </a>
             <button class="theme-btn" id="guide-theme-toggle">
@@ -372,21 +336,22 @@
             </div>
         </div>
 
-        <p>Welcome to <strong>Nexora</strong>, your intelligent professional voice assistant, proudly developed by <strong>Vylex</strong>! This guide will help you understand Nexora's features and how to make the most of them. Nexora can help you find weather information, define words, get Bible verses, hear jokes, discover quotes, and more, all through a simple chat interface.</p>
+        <p>Welcome to <strong>Nexora</strong>, your intelligent voice assistant for live data and real-time information, proudly developed by <strong>Vylex</strong>. Nexora acts as a smart bridge between you and reliable web APIs — fetching current weather, crypto prices, news, dictionary definitions, images, and more through a single, seamless chat interface. Whether you prefer typing or speaking, Nexora is built for speed, accuracy, and accessibility.</p>
 
         <section id="ai-limitations" class="disclaimer-section">
             <h2><i class="fas fa-shield-alt icon" style="color: var(--warning-text);"></i>AI Limitations & Accuracy</h2>
-            <p>Nexora AI is designed to be a helpful companion, but like all artificial intelligence systems, <strong>it may occasionally make mistakes</strong>. </p>
+            <p>Nexora is designed to be a helpful companion, but like all AI-assisted systems, <strong>it may occasionally make mistakes</strong>.</p>
             <ul>
-                <li><strong>Verification:</strong> Always double-check important factual information, especially concerning critical data, locations, or precise quotes.</li>
-                <li><strong>Context:</strong> The AI may sometimes misinterpret the nuance or intent behind your voice or text commands.</li>
-                <li><strong>Continuous Learning:</strong> Nexora is constantly being updated and improved by the Vylex team to reduce errors over time.</li>
+                <li><strong>Verification:</strong> Always double-check important factual information, especially for critical decisions, precise quotes, or financial data.</li>
+                <li><strong>Context:</strong> The assistant may sometimes misinterpret the nuance or intent behind your voice or text commands.</li>
+                <li><strong>Live Data:</strong> Real-time results depend on third-party API availability and accuracy. Nexora is not responsible for errors in external data sources.</li>
+                <li><strong>Continuous Improvement:</strong> Nexora is constantly being updated and improved by the Vylex team to reduce errors over time.</li>
             </ul>
         </section>
 
         <section id="getting-started">
             <h2><i class="fas fa-rocket icon"></i>Getting Started</h2>
-            <p>Nexora is a web-based application, meaning you can access it directly through your web browser. When you first open Nexora, you'll see the main chat interface and a friendly welcome message from the assistant, ready to help you.</p>
+            <p>Nexora is a web-based application accessible directly through your browser. When you open Nexora, you'll see the main chat interface with a welcome message ready to assist you. Simply type a command or tap the microphone to speak — Nexora will recognise your intent and respond with live data from trusted sources.</p>
         </section>
 
         <section id="interface-overview">
@@ -394,27 +359,27 @@
             <p>Nexora's interface is designed to be clean and intuitive. Here are the main components:</p>
             <ul>
                 <li>
-                    <strong>Header:</strong> At the top, you'll see the "Nexora" title with a <i class="fas fa-robot"></i> icon. On the right side of the header, you'll find:
+                    <strong>Header:</strong> At the top, you'll see the "Nexora" title with a <i class="fas fa-robot"></i> icon. On the right side:
                     <ul>
-                        <li><strong>Clear Chat</strong> button (<i class="fas fa-trash-alt"></i>): Clears the current conversation.</li>
-                        <li><strong>Settings</strong> button (<i class="fas fa-cog"></i>): Opens the settings panel to customize your experience.</li>
+                        <li><strong>New Chat</strong> button (<i class="fas fa-edit"></i>): Clears the current conversation and starts fresh.</li>
+                        <li><strong>Settings</strong> button (<i class="fas fa-cog"></i>): Opens the settings panel to customise your experience.</li>
                     </ul>
                 </li>
                 <li>
-                    <strong>Chat Area:</strong> This is the main part of the screen where your conversation with Nexora takes place.
+                    <strong>Chat Area:</strong> The main part of the screen where your conversation with Nexora takes place.
                     <ul>
-                        <li>Your messages appear on the <code class="key-term-inline">right</code>, styled in a light blue bubble.</li>
-                        <li>Nexora's responses appear on the <code class="key-term-inline">left</code>, in a light grey bubble.</li>
+                        <li>Your messages appear on the <code class="key-term-inline">right</code> in a light blue bubble.</li>
+                        <li>Nexora's responses appear on the <code class="key-term-inline">left</code> in a light grey bubble.</li>
                         <li>Each message includes a timestamp.</li>
                         <li>When Nexora is processing your request, a <code class="key-term-inline">typing indicator</code> (three pulsing dots) will appear.</li>
                     </ul>
                 </li>
                 <li>
-                    <strong>Input Area:</strong> Located at the bottom, this is where you interact with Nexora.
+                    <strong>Input Area:</strong> Located at the bottom.
                     <ul>
                         <li><strong>Text Input Field:</strong> Type your questions or commands here.</li>
-                        <li><strong>Send button</strong> (<span class="button-example"><i class="fas fa-paper-plane"></i></span>): Click this or press <code class="key-term-inline">Enter</code> to send your typed message.</li>
-                        <li><strong>Microphone button</strong> (<span class="button-example" style="background-color: var(--primary);"><i class="fas fa-microphone"></i></span>): Click to use voice input.</li>
+                        <li><strong>Send button</strong> (<span class="button-example"><i class="fas fa-paper-plane"></i></span>): Click or press <code class="key-term-inline">Enter</code> to send.</li>
+                        <li><strong>Microphone button</strong> (<span class="button-example"><i class="fas fa-microphone"></i></span>): Click to use voice input.</li>
                     </ul>
                 </li>
             </ul>
@@ -422,21 +387,20 @@
 
         <section id="interacting">
             <h2><i class="fas fa-comments icon"></i>Interacting with Nexora</h2>
-            <p>You can communicate with Nexora in two main ways:</p>
             
             <h3><i class="fas fa-keyboard icon"></i>Typing Messages</h3>
             <ol>
                 <li>Click on the text input field at the bottom of the screen.</li>
-                <li>Type your question or command (e.g., <code class="key-term-inline">"What's the weather like today?"</code>).</li>
-                <li>Press the <code class="key-term-inline">Enter</code> key on your keyboard or click the Send button.</li>
+                <li>Type your question or command (e.g., <code class="key-term-inline">"Weather in Durban"</code>).</li>
+                <li>Press <code class="key-term-inline">Enter</code> or click the Send button.</li>
             </ol>
 
             <h3><i class="fas fa-microphone-alt icon"></i>Using Voice Input</h3>
             <ol>
-                <li>Click the Microphone button. If your browser asks for permission, please allow it.</li>
-                <li>The microphone button will turn red and pulse, indicating Nexora is listening.</li>
+                <li>Click the Microphone button. Allow browser permission if prompted.</li>
+                <li>The button will turn red and pulse — Nexora is listening.</li>
                 <li>Speak your command clearly. Your speech will be transcribed in real-time.</li>
-                <li>Click the Microphone button again to stop listening manually, or let it auto-send if enabled.</li>
+                <li>Click the Microphone button again to stop, or let it auto-send when you pause.</li>
             </ol>
             <div class="note">
                 <strong>Tip:</strong> For best voice recognition results, speak clearly and in a relatively quiet environment. You can change the recognition language in the Settings panel.
@@ -444,78 +408,171 @@
         </section>
 
         <section id="core-features">
-            <h2><i class="fas fa-star icon"></i>Core Features</h2>
-            <p>Nexora is equipped to handle a variety of requests. Here are its main capabilities:</p>
-            
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-title">
-                        <i class="fas fa-cloud-sun-rain"></i>
-                        <h4>Weather Forecasts</h4>
-                    </div>
-                    <p>Get current weather information for cities around the world.</p>
-                    <p><strong>Examples:</strong> <code class="key-term-inline">"weather in London"</code> or <code class="key-term-inline">"forecast for Tokyo"</code></p>
-                </div>
+            <h2><i class="fas fa-star icon"></i>Complete Feature Guide & Command Manual</h2>
+            <p>Nexora uses keyword and phrase matching to understand your intent. Use the trigger phrases below for the best results.</p>
 
-                <div class="feature-card">
-                    <div class="feature-title">
-                        <i class="fas fa-book"></i>
-                        <h4>Dictionary Definitions</h4>
-                    </div>
-                    <p>Look up definitions, pronunciations, and examples for English words.</p>
-                    <p><strong>Examples:</strong> <code class="key-term-inline">"define ephemeral"</code> or <code class="key-term-inline">"meaning of ubiquitous"</code></p>
-                </div>
+            <p class="section-label">Data & Information</p>
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                        <th>Example Triggers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong><i class="fas fa-cloud-sun-rain icon"></i>Live Weather</strong></td>
+                        <td>Fetches current weather conditions for any specified city.</td>
+                        <td class="examples">
+                            <code class="key-term-inline">"Weather in London"</code>
+                            <code class="key-term-inline">"Weather in Durban"</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong><i class="fab fa-bitcoin icon"></i>Crypto Prices</strong></td>
+                        <td>Pulls real-time cryptocurrency values.</td>
+                        <td class="examples">
+                            <code class="key-term-inline">"Bitcoin price right now"</code>
+                            <code class="key-term-inline">"Bitcoin price"</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong><i class="fas fa-newspaper icon"></i>News Headlines</strong></td>
+                        <td>Retrieves the latest top news stories.</td>
+                        <td class="examples">
+                            <code class="key-term-inline">"Show me the latest news"</code>
+                            <code class="key-term-inline">"Top headlines"</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong><i class="fas fa-book icon"></i>Dictionary</strong></td>
+                        <td>Provides definitions, part of speech, and audio pronunciation.</td>
+                        <td class="examples">
+                            <code class="key-term-inline">"Define serendipity"</code>
+                            <code class="key-term-inline">"Meaning of [word]"</code>
+                            <code class="key-term-inline">"What does [word] mean"</code>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <div class="feature-card">
-                    <div class="feature-title">
-                        <i class="fas fa-bible"></i>
-                        <h4>Bible Verses</h4>
-                    </div>
-                    <p>Request specific Bible verses or ask for a random one.</p>
-                    <p><strong>Examples:</strong> <code class="key-term-inline">"Show me John 3:16"</code> or <code class="key-term-inline">"random bible verse"</code></p>
-                </div>
+            <p class="section-label">Tools & Utilities</p>
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                        <th>Example Triggers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong><i class="fas fa-square-root-alt icon"></i>Math Solver</strong></td>
+                        <td>Solves equations and derives mathematical formulas.</td>
+                        <td class="examples">
+                            <code class="key-term-inline">"What is the derivative of x^2 + 2x?"</code>
+                            <code class="key-term-inline">"Solve [equation]"</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong><i class="fas fa-camera icon"></i>Text Recognition (OCR)</strong></td>
+                        <td>Scans text from a live camera feed or an uploaded image.</td>
+                        <td class="examples">
+                            <code class="key-term-inline">"Scan text from image"</code>
+                            <code class="key-term-inline">"Read writing from camera"</code>
+                            <code class="key-term-inline">"Open scanner"</code>
+                            <code class="key-term-inline">"What does this image say"</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong><i class="fas fa-images icon"></i>Multi-Provider Images</strong></td>
+                        <td>Searches high-quality photo libraries (Unsplash, Pexels, Pixabay).</td>
+                        <td class="examples">
+                            <code class="key-term-inline">"Show me an image of a camera"</code>
+                            <code class="key-term-inline">"Find a picture of the moon"</code>
+                            <code class="key-term-inline">"What does a pangolin look like"</code>
+                            <code class="key-term-inline">"Images of ancient ruins"</code>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <div class="feature-card">
-                    <div class="feature-title">
-                        <i class="fas fa-laugh-beam"></i>
-                        <h4>Jokes & Quotes</h4>
-                    </div>
-                    <p>Lighten the mood with a joke or get inspired by a quote.</p>
-                    <p><strong>Examples:</strong> <code class="key-term-inline">"Tell me a joke"</code> or <code class="key-term-inline">"Give me a quote"</code></p>
-                </div>
-            </div>
+            <p class="section-label">Entertainment & Discovery</p>
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                        <th>Example Triggers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong><i class="fab fa-reddit icon"></i>Reddit Browser</strong></td>
+                        <td>Surfaces recent posts from Reddit.</td>
+                        <td class="examples"><code class="key-term-inline">"Show me reddit posts"</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong><i class="fas fa-laugh-beam icon"></i>Daily Jokes</strong></td>
+                        <td>Delivers a quick joke to lighten the mood.</td>
+                        <td class="examples"><code class="key-term-inline">"Tell me a joke"</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong><i class="fas fa-lightbulb icon"></i>Life Advice</strong></td>
+                        <td>Fetches random snippets of helpful advice.</td>
+                        <td class="examples"><code class="key-term-inline">"Give me some advice"</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong><i class="fas fa-bible icon"></i>Bible Verses</strong></td>
+                        <td>Retrieves passages from the Bible.</td>
+                        <td class="examples"><code class="key-term-inline">"A Bible verse"</code></td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
         <section id="settings">
-            <h2><i class="fas fa-cog icon"></i>Settings Panel</h2>
-            <p>Customize Nexora to your preferences by clicking the Settings button (<i class="fas fa-cog"></i>) in the header.</p>
+            <h2><i class="fas fa-cog icon"></i>Customisation & Accessibility</h2>
+            <p>Nexora is designed to adapt to your preferred environment and accessibility needs. Configure the following options using the Settings panel (the <i class="fas fa-cog"></i> gear icon in the header).</p>
 
             <div class="settings-item">
-                <h3><i class="fas fa-volume-up"></i>Voice & API Settings</h3>
-                <ul>
-                    <li><strong>Assistant Voice:</strong> Choose from a list of available system voices for Nexora's spoken responses.</li>
-                    <li><strong>Speech Rate & Pitch:</strong> Adjust how fast and high Nexora speaks using the sliders.</li>
-                    <li><strong>Weather Units:</strong> Select between Celsius (°C) or Fahrenheit (°F).</li>
-                    <li><strong>Bible Version:</strong> Choose your preferred translation (KJV, ESV, NIV, NLT).</li>
-                </ul>
+                <h3><i class="fas fa-microphone"></i>Voice Input & Output</h3>
+                <p>Click the microphone icon to speak your requests. You can also enable <strong>Read Responses Aloud</strong> (Text-to-Speech) and customise the voice type, reading speed, and pitch.</p>
+            </div>
+
+            <div class="settings-item">
+                <h3><i class="fas fa-volume-up"></i>Dictionary Pronunciation</h3>
+                <p>Every dictionary search includes a speaker icon so you can hear the exact pronunciation of the word.</p>
+            </div>
+
+            <div class="settings-item">
+                <h3><i class="fas fa-adjust"></i>Theme Preferences</h3>
+                <p>Toggle between <strong>Light</strong> and <strong>Dark</strong> modes for comfortable viewing in any environment.</p>
+            </div>
+
+            <div class="settings-item">
+                <h3><i class="fas fa-thermometer-half"></i>Weather Units</h3>
+                <p>Switch seamlessly between <strong>Metric (°C)</strong> and <strong>Imperial (°F)</strong> measurements.</p>
+            </div>
+
+            <div class="settings-item">
+                <h3><i class="fas fa-edit"></i>Chat Management</h3>
+                <p>Use the <strong>New Chat</strong> (pen and square) icon to clear your history and start a fresh conversation.</p>
             </div>
         </section>
 
         <div class="main-footer">
-            <p>© <script>document.write(new Date().getFullYear())</script> Vylex. Nexora - Your Smart Companion.</p>
+            <p>© <script>document.write(new Date().getFullYear())</script> Vylex. Nexora — Your Live Data Assistant.</p>
             <p>Developed by Avuyile Mthembu. For more information, visit <a href="https://Vylex.co.za" target="_blank">Vylex.co.za</a>.</p>
         </div>
     </div>
 
-   
-
     <script>
-        // Modernized Theme Toggle Script
         const themeToggleBtn = document.getElementById('guide-theme-toggle');
         const themeIcon = themeToggleBtn.querySelector('i');
         const themeText = themeToggleBtn.querySelector('span');
         
-        // Check local storage or system preference
         const currentGuideTheme = localStorage.getItem('guide-theme') || 
             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         
@@ -530,10 +587,8 @@
             }
         }
 
-        // Initialize theme
         setTheme(currentGuideTheme);
 
-        // Toggle Event Listener
         themeToggleBtn.addEventListener('click', () => {
             const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             setTheme(newTheme);
