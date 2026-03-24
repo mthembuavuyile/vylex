@@ -656,4 +656,3 @@ function bibleApp() {
 
     };
 }
-
