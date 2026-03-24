@@ -104,6 +104,8 @@ function bibleApp() {
         error: false,
         errorMessage: '',
 
+        highlights: {},
+
         // UI State
         showNavigator: false,
         navStep: 'books',   // 'books' | 'chapters'
@@ -160,12 +162,23 @@ function bibleApp() {
             return this.selectedBook === 'REV' && this.selectedChapter === 22;
         },
 
+
+        //Check if a given verse is highlighted
+
+        isVerseHighlighted(verse) {
+            if (!verse) return false;
+            const key = `${this.selectedBook}-${this.selectedChapter}-${verse.verse}`;
+            return !!this.highlights[key];
+        },
+
         // ─────────────────────────────────────────────
         // INITIALIZATION
         // ─────────────────────────────────────────────
 
         init() {
             this.loadPreferences();
+            this.loadHighlights(); // NEW: Load highlights on init
+
             this.applyTheme();
             this.fetchVerses();
         },
@@ -199,6 +212,26 @@ function bibleApp() {
                 localStorage.setItem('vylex_bible_theme', this.theme);
             } catch {
                 // Ignore write errors (storage quota, etc.)
+            }
+        },
+
+        // NEW: Highlight management persistence
+        saveHighlights() {
+            try {
+                localStorage.setItem('vylex_bible_highlights', JSON.stringify(this.highlights));
+            } catch (e) {
+                console.warn('Could not save highlights to localStorage:', e);
+                this.showToast('Could not save highlight (storage full?)', 4000);
+            }
+        },
+
+        loadHighlights() {
+            try {
+                const storedHighlights = localStorage.getItem('vylex_bible_highlights');
+                this.highlights = storedHighlights ? JSON.parse(storedHighlights) : {};
+            } catch (e) {
+                console.warn('Could not load highlights from localStorage, resetting:', e);
+                this.highlights = {};
             }
         },
 
@@ -532,6 +565,27 @@ function bibleApp() {
                 // Web Share API not available — fall back to copy
                 this.copyActiveVerse();
             }
+        },
+
+        // NEW: Toggle highlight for a verse
+        toggleHighlight(verse) {
+            if (!verse) return;
+            const key = `${this.selectedBook}-${this.selectedChapter}-${verse.verse}`;
+
+            if (this.highlights[key]) {
+                // Unhighlight
+                // Use Vue/Alpine reactivity workaround: create a new object
+                const newHighlights = { ...this.highlights };
+                delete newHighlights[key];
+                this.highlights = newHighlights;
+                this.showToast('Verse unhighlighted.');
+            } else {
+                // Highlight
+                this.highlights = { ...this.highlights, [key]: true };
+                this.showToast('Verse highlighted ✓');
+            }
+            this.saveHighlights();
+            this.clearActiveVerse(); // Close the action sheet after toggling
         },
 
         // ─────────────────────────────────────────────

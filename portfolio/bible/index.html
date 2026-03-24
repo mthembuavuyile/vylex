@@ -163,6 +163,37 @@
         html.sepia .verse-active {
             background-color: #dfc8a6 !important;
         }
+
+        .verse-highlighted {
+            background-color: #fdf5e6; /* Lightest yellow/cream */
+        }
+
+        /* Sepia theme override for highlights */
+        html.sepia .verse-highlighted {
+            background-color: #f4e4c4 !important; /* A subtle sepia highlight */
+        }
+
+        /* Make sure active state still visually overrides highlight when both are true */
+        .verse-active {
+            background-color: #e0e7ff !important; /* Tailwind's indigo-100 */
+        }
+        html.dark .verse-active {
+            background-color: #1e284a !important; /* Tailwind's indigo-900/50 */
+        }
+        html.sepia .verse-active {
+            background-color: #dfc8a6 !important; /* Sepia's verse-active */
+        }
+
+        /* New styling for highlighted verses (when not active) */
+        .highlight-yellow-light {
+            background-color: #fef9c3 !important; /* yellow-100 */
+        }
+        .dark .highlight-yellow-dark {
+            background-color: #422006 !important; /* A darker yellow for dark mode */
+        }
+        .sepia .highlight-yellow-sepia {
+            background-color: #fbe4af !important; /* A sepia-friendly yellow */
+        }
     </style>
 </head>
 
@@ -220,7 +251,10 @@
                 <p>
                     <template x-for="verse in verses" :key="verse.verse">
                         <span @click="selectVerse(verse)" class="verse-span"
-                            :class="{'bg-indigo-100 dark:bg-indigo-900/50 verse-active': activeVerse?.verse === verse.verse}">
+                            :class="{
+                                'verse-active': activeVerse?.verse === verse.verse,
+                                'highlight-yellow-light dark:highlight-yellow-dark sepia:highlight-yellow-sepia': isVerseHighlighted(verse) && activeVerse?.verse !== verse.verse
+                            }">
                             <span class="verse-number theme-accent text-indigo-600 dark:text-indigo-400"
                                 x-text="verse.verse"></span><span x-text="verse.text"></span>
                         </span>
@@ -235,7 +269,7 @@
                     Data provided via bible-api.com and bolls.life.<br>
                     Built by
                     <a href="https://vylex.co.za" target="_blank"
-                        class="font-medium underline theme-accent text-indigo-600 dark:text-indigo-400">
+                        class="font-medium theme-accent text-orange-500 hover:text-orange-600">
                         Vylex Technologies
                     </a>
                 </p>
@@ -396,8 +430,8 @@
             <p class="text-sm text-gray-600 dark:text-gray-300 theme-text-muted italic mb-6 line-clamp-3 font-serif"
                 x-text="`&quot;${activeVerse?.text}&quot;`"></p>
 
-            <!-- Action Buttons -->
-            <div class="grid grid-cols-2 gap-4">
+            <!-- MODIFIED: Action Buttons - changed grid-cols-2 to grid-cols-3 and added Highlight button -->
+            <div class="grid grid-cols-3 gap-4">
                 <button @click="copyActiveVerse()"
                     class="flex flex-col items-center justify-center py-4 bg-gray-50 dark:bg-gray-800 theme-bg rounded-2xl active:scale-95 transition-transform theme-text">
                     <i class="fas fa-copy text-xl mb-2 text-gray-500 theme-text-muted"></i>
@@ -407,6 +441,17 @@
                     class="flex flex-col items-center justify-center py-4 bg-indigo-600 text-white rounded-2xl active:scale-95 transition-transform shadow-md theme-accent-bg">
                     <i class="fas fa-share-nodes text-xl mb-2"></i>
                     <span class="text-sm font-semibold">Share</span>
+                </button>
+                <!-- NEW HIGHLIGHT BUTTON -->
+                <button @click="toggleHighlight(activeVerse)"
+                    :class="{
+                        'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200': isVerseHighlighted(activeVerse),
+                        'bg-gray-50 dark:bg-gray-800 theme-bg theme-text': !isVerseHighlighted(activeVerse)
+                    }"
+                    class="flex flex-col items-center justify-center py-4 rounded-2xl active:scale-95 transition-transform">
+                    <i class="fas fa-highlighter text-xl mb-2"
+                       :class="{'text-yellow-600 dark:text-yellow-400': isVerseHighlighted(activeVerse), 'text-gray-500 theme-text-muted': !isVerseHighlighted(activeVerse)}"></i>
+                    <span class="text-sm font-semibold" x-text="isVerseHighlighted(activeVerse) ? 'Unhighlight' : 'Highlight'"></span>
                 </button>
             </div>
         </div>
