@@ -250,7 +250,7 @@
             <template x-if="verses.length > 0">
                 <p>
                     <template x-for="verse in verses" :key="verse.verse">
-                        <span @click="selectVerse(verse)" class="verse-span"
+                        <span :id="'verse-' + verse.verse" @click="selectVerse(verse)" class="verse-span"
                             :class="{
                                 'verse-active': activeVerse?.verse === verse.verse,
                                 'highlight-yellow-light dark:highlight-yellow-dark sepia:highlight-yellow-sepia': isVerseHighlighted(verse) && activeVerse?.verse !== verse.verse

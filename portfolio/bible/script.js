@@ -114,6 +114,7 @@ function bibleApp() {
         showTranslationMenu: false,
         activeVerse: null,
         toast: { show: false, message: '', timeout: null },
+        targetVerse: null,
 
         // ─────────────────────────────────────────────
         // COMPUTED GETTERS
@@ -177,8 +178,26 @@ function bibleApp() {
 
         init() {
             this.loadPreferences();
-            this.loadHighlights(); // NEW: Load highlights on init
 
+            // --- NEW: Parse URL Parameters ---
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('book')) {
+                const b = params.get('book').toUpperCase();
+                if (this.bibleBooks.find(book => book.id === b)) this.selectedBook = b;
+            }
+            if (params.has('chapter')) {
+                const c = parseInt(params.get('chapter'), 10);
+                if (!isNaN(c) && c > 0) this.selectedChapter = c;
+            }
+            if (params.has('translation')) {
+                const t = params.get('translation').toLowerCase();
+                if (this.translations.find(trans => trans.id === t)) this.translation = t;
+            }
+            if (params.has('verse')) {
+                this.targetVerse = parseInt(params.get('verse'), 10);
+            }
+
+            this.loadHighlights(); // NEW: Load highlights on init
             this.applyTheme();
             this.fetchVerses();
         },
@@ -233,6 +252,29 @@ function bibleApp() {
                 console.warn('Could not load highlights from localStorage, resetting:', e);
                 this.highlights = {};
             }
+        },
+
+        _finalizeFetch(verses) {
+            this.verses = verses;
+            this._writeCache(this.verses);
+            this.loading = false;
+
+            // Wait for DOM to render, then scroll to verse if deep-linked
+            this.$nextTick(() => {
+                if (this.targetVerse) {
+                    const el = document.getElementById('verse-' + this.targetVerse);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Optional: automatically open the menu/highlight the shared verse
+                        const targetV = this.verses.find(v => v.verse == this.targetVerse);
+                        if (targetV) this.activeVerse = targetV;
+                        
+                        // Reset target verse so normal chapter navigation works properly
+                        this.targetVerse = null; 
+                    }
+                }
+            });
         },
 
         // ─────────────────────────────────────────────
@@ -339,7 +381,10 @@ function bibleApp() {
             this.verses = [];
             this.activeVerse = null;
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (!this.targetVerse) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
             this.savePreferences();
 
             const bookName = this.currentBookName;
@@ -518,6 +563,10 @@ function bibleApp() {
             // Toggle: tapping the same verse de-selects it
             this.activeVerse = (this.activeVerse?.verse === verse.verse) ? null : verse;
         },
+        _getShareUrl() {
+            const baseUrl = window.location.origin + window.location.pathname; // Gets https://vylex.co.za/portfolio/bible/index.html
+            return `${baseUrl}?book=${this.selectedBook}&chapter=${this.selectedChapter}&verse=${this.activeVerse.verse}&translation=${this.translation}`;
+        },
 
         clearActiveVerse() {
             this.activeVerse = null;
@@ -536,25 +585,28 @@ function bibleApp() {
         async copyActiveVerse() {
             if (!this.activeVerse) return;
             const text = this.getFormattedActiveVerse();
+            const shareUrl = this._getShareUrl();
+
             try {
-                await navigator.clipboard.writeText(text);
+                // Now copies both the text AND the link
+                await navigator.clipboard.writeText(`${text}\n\nRead here: ${shareUrl}`);
                 this.clearActiveVerse();
-                this.showToast('Verse copied to clipboard ✓');
+                this.showToast('Verse and link copied to clipboard ✓');
             } catch {
-                // Clipboard API unavailable — graceful degradation
-                prompt('Copy this verse:', text);
+                prompt('Copy this verse:', `${text}\n\nRead here: ${shareUrl}`);
             }
         },
 
         shareActiveVerse() {
             if (!this.activeVerse) return;
             const text = this.getFormattedActiveVerse();
+            const shareUrl = this._getShareUrl();
 
             if (navigator.share) {
                 navigator.share({
-                    title: 'Bible Verse',
+                    title: `Bible Verse: ${this.currentBookName} ${this.selectedChapter}:${this.activeVerse.verse}`,
                     text: text,
-                    url: 'https://vylex.co.za/'
+                    url: shareUrl
                 })
                     .then(() => this.clearActiveVerse())
                     .catch(err => {
@@ -566,7 +618,6 @@ function bibleApp() {
                 this.copyActiveVerse();
             }
         },
-
         // NEW: Toggle highlight for a verse
         toggleHighlight(verse) {
             if (!verse) return;
