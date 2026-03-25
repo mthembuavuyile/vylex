@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", "DM Mono", monospace;
+  
+  --color-brand-navy: #051b38;
+  --color-brand-lightNavy: #0a2e5c;
+  --color-brand-orange: #fba919;
+  --color-brand-orangeDark: #e09612;
+  --color-brand-gray: #f3f4f6;
+  --color-brand-slate: #e2e8f0;
+  
+  --color-vylex-navy: #051b38;
+  --color-vylex-orange: #fba919;
+
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
