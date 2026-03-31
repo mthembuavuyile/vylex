@@ -425,6 +425,7 @@
                 lastErr = e;
             }
         }
+        alert("Proxy failed on mobile: " + (lastErr.message || lastErr));
         throw lastErr || new Error('All proxies failed');
     }
 
