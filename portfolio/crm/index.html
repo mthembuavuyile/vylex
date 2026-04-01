@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevCRM - Client Management System</title>
+    <title>VylexCRM - Client Management System</title>
     <link rel="canonical" href="https://vylex.co.za/portfolio/crm/">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <header class="mobile-header">
+        <div class="mobile-logo">📊 VylexCRM</div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
     <div class="container">
-        <aside class="sidebar">
-            <div class="logo">📊 DevCRM</div>
+        <aside class="sidebar" id="sidebar">
+            <button class="sidebar-close" id="sidebarClose">&times;</button>
+            <div class="logo">📊 VylexCRM</div>
             <nav>
                 <div class="nav-item active" data-section="dashboard">
                     <span>🏠</span> Dashboard
@@ -46,7 +60,7 @@
                     <h1>Dashboard</h1>
                     <p>Welcome back! Here's your overview.</p>
                 </div>
-                
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-value" id="totalClients">0</div>
@@ -83,7 +97,7 @@
                         + Add New Client
                     </button>
                 </div>
-                
+
                 <div class="grid" id="clientsList"></div>
             </div>
 
@@ -96,7 +110,7 @@
                         + Add New Project
                     </button>
                 </div>
-                
+
                 <div class="grid" id="projectsList"></div>
             </div>
 
@@ -109,7 +123,7 @@
                         + Add New Task
                     </button>
                 </div>
-                
+
                 <div class="card">
                     <div id="tasksList"></div>
                 </div>
@@ -124,7 +138,7 @@
                         + Add Event
                     </button>
                 </div>
-                
+
                 <div class="card">
                     <div id="calendarContainer"></div>
                     <div id="eventsList" style="margin-top: 20px;"></div>
@@ -140,7 +154,7 @@
                         + Log Communication
                     </button>
                 </div>
-                
+
                 <div class="card">
                     <div id="communicationsList"></div>
                 </div>
@@ -155,7 +169,7 @@
                         + Add Note
                     </button>
                 </div>
-                
+
                 <div class="grid" id="notesList"></div>
             </div>
 
@@ -168,11 +182,30 @@
                         + Add Service
                     </button>
                 </div>
-                
+
                 <div class="grid" id="servicesList"></div>
             </div>
         </main>
     </div>
+
+    <nav class="bottom-nav">
+        <div class="bottom-nav-item active" data-section="dashboard">
+            <span>🏠</span>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="bottom-nav-item" data-section="clients">
+            <span>👥</span>
+            <div class="nav-label">Clients</div>
+        </div>
+        <div class="bottom-nav-item" data-section="projects">
+            <span>💼</span>
+            <div class="nav-label">Projects</div>
+        </div>
+        <div class="bottom-nav-item" data-section="tasks">
+            <span>✓</span>
+            <div class="nav-label">Tasks</div>
+        </div>
+    </nav>
 
     <!-- Modals -->
     <!-- Client Modal -->
@@ -394,7 +427,8 @@
                     <textarea name="details" required></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('communicationModal')">Cancel</button>
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('communicationModal')">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save Communication</button>
                 </div>
             </form>
@@ -502,7 +536,7 @@
 
         // Load data from localStorage
         function loadData() {
-            const stored = localStorage.getItem('devCRMData');
+            const stored = localStorage.getItem('VylexCRMData');
             if (stored) {
                 data = JSON.parse(stored);
             }
@@ -510,7 +544,7 @@
 
         // Save data to localStorage
         function saveData() {
-            localStorage.setItem('devCRMData', JSON.stringify(data));
+            localStorage.setItem('VylexCRMData', JSON.stringify(data));
         }
 
         // Generate unique ID
@@ -520,15 +554,48 @@
 
         // Setup event listeners
         function setupEventListeners() {
-            // Navigation
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', function() {
+            // Navigation (Sidebar & Bottom Nav)
+            const navItems = document.querySelectorAll('.nav-item, .bottom-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function () {
                     const section = this.dataset.section;
                     showSection(section);
-                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
+
+                    // Update active state for both navs
+                    navItems.forEach(nav => {
+                        if (nav.dataset.section === section) {
+                            nav.classList.add('active');
+                        } else {
+                            nav.classList.remove('active');
+                        }
+                    });
+
+                    // Close sidebar on mobile after selection
+                    document.getElementById('sidebar').classList.remove('active');
+                    document.getElementById('mobileOverlay').classList.remove('active');
+                    document.getElementById('menuToggle').classList.remove('open');
                 });
             });
+
+            // Mobile Menu Toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('open');
+                sidebar.classList.toggle('active');
+                mobileOverlay.classList.toggle('active');
+            });
+
+            mobileOverlay.addEventListener('click', closeMenu);
+            document.getElementById('sidebarClose').addEventListener('click', closeMenu);
+
+            function closeMenu() {
+                menuToggle.classList.remove('open');
+                sidebar.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+            }
 
             // Forms
             document.getElementById('clientForm').addEventListener('submit', handleClientSubmit);
@@ -541,7 +608,7 @@
 
             // Close modals on background click
             document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function(e) {
+                modal.addEventListener('click', function (e) {
                     if (e.target === this) {
                         this.classList.remove('active');
                     }
@@ -768,21 +835,21 @@
         // Render functions
         function renderDashboard() {
             document.getElementById('totalClients').textContent = data.clients.length;
-            document.getElementById('activeProjects').textContent = 
+            document.getElementById('activeProjects').textContent =
                 data.projects.filter(p => p.status === 'active').length;
-            document.getElementById('pendingTasks').textContent = 
+            document.getElementById('pendingTasks').textContent =
                 data.tasks.filter(t => !t.completed).length;
-            
+
             const totalRevenue = data.projects.reduce((sum, p) => sum + (p.budget || 0), 0);
-            document.getElementById('totalRevenue').textContent = 
+            document.getElementById('totalRevenue').textContent =
                 '$' + totalRevenue.toLocaleString();
 
             // Recent activities (simplified)
             const activities = document.getElementById('recentActivities');
             const recentItems = [
-                ...data.clients.map(c => ({...c, type: 'client', label: 'New client added'})),
-                ...data.projects.map(p => ({...p, type: 'project', label: 'New project created'})),
-                ...data.tasks.map(t => ({...t, type: 'task', label: 'Task added'}))
+                ...data.clients.map(c => ({ ...c, type: 'client', label: 'New client added' })),
+                ...data.projects.map(p => ({ ...p, type: 'project', label: 'New project created' })),
+                ...data.tasks.map(t => ({ ...t, type: 'task', label: 'Task added' }))
             ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
 
             if (recentItems.length > 0) {
@@ -803,7 +870,7 @@
                 container.innerHTML = '<div class="empty-state">No clients yet. Add your first client!</div>';
                 return;
             }
-            
+
             container.innerHTML = data.clients.map(client => {
                 const projects = data.projects.filter(p => p.clientId === client.id);
                 return `
@@ -831,7 +898,7 @@
                 container.innerHTML = '<div class="empty-state">No projects yet. Start your first project!</div>';
                 return;
             }
-            
+
             container.innerHTML = data.projects.map(project => {
                 const client = data.clients.find(c => c.id === project.clientId);
                 const statusClass = `status-${project.status}`;
@@ -865,12 +932,12 @@
                 container.innerHTML = '<div class="empty-state">No tasks yet. Add your first task!</div>';
                 return;
             }
-            
+
             const sortedTasks = [...data.tasks].sort((a, b) => {
                 if (a.completed !== b.completed) return a.completed ? 1 : -1;
                 return new Date(b.createdAt) - new Date(a.createdAt);
             });
-            
+
             container.innerHTML = sortedTasks.map(task => {
                 const project = data.projects.find(p => p.id === task.projectId);
                 const priorityColors = {
@@ -900,7 +967,7 @@
         function renderCalendar() {
             const container = document.getElementById('calendarContainer');
             const eventsList = document.getElementById('eventsList');
-            
+
             // Simple calendar view (current month)
             const now = new Date();
             const year = now.getFullYear();
@@ -909,7 +976,7 @@
             const lastDay = new Date(year, month + 1, 0);
             const daysInMonth = lastDay.getDate();
             const startingDayOfWeek = firstDay.getDay();
-            
+
             let calendarHTML = `
                 <h3>${firstDay.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h3>
                 <div class="calendar-grid" style="margin-top: 20px;">
@@ -921,12 +988,12 @@
                     <div style="font-weight: 600;">Fri</div>
                     <div style="font-weight: 600;">Sat</div>
             `;
-            
+
             // Add empty cells for days before month starts
             for (let i = 0; i < startingDayOfWeek; i++) {
                 calendarHTML += '<div></div>';
             }
-            
+
             // Add days of month
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -938,18 +1005,18 @@
                     </div>
                 `;
             }
-            
+
             calendarHTML += '</div>';
             container.innerHTML = calendarHTML;
-            
+
             // Render events list
             if (data.events.length === 0) {
                 eventsList.innerHTML = '<div class="empty-state">No events scheduled</div>';
             } else {
-                const sortedEvents = [...data.events].sort((a, b) => 
+                const sortedEvents = [...data.events].sort((a, b) =>
                     new Date(a.date) - new Date(b.date)
                 );
-                eventsList.innerHTML = '<h3>Upcoming Events</h3>' + 
+                eventsList.innerHTML = '<h3>Upcoming Events</h3>' +
                     sortedEvents.map(event => {
                         const client = data.clients.find(c => c.id === event.clientId);
                         return `
@@ -973,11 +1040,11 @@
                 container.innerHTML = '<div class="empty-state">No communications logged yet</div>';
                 return;
             }
-            
-            const sortedComms = [...data.communications].sort((a, b) => 
+
+            const sortedComms = [...data.communications].sort((a, b) =>
                 new Date(b.createdAt) - new Date(a.createdAt)
             );
-            
+
             container.innerHTML = sortedComms.map(comm => {
                 const client = data.clients.find(c => c.id === comm.clientId);
                 const typeIcons = {
@@ -1011,7 +1078,7 @@
                 container.innerHTML = '<div class="empty-state">No notes yet. Start taking notes!</div>';
                 return;
             }
-            
+
             container.innerHTML = data.notes.map(note => {
                 const categoryColors = {
                     general: 'var(--gray)',
@@ -1043,7 +1110,7 @@
                 container.innerHTML = '<div class="empty-state">No services defined. Add your service offerings!</div>';
                 return;
             }
-            
+
             container.innerHTML = data.services.map(service => {
                 const categoryIcons = {
                     development: '💻',
@@ -1134,4 +1201,5 @@
         init();
     </script>
 </body>
+
 </html>
