@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Vylex Products | Professional Digital Tools</title>
+  <meta name="description" content="Discover Vylex's professional tools, SaaS products, and productivity utilities built for efficiency and precision." />
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --navy: #051b38;
+      --light-navy: #0a2a54;
+      --orange: #fba919;
+      --orange-dark: #d68f14;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--navy);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Ambient Background */
+    .ambient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 80% 20%, rgba(251, 169, 25, 0.05) 0%, transparent 40%),
+                  radial-gradient(circle at 20% 80%, rgba(10, 42, 84, 0.5) 0%, transparent 40%);
+      z-index: -1;
+    }
+
+    /* Header */
+    header {
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--orange);
+    }
+
+    .back-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-3px);
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: rgba(251, 169, 25, 0.1);
+      border: 1px solid rgba(251, 169, 25, 0.2);
+      color: var(--orange);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+    }
+
+    .hero-section p {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Tab Switcher (Optional aesthetic) */
+    .category-filter {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1.5rem;
+      border-radius: 100px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn.active {
+      background: var(--orange);
+      color: var(--navy);
+      border-color: var(--orange);
+    }
+
+    /* Grid Layout */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Tool Card Styling */
+    .product-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .product-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-5px);
+      border-color: var(--orange);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    .product-icon {
+      width: 54px;
+      height: 54px;
+      background: rgba(251, 169, 25, 0.1);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--orange);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .product-card:hover .product-icon {
+      background: var(--orange);
+      color: var(--navy);
+      transform: scale(1.1);
+    }
+
+    .product-info h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .product-info p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+
+    .view-indicator {
+      margin-left: auto;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .product-card:hover .view-indicator {
+      opacity: 1;
+      transform: translateX(-5px);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 6rem 2rem 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInOut {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .product-card {
+      animation: fadeInOut 0.5s ease-out backwards;
+    }
+
+    .product-card:nth-child(n) { animation-delay: calc(0.05s * var(--i)); }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem; }
+      .product-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg"></div>
+
+  <header>
+    <a href="/" class="logo">
+      VYLEX<span>.</span>
+    </a>
+    <a href="/" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i> Home
+    </a>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <span class="badge">Solutions</span>
+      <h1>Vylex Products</h1>
+      <p>Precision-engineered tools and SaaS solutions designed to optimize your professional workflow.</p>
+    </section>
+
+    <div class="product-grid">
+      <!-- ImageCraft -->
+      <a href="../portfolio/image-craft/" class="product-card" style="--i: 1">
+        <div class="product-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <div class="product-info">
+          <h3>ImageCraft Pro</h3>
+          <p>Creative AI image editing & effects</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- Invoice Maker -->
+      <a href="../portfolio/invoice-maker/" class="product-card" style="--i: 2">
+        <div class="product-icon"><i class="fa-solid fa-file-invoice"></i></div>
+        <div class="product-info">
+          <h3>Invoice Maker</h3>
+          <p>Professional billing & PDF exports</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- QR Studio -->
+      <a href="../portfolio/qr/" class="product-card" style="--i: 3">
+        <div class="product-icon"><i class="fa-solid fa-qrcode"></i></div>
+        <div class="product-info">
+          <h3>QR Studio</h3>
+          <p>Custom dynamic QR generation</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- Image to Text -->
+      <a href="../portfolio/image-to-text/" class="product-card" style="--i: 4">
+        <div class="product-icon"><i class="fa-solid fa-eye"></i></div>
+        <div class="product-info">
+          <h3>OCR Tool</h3>
+          <p>Advanced image to text conversion</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- File Upload / Drive -->
+      <a href="../portfolio/file-upload/" class="product-card" style="--i: 5">
+        <div class="product-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <div class="product-info">
+          <h3>Vylex Drive</h3>
+          <p>Secure cloud file management</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- Enigma -->
+      <a href="../portfolio/enigma/" class="product-card" style="--i: 6">
+        <div class="product-icon"><i class="fa-solid fa-user-secret"></i></div>
+        <div class="product-info">
+          <h3>Enigma Encr</h3>
+          <p>Military-grade data encryption</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- Device Inspector -->
+      <a href="../portfolio/device-inspector/" class="product-card" style="--i: 7">
+        <div class="product-icon"><i class="fa-solid fa-microchip"></i></div>
+        <div class="product-info">
+          <h3>Inspector</h3>
+          <p>Real-time system diagnostics</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- VyTrack -->
+      <a href="../portfolio/vytrack/" class="product-card" style="--i: 8">
+        <div class="product-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <div class="product-info">
+          <h3>VyTrack Finance</h3>
+          <p>Comprehensive budget tracking</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- Task Master -->
+      <a href="../portfolio/task-master/" class="product-card" style="--i: 9">
+        <div class="product-icon"><i class="fa-solid fa-check-double"></i></div>
+        <div class="product-info">
+          <h3>Task Master</h3>
+          <p>Advanced project & task mgmt</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- Crypto SATS -->
+      <a href="../portfolio/crypto/" class="product-card" style="--i: 10">
+        <div class="product-icon"><i class="fa-brands fa-bitcoin"></i></div>
+        <div class="product-info">
+          <h3>SATS Tracker</h3>
+          <p>Live cryptocurrency analytics</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- Movie Explorer -->
+      <a href="../portfolio/movie-explorer/" class="product-card" style="--i: 11">
+        <div class="product-icon"><i class="fa-solid fa-film"></i></div>
+        <div class="product-info">
+          <h3>Movie Explorer</h3>
+          <p>Cinematic database & search</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+
+      <!-- Global Dictionary -->
+      <a href="../portfolio/global-dictionary/" class="product-card" style="--i: 12">
+        <div class="product-icon"><i class="fa-solid fa-earth-africa"></i></div>
+        <div class="product-info">
+          <h3>Global Dict</h3>
+          <p>Multi-language reference tool</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+      
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Vylex Technologies Portfolio. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Vylex Apps | Experience Our Digital Ecosystem</title>
+  <meta name="description" content="Explore Vylex's selection of mobile and web applications designed for community, connection, and real-world utility." />
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --navy: #051b38;
+      --light-navy: #0a2a54;
+      --orange: #fba919;
+      --orange-dark: #d68f14;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--navy);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Ambient Background */
+    .ambient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 20%, rgba(251, 169, 25, 0.05) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 80%, rgba(10, 42, 84, 0.5) 0%, transparent 40%);
+      z-index: -1;
+    }
+
+    /* Header */
+    header {
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--orange);
+    }
+
+    .back-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-3px);
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: rgba(251, 169, 25, 0.1);
+      border: 1px solid rgba(251, 169, 25, 0.2);
+      color: var(--orange);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+    }
+
+    .hero-section p {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Grid Layout */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Card Styling */
+    .app-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 2rem;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      backdrop-filter: blur(10px);
+    }
+
+    .app-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(251, 169, 25, 0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(251, 169, 25, 0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .app-card:hover::after {
+      opacity: 1;
+    }
+
+    .app-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--orange);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .app-card:hover .app-icon {
+      background: var(--orange);
+      color: var(--navy);
+      transform: rotate(5deg);
+    }
+
+    .app-info h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .app-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .app-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .app-meta .tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 0.3rem 0.8rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+    }
+
+    .view-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .app-card:hover .view-arrow {
+      background: var(--orange);
+      color: var(--navy);
+      transform: translateX(3px);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 6rem 2rem 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .app-card {
+      animation: fadeInUp 0.6s ease backwards;
+    }
+
+    .app-card:nth-child(1) { animation-delay: 0.1s; }
+    .app-card:nth-child(2) { animation-delay: 0.2s; }
+    .app-card:nth-child(3) { animation-delay: 0.3s; }
+    .app-card:nth-child(4) { animation-delay: 0.4s; }
+    .app-card:nth-child(5) { animation-delay: 0.5s; }
+    .app-card:nth-child(6) { animation-delay: 0.6s; }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem; }
+      .app-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg"></div>
+
+  <header>
+    <a href="/" class="logo">
+      VYLEX<span>.</span>
+    </a>
+    <a href="/" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i> Home
+    </a>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <span class="badge">Ecosystem</span>
+      <h1>Vylex Apps</h1>
+      <p>High-performance web and mobile applications designed for connection, community, and real-world impact.</p>
+    </section>
+
+    <div class="app-grid">
+      <!-- Nexys Social -->
+      <a href="../portfolio/nexys-social/" class="app-card">
+        <div>
+          <div class="app-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+          <div class="app-info">
+            <h3>NexysNet</h3>
+            <p>Lightning-fast, mobile-first social experience with real-time sync and dynamic interactions.</p>
+          </div>
+        </div>
+        <div class="app-meta">
+          <span class="tag">Social SPA</span>
+          <div class="view-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </a>
+
+      <!-- SINC Legal -->
+      <a href="../portfolio/sinc-legal/" class="app-card">
+        <div>
+          <div class="app-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+          <div class="app-info">
+            <h3>Sinc LEGAL</h3>
+            <p>A secure platform for modern law firms to manage cases, clients, and billing seamlessly.</p>
+          </div>
+        </div>
+        <div class="app-meta">
+          <span class="tag">Business App</span>
+          <div class="view-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </a>
+
+      <!-- Kasi Gig -->
+      <a href="../portfolio/kasi-gig/" class="app-card">
+        <div>
+          <div class="app-icon"><i class="fa-solid fa-briefcase"></i></div>
+          <div class="app-info">
+            <h3>Kasi Gig</h3>
+            <p>Connecting local talent with gig opportunities in South African townships and communities.</p>
+          </div>
+        </div>
+        <div class="app-meta">
+          <span class="tag">Community</span>
+          <div class="view-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </a>
+
+      <!-- AgriSynth -->
+      <a href="../portfolio/AgriSynth/" class="app-card">
+        <div>
+          <div class="app-icon"><i class="fa-solid fa-seedling"></i></div>
+          <div class="app-info">
+            <h3>AgriSynth</h3>
+            <p>Smart farming solutions and IoT-driven insights for the next generation of agriculture.</p>
+          </div>
+        </div>
+        <div class="app-meta">
+          <span class="tag">AgriTech</span>
+          <div class="view-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </a>
+
+      <!-- Lexico -->
+      <a href="../portfolio/lexico/" class="app-card">
+        <div>
+          <div class="app-icon"><i class="fa-solid fa-language"></i></div>
+          <div class="app-info">
+            <h3>Lexico</h3>
+            <p>Comprehensive language reference and advanced dictionary for South African contexts.</p>
+          </div>
+        </div>
+        <div class="app-meta">
+          <span class="tag">Reference</span>
+          <div class="view-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </a>
+
+      <!-- Bible Hub -->
+      <a href="../portfolio/bible/" class="app-card">
+        <div>
+          <div class="app-icon"><i class="fa-solid fa-book-bible"></i></div>
+          <div class="app-info">
+            <h3>Bible Hub</h3>
+            <p>A digital reading experience for faith exploration and spiritual connection.</p>
+          </div>
+        </div>
+        <div class="app-meta">
+          <span class="tag">Reading</span>
+          <div class="view-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </a>
+
+      <!-- Unilink -->
+      <a href="../portfolio/unilink/" class="app-card">
+        <div>
+          <div class="app-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="app-info">
+            <h3>Unilink</h3>
+            <p>The bridge between students, funding opportunities, and institutional support.</p>
+          </div>
+        </div>
+        <div class="app-meta">
+          <span class="tag">EdTech</span>
+          <div class="view-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </a>
+
+      <!-- Writer -->
+      <a href="../portfolio/writer/" class="app-card">
+        <div>
+          <div class="app-icon"><i class="fa-solid fa-pen-nib"></i></div>
+          <div class="app-info">
+            <h3>Writer</h3>
+            <p>A distractions-free writing assistant designed for clarity and creative focus.</p>
+          </div>
+        </div>
+        <div class="app-meta">
+          <span class="tag">Productivity</span>
+          <div class="view-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Vylex Technologies Portfolio. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
