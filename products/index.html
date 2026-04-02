@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-ZA">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Vylex Products | Professional Digital Tools</title>
-  <meta name="description" content="Discover Vylex's professional tools, SaaS products, and productivity utilities built for efficiency and precision." />
-  
-  <!-- Fonts & Icons -->
+  <meta name="description"
+    content="Discover Vylex's professional tools, SaaS products, and productivity utilities built for efficiency and precision." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
@@ -47,7 +48,7 @@
       width: 100%;
       height: 100%;
       background: radial-gradient(circle at 80% 20%, rgba(251, 169, 25, 0.05) 0%, transparent 40%),
-                  radial-gradient(circle at 20% 80%, rgba(10, 42, 84, 0.5) 0%, transparent 40%);
+        radial-gradient(circle at 20% 80%, rgba(10, 42, 84, 0.5) 0%, transparent 40%);
       z-index: -1;
     }
 
@@ -139,32 +140,6 @@
       margin: 0 auto;
     }
 
-    /* Tab Switcher (Optional aesthetic) */
-    .category-filter {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    .filter-btn {
-      padding: 0.5rem 1.5rem;
-      border-radius: 100px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .filter-btn.active {
-      background: var(--orange);
-      color: var(--navy);
-      border-color: var(--orange);
-    }
-
     /* Grid Layout */
     .product-grid {
       display: grid;
@@ -191,7 +166,7 @@
       background: rgba(255, 255, 255, 0.06);
       transform: translateY(-5px);
       border-color: var(--orange);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     }
 
     .product-icon {
@@ -242,32 +217,101 @@
       transform: translateX(-5px);
     }
 
+    /* Extended Tools Section */
+    .tools-section {
+      margin-top: 5rem;
+      padding-top: 4rem;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .tools-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .tools-header h2 {
+      font-size: 2rem;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    .main-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1.8rem;
+      background: rgba(251, 169, 25, 0.1);
+      border: 1px solid rgba(251, 169, 25, 0.3);
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+    }
+
+    .main-link:hover {
+      background: var(--orange);
+      color: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(251, 169, 25, 0.2);
+    }
+
     /* Footer */
     footer {
       text-align: center;
-      padding: 6rem 2rem 2rem;
+      padding: 4rem 2rem 2rem;
       color: var(--text-muted);
       font-size: 0.9rem;
     }
 
+    footer a {
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--text-main);
+    }
+
     /* Animations */
     @keyframes fadeInOut {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     .product-card {
       animation: fadeInOut 0.5s ease-out backwards;
     }
 
-    .product-card:nth-child(n) { animation-delay: calc(0.05s * var(--i)); }
+    .product-card:nth-child(n) {
+      animation-delay: calc(0.05s * var(--i));
+    }
 
     @media (max-width: 768px) {
-      h1 { font-size: 2.5rem; }
-      .product-grid { grid-template-columns: 1fr; }
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tools-header h2 {
+        font-size: 1.6rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="ambient-bg"></div>
@@ -289,7 +333,6 @@
     </section>
 
     <div class="product-grid">
-      <!-- ImageCraft -->
       <a href="../portfolio/image-craft/" class="product-card" style="--i: 1">
         <div class="product-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
         <div class="product-info">
@@ -299,7 +342,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- Invoice Maker -->
       <a href="../portfolio/invoice-maker/" class="product-card" style="--i: 2">
         <div class="product-icon"><i class="fa-solid fa-file-invoice"></i></div>
         <div class="product-info">
@@ -309,7 +351,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- QR Studio -->
       <a href="../portfolio/qr/" class="product-card" style="--i: 3">
         <div class="product-icon"><i class="fa-solid fa-qrcode"></i></div>
         <div class="product-info">
@@ -319,7 +360,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- Image to Text -->
       <a href="../portfolio/image-to-text/" class="product-card" style="--i: 4">
         <div class="product-icon"><i class="fa-solid fa-eye"></i></div>
         <div class="product-info">
@@ -329,7 +369,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- File Upload / Drive -->
       <a href="../portfolio/file-upload/" class="product-card" style="--i: 5">
         <div class="product-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
         <div class="product-info">
@@ -339,7 +378,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- Enigma -->
       <a href="../portfolio/enigma/" class="product-card" style="--i: 6">
         <div class="product-icon"><i class="fa-solid fa-user-secret"></i></div>
         <div class="product-info">
@@ -349,7 +387,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- Device Inspector -->
       <a href="../portfolio/device-inspector/" class="product-card" style="--i: 7">
         <div class="product-icon"><i class="fa-solid fa-microchip"></i></div>
         <div class="product-info">
@@ -359,7 +396,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- VyTrack -->
       <a href="../portfolio/vytrack/" class="product-card" style="--i: 8">
         <div class="product-icon"><i class="fa-solid fa-chart-line"></i></div>
         <div class="product-info">
@@ -369,7 +405,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- Task Master -->
       <a href="../portfolio/task-master/" class="product-card" style="--i: 9">
         <div class="product-icon"><i class="fa-solid fa-check-double"></i></div>
         <div class="product-info">
@@ -379,7 +414,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- Crypto SATS -->
       <a href="../portfolio/crypto/" class="product-card" style="--i: 10">
         <div class="product-icon"><i class="fa-brands fa-bitcoin"></i></div>
         <div class="product-info">
@@ -389,7 +423,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- Movie Explorer -->
       <a href="../portfolio/movie-explorer/" class="product-card" style="--i: 11">
         <div class="product-icon"><i class="fa-solid fa-film"></i></div>
         <div class="product-info">
@@ -399,7 +432,6 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <!-- Global Dictionary -->
       <a href="../portfolio/global-dictionary/" class="product-card" style="--i: 12">
         <div class="product-icon"><i class="fa-solid fa-earth-africa"></i></div>
         <div class="product-info">
@@ -408,13 +440,61 @@
         </div>
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
-      
+    </div>
+
+    <div class="tools-section">
+      <div class="tools-header">
+        <h2>Tools for Thinking, Building, and Learning</h2>
+        <a href="https://vylexnexys.co.za/tools/" class="main-link">
+          Explore the Full Vylex Nexys Tools Suite
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="product-grid">
+        <a href="https://vylexnexys.co.za/tools/virtual-lab.html" class="product-card" style="--i: 13">
+          <div class="product-icon"><i class="fa-solid fa-flask"></i></div>
+          <div class="product-info">
+            <h3>Virtual Lab</h3>
+            <p>Circuits, chemistry, and science sims</p>
+          </div>
+          <div class="view-indicator"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+        </a>
+
+        <a href="https://vylexnexys.co.za/tools/apscalculator.html" class="product-card" style="--i: 14">
+          <div class="product-icon"><i class="fa-solid fa-calculator"></i></div>
+          <div class="product-info">
+            <h3>APS Calculator</h3>
+            <p>Matric score and university entry tool</p>
+          </div>
+          <div class="view-indicator"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+        </a>
+
+        <a href="https://vylexnexys.co.za/tools/sequence-solver.html" class="product-card" style="--i: 15">
+          <div class="product-icon"><i class="fa-solid fa-arrow-down-1-9"></i></div>
+          <div class="product-info">
+            <h3>Sequence Solver</h3>
+            <p>Arithmetic, geometric & quadratic logic</p>
+          </div>
+          <div class="view-indicator"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+        </a>
+
+        <a href="https://vylexnexys.co.za/tools/lexico/index.html" class="product-card" style="--i: 16">
+          <div class="product-icon"><i class="fa-solid fa-volume-high"></i></div>
+          <div class="product-info">
+            <h3>Lexico</h3>
+            <p>Dictionary & Text-to-Speech engine</p>
+          </div>
+          <div class="view-indicator"><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+        </a>
+      </div>
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2026 Vylex Technologies Portfolio. All rights reserved.</p>
+    <p>&copy; 2026 <a href="/">Vylex</a> Technologies Portfolio. All rights reserved.</p>
   </footer>
 
 </body>
+
 </html>
