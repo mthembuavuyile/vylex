@@ -1,19 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", "DM Mono", monospace;
+  --font-sans: "DM Sans", "Inter", sans-serif;
+  --font-mono: "DM Mono", "JetBrains Mono", monospace;
   
+  /* Brand colors from about page */
   --color-brand-navy: #051b38;
   --color-brand-lightNavy: #0a2e5c;
+  --color-brand-accent: #1e40af;
   --color-brand-orange: #fba919;
+  --color-brand-orangeDim: #d98e10;
   --color-brand-orangeDark: #e09612;
+  --color-brand-surface: #f8fafc;
+  --color-brand-border: #e2e8f0;
   --color-brand-gray: #f3f4f6;
   --color-brand-slate: #e2e8f0;
   
   --color-vylex-navy: #051b38;
   --color-vylex-orange: #fba919;
 
+  /* Custom Backgrounds */
+  --background-image-grid-pattern: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+
+  /* Custom Shadows */
+  --shadow-glow: 0 0 20px rgba(251, 169, 25, 0.15);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+  /* Animations */
   --animate-float: float 6s ease-in-out infinite;
 }
 

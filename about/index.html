@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <!-- Basic Meta -->
     <meta charset="UTF-8" />
@@ -8,8 +9,10 @@
 
     <!-- Primary SEO -->
     <title>About Vylex | Digital Infrastructure</title>
-    <meta name="description" content="Learn about Vylex, a South African technology company based in Durban. We specialize in custom software development, enterprise systems engineering, EdTech innovation, and digital product architecture." />
-    <meta name="keywords" content="Vylex, Software Development South Africa, Durban Tech Company, Custom Software Development, Enterprise Systems Engineering, EdTech South Africa, Digital Innovation, System Architecture, B-BBEE Level 1" />
+    <meta name="description"
+        content="Learn about Vylex, a South African technology company based in Durban. We specialize in custom software development, enterprise systems engineering, EdTech innovation, and digital product architecture." />
+    <meta name="keywords"
+        content="Vylex, Software Development South Africa, Durban Tech Company, Custom Software Development, Enterprise Systems Engineering, EdTech South Africa, Digital Innovation, System Architecture, B-BBEE Level 1" />
     <meta name="author" content="Vylex" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://vylex.co.za/about" />
@@ -25,14 +28,16 @@
     <meta property="og:site_name" content="Vylex" />
     <meta property="og:url" content="https://vylex.co.za/about" />
     <meta property="og:title" content="About Vylex | Built in Africa. Engineered for the World." />
-    <meta property="og:description" content="Vylex is a south african-based African software company building enterprise systems, digital products, and innovation infrastructure." />
+    <meta property="og:description"
+        content="Vylex is a south african-based African software company building enterprise systems, digital products, and innovation infrastructure." />
     <meta property="og:image" content="https://vylex.co.za/assets/images/og-about.jpg" />
     <meta property="og:locale" content="en_ZA" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="About Vylex | Technology Conglomerate South Africa" />
-    <meta name="twitter:description" content="Discover how Vylex combines enterprise systems engineering with product innovation to build scalable digital solutions." />
+    <meta name="twitter:description"
+        content="Discover how Vylex combines enterprise systems engineering with product innovation to build scalable digital solutions." />
     <meta name="twitter:image" content="https://vylex.co.za/assets/images/og-about.jpg" />
 
     <!-- Favicon -->
@@ -43,65 +48,63 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-    <!-- Tailwind Configuration -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['DM Sans', 'sans-serif'],
-              mono: ['DM Mono', 'monospace'],
-            },
-            colors: {
-              brand: {
-                navy:      '#051b38',
-                lightNavy: '#0a2e5c',
-                accent:    '#1e40af', 
-                orange:    '#fba919',
-                orangeDim: '#d98e10',
-                surface:   '#f8fafc',
-                border:    '#e2e8f0',
-              },
-            },
-            backgroundImage: {
-              'grid-pattern': "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
-            },
-            boxShadow: {
-              'glow': '0 0 20px rgba(251, 169, 25, 0.15)',
-              'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
-            }
-          },
-        },
-      };
-    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/css/output.css">
 
     <!-- Global Styles -->
     <link rel="stylesheet" href="/css/global.css">
     <style>
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #051b38; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #fba919; }
-        
-        .text-balance { text-wrap: balance; }
-        
-        @keyframes float { 
-            0%, 100% { transform: translateY(0); } 
-            50% { transform: translateY(-10px); } 
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-float-delayed { animation: float 6s ease-in-out 3s infinite; }
+
+        ::-webkit-scrollbar-track {
+            background: #051b38;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fba919;
+        }
+
+        .text-balance {
+            text-wrap: balance;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-delayed {
+            animation: float 6s ease-in-out 3s infinite;
+        }
     </style>
-    
+
     <!-- Components -->
     <script src="/js/menu.js" defer></script>
 </head>
 
-<body class="bg-brand-surface text-slate-700 antialiased selection:bg-brand-orange selection:text-brand-navy" data-subtitle="About">
+<body class="bg-brand-surface text-slate-700 antialiased selection:bg-brand-orange selection:text-brand-navy"
+    data-subtitle="About">
 
     <!-- Header Injection Point -->
     <div id="header-placeholder"></div>
@@ -114,39 +117,52 @@
             <!-- Background Elements -->
             <div class="absolute inset-0 bg-gradient-to-b from-brand-navy via-[#072245] to-brand-navy z-0"></div>
             <div class="absolute inset-0 bg-[size:40px_40px] bg-grid-pattern opacity-20 mask-gradient"></div>
-            
-            <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-orange/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none"></div>
+
+            <div
+                class="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-orange/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none">
+            </div>
 
             <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    
+
                     <!-- Content -->
                     <div class="max-w-3xl">
-                        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 shadow-lg backdrop-blur-md mb-8 cursor-default">
+                        <div
+                            class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 shadow-lg backdrop-blur-md mb-8 cursor-default">
                             <span class="relative flex h-2 w-2">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75"></span>
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-orange"></span>
                             </span>
-                            <span class="text-xs font-mono font-bold tracking-widest uppercase text-gray-300">Our Identity</span>
+                            <span class="text-xs font-mono font-bold tracking-widest uppercase text-gray-300">Our
+                                Identity</span>
                         </div>
-                        
-                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-8 text-white text-balance">
+
+                        <h1
+                            class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-8 text-white text-balance">
                             Built in Africa.<br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-yellow-200 to-brand-orange">
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-yellow-200 to-brand-orange">
                                 Engineered for the World.
                             </span>
                         </h1>
-                        
-                        <p class="text-lg sm:text-xl text-gray-400 mb-10 leading-relaxed font-light max-w-xl text-balance">
-                            Vylex is a hybrid technology group. We balance high-stakes client engineering with an internal laboratory for public utility tools.
+
+                        <p
+                            class="text-lg sm:text-xl text-gray-400 mb-10 leading-relaxed font-light max-w-xl text-balance">
+                            Vylex is a hybrid technology group. We balance high-stakes client engineering with an
+                            internal laboratory for public utility tools.
                         </p>
-                        
+
                         <div class="flex flex-col sm:flex-row gap-4">
-                            <a href="#ecosystem" class="px-8 py-4 bg-brand-orange text-brand-navy font-bold rounded-xl hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(251,169,25,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] text-center">
+                            <a href="#ecosystem"
+                                class="px-8 py-4 bg-brand-orange text-brand-navy font-bold rounded-xl hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(251,169,25,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] text-center">
                                 How We Work
                             </a>
-                            <a href="#founder" class="px-8 py-4 border border-white/20 bg-white/5 text-white font-bold rounded-xl hover:bg-white hover:text-brand-navy transition-all duration-300 text-center backdrop-blur-sm">
+                            <a href="#founder"
+                                class="px-8 py-4 border border-white/20 bg-white/5 text-white font-bold rounded-xl hover:bg-white hover:text-brand-navy transition-all duration-300 text-center backdrop-blur-sm">
                                 Leadership
                             </a>
                         </div>
@@ -156,24 +172,36 @@
                     <div class="hidden lg:block relative h-full min-h-[500px]">
                         <div class="absolute inset-0 flex items-center justify-center">
                             <!-- Central Hub -->
-                            <div class="relative w-64 h-64 bg-brand-lightNavy/30 rounded-full border border-white/5 backdrop-blur-md flex items-center justify-center animate-float shadow-2xl">
-                                <div class="absolute inset-0 rounded-full border border-brand-orange/20 border-dashed animate-[spin_60s_linear_infinite]"></div>
-                                <div class="w-32 h-32 bg-gradient-to-tr from-brand-orange to-amber-300 rounded-2xl rotate-12 shadow-glow flex items-center justify-center">
+                            <div
+                                class="relative w-64 h-64 bg-brand-lightNavy/30 rounded-full border border-white/5 backdrop-blur-md flex items-center justify-center animate-float shadow-2xl">
+                                <div
+                                    class="absolute inset-0 rounded-full border border-brand-orange/20 border-dashed animate-[spin_60s_linear_infinite]">
+                                </div>
+                                <div
+                                    class="w-32 h-32 bg-gradient-to-tr from-brand-orange to-amber-300 rounded-2xl rotate-12 shadow-glow flex items-center justify-center">
                                     <i class="fa-solid fa-cube text-brand-navy text-4xl"></i>
                                 </div>
                             </div>
 
                             <!-- Orbiting Nodes -->
-                            <div class="absolute top-10 right-10 p-4 bg-brand-navy/80 border border-white/10 backdrop-blur-xl rounded-2xl shadow-xl animate-float-delayed flex items-center gap-3 max-w-[180px]">
-                                <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-code"></i></div>
+                            <div
+                                class="absolute top-10 right-10 p-4 bg-brand-navy/80 border border-white/10 backdrop-blur-xl rounded-2xl shadow-xl animate-float-delayed flex items-center gap-3 max-w-[180px]">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    <i class="fa-solid fa-code"></i>
+                                </div>
                                 <div>
                                     <div class="text-[10px] text-gray-400 font-mono uppercase">Client</div>
                                     <div class="text-xs font-bold text-white">Services</div>
                                 </div>
                             </div>
-                            
-                            <div class="absolute bottom-20 left-0 p-4 bg-brand-navy/80 border border-white/10 backdrop-blur-xl rounded-2xl shadow-xl animate-float flex items-center gap-3 max-w-[180px]">
-                                <div class="w-8 h-8 rounded-lg bg-brand-orange/20 flex items-center justify-center text-brand-orange"><i class="fa-solid fa-flask"></i></div>
+
+                            <div
+                                class="absolute bottom-20 left-0 p-4 bg-brand-navy/80 border border-white/10 backdrop-blur-xl rounded-2xl shadow-xl animate-float flex items-center gap-3 max-w-[180px]">
+                                <div
+                                    class="w-8 h-8 rounded-lg bg-brand-orange/20 flex items-center justify-center text-brand-orange">
+                                    <i class="fa-solid fa-flask"></i>
+                                </div>
                                 <div>
                                     <div class="text-[10px] text-gray-400 font-mono uppercase">Vylex Lab</div>
                                     <div class="text-xs font-bold text-white">Products</div>
@@ -190,21 +218,30 @@
              STATS DASHBOARD
         ══════════════════════════════════════════ -->
         <div class="relative z-20 -mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 grid grid-cols-2 lg:grid-cols-4 gap-8 divide-x-0 lg:divide-x divide-gray-100">
+            <div
+                class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 grid grid-cols-2 lg:grid-cols-4 gap-8 divide-x-0 lg:divide-x divide-gray-100">
                 <div class="text-center group">
-                    <div class="text-4xl font-extrabold text-brand-navy mb-1 group-hover:text-brand-orange transition-colors">2024</div>
+                    <div
+                        class="text-4xl font-extrabold text-brand-navy mb-1 group-hover:text-brand-orange transition-colors">
+                        2024</div>
                     <div class="text-xs font-mono text-gray-400 uppercase tracking-widest">Est. Founded</div>
                 </div>
                 <div class="text-center group">
-                    <div class="text-4xl font-extrabold text-brand-navy mb-1 group-hover:text-brand-orange transition-colors">3</div>
+                    <div
+                        class="text-4xl font-extrabold text-brand-navy mb-1 group-hover:text-brand-orange transition-colors">
+                        3</div>
                     <div class="text-xs font-mono text-gray-400 uppercase tracking-widest">Focus Areas</div>
                 </div>
                 <div class="text-center group">
-                    <div class="text-4xl font-extrabold text-brand-navy mb-1 group-hover:text-brand-orange transition-colors">100%</div>
+                    <div
+                        class="text-4xl font-extrabold text-brand-navy mb-1 group-hover:text-brand-orange transition-colors">
+                        100%</div>
                     <div class="text-xs font-mono text-gray-400 uppercase tracking-widest">Black Owned</div>
                 </div>
                 <div class="text-center group">
-                    <div class="text-4xl font-extrabold text-brand-navy mb-1 group-hover:text-brand-orange transition-colors">Lvl 1</div>
+                    <div
+                        class="text-4xl font-extrabold text-brand-navy mb-1 group-hover:text-brand-orange transition-colors">
+                        Lvl 1</div>
                     <div class="text-xs font-mono text-gray-400 uppercase tracking-widest">B-BBEE Status</div>
                 </div>
             </div>
@@ -218,30 +255,39 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                     <!-- Text Block -->
                     <div class="lg:col-span-6">
-                        <span class="text-brand-orange font-mono text-xs font-bold uppercase tracking-widest mb-3">The Hybrid Model</span>
+                        <span class="text-brand-orange font-mono text-xs font-bold uppercase tracking-widest mb-3">The
+                            Hybrid Model</span>
                         <h2 class="text-3xl md:text-4xl font-bold text-brand-navy tracking-tight leading-tight mb-6">
                             A different kind of technology company.
                         </h2>
-                        
+
                         <div class="prose prose-slate text-gray-600 leading-relaxed space-y-4">
                             <p>
-                                Vylex is a South Africa–based technology studio that blends professional digital services with in-house product innovation. We operate on a dual model that makes us unique in the landscape.
+                                Vylex is a South Africa–based technology studio that blends professional digital
+                                services with in-house product innovation. We operate on a dual model that makes us
+                                unique in the landscape.
                             </p>
                             <p class="font-semibold text-brand-navy border-l-4 border-brand-orange pl-4">
                                 "We don't just sell code to clients; we use that same code to build our own businesses."
                             </p>
                             <p>
-                                On one side, we work with startups and SMEs to design, build, and improve their digital systems—from custom web and mobile apps to secure, scalable platforms.
+                                On one side, we work with startups and SMEs to design, build, and improve their digital
+                                systems—from custom web and mobile apps to secure, scalable platforms.
                             </p>
                             <p>
-                                Simultaneously, we run the <strong>Vylex Lab</strong>, where we experiment with and launch our own digital products, utilities, and interactive learning tools. In essence, Vylex operates as both a trusted technology partner for businesses and a creative lab for building the future.
+                                Simultaneously, we run the <strong>Vylex Lab</strong>, where we experiment with and
+                                launch our own digital products, utilities, and interactive learning tools. In essence,
+                                Vylex operates as both a trusted technology partner for businesses and a creative lab
+                                for building the future.
                             </p>
                         </div>
 
                         <div class="mt-8 flex gap-4">
-                            <a href="/services/" class="group inline-flex items-center gap-2 font-bold text-brand-navy hover:text-brand-orange transition-colors">
-                                Explore Services 
-                                <i class="fa-solid fa-arrow-right text-sm transform group-hover:translate-x-1 transition-transform"></i>
+                            <a href="/services/"
+                                class="group inline-flex items-center gap-2 font-bold text-brand-navy hover:text-brand-orange transition-colors">
+                                Explore Services
+                                <i
+                                    class="fa-solid fa-arrow-right text-sm transform group-hover:translate-x-1 transition-transform"></i>
                             </a>
                         </div>
                     </div>
@@ -249,25 +295,33 @@
                     <!-- Bento Grid Cards -->
                     <div class="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Mission Card (Dark) -->
-                        <div class="p-8 rounded-3xl bg-brand-navy text-white relative overflow-hidden group min-h-[280px] flex flex-col justify-end">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 blur-3xl rounded-full -mr-10 -mt-10 group-hover:bg-brand-orange/20 transition-all duration-500"></div>
+                        <div
+                            class="p-8 rounded-3xl bg-brand-navy text-white relative overflow-hidden group min-h-[280px] flex flex-col justify-end">
+                            <div
+                                class="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 blur-3xl rounded-full -mr-10 -mt-10 group-hover:bg-brand-orange/20 transition-all duration-500">
+                            </div>
                             <div class="relative z-10">
                                 <i class="fa-solid fa-bullseye text-brand-orange text-3xl mb-4"></i>
                                 <h3 class="font-bold text-xl mb-3">Our Mission</h3>
                                 <p class="text-gray-300 text-sm leading-relaxed">
-                                    To make powerful digital tools and enterprise-grade software accessible to businesses across Africa — delivering global quality with local context.
+                                    To make powerful digital tools and enterprise-grade software accessible to
+                                    businesses across Africa — delivering global quality with local context.
                                 </p>
                             </div>
                         </div>
 
                         <!-- Vision Card (Light/Accent) -->
-                        <div class="p-8 rounded-3xl bg-white border border-gray-200 shadow-sm relative overflow-hidden group min-h-[280px] flex flex-col justify-end">
-                            <div class="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 blur-3xl rounded-full -ml-10 -mb-10"></div>
+                        <div
+                            class="p-8 rounded-3xl bg-white border border-gray-200 shadow-sm relative overflow-hidden group min-h-[280px] flex flex-col justify-end">
+                            <div
+                                class="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 blur-3xl rounded-full -ml-10 -mb-10">
+                            </div>
                             <div class="relative z-10">
                                 <i class="fa-solid fa-eye text-brand-navy text-3xl mb-4"></i>
                                 <h3 class="font-bold text-brand-navy text-xl mb-3">Our Vision</h3>
                                 <p class="text-gray-600 text-sm leading-relaxed">
-                                    To become Africa's most trusted hybrid technology group — creating products used by millions and setting the standard for digital delivery.
+                                    To become Africa's most trusted hybrid technology group — creating products used by
+                                    millions and setting the standard for digital delivery.
                                 </p>
                             </div>
                         </div>
@@ -282,58 +336,79 @@
         <section id="ecosystem" class="py-24 bg-white border-y border-gray-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16 max-w-3xl mx-auto">
-                    <span class="text-brand-orange font-mono text-xs font-bold uppercase tracking-widest">Our Ecosystem</span>
+                    <span class="text-brand-orange font-mono text-xs font-bold uppercase tracking-widest">Our
+                        Ecosystem</span>
                     <h2 class="mt-3 text-3xl md:text-4xl font-bold text-brand-navy">Three Pillars. One Standard.</h2>
                     <p class="mt-4 text-gray-500">
-                        We don't view these as isolated divisions, but as interconnected parts of our technology stack. Insights from our product lab fuel our client work, and rigorous client requirements harden our internal tools.
+                        We don't view these as isolated divisions, but as interconnected parts of our technology stack.
+                        Insights from our product lab fuel our client work, and rigorous client requirements harden our
+                        internal tools.
                     </p>
                 </div>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Client Solutions -->
-                    <a href="/services/" class="group bg-brand-surface rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-brand-navy/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
-                        
-                        <div class="w-14 h-14 rounded-xl bg-white text-brand-navy shadow-sm border border-gray-100 flex items-center justify-center text-xl mb-6 group-hover:bg-brand-navy group-hover:text-brand-orange transition-colors relative z-10">
+                    <a href="/services/"
+                        class="group bg-brand-surface rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-20 h-20 bg-brand-navy/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110">
+                        </div>
+
+                        <div
+                            class="w-14 h-14 rounded-xl bg-white text-brand-navy shadow-sm border border-gray-100 flex items-center justify-center text-xl mb-6 group-hover:bg-brand-navy group-hover:text-brand-orange transition-colors relative z-10">
                             <i class="fa-solid fa-briefcase"></i>
                         </div>
                         <h3 class="text-xl font-bold text-brand-navy mb-3">Client Services</h3>
                         <p class="text-gray-500 text-sm leading-relaxed mb-6">
-                            Strategy-to-delivery for businesses. We build high-performance web platforms, automate internal systems, and ensure cybersecurity compliance for growing companies.
+                            Strategy-to-delivery for businesses. We build high-performance web platforms, automate
+                            internal systems, and ensure cybersecurity compliance for growing companies.
                         </p>
-                        <span class="text-brand-orange text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                        <span
+                            class="text-brand-orange text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                             View Services <i class="fa-solid fa-chevron-right text-[10px]"></i>
                         </span>
                     </a>
 
                     <!-- Tools & Products -->
-                    <a href="/portfolio/" class="group bg-brand-surface rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-brand-orange/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                    <a href="/portfolio/"
+                        class="group bg-brand-surface rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-20 h-20 bg-brand-orange/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110">
+                        </div>
 
-                        <div class="w-14 h-14 rounded-xl bg-white text-brand-orangeDim shadow-sm border border-gray-100 flex items-center justify-center text-xl mb-6 group-hover:bg-brand-orange group-hover:text-brand-navy transition-colors relative z-10">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-white text-brand-orangeDim shadow-sm border border-gray-100 flex items-center justify-center text-xl mb-6 group-hover:bg-brand-orange group-hover:text-brand-navy transition-colors relative z-10">
                             <i class="fa-solid fa-layer-group"></i>
                         </div>
                         <h3 class="text-xl font-bold text-brand-navy mb-3">Software Products</h3>
                         <p class="text-gray-500 text-sm leading-relaxed mb-6">
-                            Our internal SaaS ecosystem. We deploy public utility tools, productivity software, and micro-apps designed to solve everyday friction points for the general public.
+                            Our internal SaaS ecosystem. We deploy public utility tools, productivity software, and
+                            micro-apps designed to solve everyday friction points for the general public.
                         </p>
-                        <span class="text-brand-orange text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                        <span
+                            class="text-brand-orange text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                             Browse Tools <i class="fa-solid fa-chevron-right text-[10px]"></i>
                         </span>
                     </a>
 
                     <!-- Games & EdTech -->
-                    <a href="/games/" class="group bg-brand-surface rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-20 h-20 bg-blue-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                    <a href="/games/"
+                        class="group bg-brand-surface rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-20 h-20 bg-blue-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110">
+                        </div>
 
-                        <div class="w-14 h-14 rounded-xl bg-white text-blue-600 shadow-sm border border-gray-100 flex items-center justify-center text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors relative z-10">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-white text-blue-600 shadow-sm border border-gray-100 flex items-center justify-center text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors relative z-10">
                             <i class="fa-solid fa-gamepad"></i>
                         </div>
                         <h3 class="text-xl font-bold text-brand-navy mb-3">Innovation Lab</h3>
                         <p class="text-gray-500 text-sm leading-relaxed mb-6">
-                            Where we experiment. This pillar focuses on EdTech platforms (STEM learning) and browser-based gaming experiences to engage the next generation.
+                            Where we experiment. This pillar focuses on EdTech platforms (STEM learning) and
+                            browser-based gaming experiences to engage the next generation.
                         </p>
-                        <span class="text-brand-orange text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                        <span
+                            class="text-brand-orange text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                             Enter Lab <i class="fa-solid fa-chevron-right text-[10px]"></i>
                         </span>
                     </a>
@@ -347,30 +422,40 @@
         <section id="founder" class="py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
-                    <span class="text-brand-orange font-mono text-xs font-bold uppercase tracking-widest">Leadership</span>
+                    <span
+                        class="text-brand-orange font-mono text-xs font-bold uppercase tracking-widest">Leadership</span>
                     <h2 class="mt-3 text-3xl md:text-4xl font-bold text-brand-navy">Meet the Founder</h2>
                 </div>
 
                 <div class="max-w-5xl mx-auto">
-                    <div class="bg-white rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden flex flex-col md:flex-row">
-                        
+                    <div
+                        class="bg-white rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+
                         <!-- Profile Image / Left Side -->
-                        <div class="md:w-2/5 bg-brand-navy relative p-10 flex flex-col items-center justify-center text-center">
-                            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                            
-                            <!-- Ensure you have a fallback image or the correct path here -->
-                            <div class="relative w-40 h-40 rounded-full p-1 bg-gradient-to-br from-brand-orange to-transparent mb-6">
-                                <img src="https://avuyilemthembu.co.za/assets/images/avuyile2.jpg" alt="Avuyile Mthembu" class="w-full h-full object-cover object-center rounded-full border-4 border-brand-navy bg-gray-200" />
+                        <div
+                            class="md:w-2/5 bg-brand-navy relative p-10 flex flex-col items-center justify-center text-center">
+                            <div
+                                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10">
                             </div>
-                            
+
+                            <!-- Ensure you have a fallback image or the correct path here -->
+                            <div
+                                class="relative w-40 h-40 rounded-full p-1 bg-gradient-to-br from-brand-orange to-transparent mb-6">
+                                <img src="https://avuyilemthembu.co.za/assets/images/avuyile2.jpg" alt="Avuyile Mthembu"
+                                    class="w-full h-full object-cover object-center rounded-full border-4 border-brand-navy bg-gray-200" />
+                            </div>
+
                             <h3 class="text-white font-bold text-2xl">Avuyile Mthembu</h3>
-                            <p class="text-brand-orange text-xs font-mono uppercase tracking-widest mt-2">Director & Lead Engineer</p>
-                            
+                            <p class="text-brand-orange text-xs font-mono uppercase tracking-widest mt-2">Director &
+                                Lead Engineer</p>
+
                             <div class="flex gap-4 mt-8">
-                                <a href="https://www.linkedin.com/in/mthembuavuyile/" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-orange hover:text-brand-navy transition-all duration-300">
+                                <a href="https://www.linkedin.com/in/mthembuavuyile/" target="_blank"
+                                    class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-orange hover:text-brand-navy transition-all duration-300">
                                     <i class="fa-brands fa-linkedin-in"></i>
                                 </a>
-                                <a href="mailto:info@avuyilemthembu.co.za" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-orange hover:text-brand-navy transition-all duration-300">
+                                <a href="mailto:info@avuyilemthembu.co.za"
+                                    class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-orange hover:text-brand-navy transition-all duration-300">
                                     <i class="fa-solid fa-envelope"></i>
                                 </a>
                             </div>
@@ -378,47 +463,63 @@
 
                         <!-- Bio / Right Side -->
                         <div class="md:w-3/5 p-10 md:p-12 bg-white flex flex-col justify-center">
-    <div class="flex flex-wrap items-center gap-3 mb-6">
-        <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wide border border-green-200">
-            <i class="fa-solid fa-circle text-[6px] mr-1 align-middle"></i> Active Director
-        </span>
-        
-    </div>
-    
-    <div class="mb-6">
-        <h3 class="text-3xl font-extrabold text-brand-navy mb-1">Avuyile Mthembu</h3>
-        <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">Founder & Software Developer</p>
-    </div>
+                            <div class="flex flex-wrap items-center gap-3 mb-6">
+                                <span
+                                    class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wide border border-green-200">
+                                    <i class="fa-solid fa-circle text-[6px] mr-1 align-middle"></i> Active Director
+                                </span>
 
-    <h4 class="text-xl font-bold text-brand-navy mb-5 border-l-4 border-brand-navy pl-4 italic">
-        "Putting world-class software in the hands of African businesses — so they can compete on a global stage."
-    </h4>
-    
-    <p class="text-gray-600 leading-relaxed mb-6 text-sm">
-        Avuyile founded Vylex (Pty) Ltd with a singular ambition: to prove that world-class technology and vertical SaaS platforms can be designed, engineered, and shipped from South Africa. Armed with a Diploma in Systems Development from Boston City Campus and a deep expertise in modern full-stack technologies, he leads the technical direction of the group—transforming complex problems into seamless web applications.
-    </p>
+                            </div>
 
-    <div class="flex flex-wrap gap-2 mb-8">
-        <span class="text-[11px] font-mono text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">Full-Stack Development</span>
-        <span class="text-[11px] font-mono text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">Vertical SaaS</span>
-        <span class="text-[11px] font-mono text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">Systems Architecture</span>
-    </div>
+                            <div class="mb-6">
+                                <h3 class="text-3xl font-extrabold text-brand-navy mb-1">Avuyile Mthembu</h3>
+                                <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">Founder & Software
+                                    Developer</p>
+                            </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 border-t border-gray-100 pt-8">
-        <div>
-            <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-1">Headquarters</div>
-            <div class="text-sm font-bold text-brand-navy">Durban, South Africa</div>
-        </div>
-        <div>
-            <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-1">Education</div>
-            <div class="text-sm font-bold text-brand-navy">Boston City Campus</div>
-        </div>
-        <div>
-            <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-1">Registration</div>
-            <div class="text-sm font-bold text-brand-navy">2026 / 150678 / 07</div>
-        </div>
-    </div>
-</div>
+                            <h4 class="text-xl font-bold text-brand-navy mb-5 border-l-4 border-brand-navy pl-4 italic">
+                                "Putting world-class software in the hands of African businesses — so they can compete
+                                on a global stage."
+                            </h4>
+
+                            <p class="text-gray-600 leading-relaxed mb-6 text-sm">
+                                Avuyile founded Vylex (Pty) Ltd with a singular ambition: to prove that world-class
+                                technology and vertical SaaS platforms can be designed, engineered, and shipped from
+                                South Africa. Armed with a Diploma in Systems Development from Boston City Campus and a
+                                deep expertise in modern full-stack technologies, he leads the technical direction of
+                                the group—transforming complex problems into seamless web applications.
+                            </p>
+
+                            <div class="flex flex-wrap gap-2 mb-8">
+                                <span
+                                    class="text-[11px] font-mono text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">Full-Stack
+                                    Development</span>
+                                <span
+                                    class="text-[11px] font-mono text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">Vertical
+                                    SaaS</span>
+                                <span
+                                    class="text-[11px] font-mono text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-100">Systems
+                                    Architecture</span>
+                            </div>
+
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 border-t border-gray-100 pt-8">
+                                <div>
+                                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-1">
+                                        Headquarters</div>
+                                    <div class="text-sm font-bold text-brand-navy">Durban, South Africa</div>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-1">
+                                        Education</div>
+                                    <div class="text-sm font-bold text-brand-navy">Boston City Campus</div>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-1">
+                                        Registration</div>
+                                    <div class="text-sm font-bold text-brand-navy">2026 / 150678 / 07</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -429,8 +530,12 @@
         ══════════════════════════════════════════ -->
         <section class="py-24 bg-brand-navy relative overflow-hidden">
             <!-- Background Decorations -->
-            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-orange/5 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[80px] rounded-full -ml-20 -mb-20 pointer-events-none"></div>
+            <div
+                class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-orange/5 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/10 blur-[80px] rounded-full -ml-20 -mb-20 pointer-events-none">
+            </div>
 
             <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
@@ -440,28 +545,40 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- Value 1 -->
-                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-orange/30 transition-all duration-300 group">
-                        <i class="fa-solid fa-shield-halved text-brand-orange text-2xl mb-4 group-hover:scale-110 transition-transform block"></i>
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-orange/30 transition-all duration-300 group">
+                        <i
+                            class="fa-solid fa-shield-halved text-brand-orange text-2xl mb-4 group-hover:scale-110 transition-transform block"></i>
                         <h4 class="font-bold text-white text-lg mb-2">Security First</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">Security is a requirement, not an afterthought. We build with resilience in mind.</p>
+                        <p class="text-sm text-gray-400 leading-relaxed">Security is a requirement, not an afterthought.
+                            We build with resilience in mind.</p>
                     </div>
                     <!-- Value 2 -->
-                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-orange/30 transition-all duration-300 group">
-                        <i class="fa-solid fa-gauge-high text-brand-orange text-2xl mb-4 group-hover:scale-110 transition-transform block"></i>
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-orange/30 transition-all duration-300 group">
+                        <i
+                            class="fa-solid fa-gauge-high text-brand-orange text-2xl mb-4 group-hover:scale-110 transition-transform block"></i>
                         <h4 class="font-bold text-white text-lg mb-2">Performance</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">We measure success in milliseconds and user experience, not just launch dates.</p>
+                        <p class="text-sm text-gray-400 leading-relaxed">We measure success in milliseconds and user
+                            experience, not just launch dates.</p>
                     </div>
                     <!-- Value 3 -->
-                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-orange/30 transition-all duration-300 group">
-                        <i class="fa-solid fa-arrows-to-dot text-brand-orange text-2xl mb-4 group-hover:scale-110 transition-transform block"></i>
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-orange/30 transition-all duration-300 group">
+                        <i
+                            class="fa-solid fa-arrows-to-dot text-brand-orange text-2xl mb-4 group-hover:scale-110 transition-transform block"></i>
                         <h4 class="font-bold text-white text-lg mb-2">Purpose</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">Every feature must solve a problem. We don't build bloatware.</p>
+                        <p class="text-sm text-gray-400 leading-relaxed">Every feature must solve a problem. We don't
+                            build bloatware.</p>
                     </div>
                     <!-- Value 4 -->
-                    <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-orange/30 transition-all duration-300 group">
-                        <i class="fa-solid fa-handshake text-brand-orange text-2xl mb-4 group-hover:scale-110 transition-transform block"></i>
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-orange/30 transition-all duration-300 group">
+                        <i
+                            class="fa-solid fa-handshake text-brand-orange text-2xl mb-4 group-hover:scale-110 transition-transform block"></i>
                         <h4 class="font-bold text-white text-lg mb-2">Integrity</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">Transparent communication and architectures that scale with your trust.</p>
+                        <p class="text-sm text-gray-400 leading-relaxed">Transparent communication and architectures
+                            that scale with your trust.</p>
                     </div>
                 </div>
             </div>
@@ -473,40 +590,56 @@
         <section class="py-24 bg-brand-surface">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                    <div class="sticky top-32">
-                        <span class="text-brand-orange font-mono text-xs font-bold uppercase tracking-widest">Our Journey</span>
-                        <h2 class="mt-3 text-3xl md:text-4xl font-bold text-brand-navy tracking-tight mb-6">From concept to corporation.</h2>
+                    <div class="relative lg:sticky lg:top-32">
+                        <span class="text-brand-orange font-mono text-xs font-bold uppercase tracking-widest">Our
+                            Journey</span>
+                        <h2 class="mt-3 text-3xl md:text-4xl font-bold text-brand-navy tracking-tight mb-6">From concept
+                            to corporation.</h2>
                         <p class="text-gray-500 leading-relaxed text-sm max-w-md">
-                            Vylex began as a conviction — that Africa deserves world-class technology built within its borders. What started as freelance architecture has evolved into a structured technology group.
+                            Vylex began as a conviction — that Africa deserves world-class technology built within its
+                            borders. What started as freelance architecture has evolved into a structured technology
+                            group.
                         </p>
                         <div class="mt-8">
-                            <a href="/contact/" class="text-sm font-bold text-brand-navy border-b-2 border-brand-orange pb-1 hover:text-brand-orange transition-colors">Start a project with us</a>
+                            <a href="/contact/"
+                                class="text-sm font-bold text-brand-navy border-b-2 border-brand-orange pb-1 hover:text-brand-orange transition-colors">Start
+                                a project with us</a>
                         </div>
                     </div>
 
                     <div class="relative pl-8 border-l-2 border-gray-100 space-y-12">
                         <!-- Timeline Item -->
                         <div class="relative">
-                            <span class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-white border-4 border-brand-orange"></span>
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-brand-orange mb-1">2024 — Inception</div>
+                            <span
+                                class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-white border-4 border-brand-orange"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-brand-orange mb-1">2024 —
+                                Inception</div>
                             <h4 class="font-bold text-brand-navy text-lg mb-2">The Foundation</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed">Design of the hybrid model begins. Initial prototyping of internal tools and early beta client work to validate the market need.</p>
-                        </div>
-                        
-                        <!-- Timeline Item -->
-                        <div class="relative">
-                            <span class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-brand-navy border-4 border-white shadow-sm"></span>
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-brand-orange mb-1">Feb 2026 — Formalization</div>
-                            <h4 class="font-bold text-brand-navy text-lg mb-2">Vylex (Pty) Ltd</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed">Incorporated as a private company. Secured B-BBEE Level 1 certification and established formal headquarters in Durban.</p>
+                            <p class="text-sm text-gray-500 leading-relaxed">Design of the hybrid model begins. Initial
+                                prototyping of internal tools and early beta client work to validate the market need.
+                            </p>
                         </div>
 
                         <!-- Timeline Item -->
                         <div class="relative">
-                            <span class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-gray-200 border-4 border-white"></span>
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-brand-orange mb-1">Future</div>
+                            <span
+                                class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-brand-navy border-4 border-white shadow-sm"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-brand-orange mb-1">Feb 2026
+                                — Formalization</div>
+                            <h4 class="font-bold text-brand-navy text-lg mb-2">Vylex (Pty) Ltd</h4>
+                            <p class="text-sm text-gray-500 leading-relaxed">Incorporated as a private company. Secured
+                                B-BBEE Level 1 certification and established formal headquarters in Durban.</p>
+                        </div>
+
+                        <!-- Timeline Item -->
+                        <div class="relative">
+                            <span
+                                class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-gray-200 border-4 border-white"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-brand-orange mb-1">Future
+                            </div>
                             <h4 class="font-bold text-brand-navy text-lg mb-2">Scaling Impact</h4>
-                            <p class="text-sm text-gray-500 leading-relaxed">Expanding the product ecosystem and establishing satellite teams across major African tech hubs.</p>
+                            <p class="text-sm text-gray-500 leading-relaxed">Expanding the product ecosystem and
+                                establishing satellite teams across major African tech hubs.</p>
                         </div>
                     </div>
                 </div>
@@ -518,15 +651,19 @@
         ══════════════════════════════════════════ -->
         <section class="py-24 bg-white border-t border-gray-200">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-brand-navy mb-6 tracking-tight">Ready to build something great?</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-brand-navy mb-6 tracking-tight">Ready to build something
+                    great?</h2>
                 <p class="text-gray-600 mb-10 max-w-xl mx-auto">
-                    Whether you need a complex system engineered or want to use one of our products, we are ready to help.
+                    Whether you need a complex system engineered or want to use one of our products, we are ready to
+                    help.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="/contact/" class="px-8 py-4 bg-brand-navy text-white font-bold rounded-xl hover:bg-brand-orange hover:text-brand-navy transition-all duration-300 shadow-lg shadow-brand-navy/20">
+                    <a href="/contact/"
+                        class="px-8 py-4 bg-brand-navy text-white font-bold rounded-xl hover:bg-brand-orange hover:text-brand-navy transition-all duration-300 shadow-lg shadow-brand-navy/20">
                         <i class="fa-solid fa-paper-plane mr-2"></i> Get in Touch
                     </a>
-                    <a href="/services/" class="px-8 py-4 bg-white border border-gray-200 text-brand-navy font-bold rounded-xl hover:border-brand-orange hover:text-brand-orange transition-all duration-300">
+                    <a href="/services/"
+                        class="px-8 py-4 bg-white border border-gray-200 text-brand-navy font-bold rounded-xl hover:border-brand-orange hover:text-brand-orange transition-all duration-300">
                         View Services
                     </a>
                 </div>
@@ -538,4 +675,5 @@
     <div id="footer-placeholder"></div>
 
 </body>
+
 </html>
