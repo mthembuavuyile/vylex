@@ -5,403 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Vylex Writer | Minimalist Distraction-Free Text Editor</title>
-    <meta name="title" content="Vylex Writer | Minimalist Distraction-Free Text Editor">
-    <meta name="description" content="A clean, distraction-free writing tool by Vylex IT. Write, auto-save, and track word counts with a minimal interface featuring light and dark modes.">
-    <meta name="keywords" content="Vylex Writer, minimalist text editor, distraction-free writing, online notepad, word counter, Avuyile Mthembu, web-based writer">
+    <!-- Primary SEO -->
+    <title>Vylex Writer | Free Browser Text Editor — No Login, No Distractions</title>
+    <meta name="title" content="Vylex Writer | Free Browser Text Editor — No Login, No Distractions">
+    <meta name="description" content="Write without friction. Vylex Writer is a free, privacy-first text editor that runs entirely in your browser — no login, no cloud, no bloat. Dark mode, word count, and PDF export included.">
+    <meta name="keywords" content="browser text editor no login, local storage notepad, distraction free writing tool, privacy first text editor, online notepad no account, dark mode writing app, free word counter online, offline text editor browser">
     <meta name="author" content="Avuyile Mthembu">
     <meta name="robots" content="index, follow">
 
+    <!-- Theme / App Identity -->
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="application-name" content="Vylex Writer">
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vylex.co.za/portfolio/writer">
-    <meta property="og:title" content="Vylex Writer | Focus on Your Words">
-    <meta property="og:description" content="The ultimate clean writing space. Feature-rich but distraction-free, with auto-save and dark mode. Developed by Vylex IT.">
+    <meta property="og:title" content="No Login. No Cloud. Just Your Words.">
+    <meta property="og:description" content="Vylex Writer is a free, local-first text editor built for focus — with dark mode, PDF export, and zero tracking.">
     <meta property="og:image" content="https://vylex.co.za/assets/Writer-preview.jpg">
     <meta property="og:site_name" content="Vylex IT Solutions">
 
+    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://vylex.co.za/portfolio/writer">
-    <meta property="twitter:title" content="Vylex Writer | Minimalist Text Editor">
-    <meta property="twitter:description" content="A clean, distraction-free writing tool by Avuyile Mthembu at Vylex IT.">
+    <meta property="twitter:title" content="Vylex Writer | No Login Text Editor">
+    <meta property="twitter:description" content="Free browser-based writing tool. No login, no cloud, just focus.">
     <meta property="twitter:image" content="https://vylex.co.za/assets/Writer-preview.jpg">
 
+    <!-- Canonical -->
     <link rel="canonical" href="https://vylex.co.za/portfolio/writer">
 
+    <!-- Favicon -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
+    <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
-    <style>
-        :root {
-            --bg-color: #f8f9fa;
-            --text-color: #212529;
-            --editor-bg: #ffffff;
-            --border-color: #dee2e6;
-            --accent-color: #6c757d;
-            --hover-color: #495057;
-            --info-bg: #e9ecef;
-            --button-bg: #f8f9fa;
-            --success-color: #28a745;
-            --error-color: #dc3545;
-            --logo-color: #0d6efd;
-            --toolbar-gap: 5px;
-            --header-height: 50px;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #212529;
-            --text-color: #f8f9fa;
-            --editor-bg: #343a40;
-            --border-color: #495057;
-            --accent-color: #adb5bd;
-            --hover-color: #ced4da;
-            --info-bg: #343a40;
-            --button-bg: #343a40;
-            --logo-color: #4d94ff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s, color 0.3s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            font-size: 18px;
-            color: var(--logo-color);
-            white-space: nowrap;
-        }
-
-        .logo-icon {
-            margin-right: 5px;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background-color: var(--logo-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background-color: var(--info-bg);
-            border-bottom: 1px solid var(--border-color);
-            height: var(--header-height);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            /* Firefox */
-            -ms-overflow-style: none;
-            /* IE and Edge */
-        }
-
-        .header-left::-webkit-scrollbar {
-            display: none;
-            /* Chrome, Safari, Opera */
-        }
-
-        .toolbar {
-            display: flex;
-            padding: 8px 12px;
-            background-color: var(--info-bg);
-            border-bottom: 1px solid var(--border-color);
-            flex-wrap: wrap;
-            gap: var(--toolbar-gap);
-            position: sticky;
-            top: var(--header-height);
-            z-index: 99;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .toolbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .toolbar-btn {
-            background: var(--button-bg);
-            border: 1px solid var(--border-color);
-            color: var(--accent-color);
-            cursor: pointer;
-            font-size: 14px;
-            padding: 6px 10px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 36px;
-            touch-action: manipulation;
-        }
-
-        .toolbar-btn:hover {
-            background-color: var(--hover-color);
-            color: var(--text-color);
-        }
-
-        .toolbar-btn:active {
-            transform: scale(0.95);
-        }
-
-        .toolbar-select {
-            background: var(--button-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 6px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            max-width: 120px;
-            appearance: menulist;
-        }
-
-        .theme-toggle,
-        .action-btn {
-            background: none;
-            border: 1px solid transparent;
-            color: var(--accent-color);
-            cursor: pointer;
-            font-size: 16px;
-            padding: 5px 8px;
-            border-radius: 4px;
-            margin-left: 10px;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-        }
-
-        .theme-toggle:hover,
-        .action-btn:hover {
-            color: var(--hover-color);
-            border-color: var(--border-color);
-        }
-
-        .action-btn i {
-            margin-right: 4px;
-        }
-
-        .word-counter {
-            color: var(--accent-color);
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-        }
-
-        .container {
-            flex: 1;
-            padding: 10px;
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        #editor {
-            width: 100%;
-            height: 100%;
-            flex-grow: 1;
-            padding: 16px;
-            font-size: 16px;
-            line-height: 1.6;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            background-color: var(--editor-bg);
-            color: var(--text-color);
-            outline: none;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        #editor:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.2);
-        }
-
-        .alert {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-            transition: transform 0.3s ease-in-out;
-            z-index: 1000;
-            text-align: center;
-            max-width: 90%;
-            word-wrap: break-word;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .alert.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .alert-success {
-            background-color: var(--success-color);
-        }
-
-        .alert-error {
-            background-color: var(--error-color);
-        }
-
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .container {
-                padding: 8px;
-            }
-
-            #editor {
-                padding: 12px;
-                font-size: 16px;
-                border-radius: 4px;
-            }
-
-            .toolbar {
-                padding: 6px 8px;
-                overflow-x: auto;
-                justify-content: flex-start;
-                flex-wrap: nowrap;
-            }
-
-            .logo {
-                font-size: 16px;
-            }
-
-            .logo-icon {
-                width: 20px;
-                height: 20px;
-            }
-
-            .action-btn span {
-                display: none;
-            }
-
-            .action-btn i {
-                margin-right: 0;
-            }
-
-            .toolbar-btn {
-                padding: 8px;
-                min-width: 36px;
-                height: 36px;
-            }
-
-            .toolbar-select {
-                max-width: 90px;
-                font-size: 12px;
-            }
-
-            .theme-toggle,
-            .action-btn {
-                margin-left: 6px;
-                padding: 6px;
-            }
-
-            .header-left {
-                gap: 4px;
-            }
-
-            .word-counter {
-                font-size: 10px;
-                max-width: 120px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
-
-        /* Small mobile phones */
-        @media (max-width: 480px) {
-            .header {
-                padding: 6px 8px;
-            }
-
-            .toolbar {
-                gap: 4px;
-            }
-
-            #editor {
-                padding: 10px;
-                font-size: 15px;
-            }
-
-            .toolbar-btn {
-                min-width: 32px;
-                height: 32px;
-                font-size: 12px;
-            }
-
-            .toolbar-select {
-                max-width: 80px;
-                padding: 4px 6px;
-            }
-        }
-
-        /* Fix for iOS Safari's 100vh bug */
-        @supports (-webkit-touch-callout: none) {
-
-            body,
-            .container {
-                height: -webkit-fill-available;
-            }
-        }
-
-        /* Support for notched devices */
-        @media screen and (orientation: portrait) {
-            .header {
-                padding-top: max(8px, env(safe-area-inset-top));
-                padding-left: max(12px, env(safe-area-inset-left));
-                padding-right: max(12px, env(safe-area-inset-right));
-            }
-
-            .container {
-                padding-bottom: max(10px, env(safe-area-inset-bottom));
-                padding-left: max(10px, env(safe-area-inset-left));
-                padding-right: max(10px, env(safe-area-inset-right));
-            }
-        }
-    </style>
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Vylex Writer",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ZAR" },
+      "description": "A free, privacy-first, distraction-free text editor. No login required.",
+      "url": "https://vylex.co.za/portfolio/writer",
+      "author": { "@type": "Person", "name": "Avuyile Mthembu" }
+    }
+    </script>
 </head>
 
 <body>
@@ -455,8 +109,14 @@
         </select>
     </div>
 
+    <div class="tab-bar" id="tabBar">
+        <button class="tab-add" id="addTabBtn" title="New note (Ctrl+Shift+N)">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
     <div class="container">
-        <div id="editor" contenteditable="true">Welcome to Writer! Start typing or use the formatting tools above.</div>
+        <div id="editor" contenteditable="true"></div>
     </div>
 
     <div class="alert" id="alertMessage"></div>
