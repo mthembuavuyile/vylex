@@ -1,178 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+
 <head>
+    <!-- Basic Meta -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VyTrack Finance Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>VyTrack | Smart Finance Tracker & Budget App</title>
+    <meta name="description"
+        content="VyTrack is a smart finance tracker that helps you manage expenses, track income, analyze spending, and stay on budget effortlessly.">
+    <meta name="keywords"
+        content="finance tracker, budget app, expense tracker, personal finance, money management, VyTrack, Vylex">
+    <meta name="author" content="Vylex">
+
+    <!-- SEO / Indexing -->
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vylex.co.za/portfolio/vytrack/">
+
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:title" content="VyTrack | Smart Finance Tracker">
+    <meta property="og:description"
+        content="Track your income, expenses, and savings with VyTrack. A modern smart finance dashboard by Vylex.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vylex.co.za/portfolio/vytrack/">
+    <meta property="og:image" content="https://vylex.co.za/assets/vytrack-preview.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VyTrack | Smart Finance Tracker">
+    <meta name="twitter:description"
+        content="Manage your money smarter with VyTrack. Track spending, budgets, and savings in one place.">
+    <meta name="twitter:image" content="https://vylex.co.za/assets/vytrack-preview.png">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Performance (Preconnect) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "VyTrack",
+        "url": "https://vylex.co.za/portfolio/vytrack/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "All",
+        "description": "VyTrack is a smart finance tracker for managing expenses, income, and budgets.",
+        "creator": {
+            "@type": "Organization",
+            "name": "Vylex",
+            "url": "https://vylex.co.za"
+        }
+    }
+    </script>
 </head>
+
 <body>
     <header class="header">
-        <div class="logo">VyTrack Finance Tracker</div>
-        <div class="burger-menu" id="burger-menu">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+        <div class="logo">
+            <i class="fa-solid fa-shapes logo-icon"></i>
+            VyTrack
         </div>
-        <nav class="main-nav" id="main-nav">
-            <ul>
-                <li><a href="#dashboard" class="active">Dashboard</a></li>
-                <li><a href="#transactions">Transactions</a></li>
-                <li><a href="#budgets">Budgets</a></li>
-                <li><a href="#reports">Reports</a></li>
-            </ul>
-        </nav>
-        <div class="profile-section">
-            <div class="profile-icon" id="profile-icon"></div>
-            <div class="profile-dropdown" id="profile-dropdown">
-                <div style="text-align: center; margin-bottom: 10px;">
-                    <span id="display-name" style="font-weight: bold;"></span>
-                </div>
-                <input type="text" id="profile-name-input" placeholder="Your Name">
-                <button onclick="saveName()">Save Name</button>
-                <div style="border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px;">
-                    <!-- Logout button will be inserted here by JS -->
-                </div>
+        <div class="header-controls">
+            <button id="theme-toggle" class="icon-btn" title="Toggle Theme">
+                <i class="fa-solid fa-sun" id="theme-icon"></i>
+            </button>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=random&color=fff" alt="User" class="avatar"
+                    id="user-avatar">
             </div>
         </div>
     </header>
 
-    <div class="container">     
-        <main class="main-content">
-            <section id="dashboard" class="section">
-                <div class="dashboard-summary">
-                    <div class="summary-card">
-                        <h3>Total Income</h3>
-                        <p id="total-income">$0.00</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>Total Expenses</h3>
-                        <p id="total-expenses">$0.00</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>Balance</h3>
-                        <p id="balance">$0.00</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>Savings Rate</h3>
-                        <p id="savings-rate">0%</p>
-                    </div>
-                </div>
-                <div class="charts-container">
-                    <div class="chart-card">
-                        <h2>Expense Distribution</h2>
-                        <div class="chart-container">
-                            <canvas id="expense-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="chart-card">
-                        <h2>Monthly Income vs Expenses</h2>
-                        <div class="chart-container">
-                            <canvas id="monthly-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <main class="container">
+        <!-- The Smart Input Hero Section -->
+        <section class="hero-search">
+            <div class="omni-wrapper">
+                <i class="fa-solid fa-bolt omni-icon"></i>
+                <input type="text" id="omni-input" class="omni-input"
+                    placeholder="Type '15 lunch' or '+500 salary' and press Enter..." autocomplete="off">
+            </div>
+            <p class="omni-hint">Fast entry: Type the <b>amount</b> followed by the <b>description</b>.</p>
+        </section>
 
-            <section id="transactions" class="section">
-                <div id="transaction-form">
-                    <h2>Add Transaction</h2>
-                    <form id="transaction-form-element">
-                        <div class="form-group">
-                            <label for="transaction-type">Type</label>
-                            <select id="transaction-type" required>
-                                <option value="">Select Type</option>
-                                <option value="income">Income</option>
-                                <option value="expense">Expense</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="transaction-category">Category</label>
-                            <select id="transaction-category" required>
-                                <option value="">Select Category</option>
-                                <!-- Categories will be populated by JS -->
-                            </select>
-                        </div>
-                        <div class="form-group" id="subcategory-group" style="display: none;">
-                            <label for="transaction-subcategory">Subcategory</label>
-                            <select id="transaction-subcategory">
-                                <option value="">Select Subcategory</option>
-                                <!-- Subcategories will be populated by JS -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="transaction-description">Description</label>
-                            <input type="text" id="transaction-description" placeholder="Description" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="transaction-amount">Amount</label>
-                            <input type="number" id="transaction-amount" placeholder="Amount" step="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="transaction-date">Date</label>
-                            <input type="date" id="transaction-date">
-                        </div>
-                        <button type="submit">Add Transaction</button>
-                    </form>
-                </div>
-
-                <ul id="transactions-list">
-                    <!-- Transactions will be listed here -->
-                </ul>
-            </section>
-
-            <section id="budgets" class="section">
-                <div id="budget-form">
-                    <h2>Set Budget</h2>
-                    <form id="budget-form-element">
-                        <div class="form-group">
-                            <label for="budget-category">Category</label>
-                            <select id="budget-category" required>
-                                <option value="">Select Category</option>
-                                <!-- Budget categories will be populated by JS -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="budget-amount">Budget Amount</label>
-                            <input type="number" id="budget-amount" placeholder="Budget Amount" step="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="budget-period">Period</label>
-                            <select id="budget-period">
-                                <option value="monthly">Monthly</option>
-                                <option value="weekly">Weekly</option>
-                            </select>
-                        </div>
-                        <button type="submit">Set Budget</button>
-                    </form>
-                </div>
-
-                <div id="budget-progress">
-                    <!-- Budget progress bars will be shown here -->
-                </div>
-            </section>
-
-            <section id="reports" class="section">
-                <h2>Financial Report</h2>
-                <div id="report-message">
-                    <!-- Report message will be displayed here -->
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <footer class="footer">
-        <center>
-            
-        <div class="copyright">
-            &copy; 2025 VyTrack Finance Tracker by <a href="https://vylex.co.za" target="_blank">vylex</a>
+        <!-- Month Selector Add this right after the hero-search section -->
+        <div class="month-selector-container">
+            <button class="icon-btn" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <h2 id="current-month-display">January 2025</h2>
+            <button class="icon-btn" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
-        <br>
 
-        </center>
+        <!-- Summary Widgets -->
+        <section class="summary-grid">
+            <div class="glass-card summary-card balance">
+                <div class="card-icon"><i class="fa-solid fa-wallet"></i></div>
+                <div class="card-content">
+                    <h3>Net Balance</h3>
+                    <h2 id="total-balance">$0.00</h2>
+                </div>
+            </div>
+            <div class="glass-card summary-card income">
+                <div class="card-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                <div class="card-content">
+                    <h3>Income</h3>
+                    <h2 id="total-income">$0.00</h2>
+                </div>
+            </div>
+            <div class="glass-card summary-card expense">
+                <div class="card-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                <div class="card-content">
+                    <h3>Expenses</h3>
+                    <h2 id="total-expenses">$0.00</h2>
+                </div>
+            </div>
+            <div class="glass-card summary-card savings">
+                <div class="card-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+                <div class="card-content">
+                    <h3>Savings Rate</h3>
+                    <h2 id="savings-rate">0%</h2>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-grid">
+            <!-- Recent Transactions -->
+            <section class="transactions-section glass-card">
+                <div class="section-header">
+                    <h2>Recent Activity</h2>
+                    <button id="clear-data" class="text-btn text-danger">Clear All</button>
+                </div>
+                <div class="transaction-list" id="transaction-list">
+                    <!-- Transactions injected by JS -->
+                    <div class="empty-state">
+                        <i class="fa-solid fa-ghost"></i>
+                        <p>No transactions yet. Type above to start.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Chart -->
+            <section class="analytics-section glass-card">
+                <h2>Spending Analytics</h2>
+                <div class="chart-container">
+                    <canvas id="expense-chart"></canvas>
+                </div>
+            </section>
+        </div>
+
+        <!-- Budget Tracking -->
+        <section class="budget-section glass-card" style="margin-top: 2rem; padding: 2rem;">
+            <div class="section-header">
+                <h2>Category Budgets</h2>
+                <div class="budget-input">
+                    <input type="text" id="budget-category" placeholder="Category (e.g. food)" class="mini-input">
+                    <input type="number" id="budget-limit" placeholder="Limit ($)" class="mini-input">
+                    <button id="add-budget-btn" class="icon-btn action-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="budget-list" id="budget-list">
+                <!-- Budgets injected by JS -->
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-brand">
+                <i class="fa-solid fa-shapes"></i> VyTrack Smart Finance
+            </div>
+            <p>&copy; 2026 by <a href="https://vylex.co.za" target="_blank">vylex</a>. All rights reserved.</p>
+            <p style="font-size: 0.8rem; opacity: 0.7;">Version 2.0 &bull; <a href="dashboard.html">Classic
+                    Dashboard</a></p>
+        </footer>
+    </main>
 
     <script src="script.js"></script>
 </body>
+
 </html>
