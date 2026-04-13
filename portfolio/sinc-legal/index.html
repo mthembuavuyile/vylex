@@ -63,8 +63,15 @@
     }
 
     @keyframes shimmer {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
     }
 
     /* Floating Element Animation */
@@ -73,8 +80,15 @@
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
     }
 
     /* Header Scrolled State */
@@ -118,20 +132,50 @@
     }
 
     /* Lightbox Modal */
-    .modal-hidden { display: none; }
-    .modal-backdrop { background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(2px); }
-    .modal-enter { opacity: 0; transform: scale(0.98); }
-    .modal-enter-active { opacity: 1; transform: scale(1); transition: all 150ms ease-out; }
-    .modal-leave-active { opacity: 0; transform: scale(0.98); transition: all 120ms ease-in; }
+    .modal-hidden {
+      display: none;
+    }
 
-    img { -webkit-user-drag: none; user-select: none; }
+    .modal-backdrop {
+      background: rgba(2, 6, 23, 0.75);
+      backdrop-filter: blur(2px);
+    }
+
+    .modal-enter {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+
+    .modal-enter-active {
+      opacity: 1;
+      transform: scale(1);
+      transition: all 150ms ease-out;
+    }
+
+    .modal-leave-active {
+      opacity: 0;
+      transform: scale(0.98);
+      transition: all 120ms ease-in;
+    }
+
+    img {
+      -webkit-user-drag: none;
+      user-select: none;
+    }
 
     @media (prefers-reduced-motion: reduce) {
-      .gradient-text, .floating, .pulse-ring, * {
+
+      .gradient-text,
+      .floating,
+      .pulse-ring,
+      * {
         animation: none !important;
         transition: none !important;
       }
-      html { scroll-behavior: auto; }
+
+      html {
+        scroll-behavior: auto;
+      }
     }
   </style>
 </head>
@@ -157,8 +201,8 @@
         </a>
 
         <nav class="hidden md:flex items-center gap-x-6 lg:gap-x-8" aria-label="Primary">
-          <a href="#why-sinc"
-            class="text-sm font-medium text-slate-700 hover:text-sky-700 transition-colors">Why SINC</a>
+          <a href="#why-sinc" class="text-sm font-medium text-slate-700 hover:text-sky-700 transition-colors">Why
+            SINC</a>
           <a href="#features"
             class="text-sm font-medium text-slate-700 hover:text-sky-700 transition-colors">Features</a>
           <a href="login.html"
@@ -198,7 +242,8 @@
 
         <nav class="p-6 flex flex-col gap-y-4">
           <a href="#why-sinc"
-            class="text-lg font-semibold text-slate-700 hover:text-sky-600 py-2 border-b border-slate-50 transition-colors">Why SINC</a>
+            class="text-lg font-semibold text-slate-700 hover:text-sky-600 py-2 border-b border-slate-50 transition-colors">Why
+            SINC</a>
           <a href="#features"
             class="text-lg font-semibold text-slate-700 hover:text-sky-600 py-2 border-b border-slate-50 transition-colors">Features</a>
         </nav>
@@ -213,10 +258,10 @@
     </div>
 
     <main id="main" class="flex-grow pt-24 sm:pt-28" tabindex="-1">
-      
+
       <section class="container mx-auto px-4 sm:px-6 py-10 sm:py-14 lg:py-20">
         <div class="grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
-          
+
           <div class="order-1 text-center lg:text-left">
             <span
               class="inline-flex items-center gap-2 bg-gradient-to-r from-sky-100 to-blue-100 text-sky-800 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full mb-4 border border-sky-200/80">
@@ -230,7 +275,8 @@
             </h1>
 
             <p class="mt-4 sm:mt-6 text-base sm:text-lg text-slate-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              SINC is an all-in-one workspace designed for South African legal professionals to manage cases, track billable time, and stay compliant — all from one secure dashboard.
+              SINC is an all-in-one workspace designed for South African legal professionals to manage cases, track
+              billable time, and stay compliant — all from one secure dashboard.
             </p>
 
             <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -255,9 +301,13 @@
                 class="absolute -bottom-12 -left-12 w-60 h-60 bg-gradient-to-br from-purple-200 to-pink-300 rounded-full blur-3xl opacity-40 floating"
                 style="animation-delay:-3s"></div>
 
-              <div class="mb-4 text-center lg:text-left relative z-10 bg-white/60 backdrop-blur-sm p-4 rounded-xl border border-white/40 shadow-sm">
-                <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-chart-line text-sky-600 mr-2"></i>A Dashboard That Works as Hard as You Do.</h3>
-                <p class="text-sm text-slate-600 mt-1">Experience a modern, intuitive dashboard with real-time activity feeds, performance statistics, and case overviews that keep you in control of your entire practice at a glance.</p>
+              <div
+                class="mb-4 text-center lg:text-left relative z-10 bg-white/60 backdrop-blur-sm p-4 rounded-xl border border-white/40 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-chart-line text-sky-600 mr-2"></i>A
+                  Dashboard That Works as Hard as You Do.</h3>
+                <p class="text-sm text-slate-600 mt-1">Experience a modern, intuitive dashboard with real-time activity
+                  feeds, performance statistics, and case overviews that keep you in control of your entire practice at
+                  a glance.</p>
               </div>
 
               <figure
@@ -282,25 +332,30 @@
         <div class="container mx-auto px-4 sm:px-6">
           <div class="grid md:grid-cols-3 gap-8">
             <div class="p-6">
-              <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-xl mb-4">
+              <div
+                class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-xl mb-4">
                 <i class="fa-solid fa-box-archive"></i>
               </div>
               <h3 class="text-lg font-bold text-slate-900 mb-2">Still digging through physical files?</h3>
-              <p class="text-slate-600 text-sm leading-relaxed">Digitise your practice with SINC and centralise every matter in one organised, searchable system.</p>
+              <p class="text-slate-600 text-sm leading-relaxed">Digitise your practice with SINC and centralise every
+                matter in one organised, searchable system.</p>
             </div>
             <div class="p-6">
               <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-xl mb-4">
                 <i class="fa-solid fa-stopwatch"></i>
               </div>
               <h3 class="text-lg font-bold text-slate-900 mb-2">Losing track of billable hours?</h3>
-              <p class="text-slate-600 text-sm leading-relaxed">Our integrated timer runs as you work, ensuring every minute is captured and converted into accurate, ZAR-denominated invoices in just one click.</p>
+              <p class="text-slate-600 text-sm leading-relaxed">Our integrated timer runs as you work, ensuring every
+                minute is captured and converted into accurate, ZAR-denominated invoices in just one click.</p>
             </div>
             <div class="p-6">
-              <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl mb-4">
+              <div
+                class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl mb-4">
                 <i class="fa-solid fa-shield-halved"></i>
               </div>
               <h3 class="text-lg font-bold text-slate-900 mb-2">Worried about POPIA compliance?</h3>
-              <p class="text-slate-600 text-sm leading-relaxed">SINC is built with a security-first architecture to safeguard sensitive client data, giving you peace of mind while you focus on your cases.</p>
+              <p class="text-slate-600 text-sm leading-relaxed">SINC is built with a security-first architecture to
+                safeguard sensitive client data, giving you peace of mind while you focus on your cases.</p>
             </div>
           </div>
         </div>
@@ -312,73 +367,92 @@
             Everything You Need. Nothing You Don't.
           </h2>
           <p class="mt-4 text-base sm:text-lg text-slate-600">
-            Designed specifically for the workflows, billing practices, and administrative rigor of South African law firms.
+            Designed specifically for the workflows, billing practices, and administrative rigor of South African law
+            firms.
           </p>
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          
-          <article class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
-            <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl mb-6">
+
+          <article
+            class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
+            <div
+              class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl mb-6">
               <i class="fa-solid fa-briefcase text-white"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-900 mb-2">Smart Case Management</h3>
             <p class="text-slate-600 text-sm leading-relaxed">
-              Keeps every client detail, case note, document, and status update structured and accessible in a single interface designed for efficiency.
+              Keeps every client detail, case note, document, and status update structured and accessible in a single
+              interface designed for efficiency.
             </p>
           </article>
 
-          <article class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
-            <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mb-6">
+          <article
+            class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
+            <div
+              class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mb-6">
               <i class="fa-regular fa-clock text-white"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-900 mb-2">Precision Time Tracking</h3>
             <p class="text-slate-600 text-sm leading-relaxed">
-              Capture billable time in real time, reduce revenue leakage, and maintain transparent billing practices aligned with South African standards.
+              Capture billable time in real time, reduce revenue leakage, and maintain transparent billing practices
+              aligned with South African standards.
             </p>
           </article>
 
-          <article class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
-            <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl mb-6">
+          <article
+            class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
+            <div
+              class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl mb-6">
               <i class="fa-solid fa-vault text-white"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-900 mb-2">Secure Document Vault</h3>
             <p class="text-slate-600 text-sm leading-relaxed">
-              Provides encrypted storage for mandates, pleadings, contracts, and evidence — keeping your firm’s most critical information protected and accessible only to authorised users.
+              Provides encrypted storage for mandates, pleadings, contracts, and evidence — keeping your firm’s most
+              critical information protected and accessible only to authorised users.
             </p>
           </article>
 
-          <article class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
-            <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl mb-6">
+          <article
+            class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
+            <div
+              class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl mb-6">
               <i class="fa-solid fa-file-invoice-dollar text-white"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-900 mb-2">ZAR-Optimised Invoicing</h3>
             <p class="text-slate-600 text-sm leading-relaxed">
-              Fully optimised for ZAR invoicing, SINC seamlessly aligns with South African billing practices and client expectations.
+              Fully optimised for ZAR invoicing, SINC seamlessly aligns with South African billing practices and client
+              expectations.
             </p>
           </article>
 
-          <article class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
-            <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl mb-6">
+          <article
+            class="feature-card bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5">
+            <div
+              class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl mb-6">
               <i class="fa-solid fa-scale-unbalanced text-white"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-900 mb-2">LPC Administrative Support</h3>
             <p class="text-slate-600 text-sm leading-relaxed">
-              Designed to support the administrative rigor required by the Legal Practice Council, SINC helps you maintain organised records and structured workflows.
+              Designed to support the administrative rigor required by the Legal Practice Council, SINC helps you
+              maintain organised records and structured workflows.
             </p>
           </article>
 
-          <article class="feature-card bg-gradient-to-br from-sky-50 to-white border border-sky-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5 relative overflow-hidden">
+          <article
+            class="feature-card bg-gradient-to-br from-sky-50 to-white border border-sky-200/80 rounded-2xl p-6 sm:p-8 shadow-lg shadow-sky-900/5 relative overflow-hidden">
             <div class="absolute -right-4 -top-4 text-sky-100 opacity-50 text-9xl">
               <i class="fa-solid fa-location-dot"></i>
             </div>
             <div class="relative z-10">
-              <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl mb-6">
+              <div
+                class="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl mb-6">
                 <i class="fa-solid fa-code text-white"></i>
               </div>
               <h3 class="text-lg font-bold text-slate-900 mb-2">Built by Vylex</h3>
               <p class="text-slate-600 text-sm leading-relaxed">
-                Proudly based in Durban, SINC offers local insight and responsive support tailored to the realities of South African legal practice.
+                Proudly based in Durban, SINC offers local insight and responsive support tailored to the realities of
+                South African legal practice.
               </p>
             </div>
           </article>
@@ -387,15 +461,19 @@
       </section>
 
       <section class="container mx-auto px-4 sm:px-6 pb-12 sm:pb-20">
-        <div class="bg-gradient-to-r from-sky-800 to-slate-900 rounded-2xl sm:rounded-3xl p-8 sm:p-14 text-center shadow-2xl relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-sky-500 rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-          
+        <div
+          class="bg-gradient-to-r from-sky-800 to-slate-900 rounded-2xl sm:rounded-3xl p-8 sm:p-14 text-center shadow-2xl relative overflow-hidden">
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-sky-500 rounded-full blur-[80px] opacity-20 pointer-events-none">
+          </div>
+
           <div class="relative z-10">
             <h3 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-4">
               Ready to take your firm into the future?
             </h3>
             <p class="text-sky-100 text-base sm:text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
-              Join the growing number of Durban-based practitioners using SINC to reclaim their time, protect their revenue, and focus on what truly matters — the law.
+              Join the growing number of Durban-based practitioners using SINC to reclaim their time, protect their
+              revenue, and focus on what truly matters — the law.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a href="login.html"
@@ -414,29 +492,32 @@
     </main>
 
     <footer class="bg-white/90 backdrop-blur-sm border-t border-slate-200/80 mt-auto">
-  <div class="container mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-    
-    <div class="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-500">
-      <span>
-        Concept & idea by
-        <a href="https://sethumkhwanaziattorneys.co.za" target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:text-sky-800 font-medium">
-          Sethu Mkhwanazi Attorneys
-        </a>
-      </span>
-      <span>
-        Developed by
-        <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer" class="text-sky-600 hover:text-sky-800 font-medium">
-          Vylex
-        </a>
-      </span>
-    </div>
+      <div
+        class="container mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
 
-    <p class="text-sm text-gray-400 text-center sm:text-right mt-2 sm:mt-0">
-      &copy; 2026 All Rights Reserved.
-    </p>
+        <div class="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-500">
+          <span>
+            Concept & idea by
+            <a href="https://sethumkhwanaziattorneys.co.za" target="_blank" rel="noopener noreferrer"
+              class="text-sky-600 hover:text-sky-800 font-medium">
+              Sethu Mkhwanazi Attorneys
+            </a>
+          </span>
+          <span>
+            Developed by
+            <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer"
+              class="text-sky-600 hover:text-sky-800 font-medium">
+              Vylex
+            </a>
+          </span>
+        </div>
 
-  </div>
-</footer>
+        <p class="text-sm text-gray-400 text-center sm:text-right mt-2 sm:mt-0">
+          &copy; 2026 All Rights Reserved.
+        </p>
+
+      </div>
+    </footer>
   </div>
 
   <div id="image-modal" class="modal-hidden fixed inset-0 z-[70]" aria-hidden="true" aria-labelledby="image-modal-title"

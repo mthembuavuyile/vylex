@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social media brand</title>
+  <style>
+    :root {
+      --navy: #051b38;
+      --lnavy: #0a2e5c;
+      --orange: #fba919;
+      --orange-dk: #e09612;
+      --white: #ffffff;
+      --slate: #e2e8f0;
+      --gray-bg: #f3f4f6;
+      --sdark: #64748b;
+      --text: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', 'Inter', sans-serif;
+    }
+
+    .wrap {
+      padding: 2rem 1.5rem 3rem;
+      max-width: 980px;
+      margin: 0 auto;
+      color: var(--text);
+    }
+
+    /* Section headers */
+    .sec-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sec-label::before {
+      content: '';
+      width: 18px;
+      height: 2px;
+      background: var(--orange);
+      display: inline-block;
+    }
+
+    .sec-title {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .sec-desc {
+      font-size: 13px;
+      color: var(--sdark);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--slate);
+      margin: 2rem 0;
+    }
+
+    /* Post grid */
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    /* Post frame */
+    .post-frame {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 0.5px solid var(--slate);
+    }
+
+    .post-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--sdark);
+      background: var(--gray-bg);
+      padding: 8px 14px;
+      border-top: 0.5px solid var(--slate);
+      letter-spacing: 0.3px;
+    }
+
+    /* ─── POST TEMPLATES ─── */
+
+    /* 1. Dark navy service post */
+    .p-service {
+      background: var(--navy);
+      aspect-ratio: 1/1;
+      position: relative;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .p-service .grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .p-service .corner-mark {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(ellipse at 100% 0%, rgba(251, 169, 25, 0.12) 0%, transparent 70%);
+    }
+
+    .p-service .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(251, 169, 25, 0.15);
+      border: 1px solid rgba(251, 169, 25, 0.3);
+      border-radius: 100px;
+      padding: 4px 10px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      position: relative;
+      z-index: 1;
+    }
+
+    .p-service .tag-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    .p-service .main-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .p-service .main-text h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .p-service .main-text h2 span {
+      color: var(--orange);
+    }
+
+    .p-service .main-text p {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.6;
+    }
+
+    .p-service .logo-lock {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .p-service .logo-lock .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .p-service .logo-lock .logo span {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+
+    .p-service .logo-lock .logo span em {
+      color: var(--orange);
+      font-style: normal;
+    }
+
+    .p-service .logo-lock .cta {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* 2. Light utility/product post */
+    .p-product {
+      background: #fff;
+      aspect-ratio: 1/1;
+      position: relative;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 0.5px solid var(--slate);
+    }
+
+    .p-product .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .p-product .top-bar .logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .p-product .top-bar .logo span {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      color: var(--navy);
+    }
+
+    .p-product .top-bar .logo span em {
+      color: var(--orange);
+      font-style: normal;
+    }
+
+    .p-product .badge {
+      background: rgba(251, 169, 25, 0.12);
+      border: 1px solid rgba(251, 169, 25, 0.3);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #92400e;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .p-product .icon-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .p-product .icon-box {
+      width: 72px;
+      height: 72px;
+      background: rgba(5, 27, 56, 0.05);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.5px solid var(--slate);
+    }
+
+
+    .p-product .bottom h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.4px;
+      margin-bottom: 5px;
+    }
+
+    .p-product .bottom p {
+      font-size: 11px;
+      color: var(--sdark);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    .p-product .bottom .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* 3. Orange CTA post */
+    .p-cta {
+      background: var(--orange);
+      aspect-ratio: 1/1;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .p-cta::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 40px solid rgba(5, 27, 56, 0.08);
+    }
+
+    .p-cta .logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .p-cta .logo span {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      color: var(--navy);
+    }
+
+    .p-cta .main {
+      position: relative;
+      z-index: 1;
+    }
+
+    .p-cta .main h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .p-cta .main p {
+      font-size: 11px;
+      color: rgba(5, 27, 56, 0.65);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .p-cta .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .p-cta .footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .p-cta .footer .url {
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(5, 27, 56, 0.55);
+      letter-spacing: 0.5px;
+    }
+
+    /* 4. Story / vertical */
+    .p-story {
+      background: var(--navy);
+      aspect-ratio: 9/16;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      min-height: 360px;
+    }
+
+    .p-story .grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .p-story .glow {
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(ellipse, rgba(251, 169, 25, 0.1) 0%, transparent 70%);
+    }
+
+    .p-story .logo {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .p-story .logo span {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+
+    .p-story .logo span em {
+      color: var(--orange);
+      font-style: normal;
+    }
+
+    .p-story .mid {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .p-story .mid .eyebrow {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .p-story .mid h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+
+    .p-story .mid h2 span {
+      color: var(--orange);
+    }
+
+    .p-story .mid .divline {
+      width: 36px;
+      height: 2px;
+      background: var(--orange);
+      margin-bottom: 14px;
+    }
+
+    .p-story .mid p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.65;
+    }
+
+    .p-story .bottom {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .p-story .bottom .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .p-story .bottom .pill {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 100px;
+      padding: 4px 10px;
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 500;
+    }
+
+    /* 5. Split layout */
+    .p-split {
+      aspect-ratio: 16/9;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .p-split .left-panel {
+      background: var(--navy);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .p-split .left-panel .grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .p-split .left-panel .logo {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .p-split .left-panel .logo span {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      color: #fff;
+    }
+
+    .p-split .left-panel .logo span em {
+      color: var(--orange);
+      font-style: normal;
+    }
+
+    .p-split .left-panel .tagline {
+      position: relative;
+      z-index: 1;
+    }
+
+    .p-split .left-panel .tagline .eyebrow {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+
+    .p-split .left-panel .tagline h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    .p-split .left-panel .tagline h2 span {
+      color: var(--orange);
+    }
+
+    .p-split .right-panel {
+      background: #f8fafc;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .p-split .right-panel .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #fff;
+      border-radius: 10px;
+      border: 0.5px solid var(--slate);
+    }
+
+    .p-split .right-panel .feature-item .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--orange);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .p-split .right-panel .feature-item .ft strong {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy);
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    .p-split .right-panel .feature-item .ft span {
+      font-size: 10px;
+      color: var(--sdark);
+    }
+
+    /* Rule tables */
+    .rule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 0;
+    }
+
+    .rule-card {
+      border-radius: 10px;
+      border: 0.5px solid;
+      overflow: hidden;
+    }
+
+    .rule-card.do {
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .rule-card.dont {
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .rule-card .rhead {
+      padding: 8px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rule-card.do .rhead {
+      background: rgba(16, 185, 129, 0.08);
+      color: #065f46;
+    }
+
+    .rule-card.dont .rhead {
+      background: rgba(239, 68, 68, 0.06);
+      color: #991b1b;
+    }
+
+    .rule-card .rbody {
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--sdark);
+      line-height: 1.6;
+      background: #fff;
+    }
+
+    .rule-card .rbody strong {
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    /* Spec table */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .spec-table th {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--sdark);
+      padding: 8px 12px;
+      text-align: left;
+      background: var(--gray-bg);
+      border-bottom: 1px solid var(--slate);
+    }
+
+    .spec-table td {
+      padding: 10px 12px;
+      border-bottom: 0.5px solid var(--slate);
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    .spec-table td:first-child {
+      font-weight: 500;
+      color: var(--navy);
+    }
+
+    .spec-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .spec-table .mono {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--orange);
+    }
+
+    /* Anatomy diagram */
+    .anatomy-wrap {
+      background: var(--gray-bg);
+      border-radius: 12px;
+      padding: 20px;
+      border: 0.5px solid var(--slate);
+    }
+
+    .anatomy-inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .anatomy-post {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 20px;
+      aspect-ratio: 1/1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      min-height: 180px;
+    }
+
+    .anatomy-post .agl {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .anatomy-post .az1 {
+      position: relative;
+      z-index: 1;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .anatomy-post .az2 {
+      position: relative;
+      z-index: 1;
+    }
+
+    .anatomy-post .az2 h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .anatomy-post .az2 h2 span {
+      color: var(--orange);
+    }
+
+    .anatomy-post .az3 {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .anatomy-post .az3 span {
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .anatomy-post .az3 span em {
+      color: var(--orange);
+      font-style: normal;
+    }
+
+    .anatomy-labels {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .alabel {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .alabel .num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: var(--navy);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .alabel .adata strong {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--navy);
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    .alabel .adata span {
+      font-size: 11px;
+      color: var(--sdark);
+      line-height: 1.5;
+    }
+
+    /* Color chips */
+    .chip-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gray-bg);
+      border-radius: 8px;
+      padding: 7px 12px;
+      border: 0.5px solid var(--slate);
+    }
+
+    .chip .swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .chip .cinfo strong {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--navy);
+      display: block;
+    }
+
+    .chip .cinfo span {
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      color: var(--sdark);
+    }
+
+    /* V icon SVG inline */
+    .v-icon {
+      display: inline-block;
+    }
+
+    /* Format badges */
+    .fmt-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .fmt-badge {
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .fmt-badge.sq {
+      background: rgba(5, 27, 56, 0.07);
+      color: var(--navy);
+    }
+
+    .fmt-badge.ls {
+      background: rgba(251, 169, 25, 0.12);
+      color: #92400e;
+    }
+
+    .fmt-badge.pt {
+      background: rgba(10, 46, 92, 0.06);
+      color: var(--lnavy);
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+
+
+
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <div style="margin-bottom:2.5rem;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <svg width="32" height="32" viewBox="0 0 100 100">
+          <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+          <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+        </svg>
+        <span style="font-size:20px;font-weight:700;letter-spacing:-1px;color:#051b38;">vylex<span
+            style="color:#FBA919;">.</span></span>
+      </div>
+      <div
+        style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#FBA919;margin-bottom:6px;">
+        Social Media</div>
+      <div style="font-size:22px;font-weight:500;color:#051b38;letter-spacing:-0.5px;">Post Design Blueprint</div>
+      <div style="font-size:13px;color:#64748b;margin-top:4px;line-height:1.6;">Brand identity guidelines for all social
+        content — Instagram, LinkedIn, Facebook, Twitter/X.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- POST TEMPLATES -->
+    <div class="section">
+      <div class="sec-label">01 — Post Templates</div>
+      <div class="sec-title">Core layout templates</div>
+      <div class="sec-desc">Four reusable templates covering every content type. Pick the right one based on what you're
+        posting.</div>
+
+      <div class="post-grid">
+
+        <!-- Template A: Service / Dark -->
+        <div class="post-frame">
+          <div class="p-service">
+            <div class="grid-lines"></div>
+            <div class="corner-mark"></div>
+            <div class="tag"><span class="tag-dot"></span>Web Development</div>
+            <div class="main-text">
+              <h2>Custom web apps, <span>built right.</span></h2>
+              <p>Scalable, POPIA-compliant systems engineered for South African businesses.</p>
+            </div>
+            <div class="logo-lock">
+              <div class="logo">
+                <svg width="20" height="20" viewBox="0 0 100 100">
+                  <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                  <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+                </svg>
+                <span>vylex<em>.</em></span>
+              </div>
+              <span class="cta">vylex.co.za</span>
+            </div>
+          </div>
+          <div class="post-label">A — Dark navy · Services / Engineering posts</div>
+        </div>
+
+        <!-- Template B: Product / Light -->
+        <div class="post-frame">
+          <div class="p-product">
+            <div class="top-bar">
+              <div class="logo">
+                <svg width="18" height="18" viewBox="0 0 100 100">
+                  <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                  <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+                </svg>
+                <span>vylex<em>.</em></span>
+              </div>
+              <span class="badge">New Tool</span>
+            </div>
+            <div class="icon-area">
+              <div class="icon-box">
+                <svg width="36" height="36" viewBox="0 0 100 100">
+                  <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                  <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+                </svg>
+              </div>
+            </div>
+            <div class="bottom">
+              <h2>QR Code Generator</h2>
+              <p>Generate branded, high-resolution QR codes in seconds. Free to use — no sign-up required.</p>
+              <span class="link">Try it free →</span>
+            </div>
+          </div>
+          <div class="post-label">B — Light · Product / Tool launches</div>
+        </div>
+
+        <!-- Template C: Orange CTA -->
+        <div class="post-frame">
+          <div class="p-cta">
+            <div class="logo">
+              <svg width="18" height="18" viewBox="0 0 100 100">
+                <path fill="#051b38" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                <rect fill="#051b38" x="42" y="10" width="16" height="30" />
+              </svg>
+              <span>vylex<em style="color:#051b38;">.</em></span>
+            </div>
+            <div class="main">
+              <h2>Ready to build something?</h2>
+              <p>Strategy to deployment — we scope, design, and deliver systems that scale.</p>
+              <span class="cta-btn">
+                <svg width="12" height="12" viewBox="0 0 100 100">
+                  <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                  <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+                </svg>
+                Get a free consult
+              </span>
+            </div>
+            <div class="footer">
+              <span class="url">vylex.co.za</span>
+              <span
+                style="font-size:9px;font-weight:700;color:rgba(5,27,56,0.4);letter-spacing:1px;text-transform:uppercase;">Johannesburg
+                · ZA</span>
+            </div>
+          </div>
+          <div class="post-label">C — Orange · CTAs / Promotions / Announcements</div>
+        </div>
+
+        <!-- Template D: Split 16:9 -->
+        <div class="post-frame" style="grid-column: 1 / -1;">
+          <div class="p-split">
+            <div class="left-panel">
+              <div class="grid-lines"></div>
+              <div class="logo">
+                <svg width="18" height="18" viewBox="0 0 100 100">
+                  <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                  <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+                </svg>
+                <span>vylex<em>.</em></span>
+              </div>
+              <div class="tagline">
+                <div class="eyebrow">Mobile App Dev</div>
+                <h2>Android apps that <span>perform.</span></h2>
+              </div>
+            </div>
+            <div class="right-panel">
+              <div class="feature-item">
+                <div class="dot"></div>
+                <div class="ft"><strong>Native Android</strong><span>Kotlin-first development</span></div>
+              </div>
+              <div class="feature-item">
+                <div class="dot"></div>
+                <div class="ft"><strong>Cross-platform</strong><span>React Native & Flutter builds</span></div>
+              </div>
+              <div class="feature-item">
+                <div class="dot"></div>
+                <div class="ft"><strong>User-first design</strong><span>Optimised for real usage</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="post-label">D — Split 16:9 · LinkedIn banners / Facebook covers / Comparison posts</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- STORY TEMPLATE -->
+    <div class="section">
+      <div class="sec-label">02 — Stories & Reels</div>
+      <div class="sec-title">Vertical 9:16 format</div>
+      <div class="sec-desc">Used for Instagram Stories, TikTok, Facebook Stories, and YouTube Shorts.</div>
+      <div style="max-width: 200px;">
+        <div class="post-frame">
+          <div class="p-story">
+            <div class="grid-lines"></div>
+            <div class="glow"></div>
+            <div class="logo">
+              <svg width="20" height="20" viewBox="0 0 100 100">
+                <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+              </svg>
+              <span>vylex<em>.</em></span>
+            </div>
+            <div class="mid">
+              <div class="eyebrow">Web Engineering</div>
+              <h2>We build systems that <span>scale.</span></h2>
+              <div class="divline"></div>
+              <p>End-to-end tech solutions for South African SMEs. POPIA-compliant and production-ready.</p>
+            </div>
+            <div class="bottom">
+              <div class="pills">
+                <span class="pill">Web</span>
+                <span class="pill">Mobile</span>
+                <span class="pill">SaaS</span>
+              </div>
+            </div>
+          </div>
+          <div class="post-label">Story / Reel · 9:16</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ANATOMY -->
+    <div class="section">
+      <div class="sec-label">03 — Post Anatomy</div>
+      <div class="sec-title">Every post has 5 zones</div>
+      <div class="sec-desc">These zones must be present in every post in some form. Some may be minimal, none should be
+        omitted.</div>
+      <div class="anatomy-wrap">
+        <div class="anatomy-inner">
+          <div class="anatomy-post">
+            <div class="agl"></div>
+            <div class="az1">① Category tag</div>
+            <div class="az2">
+              <h2>② Headline<br><span>③ Accent word</span></h2>
+            </div>
+            <div style="position:relative;z-index:1;font-size:9px;color:rgba(255,255,255,0.4);margin-top:4px;">④
+              Supporting copy goes here, short and clear.</div>
+            <div class="az3">
+              <svg width="16" height="16" viewBox="0 0 100 100">
+                <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+                <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+              </svg>
+              <span>vylex<em>.</em> ⑤</span>
+            </div>
+          </div>
+          <div class="anatomy-labels">
+            <div class="alabel">
+              <div class="num">1</div>
+              <div class="adata"><strong>Category pill</strong><span>Service / Product / Tool / CTA — always orange,
+                  top-left</span></div>
+            </div>
+            <div class="alabel">
+              <div class="num">2</div>
+              <div class="adata"><strong>Headline</strong><span>2–6 words max. Bold. White on dark, Navy on
+                  light.</span>
+              </div>
+            </div>
+            <div class="alabel">
+              <div class="num">3</div>
+              <div class="adata"><strong>Orange accent word</strong><span>1–2 words in orange. Always the key action or
+                  benefit.</span></div>
+            </div>
+            <div class="alabel">
+              <div class="num">4</div>
+              <div class="adata"><strong>Support copy</strong><span>1–2 lines max. Muted. Never competes with
+                  headline.</span></div>
+            </div>
+            <div class="alabel">
+              <div class="num">5</div>
+              <div class="adata"><strong>Logo lock</strong><span>Always bottom-left. Never repositioned. Includes
+                  domain.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- COLOUR USAGE -->
+    <div class="section">
+      <div class="sec-label">04 — Colour Usage</div>
+      <div class="sec-title">When to use each colour</div>
+      <div class="chip-row" style="margin-bottom:16px;">
+        <div class="chip">
+          <div class="swatch" style="background:#051b38;"></div>
+          <div class="cinfo"><strong>Navy #051B38</strong><span>Primary background (dark posts)</span></div>
+        </div>
+        <div class="chip">
+          <div class="swatch" style="background:#FBA919;"></div>
+          <div class="cinfo"><strong>Orange #FBA919</strong><span>Accents, CTAs, highlights</span></div>
+        </div>
+        <div class="chip">
+          <div class="swatch" style="background:#0A2E5C;"></div>
+          <div class="cinfo"><strong>Light Navy #0A2E5C</strong><span>Hover tones, split panels</span></div>
+        </div>
+        <div class="chip">
+          <div class="swatch" style="background:#f8fafc;border:0.5px solid #e2e8f0;"></div>
+          <div class="cinfo"><strong>Surface #F8FAFC</strong><span>Light post backgrounds</span></div>
+        </div>
+      </div>
+      <div class="rule-grid">
+        <div class="rule-card do">
+          <div class="rhead">✓ Dark post</div>
+          <div class="rbody">Navy background + white headline + <strong>orange accent</strong> word. Grid overlay at 4%
+            opacity. Logo always white/orange.</div>
+        </div>
+        <div class="rule-card do">
+          <div class="rhead">✓ Light post</div>
+          <div class="rbody">White or #F8FAFC background + navy headline + <strong>orange accent</strong>. Subtle slate
+            borders. Logo in navy/orange.</div>
+        </div>
+        <div class="rule-card do">
+          <div class="rhead">✓ Orange post</div>
+          <div class="rbody">Orange background only for CTAs or major announcements. Logo goes navy on orange. One per
+            content cycle.</div>
+        </div>
+        <div class="rule-card dont">
+          <div class="rhead">✕ Never mix</div>
+          <div class="rbody">Never place the orange logo on an orange background. Never use random off-brand colours or
+            gradients. Never invert the V-mark colour system.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FORMAT SPECS -->
+    <div class="section">
+      <div class="sec-label">05 — Format Specs</div>
+      <div class="sec-title">Size reference by platform</div>
+      <div class="fmt-row" style="margin-bottom:16px;">
+        <span class="fmt-badge sq">1:1 Square</span>
+        <span class="fmt-badge ls">16:9 Landscape</span>
+        <span class="fmt-badge pt">9:16 Portrait / Story</span>
+      </div>
+      <div style="background:#fff;border-radius:10px;border:0.5px solid var(--slate);overflow:hidden;">
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Format</th>
+              <th>Recommended size</th>
+              <th>Template</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Instagram Feed</td>
+              <td>Square</td>
+              <td class="mono">1080 × 1080px</td>
+              <td>A, B, or C</td>
+            </tr>
+            <tr>
+              <td>Instagram Story</td>
+              <td>Portrait</td>
+              <td class="mono">1080 × 1920px</td>
+              <td>Story template</td>
+            </tr>
+            <tr>
+              <td>LinkedIn Post</td>
+              <td>Landscape</td>
+              <td class="mono">1200 × 627px</td>
+              <td>D (split)</td>
+            </tr>
+            <tr>
+              <td>LinkedIn Story</td>
+              <td>Portrait</td>
+              <td class="mono">1080 × 1920px</td>
+              <td>Story template</td>
+            </tr>
+            <tr>
+              <td>Facebook Post</td>
+              <td>Square</td>
+              <td class="mono">1080 × 1080px</td>
+              <td>A, B, or C</td>
+            </tr>
+            <tr>
+              <td>Twitter / X</td>
+              <td>Landscape</td>
+              <td class="mono">1600 × 900px</td>
+              <td>D (split)</td>
+            </tr>
+            <tr>
+              <td>WhatsApp Status</td>
+              <td>Portrait</td>
+              <td class="mono">1080 × 1920px</td>
+              <td>Story template</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- COPY RULES -->
+    <div class="section">
+      <div class="sec-label">06 — Copywriting Rules</div>
+      <div class="sec-title">Text on every post</div>
+      <div class="rule-grid">
+        <div class="rule-card do">
+          <div class="rhead">✓ Headline rule</div>
+          <div class="rbody"><strong>2–6 words.</strong> Start with a verb or bold noun. One orange accent word. Never
+            sentence-case headlines — use title structure: "Build better systems."</div>
+        </div>
+        <div class="rule-card do">
+          <div class="rhead">✓ Support copy</div>
+          <div class="rbody">Max <strong>2 lines</strong>. 18–22 words. Muted (50% opacity on dark, slate on light).
+            Always reinforces the headline — never introduces new ideas.</div>
+        </div>
+        <div class="rule-card do">
+          <div class="rhead">✓ Category pills</div>
+          <div class="rbody">Always label the post type: <strong>Web Dev · Mobile App · SaaS Tool · Product ·
+              Announcement
+              · CTA · EdTech · Case Study.</strong></div>
+        </div>
+        <div class="rule-card dont">
+          <div class="rhead">✕ Avoid</div>
+          <div class="rbody">Avoid word counts over 25 in body copy. Avoid exclamation marks. Never use casual lowercase
+            "vylex" without the logo V-mark. Never omit the domain.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TEMPLATE SELECTOR -->
+    <div class="section">
+      <div class="sec-label">07 — Template Selector</div>
+      <div class="sec-title">Which template to use</div>
+      <div style="background:#fff;border-radius:10px;border:0.5px solid var(--slate);overflow:hidden;">
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Content type</th>
+              <th>Template</th>
+              <th>Background</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Service announcement</td>
+              <td>A — Dark navy</td>
+              <td class="mono">#051B38</td>
+            </tr>
+            <tr>
+              <td>Web / mobile dev post</td>
+              <td>A or D (split)</td>
+              <td class="mono">#051B38 / split</td>
+            </tr>
+            <tr>
+              <td>Tool or product launch</td>
+              <td>B — Light</td>
+              <td class="mono">#FFFFFF</td>
+            </tr>
+            <tr>
+              <td>SaaS / app feature</td>
+              <td>B or D (split)</td>
+              <td class="mono">#FFFFFF / split</td>
+            </tr>
+            <tr>
+              <td>CTA / get a quote</td>
+              <td>C — Orange</td>
+              <td class="mono">#FBA919</td>
+            </tr>
+            <tr>
+              <td>Company announcement</td>
+              <td>C or A</td>
+              <td class="mono">#FBA919 / #051B38</td>
+            </tr>
+            <tr>
+              <td>LinkedIn / Twitter banner</td>
+              <td>D — Split 16:9</td>
+              <td class="mono">Navy + #F8FAFC</td>
+            </tr>
+            <tr>
+              <td>Instagram / WhatsApp Story</td>
+              <td>Story — 9:16</td>
+              <td class="mono">#051B38</td>
+            </tr>
+            <tr>
+              <td>EdTech / Nexys content</td>
+              <td>B — Light</td>
+              <td class="mono">#FFFFFF + green accent</td>
+            </tr>
+            <tr>
+              <td>Game / entertainment post</td>
+              <td>A — Dark navy</td>
+              <td class="mono">#051B38 + purple accent</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div
+      style="margin-top:2rem;padding-top:1.5rem;border-top:0.5px solid var(--slate);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <svg width="22" height="22" viewBox="0 0 100 100">
+          <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z" />
+          <rect fill="#FBA919" x="42" y="10" width="16" height="30" />
+        </svg>
+        <span style="font-size:13px;font-weight:700;color:#051b38;letter-spacing:-0.5px;">vylex<span
+            style="color:#FBA919;">.</span></span>
+      </div>
+      <span style="font-size:11px;color:#94a3b8;">Social Media Brand Blueprint · v1.0 · 2026</span>
+    </div>
+
+  </div>
+
+
+</body>
+
+</html>
