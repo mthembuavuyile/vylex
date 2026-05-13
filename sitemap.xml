@@ -9,247 +9,277 @@
 
 <url>
   <loc>https://vylex.co.za/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/services/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/products/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/apps/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/services/web/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/services/mobile/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/services/cybersecurity/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/certificate-generator/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/nexys-social/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/writer/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/image-to-text/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/image-to-text/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/nexora/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/visual-vault/index.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/writer/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/crypto/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/task-master/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/invoice-maker/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/productivo/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/qr/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/image-craft/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/vytrack/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/certificate-generator/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/sinc-legal/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/visual-vault/index.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/sinc-prototype/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/image-search/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/task-master/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/movie-explorer/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/invoice-maker/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/vytrack/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/crm/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/crypto/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/file-upload/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/enigma/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/qr/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/device-inspector/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/global-dictionary/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/lexico/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/bible/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/unilink/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/AgriSynth/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://vylex.co.za/portfolio/kasi-gig/</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/mr-racer-ultimate.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/zombie-shooter.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/zombie-shooterv2.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/bitcoin-adventure.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/memory-match.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/outbreak-protocol/index.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/sa-quiz-challenge.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/car-racing.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/slither.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/30-seconds.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://vylex.co.za/games/3dportfolio.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/apps/global-dictionary/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/apps/lexico/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/apps/nexora/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/apps/nexys-social/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/apps/bible/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/apps/image-craft/</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/products/visual-vault/about.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/nexys-social/policy.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/qr/generator.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/nexora/about.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/qr/scanner.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/image-craft/editor.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/sinc-legal/login.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/visual-vault/about.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/sinc-prototype/dashboard.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/vytrack/dashboard.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/sinc-prototype/dashboardv2.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/qr/generator.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/sinc-prototype/dashboardv3.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/qr/scanner.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/products/sinc-prototype/whitepaper.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/unilink/dashboard.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.51</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/apps/nexora/about.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/apps/nexys-social/policy.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/apps/image-craft/editor.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
-  <priority>0.51</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/products/sinc-prototype/index.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/nexys-social/index.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.41</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/apps/nexys-social/index.html</loc>
-  <lastmod>2026-03-11T16:01:16+00:00</lastmod>
+  <loc>https://vylex.co.za/portfolio/nexora/index.html</loc>
+  <lastmod>2026-04-21T12:44:39+00:00</lastmod>
   <priority>0.41</priority>
 </url>
 
