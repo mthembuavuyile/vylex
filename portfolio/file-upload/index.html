@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vylex File Upload</title>
+
+  <meta property="og:url" content="https://vylex.co.za/portfolio/file-upload/index.html">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,10 +17,16 @@
       max-width: 800px;
       margin: 0 auto;
     }
-    h1, h2, h3 {
+
+    h1,
+    h2,
+    h3 {
       color: #00ff00;
     }
-    input[type="text"], input[type="file"], button {
+
+    input[type="text"],
+    input[type="file"],
+    button {
       width: 100%;
       padding: 10px;
       margin-bottom: 10px;
@@ -25,31 +35,38 @@
       color: #ffffff;
       border: 1px solid #00ff00;
     }
+
     button {
       background-color: #004d00;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #00ff00;
       color: #000000;
     }
+
     #uploadsList a {
       display: block;
       margin-top: 5px;
       color: #00ff00;
       text-decoration: none;
     }
+
     #uploadsList a:hover {
       text-decoration: underline;
     }
+
     #uploadSection {
       display: none;
     }
+
     .quote {
       font-style: italic;
       margin: 20px 0;
       color: #cccccc;
     }
+
     @media (max-width: 600px) {
       body {
         padding: 10px;
@@ -57,6 +74,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div id="authSection">
@@ -106,7 +124,7 @@
     }
 
     // Validate access and show upload section
-    window.validateAccess = function() {
+    window.validateAccess = function () {
       const name = document.getElementById('userName').value.trim();
       const answer = parseInt(document.getElementById('mathAnswer').value.trim(), 10);
 
@@ -178,7 +196,5 @@
     generateChallenge();
   </script>
 </body>
+
 </html>
-
-
-

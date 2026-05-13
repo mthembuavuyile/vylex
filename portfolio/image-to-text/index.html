@@ -14,6 +14,9 @@
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
 
+    <meta property="og:url" content="https://vylex.co.za/portfolio/image-to-text/index.html">
+
+
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 35%, #334155 100%);
@@ -255,10 +258,13 @@
         }
 
         @keyframes textScanLine {
-            0%, 100% {
+
+            0%,
+            100% {
                 left: 0;
                 opacity: 1;
             }
+
             50% {
                 left: 80%;
                 opacity: 0.8;
@@ -528,8 +534,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
 
         .toast {
@@ -616,6 +629,7 @@
 
         /* Accessibility */
         @media (prefers-reduced-motion: reduce) {
+
             .scan-frame::before,
             .status-dot {
                 animation: none;
@@ -634,14 +648,17 @@
         <div class="scanner-card">
             <div class="input-methods">
                 <div class="input-tab active" data-tab="camera">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                        </path>
                         <circle cx="12" cy="13" r="4"></circle>
                     </svg>
                     Camera
                 </div>
                 <div class="input-tab" data-tab="upload">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="17,8 12,3 7,8"></polyline>
                         <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -664,17 +681,20 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="capture-controls" id="camera-controls">
                     <button class="capture-btn primary" id="capture-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                            </path>
                             <circle cx="12" cy="13" r="4"></circle>
                         </svg>
                         Capture Image
                     </button>
                     <button class="capture-btn" id="retake-btn" style="display: none;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="1 4 1 10 7 10"></polyline>
                             <polyline points="23 20 23 14 17 14"></polyline>
                             <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
@@ -682,7 +702,8 @@
                         Retake
                     </button>
                     <button class="capture-btn primary" id="recognize-btn" style="display: none;" disabled>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
                         </svg>
@@ -695,7 +716,8 @@
                 <div class="upload-container">
                     <div class="file-upload-area" id="fileUploadArea">
                         <input type="file" id="fileInput" accept="image/*">
-                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="17,8 12,3 7,8"></polyline>
                             <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -706,15 +728,17 @@
                     <div class="image-preview" id="imagePreview">
                         <img id="previewImg" src="" alt="Uploaded image">
                         <button class="remove-image" id="removeImage">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="18" y1="6" x2="6" y2="18"></line>
                                 <line x1="6" y1="6" x2="18" y2="18"></line>
                             </svg>
                         </button>
                     </div>
-                    
+
                     <button class="capture-btn primary hidden" id="upload-recognize-btn" disabled>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
                         </svg>
@@ -726,7 +750,8 @@
             <div class="result-section" id="result-container">
                 <div class="result-header">
                     <div class="result-icon">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14,2 14,8 20,8"></polyline>
                             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -736,14 +761,16 @@
                     <div class="result-title">Recognized Text</div>
                     <div class="result-actions">
                         <button class="action-btn" id="copyBtn" style="display: none;">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                             </svg>
                             Copy
                         </button>
                         <button class="action-btn" id="shareBtn" style="display: none;">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="18" cy="5" r="3"></circle>
                                 <circle cx="6" cy="12" r="3"></circle>
                                 <circle cx="18" cy="19" r="3"></circle>
@@ -769,8 +796,8 @@
     </div>
 
     <footer class="footer">
-        <p>© 2025 
-           <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer">Vylex</a> OCR Tool
+        <p>© 2025
+            <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer">Vylex</a> OCR Tool
         </p>
     </footer>
 
@@ -793,7 +820,7 @@
                 this.copyBtn = document.getElementById('copyBtn');
                 this.shareBtn = document.getElementById('shareBtn');
                 this.statusText = document.getElementById('statusText');
-                
+
                 // Interaction Elements
                 this.captureBtn = document.getElementById('capture-btn');
                 this.retakeBtn = document.getElementById('retake-btn');
@@ -803,7 +830,7 @@
                 this.statusDot = document.getElementById('status-dot');
                 this.progressBar = document.getElementById('progress-bar');
                 this.progressFill = document.getElementById('progress-fill');
-                
+
                 // State variables
                 this.stream = null;
                 this.currentTab = 'camera';
@@ -871,9 +898,9 @@
             }
 
             switchTab(tabName) {
-                if(this.currentTab === tabName && this.stream && tabName === 'camera') return;
+                if (this.currentTab === tabName && this.stream && tabName === 'camera') return;
                 this.currentTab = tabName;
-                
+
                 document.querySelectorAll('.input-tab').forEach(tab => {
                     tab.classList.toggle('active', tab.dataset.tab === tabName);
                 });
@@ -887,11 +914,11 @@
                     this.clearResult();
                 } else {
                     this.stopCamera();
-                    this.updateStatus(this.isTesseractReady ? 'Ready to upload image' : 'Loading AI model...', 
+                    this.updateStatus(this.isTesseractReady ? 'Ready to upload image' : 'Loading AI model...',
                         this.isTesseractReady ? 'success' : 'processing');
                     this.clearResult();
                 }
-                
+
                 this.updateUI();
             }
 
@@ -929,7 +956,7 @@
 
             captureImage() {
                 if (!this.stream) return;
-                
+
                 this.video.pause();
                 this.cameraImageCaptured = true;
 
@@ -975,7 +1002,7 @@
             handleDrop(event) {
                 event.preventDefault();
                 this.fileUploadArea.classList.remove('dragover');
-                
+
                 const files = event.dataTransfer.files;
                 if (files.length > 0 && files[0].type.startsWith('image/')) {
                     this.processImageFile(files[0]);
@@ -1011,11 +1038,11 @@
                     this.updateStatus('Processing image...', 'processing');
                     this.showProgress(true);
                     this.clearResultContent();
-                    
+
                     const { data: { text } } = await this.tesseractWorker.recognize(imageSource);
-                    
+
                     this.showProgress(false);
-                    
+
                     if (text.trim()) {
                         this.handleTextResult(text.trim());
                     } else {
@@ -1036,15 +1063,15 @@
                 this.result.textContent = text;
                 this.showToast('✓ Text recognized!');
                 this.updateStatus('Text recognition complete', 'success');
-                
+
                 this.resultContainer.style.background = 'rgba(59, 130, 246, 0.1)';
                 this.resultContainer.style.borderColor = 'rgba(59, 130, 246, 0.3)';
-                
+
                 this.copyBtn.style.display = 'flex';
                 if (navigator.share) {
                     this.shareBtn.style.display = 'flex';
                 }
-                
+
                 setTimeout(() => {
                     this.resultContainer.style.background = 'var(--surface-secondary)';
                     this.resultContainer.style.borderColor = 'rgba(255, 255, 255, 0.08)';
@@ -1070,7 +1097,7 @@
                     this.captureBtn.style.display = this.cameraImageCaptured ? 'none' : 'flex';
                     this.retakeBtn.style.display = this.cameraImageCaptured ? 'flex' : 'none';
                     this.recognizeBtn.style.display = this.cameraImageCaptured ? 'flex' : 'none';
-                    
+
                     this.recognizeBtn.disabled = !this.isTesseractReady;
                     this.textOverlay.classList.toggle('hidden', this.cameraImageCaptured);
                 } else {
@@ -1078,7 +1105,7 @@
                     const hasUpload = !!this.uploadImageFile;
                     this.fileUploadArea.style.display = hasUpload ? 'none' : 'block';
                     this.imagePreview.style.display = hasUpload ? 'block' : 'none';
-                    
+
                     this.uploadRecognizeBtn.classList.toggle('hidden', !hasUpload);
                     this.uploadRecognizeBtn.disabled = !this.isTesseractReady;
                 }
@@ -1141,4 +1168,5 @@
         });
     </script>
 </body>
+
 </html>
