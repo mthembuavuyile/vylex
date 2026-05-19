@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>QR Code Generator & Scanner | Vylex</title>
     <!-- Enhanced SEO Meta Tags -->
-    <meta name="description" content="Create and scan QR codes instantly with Vylex  QR tools. Generate custom QR codes for business, personal use, URLs, text, and more.">
-    <meta name="keywords" content="QR code generator, QR scanner, Vylex  QR, create QR codes, scan QR codes, business QR tools, free QR generator">
+    <meta name="description" content="Create and scan QR codes instantly with Vylex QR tools. Generate custom QR codes for business, personal use, URLs, text, and more.">
+    <meta name="keywords" content="QR code generator, QR scanner, Vylex QR, create QR codes, scan QR codes, business QR tools, free QR generator">
     
     <!-- Open Graph Tags for Social Media -->
-    <meta property="og:title" content="QR Code Generator & Scanner | Vylex ">
+    <meta property="og:title" content="QR Code Generator & Scanner | Vylex">
     <meta property="og:description" content="Create and scan QR codes instantly with our free tools. Generate custom QR codes for business, personal use, URLs, text, and more.">
     <meta property="og:url" content="https://vylex.co.za/products/qr/">
     <meta property="og:type" content="website">
@@ -17,24 +17,33 @@
     
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="QR Code Generator & Scanner | Vylex ">
+    <meta name="twitter:title" content="QR Code Generator & Scanner | Vylex">
     <meta name="twitter:description" content="Create and scan QR codes instantly with our free tools.">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://vylex.co.za/qr/">
     
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#24243e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Vylex QR">
+    <link rel="apple-touch-icon" href="icon.svg">
+    
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="icon.svg">
     
     <!-- Preconnect to improve performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Structured Data for SEO -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Vylex  QR Tools",
+      "name": "Vylex QR Tools",
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
       "offers": {
@@ -49,18 +58,19 @@
         :root {
             --primary-color: #6a5acd;
             --primary-light: #a5a5ff;
-            --dark-bg: #1e1e2f;
-            --card-bg: rgba(255, 255, 255, 0.1);
+            --dark-bg: #0f0c29;
+            --card-bg: rgba(255, 255, 255, 0.08);
             --text-primary: #ffffff;
             --text-secondary: #cccccc;
-            --transition: all 0.3s ease;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -71,114 +81,153 @@
             align-items: center;
             color: var(--text-primary);
             line-height: 1.6;
-            padding: 1rem;
+            padding: env(safe-area-inset-top, 1rem) 1rem env(safe-area-inset-bottom, 1rem) 1rem;
+            overscroll-behavior-y: contain; /* Prevents scroll bounce on mobile browsers */
+            overflow-x: hidden;
         }
 
         .container {
             width: 95%;
-            max-width: 800px;
-            margin: 2rem auto;
+            max-width: 600px;
+            margin: auto;
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px); /* Safari support */
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 12px 40px 0 rgba(15, 12, 41, 0.5);
             text-align: center;
-            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         h1 {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            text-shadow: 0 0 10px rgba(137, 137, 255, 0.5);
+            font-size: clamp(2rem, 6vw, 2.75rem);
+            font-weight: 800;
+            letter-spacing: -0.5px;
             margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, #a5a5ff, #6a5acd);
+            background: linear-gradient(135deg, #ffffff 30%, #a5a5ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .subtitle {
-            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-size: clamp(1rem, 3.5vw, 1.15rem);
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
         }
 
         .btn-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+            width: 100%;
         }
 
         .btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.8rem 1.5rem;
-            min-width: 180px;
-            background: var(--card-bg);
-            border: 1px solid rgba(165, 165, 255, 0.3);
-            border-radius: 50px;
-            color: var(--primary-light);
+            padding: 1.1rem 2rem;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            color: #ffffff;
             text-decoration: none;
             transition: var(--transition);
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            font-size: 1.05rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .btn svg {
-            margin-right: 8px;
-            width: 20px;
-            height: 20px;
+            margin-right: 12px;
+            width: 22px;
+            height: 22px;
+            transition: transform 0.25s ease;
+        }
+
+        .btn.btn-primary {
+            background: linear-gradient(135deg, #6a5acd 0%, #302b63 100%);
+            border-color: rgba(165, 165, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(106, 90, 205, 0.3);
         }
 
         .btn:hover, .btn:focus {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(48, 43, 99, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn.btn-primary:hover, .btn.btn-primary:focus {
+            background: linear-gradient(135deg, #7b6be6 0%, #3e377a 100%);
+            box-shadow: 0 8px 25px rgba(106, 90, 205, 0.4);
+        }
+
+        /* Native-like Spring Touch Feedbacks */
+        .btn:active {
+            transform: scale(0.96);
+            opacity: 0.95;
+            transition: transform 0.1s ease;
         }
 
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2.5rem;
             text-align: left;
         }
 
         .feature {
             background: rgba(0, 0, 0, 0.2);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 3px solid var(--primary-light);
+            padding: 1.25rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 3px solid var(--primary-light);
         }
 
         .feature h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+            font-size: 1rem;
             color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature p {
+            font-size: 0.85rem;
+            color: #b3b3b3;
+            line-height: 1.4;
         }
 
         footer {
             width: 100%;
             padding: 1.5rem;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            margin-top: 2rem;
+            margin-top: auto;
         }
 
         footer a {
             color: var(--primary-light);
             text-decoration: none;
             transition: var(--transition);
+            font-weight: 500;
         }
 
         footer a:hover {
-            text-decoration: underline;
+            color: #ffffff;
         }
 
         /* Accessibility focus styles */
@@ -187,29 +236,22 @@
             outline-offset: 3px;
         }
 
-        /* Animation for buttons */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
-        }
-
-        .animate-pulse {
-            animation: pulse 2s infinite;
-        }
-
-        /* Media queries for better responsiveness */
-        @media (max-width: 768px) {
+        /* Mobile specific style tweaks */
+        @media (max-width: 480px) {
             .container {
-                padding: 1.5rem;
-            }
-            
-            .btn {
+                padding: 2rem 1.25rem;
                 width: 100%;
+                border-radius: 20px;
             }
             
             .features {
                 grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            
+            .btn {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
             }
         }
 
@@ -220,19 +262,12 @@
             }
             
             .container {
-                background: rgba(0, 0, 0, 0.8);
-                box-shadow: 0 0 0 2px white;
+                background: rgba(0, 0, 0, 0.9);
+                border: 2px solid white;
             }
             
             .btn {
                 border: 2px solid white;
-            }
-        }
-
-        /* Dark mode adjustments */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --text-secondary: #b3b3b3;
             }
         }
 
@@ -247,11 +282,11 @@
 </head>
 <body>
     <main class="container">
-        <h1>Vylex  QR Tools</h1>
-        <p class="subtitle">Create and scan QR codes instantly with our powerful tools</p>
+        <h1>Vylex QR Tools</h1>
+        <p class="subtitle">Create and scan QR codes instantly with our powerful offline tools</p>
         
         <div class="btn-container">
-            <a href="generator.html" class="btn animate-pulse">
+            <a href="generator.html" class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                     <path d="M8 3v4"></path>
@@ -271,43 +306,40 @@
                     <path d="M3 12h18"></path>
                     <polyline points="3 18 5 18 21 18"></polyline>
                 </svg>
-                Scan QR Code
+                Scan QR & OCR
             </a>
         </div>
         
         <section class="features">
             <div class="feature">
-                <h3>Easy Generation</h3>
-                <p>Create QR codes for URLs, text, contacts, and more in seconds. No technical skills required.</p>
+                <h3><i class="fas fa-magic"></i> Easy Generation</h3>
+                <p>Create QR codes for links, text, contacts, emails, Wi-Fi networks and more in seconds.</p>
             </div>
             <div class="feature">
-                <h3>Fast Scanning</h3>
-                <p>Quickly scan any QR code using your device camera or upload an image containing a QR code.</p>
+                <h3><i class="fas fa-camera"></i> Fast Scanning</h3>
+                <p>Scan instantly using your device's camera, upload files, or extract text offline with AI OCR.</p>
             </div>
-            
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 <a href="https://vylex.co.za">Vylex </a></p>
+        <p>&copy; 2025 <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer">Vylex</a></p>
     </footer>
 
-    <!-- Deferred loading of non-critical JavaScript -->
+    <!-- Service Worker and Event handlers -->
     <script>
-        // Add smooth scrolling effect
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Register Service Worker for offline PWA support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered with scope: ', reg.scope))
+                    .catch(err => console.error('Service Worker registration failed: ', err));
             });
-        });
-        
-        // Add page load event for analytics (placeholder)
-        window.addEventListener('load', function() {
-            console.log('Page fully loaded');
-            // Place for analytics code
+        }
+
+        // Add page load event
+        window.addEventListener('load', () => {
+            console.log('App Shell loaded');
         });
     </script>
 </body>

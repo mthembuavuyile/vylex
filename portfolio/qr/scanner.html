@@ -3,14 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Scanner & Text Recognition | Vylex </title>
-    <meta name="description"
-        content="Free online QR code scanner and text recognition tool by Vylex . Scan QR codes or extract text from images using your camera or upload.">
-    <meta name="keywords" content="QR code scanner, text recognition, OCR, mobile scanner, online reader, Vylex ">
-    <meta property="og:title" content="QR Code Scanner & Text Recognition | Vylex ">
-    <meta property="og:description"
-        content="Free online QR code scanner and text recognition tool by Vylex . Scan QR codes or extract text from images using your camera or upload.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Smart Scanner - Vylex QR Tools</title>
+    
+    <!-- PWA Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="manifest.json">
+    
+    <meta name="description" content="Free online QR code scanner and OCR text recognition tool by Vylex. Scan QR codes or extract text offline.">
+    <meta name="keywords" content="QR code scanner, text recognition, OCR, mobile scanner, online reader, Vylex">
+    <meta property="og:title" content="Smart Scanner & Text Recognition | Vylex">
+    <meta property="og:description" content="Free online QR code scanner and OCR text recognition tool by Vylex. Scan QR codes or extract text offline.">
     <meta property="og:url" content="https://vylex.co.za/qr/scanner">
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
@@ -18,6 +23,8 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
@@ -657,30 +664,98 @@
             }
         }
 
-        .toast {
-            position: fixed;
-            bottom: var(--spacing-xl);
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            color: var(--text-primary);
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: 50px;
-            box-shadow: var(--shadow-lg);
-            z-index: 1000;
-            opacity: 0;
-            transform: translateX(-50%) translateY(20px);
-            transition: all var(--transition-medium);
-            font-weight: 500;
-            font-size: 0.875rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Camera overlay controls styling */
+        .camera-controls {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            z-index: 10;
         }
 
-        .toast.show {
+        .ctrl-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            padding: 0;
+            margin: 0;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(15, 23, 42, 0.85);
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .ctrl-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Toast notification system */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translate(-50%, -20px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 8px 16px 8px 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+        }
+
+        .toast-container.show {
+            transform: translate(-50%, 0);
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .toast-icon.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+        
+        .toast-icon.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .toast-message {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #fff;
+            line-height: 1.4;
         }
 
         .footer {
@@ -776,6 +851,21 @@
 </head>
 
 <body>
+    <!-- Toast notifications element -->
+    <div class="toast-container" id="toastContainer">
+        <div class="toast-icon" id="toastIcon"></div>
+        <div class="toast-message" id="toastMessage"></div>
+    </div>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+
     <div class="main-container">
         <header class="app-header">
             <h1 class="app-title">Smart Scanner</h1>
@@ -836,6 +926,15 @@
             <div class="input-content active" id="camera-content">
                 <div class="camera-container">
                     <video id="video" playsinline autoplay muted></video>
+                    <!-- Floating Camera Controls -->
+                    <div class="camera-controls">
+                        <button class="ctrl-btn" id="torch-btn" title="Toggle Flashlight" style="display: none;">
+                            <i class="fas fa-bolt"></i>
+                        </button>
+                        <button class="ctrl-btn" id="camera-switch-btn" title="Switch Camera">
+                            <i class="fas fa-camera-rotate"></i>
+                        </button>
+                    </div>
                     <div class="scan-overlay" id="qr-overlay">
                         <div class="scan-frame">
                             <div class="scan-corners">
@@ -974,7 +1073,6 @@
                 this.video = document.getElementById('video');
                 this.resultContainer = document.getElementById('result-container');
                 this.result = document.getElementById('result');
-                this.toast = document.getElementById('toast');
                 this.fileInput = document.getElementById('fileInput');
                 this.fileUploadArea = document.getElementById('fileUploadArea');
                 this.imagePreview = document.getElementById('imagePreview');
@@ -1000,7 +1098,7 @@
                 this.uploadText = document.getElementById('upload-text');
                 this.uploadSubtext = document.getElementById('upload-subtext');
                 
-                // Original state
+                // Camera and App States
                 this.stream = null;
                 this.scanning = false;
                 this.canvasElement = document.createElement('canvas');
@@ -1008,6 +1106,11 @@
                 this.lastResult = null;
                 this.lastScanTime = 0;
                 this.currentTab = 'camera';
+                
+                // Camera controls & native status settings
+                this.facingMode = 'environment';
+                this.torchActive = false;
+                this.toastTimeout = null;
                 
                 // New state for text recognition
                 this.currentMode = 'qr'; // 'qr' or 'text'
@@ -1034,6 +1137,10 @@
                         this.switchMode(tab.dataset.mode);
                     });
                 });
+
+                // Camera Controls Toggle
+                document.getElementById('torch-btn').addEventListener('click', () => this.toggleTorch());
+                document.getElementById('camera-switch-btn').addEventListener('click', () => this.toggleCamera());
 
                 // Original file upload events
                 this.fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
@@ -1133,9 +1240,11 @@
 
             async startCamera() {
                 try {
+                    this.stopCamera(); // Make sure previous camera stream is stopped
+                    
                     const constraints = {
                         video: {
-                            facingMode: "environment",
+                            facingMode: this.facingMode,
                             width: { ideal: 1280 },
                             height: { ideal: 720 }
                         }
@@ -1150,12 +1259,13 @@
                             this.startScanning();
                         }
                         this.updateStatus('Camera active', 'success');
+                        this.setupCameraControls();
                         this.updateUI();
                     };
                 } catch (error) {
                     console.error('Error starting camera:', error);
                     this.updateStatus('Camera unavailable', 'error');
-                    this.result.textContent = "Camera access denied or no camera available";
+                    this.result.textContent = "Camera access denied or no camera available. Please grant camera permission.";
                 }
             }
 
@@ -1165,7 +1275,81 @@
                     this.stream.getTracks().forEach(track => track.stop());
                     this.stream = null;
                 }
+                this.torchActive = false;
                 this.updateUI();
+            }
+
+            setupCameraControls() {
+                if (!this.stream) return;
+                
+                const track = this.stream.getVideoTracks()[0];
+                const torchBtn = document.getElementById('torch-btn');
+                
+                if (track && typeof track.getCapabilities === 'function') {
+                    try {
+                        const capabilities = track.getCapabilities();
+                        if (capabilities.torch) {
+                            torchBtn.style.display = 'flex';
+                            
+                            // Reset state
+                            this.torchActive = false;
+                            torchBtn.querySelector('i').className = 'fas fa-bolt';
+                            torchBtn.style.background = 'rgba(15, 23, 42, 0.6)';
+                            torchBtn.style.color = '#fff';
+                        } else {
+                            torchBtn.style.display = 'none';
+                        }
+                    } catch (e) {
+                        torchBtn.style.display = 'none';
+                    }
+                } else {
+                    torchBtn.style.display = 'none';
+                }
+            }
+
+            async toggleTorch() {
+                if (!this.stream) return;
+                
+                const track = this.stream.getVideoTracks()[0];
+                if (!track) return;
+                
+                try {
+                    this.torchActive = !this.torchActive;
+                    await track.applyConstraints({
+                        advanced: [{ torch: this.torchActive }]
+                    });
+                    
+                    const torchBtn = document.getElementById('torch-btn');
+                    if (this.torchActive) {
+                        torchBtn.querySelector('i').className = 'fas fa-bolt-slash';
+                        torchBtn.style.background = '#eab308'; // Highlighted yellow
+                        torchBtn.style.color = '#000';
+                        this.showToast('Flashlight enabled');
+                    } else {
+                        torchBtn.querySelector('i').className = 'fas fa-bolt';
+                        torchBtn.style.background = 'rgba(15, 23, 42, 0.6)';
+                        torchBtn.style.color = '#fff';
+                        this.showToast('Flashlight disabled');
+                    }
+                    
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(30);
+                    }
+                } catch (err) {
+                    console.error('Torch control failed:', err);
+                    this.showToast('Flashlight control not supported on this lens', 'error');
+                }
+            }
+
+            async toggleCamera() {
+                this.facingMode = this.facingMode === 'environment' ? 'user' : 'environment';
+                this.showToast('Switching camera...');
+                
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(50);
+                }
+                
+                await this.startCamera();
             }
 
             startScanning() {
@@ -1237,6 +1421,10 @@
             captureImage() {
                 if (!this.stream) return;
 
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(40);
+                }
+
                 const canvas = document.createElement('canvas');
                 canvas.width = this.video.videoWidth;
                 canvas.height = this.video.videoHeight;
@@ -1265,7 +1453,7 @@
 
             async recognizeText(imageSource) {
                 if (!this.isTesseractReady) {
-                    this.showToast('❌ AI model not ready');
+                    this.showToast('AI model not ready', 'error');
                     return;
                 }
 
@@ -1287,7 +1475,7 @@
                     console.error('Text recognition error:', error);
                     this.showProgress(false);
                     this.updateStatus('Text recognition failed', 'error');
-                    this.showToast('❌ Failed to recognize text');
+                    this.showToast('Failed to recognize text', 'error');
                 }
             }
 
@@ -1379,11 +1567,11 @@
                         this.handleScanResult(code.data);
                     } else {
                         this.updateStatus('No QR code found in image', 'error');
-                        this.showToast('❌ No QR code detected in the image');
+                        this.showToast('No QR code detected in the image', 'error');
                     }
                 } else {
                     this.updateStatus('QR scanning library not available', 'error');
-                    this.showToast('❌ QR scanning not available');
+                    this.showToast('QR scanning not available', 'error');
                 }
             }
 
@@ -1406,7 +1594,13 @@
                 this.lastScanTime = now;
                 
                 this.showResult(result, 'qr');
-                this.showToast('✓ QR Code detected!');
+                
+                // Mobile Vibration Feedback (Double Haptic Tick)
+                if ('vibrate' in navigator) {
+                    navigator.vibrate([60, 40, 60]);
+                }
+                
+                this.showToast('QR Code detected!');
                 this.updateStatus('QR Code found', 'success');
                 
                 this.launchAppFromQRContent(result);
@@ -1415,7 +1609,13 @@
             handleTextResult(text) {
                 this.lastResult = text;
                 this.showResult(text, 'text');
-                this.showToast('✓ Text recognized!');
+                
+                // Mobile Vibration Feedback (Single Tick)
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(70);
+                }
+                
+                this.showToast('Text recognized!');
                 this.updateStatus('Text recognition complete', 'success');
             }
 
@@ -1452,9 +1652,7 @@
                 
                 // Show action buttons
                 this.copyBtn.style.display = 'flex';
-                if (navigator.share) {
-                    this.shareBtn.style.display = 'flex';
-                }
+                this.shareBtn.style.display = 'flex';
                 
                 setTimeout(() => {
                     this.resultContainer.style.background = 'var(--surface-secondary)';
@@ -1522,22 +1720,37 @@
                 if (this.lastResult) {
                     try {
                         await navigator.clipboard.writeText(this.lastResult);
-                        this.showToast('📋 Copied to clipboard');
+                        this.showToast('Copied to clipboard!');
+                        if ('vibrate' in navigator) {
+                            navigator.vibrate(30);
+                        }
                     } catch (error) {
-                        this.showToast('❌ Failed to copy');
+                        this.showToast('Failed to copy', 'error');
                     }
                 }
             }
 
             async shareResult() {
-                if (this.lastResult && navigator.share) {
-                    try {
+                if (!this.lastResult) return;
+                
+                try {
+                    if (navigator.share) {
                         await navigator.share({
                             title: this.currentMode === 'qr' ? 'QR Code Result' : 'Recognized Text',
                             text: this.lastResult
                         });
-                    } catch (error) {
-                        console.error('Share failed:', error);
+                        this.showToast('Shared successfully!');
+                    } else {
+                        // Fallback to copy link
+                        await navigator.clipboard.writeText(this.lastResult);
+                        this.showToast('Copied to clipboard (Share not supported)');
+                    }
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(35);
+                    }
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        this.showToast('Share failed: ' + error.message, 'error');
                     }
                 }
             }
@@ -1575,7 +1788,7 @@
                         URL.revokeObjectURL(url);
                     }
                     else if (content.startsWith('WIFI:')) {
-                        this.showToast('📶 Wi-Fi configuration detected');
+                        this.showToast('Wi-Fi configuration detected');
                     }
                     else if (content.startsWith('geo:')) {
                         const coords = content.slice(4).split('?')[0].trim();
@@ -1586,12 +1799,27 @@
                 }
             }
 
-            showToast(message) {
-                this.toast.textContent = message;
-                this.toast.classList.add('show');
-
-                setTimeout(() => {
-                    this.toast.classList.remove('show');
+            showToast(message, type = 'success') {
+                const container = document.getElementById('toastContainer');
+                const icon = document.getElementById('toastIcon');
+                const msgEl = document.getElementById('toastMessage');
+                
+                if (!container || !icon || !msgEl) return;
+                
+                clearTimeout(this.toastTimeout);
+                
+                icon.className = 'toast-icon ' + type;
+                if (type === 'success') {
+                    icon.innerHTML = '<i class="fas fa-check"></i>';
+                } else {
+                    icon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                }
+                
+                msgEl.textContent = message;
+                container.classList.add('show');
+                
+                this.toastTimeout = setTimeout(() => {
+                    container.classList.remove('show');
                 }, 3000);
             }
         }
