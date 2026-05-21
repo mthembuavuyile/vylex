@@ -75,8 +75,34 @@ body {
 }
 
 #mobile-menu.open {
-    max-height: 400px; /* Adjust based on content */
+    max-height: 500px; /* Increased from 400px to prevent Contact Us from being cut off */
     border-bottom: 1px solid var(--brand-border);
+}
+
+/* Mobile Menu Backdrop & Blur */
+#mobile-menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(5, 27, 56, 0.4); /* brand navy with opacity */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* iOS Safari support */
+    z-index: 40; /* Below navbar (z-50) but above content */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#mobile-menu-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Prevent background scrolling when mobile menu is open */
+body.menu-open {
+    overflow: hidden;
 }
 
 /* ── GLOBAL UTILITIES ── */

@@ -70,6 +70,7 @@ function initializeNavbar() {
     const navbar = document.getElementById('navbar');
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
 
     // Scroll Effect
     window.addEventListener('scroll', () => {
@@ -80,17 +81,48 @@ function initializeNavbar() {
         }
     });
 
+    function toggleMenu(forceClose = false) {
+        const isOpen = mobileMenu.classList.contains('open');
+        const shouldClose = forceClose || isOpen;
+
+        if (shouldClose) {
+            mobileMenu.classList.remove('open');
+            mobileBtn.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('menu-open');
+            if (backdrop) {
+                backdrop.classList.remove('active');
+            }
+        } else {
+            mobileMenu.classList.add('open');
+            mobileBtn.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('menu-open');
+            if (backdrop) {
+                backdrop.classList.add('active');
+            }
+        }
+    }
+
     // Mobile Toggle
     if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', () => {
-            const isOpen = mobileMenu.classList.contains('open');
-            if (isOpen) {
-                mobileMenu.classList.remove('open');
-                mobileBtn.setAttribute('aria-expanded', 'false');
-            } else {
-                mobileMenu.classList.add('open');
-                mobileBtn.setAttribute('aria-expanded', 'true');
-            }
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
         });
     }
+
+    // Close menu when clicking on backdrop
+    if (backdrop) {
+        backdrop.addEventListener('click', () => {
+            toggleMenu(true);
+        });
+    }
+
+    // Close menu when window resized to desktop size
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) { // lg breakpoint is 1024px
+            if (mobileMenu && mobileMenu.classList.contains('open')) {
+                toggleMenu(true);
+            }
+        }
+    });
 }
