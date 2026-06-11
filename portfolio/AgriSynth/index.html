@@ -36,8 +36,13 @@
     <meta name="twitter:creator" content="@AgriSynthApp"> <!-- Optional: Twitter Handle -->
 
 
-    <link rel="stylesheet" href="css/styles.css">>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -75,10 +80,12 @@
                     <h1>AgriSynth: The New Operating System for Urban Agriculture</h1>
                     <p>A decentralized, intelligent, and cooperative OS empowering cities to become regenerative food
                         engines. By Vylex Nexys.</p>
-                    <button class="btn btn-primary" id="explore-prototype-btn"><i class="fas fa-rocket"></i> Explore the
-                        Prototype</button>
-                    <button class="btn btn-outline" id="read-manifesto-btn-hero"><i class="fas fa-scroll"></i> Read the
-                        Manifesto</button>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" id="explore-prototype-btn"><i class="fas fa-rocket"></i> Explore
+                            the Prototype</button>
+                        <button class="btn btn-outline" id="read-manifesto-btn-hero"
+                            data-open-modal="manifesto-modal"><i class="fas fa-scroll"></i> Read the Manifesto</button>
+                    </div>
                 </div>
             </div>
 
@@ -232,7 +239,8 @@
                         </div>
                     </div>
                     <div style="text-align: center; margin-top: 2.5rem;">
-                        <button class="btn btn-primary" id="read-manifesto-btn-section">
+                        <button class="btn btn-primary" id="read-manifesto-btn-section"
+                            data-open-modal="manifesto-modal">
                             <i class="fas fa-book-open"></i> Read the Full Manifesto Text
                         </button>
                     </div>
@@ -261,7 +269,7 @@
                 <div class="container">
                     <p>© <span id="current-year">2024</span> AgriSynth by Vylex Nexys. All Rights Reserved.</p>
                     <p>Conceptualized and Driven by Avuyile Mthembu (HSAD300-1 SA1).</p>
-                    <p>Website: <a href="https://vylex.co.za/AgriSynth/" target="_blank"
+                    <p>Website: <a href="https://vylex.co.za/portfolio/AgriSynth/" target="_blank"
                             rel="noopener noreferrer">vylex.co.za/AgriSynth</a></p>
                     <p>Contact: <a href="mailto:info@vylex.co.za">info@vylex.co.za</a></p>
                     <div class="social-links">
@@ -377,6 +385,8 @@
                                             <li><span>🥕 Carrots</span> <strong>8 kg growing</strong></li>
                                             <li><span>🌿 Herbs</span> <strong>3 kg ready</strong></li>
                                             <li><span>🍅 Tomatoes</span> <strong>15 kg ripening</strong></li>
+                                            <li><span>🥔 Potatoes</span> <strong>22 kg growing</strong></li>
+                                            <li><span>🧅 Onions</span> <strong>14 kg ready</strong></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -457,7 +467,8 @@
                         <div class="tab-content" id="sensors-tab">
                             <div class="dashboard-header">
                                 <h2 class="dashboard-title">Environmental Monitoring</h2>
-                                <button class="btn btn-primary btn-sm" id="add-sensor-btn"><i class="fas fa-plus"></i>
+                                <button class="btn btn-primary btn-sm" id="add-sensor-btn"
+                                    data-open-modal="add-sensor-modal"><i class="fas fa-plus"></i>
                                     Add Sensor</button>
                             </div>
                             <div class="card-grid" id="sensors-grid">
@@ -495,7 +506,8 @@
                         <div class="tab-content" id="tasks-tab">
                             <div class="dashboard-header">
                                 <h2 class="dashboard-title">Task Scheduler & Management</h2>
-                                <button class="btn btn-primary btn-sm" id="add-task-btn"><i class="fas fa-plus"></i> Add
+                                <button class="btn btn-primary btn-sm" id="add-task-btn"
+                                    data-open-modal="add-task-modal"><i class="fas fa-plus"></i> Add
                                     New Task</button>
                             </div>
                             <div class="tasks-list" id="all-tasks-list">
@@ -536,7 +548,8 @@
                         <div class="tab-content" id="market-tab">
                             <div class="dashboard-header">
                                 <h2 class="dashboard-title">Local Produce Market</h2>
-                                <button class="btn btn-primary btn-sm" id="add-listing-btn"><i class="fas fa-plus"></i>
+                                <button class="btn btn-primary btn-sm" id="add-listing-btn"
+                                    data-open-modal="add-listing-modal"><i class="fas fa-plus"></i>
                                     Add New Listing</button>
                             </div>
                             <div class="card-grid" id="market-listings-grid">
@@ -571,7 +584,8 @@
                         <div class="tab-content" id="resources-tab">
                             <div class="dashboard-header">
                                 <h2 class="dashboard-title">Shared Resources</h2>
-                                <button class="btn btn-primary btn-sm" id="add-resource-btn"><i class="fas fa-plus"></i>
+                                <button class="btn btn-primary btn-sm" id="add-resource-btn"
+                                    data-open-modal="add-resource-modal"><i class="fas fa-plus"></i>
                                     Add Resource</button>
                             </div>
                             <div class="card-grid" id="resources-grid">
@@ -603,8 +617,9 @@
                         <div class="tab-content" id="learn-tab">
                             <div class="dashboard-header">
                                 <h2 class="dashboard-title">Learning Hub</h2>
-                                <button class="btn btn-primary btn-sm" id="share-knowledge-btn"><i
-                                        class="fas fa-share-alt"></i> Share Knowledge</button>
+                                <button class="btn btn-primary btn-sm" id="share-knowledge-btn"
+                                    data-open-modal="share-knowledge-modal"><i class="fas fa-share-alt"></i> Share
+                                    Knowledge</button>
                             </div>
                             <div class="card-grid" id="learn-articles-grid">
                                 <div class="card">
@@ -713,45 +728,128 @@
         <div class="modal" id="add-sensor-modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add New Sensor Device</h3><button class="modal-close"
-                        data-modal-id="add-sensor-modal" aria-label="Close">×</button>
+                    <h3 class="modal-title">Pair IoT Sensor Device</h3>
+                    <button class="modal-close" data-modal-id="add-sensor-modal" aria-label="Close">×</button>
                 </div>
                 <div class="modal-body">
-                    <p>This would involve a form for sensor ID, type (soil, weather), location, and connection details.
-                        (Demo for now)</p>
+                    <div class="form-group">
+                        <label for="sensor-name" class="form-label">Sensor Nickname</label>
+                        <input type="text" id="sensor-name" class="form-control" placeholder="e.g., Soil Probe #105">
+                    </div>
+                    <div class="form-group">
+                        <label for="sensor-type" class="form-label">Sensor Category</label>
+                        <select id="sensor-type" class="form-control">
+                            <option value="soil">Soil Analytics (pH, Moisture, Temp)</option>
+                            <option value="weather">Ambient Weather (Air Temp, Humidity, Light)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sensor-location" class="form-label">Location / Plot</label>
+                        <input type="text" id="sensor-location" class="form-control" placeholder="e.g., Rooftop Area C">
+                    </div>
                 </div>
-                <div class="modal-footer"><button class="btn btn-secondary modal-cancel"
-                        data-modal-id="add-sensor-modal">Cancel</button><button class="btn btn-primary">Pair
-                        Device</button></div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary modal-cancel" data-modal-id="add-sensor-modal">Cancel</button>
+                    <button class="btn btn-primary" id="pair-sensor-btn">Pair Device</button>
+                </div>
             </div>
         </div>
         <div class="modal" id="add-listing-modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Create Market Listing</h3><button class="modal-close"
-                        data-modal-id="add-listing-modal" aria-label="Close">×</button>
+                    <h3 class="modal-title">Publish Produce Listing</h3>
+                    <button class="modal-close" data-modal-id="add-listing-modal" aria-label="Close">×</button>
                 </div>
                 <div class="modal-body">
-                    <p>Form to add produce name, description, quantity, price, pickup location, etc. (Demo for now)</p>
+                    <div class="form-group">
+                        <label for="listing-name" class="form-label">Produce Name</label>
+                        <input type="text" id="listing-name" class="form-control"
+                            placeholder="e.g., Butterhead Lettuce">
+                    </div>
+                    <div class="grid-container" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="listing-price" class="form-label">Price (Rands)</label>
+                            <input type="number" id="listing-price" class="form-control" placeholder="e.g., 20">
+                        </div>
+                        <div class="form-group">
+                            <label for="listing-unit" class="form-label">Unit</label>
+                            <select id="listing-unit" class="form-control">
+                                <option value="bunch">per bunch</option>
+                                <option value="kg">per kg</option>
+                                <option value="pack">per pack</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid-container" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="listing-qty" class="form-label">Available Qty</label>
+                            <input type="number" id="listing-qty" class="form-control" value="5" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="listing-type" class="form-label">Category</label>
+                            <select id="listing-type" class="form-control">
+                                <option value="veg">Vegetables</option>
+                                <option value="leaf">Herbs / Leaves</option>
+                                <option value="fruit">Fruits / Berries</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="listing-location" class="form-label">Pickup Location</label>
+                        <input type="text" id="listing-location" class="form-control" placeholder="e.g., Plot B Depot">
+                    </div>
+                    <div class="form-group">
+                        <label for="listing-description" class="form-label">Short Description</label>
+                        <textarea id="listing-description" class="form-control" rows="2"
+                            placeholder="Freshly harvested organic lettuce..."></textarea>
+                    </div>
                 </div>
-                <div class="modal-footer"><button class="btn btn-secondary modal-cancel"
-                        data-modal-id="add-listing-modal">Cancel</button><button class="btn btn-primary">Publish
-                        Listing</button></div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary modal-cancel" data-modal-id="add-listing-modal">Cancel</button>
+                    <button class="btn btn-primary" id="save-listing-btn">Publish Listing</button>
+                </div>
             </div>
         </div>
         <div class="modal" id="share-knowledge-modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Share Knowledge Resource</h3><button class="modal-close"
-                        data-modal-id="share-knowledge-modal" aria-label="Close">×</button>
+                    <h3 class="modal-title">Share Knowledge Resource</h3>
+                    <button class="modal-close" data-modal-id="share-knowledge-modal" aria-label="Close">×</button>
                 </div>
                 <div class="modal-body">
-                    <p>Form to submit article link, video URL, or upload a document. Include title, description, tags.
-                        (Demo for now)</p>
+                    <div class="form-group">
+                        <label for="share-title" class="form-label">Resource Title</label>
+                        <input type="text" id="share-title" class="form-control"
+                            placeholder="e.g., Hydroponic Setup 101">
+                    </div>
+                    <div class="grid-container" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="share-type" class="form-label">Format Type</label>
+                            <select id="share-type" class="form-control">
+                                <option value="Article">Written Article</option>
+                                <option value="Video">Video Guide</option>
+                                <option value="PDF">PDF Download</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="share-difficulty" class="form-label">Target Audience</label>
+                            <select id="share-difficulty" class="form-control">
+                                <option value="Beginner">Beginner Friendly</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="share-description" class="form-label">Overview / Details</label>
+                        <textarea id="share-description" class="form-control" rows="3"
+                            placeholder="Explain what this educational material covers..."></textarea>
+                    </div>
                 </div>
-                <div class="modal-footer"><button class="btn btn-secondary modal-cancel"
-                        data-modal-id="share-knowledge-modal">Cancel</button><button
-                        class="btn btn-primary">Share</button></div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary modal-cancel" data-modal-id="share-knowledge-modal">Cancel</button>
+                    <button class="btn btn-primary" id="save-knowledge-btn">Share</button>
+                </div>
             </div>
         </div>
 
@@ -802,7 +900,7 @@
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>

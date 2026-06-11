@@ -1,0 +1,588 @@
+/* --- App Dashboard Styling --- */
+
+/* App Container wrapper */
+.app-container {
+    display: none;
+    min-height: 100vh;
+    background-color: var(--bg-main);
+    padding: 2.5rem 0;
+    transition: background-color var(--transition-normal);
+}
+
+/* Base dashboard layout grid */
+.dashboard {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Sidebar navigation */
+.sidebar {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 2rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 24px;
+    z-index: 99;
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    color: white;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.user-details h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.user-details p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1.15rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all var(--transition-fast);
+}
+
+.sidebar-menu a:hover {
+    color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+.sidebar-menu a.active {
+    color: var(--primary);
+    background-color: var(--primary-light);
+    box-shadow: inset 3px 0 0 var(--primary);
+}
+
+.sidebar-menu i {
+    font-size: 1.15rem;
+    width: 20px;
+    text-align: center;
+    color: inherit;
+}
+
+/* Dashboard main content view */
+.main-content {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-sm);
+    min-height: calc(100vh - 5rem);
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dashboard-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+.dashboard-card-title {
+    font-size: 1.25rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    margin: 2.5rem 0 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Tab container content switching logic */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Weather Widget Banner component */
+.weather-widget {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    background-color: var(--primary-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+body.dark-mode .weather-widget {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.weather-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.5rem;
+    border-right: 1px solid var(--border-color);
+}
+
+.weather-item:last-child {
+    border-right: none;
+}
+
+.weather-icon {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 0.4rem;
+}
+
+.weather-value {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.weather-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* Live Sensor Readings mini-dashboard cards */
+.sensor-data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.sensor-item {
+    background-color: var(--primary-light);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: background-color var(--transition-normal);
+}
+
+body.dark-mode .sensor-item {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.sensor-value {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.sensor-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Produce inventories list */
+.card-body ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.card-body li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+
+.card-body li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* Upcoming events list custom styles */
+.upcoming-event-item {
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.upcoming-event-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.upcoming-event-item strong {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.upcoming-event-item small {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+/* Task Item Components */
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.task-item:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary);
+}
+
+body.dark-mode .task-item:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.task-status input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.task-details {
+    flex-grow: 1;
+}
+
+.task-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    transition: color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.task-meta {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.2rem;
+}
+
+.task-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.task-actions .btn-outline {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+}
+
+.task-actions .btn-outline:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.task-actions .task-delete-btn:hover {
+    color: var(--error);
+    border-color: var(--error);
+}
+
+/* Completed task status text line through */
+.task-item.completed {
+    opacity: 0.65;
+}
+
+.task-item.completed .task-title {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+/* Soil health chart (Interactive CSS Chart) */
+.chart-container {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 2rem 1.5rem 1rem;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+}
+
+.chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 100%;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.chart-bar {
+    width: 12%;
+    background: linear-gradient(to top, var(--primary-hover), var(--primary));
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    position: relative;
+    transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    min-height: 10px;
+    cursor: pointer;
+}
+
+.chart-bar:hover {
+    background: linear-gradient(to top, var(--accent-hover), var(--accent));
+}
+
+.chart-bar::after {
+    content: attr(data-value);
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--text-primary);
+    opacity: 0;
+    transition: opacity var(--transition-fast), top var(--transition-fast);
+}
+
+.chart-bar:hover::after {
+    opacity: 1;
+    top: -32px;
+}
+
+/* Shared Resources & Market Card Extras */
+.resource-card-img {
+    height: 120px;
+    background-color: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--primary);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color var(--transition-normal);
+}
+
+body.dark-mode .resource-card-img {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+/* App dashboard UI controls outside dashboard layout */
+.exit-prototype-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1002;
+    box-shadow: var(--shadow-md);
+}
+
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-md);
+    z-index: 1002;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    cursor: pointer;
+}
+
+.app-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 12, 16, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 98;
+}
+
+/* Responsive Dashboard layout */
+@media (max-width: 1024px) {
+    .dashboard {
+        grid-template-columns: 240px 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        padding: 5rem 0 2rem;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -300px;
+        top: 0;
+        height: 100vh;
+        width: 280px;
+        border-radius: 0;
+        box-shadow: var(--shadow-lg);
+        z-index: 1050;
+        transition: left var(--transition-normal);
+        overflow-y: auto;
+    }
+
+    .sidebar.show {
+        left: 0;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    .main-content {
+        padding: 1.5rem;
+    }
+    
+    .weather-widget {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .weather-item {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.75rem;
+    }
+    
+    .weather-item:nth-child(even) {
+        border-left: 1px solid var(--border-color);
+    }
+    
+    .weather-item:nth-child(3), .weather-item:nth-child(4) {
+        border-bottom: none;
+        padding-bottom: 0;
+        padding-top: 0.75rem;
+    }
+
+    .sensor-data-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .sensor-data-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .weather-widget {
+        grid-template-columns: 1fr;
+    }
+    
+    .weather-item {
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        padding: 0.5rem 0 !important;
+    }
+    
+    .weather-item:last-child {
+        border-bottom: none !important;
+    }
+}
+
+/* Animations helper */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
