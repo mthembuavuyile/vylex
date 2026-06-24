@@ -119,3 +119,16 @@ body.menu-open {
 .footer-link:hover {
     color: var(--brand-orange);
 }
+
+/* Hamburger Menu Icon Animation to form 'X' */
+#mobile-menu-btn[aria-expanded="true"] .hamburger-bar-1 {
+    transform: translateY(8px) rotate(45deg);
+}
+
+#mobile-menu-btn[aria-expanded="true"] .hamburger-bar-2 {
+    opacity: 0;
+}
+
+#mobile-menu-btn[aria-expanded="true"] .hamburger-bar-3 {
+    transform: translateY(-8px) rotate(-45deg);
+}
