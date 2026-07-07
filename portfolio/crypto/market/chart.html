@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GLOBAL MARKET — Hybrid Asset Terminal</title>
+    <meta name="description"
+        content="Live Mega-Cap stock & cryptocurrency terminal — asset tracker, valuation targets, global session status, sentiment index, and financial discussions." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <!-- External Modular Styling -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <div class="terminal">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🌐</div>
+                <div>
+                    <div class="logo-text">GLOBAL MARKET</div>
+                    <div class="logo-sub">Hybrid Asset Terminal</div>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div class="live-dot-wrap">
+                    <div class="live-dot"></div>
+                    <span
+                        style="font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;font-weight:bold;">LIVE
+                        Tickers</span>
+                </div>
+                <span id="clock">--:--:--</span>
+            </div>
+        </header>
+
+        <!-- ===== SATS TERMINAL QUOTES BANNER ===== -->
+        <div class="quotes-banner">
+            <span class="quote-icon">💡</span>
+            <span class="quote-text" id="quoteText">Loading terminal wisdom...</span>
+        </div>
+
+        <!-- ===== STATS ROW ===== -->
+        <div class="stats-row" id="statsRow">
+            <div class="stat-card">
+                <div class="stat-label">Bitcoin (BTC Price)</div>
+                <div class="stat-value" id="btcPrice">
+                    <div class="skeleton"></div>
+                </div>
+                <div class="stat-change" id="btcChange"></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Ethereum (ETH Price)</div>
+                <div class="stat-value" id="ethPrice">
+                    <div class="skeleton"></div>
+                </div>
+                <div class="stat-change" id="ethChange"></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">S&P 500 ETF (SPY)</div>
+                <div class="stat-value" id="spyPrice">
+                    <div class="skeleton"></div>
+                </div>
+                <div class="stat-change" id="spyChange"></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">NASDAQ 100 ETF (QQQ)</div>
+                <div class="stat-value" id="qqqPrice">
+                    <div class="skeleton"></div>
+                </div>
+                <div class="stat-change" id="qqqChange"></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Combined Cap Value</div>
+                <div class="stat-value" id="totalCap">
+                    <div class="skeleton"></div>
+                </div>
+                <div class="stat-change" id="totalCapChange"></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Global Market Sentiment</div>
+                <div class="stat-value" id="vixSentiment">
+                    <div class="skeleton"></div>
+                </div>
+                <div class="stat-change" id="vixValue">Multi-Asset Index</div>
+            </div>
+        </div>
+
+        <!-- ===== MAIN GRID ===== -->
+        <div class="main-grid">
+
+            <!-- Left Column (Chart & Table & News) -->
+            <div style="display:flex;flex-direction:column;gap:16px;min-width:0;">
+
+                <!-- TradingView chart widget -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Stocks & Crypto Interactive Chart</span>
+                        <span class="card-badge">TradingView Interactive</span>
+                    </div>
+                    <div class="chart-wrap">
+                        <!-- TradingView Widget BEGIN -->
+                        <div class="tradingview-widget-container" style="height:100%;">
+                            <div class="tradingview-widget-container__widget"></div>
+                            <script type="text/javascript"
+                                src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js"
+                                async>
+                                    {
+                                        "lineWidth": 2,
+                                        "lineType": 0,
+                                        "chartType": "area",
+                                        "fontColor": "rgb(130, 154, 177)",
+                                        "gridLineColor": "rgba(30, 41, 93, 0.15)",
+                                        "volumeUpColor": "rgba(16, 185, 129, 0.4)",
+                                        "volumeDownColor": "rgba(239, 68, 68, 0.4)",
+                                        "backgroundColor": "#0d1127",
+                                        "widgetFontColor": "#f1f5f9",
+                                        "upColor": "#10b981",
+                                        "downColor": "#ef4444",
+                                        "borderUpColor": "#10b981",
+                                        "borderDownColor": "#ef4444",
+                                        "wickUpColor": "#10b981",
+                                        "wickDownColor": "#ef4444",
+                                        "colorTheme": "dark",
+                                        "isTransparent": false,
+                                        "locale": "en",
+                                        "chartOnly": false,
+                                        "scalePosition": "right",
+                                        "scaleMode": "Normal",
+                                        "fontFamily": "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif",
+                                        "valuesTracking": "1",
+                                        "changeMode": "price-and-percent",
+                                        "symbols": [
+                                            ["Bitcoin (BTCUSD)", "COINBASE:BTCUSD|1D"],
+                                            ["Ethereum (ETHUSD)", "COINBASE:ETHUSD|1D"],
+                                            ["NVIDIA (NVDA)", "NASDAQ:NVDA|1D"],
+                                            ["Alphabet (GOOGL)", "NASDAQ:GOOGL|1D"],
+                                            ["SpaceX (SPCX)", "NASDAQ:SPCX|1D"],
+                                            ["Apple (AAPL)", "NASDAQ:AAPL|1D"],
+                                            ["Microsoft (MSFT)", "NASDAQ:MSFT|1D"],
+                                            ["Amazon (AMZN)", "NASDAQ:AMZN|1D"],
+                                            ["TSMC (TSM)", "NYSE:TSM|1D"],
+                                            ["Broadcom (AVGO)", "NASDAQ:AVGO|1D"],
+                                            ["Saudi Aramco (2222)", "TADAWUL:2222|1D"],
+                                            ["Meta (META)", "NASDAQ:META|1D"],
+                                            ["Tesla (TSLA)", "NASDAQ:TSLA|1D"]
+                                        ],
+                                        "dateRanges": ["1d|1", "1m|30", "3m|60", "12m|1D", "60m|1W", "all|1M"],
+                                        "fontSize": "10",
+                                        "headerFontSize": "medium",
+                                        "autosize": true,
+                                        "width": "100%",
+                                        "height": "100%",
+                                        "noTimeScale": false,
+                                        "hideDateRanges": false,
+                                        "hideMarketStatus": false,
+                                        "hideSymbolLogo": false
+                                    }
+                                </script>
+                        </div>
+                        <!-- TradingView Widget END -->
+                    </div>
+                </div>
+
+                <!-- Assets Leaderboard Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Combined Global Asset Leaderboard</span>
+                        <span class="card-badge">Live Market Feed</span>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="stocks-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank & Name</th>
+                                    <th class="hide-mobile">Exchange</th>
+                                    <th class="num-col">Price</th>
+                                    <th class="num-col">24h %</th>
+                                    <th class="num-col hide-mobile">Market Cap</th>
+                                    <th class="num-col hide-tablet">Target Range / Classification</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stocksTableBody">
+                                <!-- Populated dynamically and sorted by market cap -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Reddit discussions feed -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Asset Sentiment & News Feeds</span>
+                        <span class="card-badge">Reddit Discussions</span>
+                    </div>
+                    <div class="tab-row-container">
+                        <div class="tab-row" id="feedTabs">
+                            <button class="tab-btn active" data-feed="stocks">r/stocks</button>
+                            <button class="tab-btn" data-feed="Bitcoin">r/Bitcoin</button>
+                            <button class="tab-btn" data-feed="ethereum">r/ethereum</button>
+                            <button class="tab-btn" data-feed="CryptoCurrency">r/CryptoCurrency</button>
+                            <button class="tab-btn" data-feed="wallstreetbets">r/wallstreetbets</button>
+                        </div>
+                    </div>
+                    <ul class="feed-list" id="feedList">
+                        <li style="padding:24px;text-align:center;">
+                            <div class="spinner"></div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- ===== RIGHT SIDEBAR ===== -->
+            <aside class="sidebar">
+
+                <!-- Sentiment Dial -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Fear & Greed (VIX Sentiment)</span>
+                        <span class="card-badge" id="sentimentBadge">Neutral</span>
+                    </div>
+                    <div class="sentiment-dial-wrap">
+                        <div class="fng-dial">
+                            <svg viewBox="0 0 130 80" class="fng-arc-bg">
+                                <path d="M 15 75 A 50 50 0 0 1 115 75" fill="none" stroke="#1e295d" stroke-width="10"
+                                    stroke-linecap="round" />
+                            </svg>
+                            <svg viewBox="0 0 130 80" class="fng-arc">
+                                <path id="sentimentArc" d="M 15 75 A 50 50 0 0 1 115 75" fill="none"
+                                    stroke="var(--accent-crypto)" stroke-width="10" stroke-linecap="round"
+                                    stroke-dasharray="0 157" />
+                            </svg>
+                            <div class="fng-score" id="sentimentScore">50</div>
+                        </div>
+                        <div class="fng-label" id="sentimentLabel">Balanced Markets</div>
+                        <div
+                            style="margin-top:10px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:500;">
+                            <span style="color:var(--down);">Extreme Fear</span>
+                            <span style="color:var(--accent);">Extreme Greed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session & Network Status -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Session & Networks Status</span>
+                        <span class="card-badge">Trading Hours</span>
+                    </div>
+                    <div class="metric-rows" id="marketHoursBody">
+                        <div class="metric-row">
+                            <span class="metric-key"><span class="market-dot market-open"></span> Bitcoin Network</span>
+                            <span class="metric-val" style="color: var(--accent);">24/7 ACTIVE</span>
+                        </div>
+                        <!-- Dynamic fee loaded from Mempool Space -->
+                        <div class="metric-row" id="btcBlockFeeRow" style="display: none;">
+                            <span class="metric-key">BTC Next Block Fee</span>
+                            <span class="metric-val" id="btcBlockFeeVal" style="color: var(--accent-crypto);">-- sat/vB</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-key"><span class="market-dot" id="nyDot"></span> New York (NYSE)</span>
+                            <span class="metric-val" id="nyTime">09:30 - 16:00 EDT</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-key"><span class="market-dot" id="riDot"></span> Riyadh (Tadawul)</span>
+                            <span class="metric-val" id="riTime">10:00 - 15:00 AST</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-key"><span class="market-dot" id="taDot"></span> Taipei (TWSE)</span>
+                            <span class="metric-val" id="taTime">09:00 - 13:30 NST</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Glossary Widget -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Terminal Glossary</span>
+                        <span class="card-badge">Dictionary</span>
+                    </div>
+                    <div class="glossary-card">
+                        <input type="text" id="glossarySearch" class="glossary-search" placeholder="Search terms (e.g. HODL, DeFi)..." />
+                        <div class="glossary-list" id="glossaryList">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal weight metrics -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Global Multi-Asset Statistics</span>
+                        <span class="card-badge">Stats</span>
+                    </div>
+                    <div class="metric-rows">
+                        <div class="metric-row">
+                            <span class="metric-key">Weighted P/E Ratio</span>
+                            <span class="metric-val">34.18x</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-key">Combined Assets Value</span>
+                            <span class="metric-val" id="combinedValCard">$0.00T</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-key">Equity Index Weight</span>
+                            <span class="metric-val">38.45%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-key">Crypto Dominance (BTC)</span>
+                            <span class="metric-val" id="cryptoDom">--%</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-key">VIX Volatility Index</span>
+                            <span class="metric-val" id="vixRawValue" style="color: var(--accent);">14.20</span>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+
+    </div>
+
+    <!-- External Modular JS components -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
