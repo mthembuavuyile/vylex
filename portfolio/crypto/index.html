@@ -1,31 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SATS — Bitcoin Terminal</title>
-    <meta name="description" content="SATS — a real-time Bitcoin terminal by Vylex. Track BTC price, mempool fees, Fear & Greed, network stats, and crypto news in one dashboard.">
-    <meta name="keywords" content="bitcoin dashboard, BTC price live, mempool fees, crypto terminal, fear and greed index, bitcoin halving, sats, vylex">
+    <title>VYLEX TERMINAL — SATS & Global Asset Suite</title>
+    <meta name="description" content="SATS & Global Market Terminal by Vylex. Track real-time BTC metrics, network stats, mempool, Fear & Greed index, stock indices, and asset leaderboards in one dashboard.">
+    <meta name="keywords" content="crypto terminal, bitcoin dashboard, stocks leaderboard, fear and greed index, sats, global markets, trading terminal, vylex">
     <meta name="author" content="Vylex">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="SATS — Bitcoin Terminal by Vylex">
+    <meta property="og:title" content="VYLEX TERMINAL — SATS & Global Asset Suite">
     <meta name="robots" content="index, follow" />
-    <meta property="og:description" content="Real-time Bitcoin price, network stats, mempool fees, and crypto news — all in one terminal.">
+    <meta property="og:description" content="Live Bitcoin network stats, mempool fees, stock indices, and multi-asset leaderboards — unified.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vylex.co.za/portfolio/crypto">
-    <meta property="og:image" content="https://vylex.co.za/assets/images/sats-og-image.png"> <!-- Add your OG image -->
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SATS — Bitcoin Terminal by Vylex">
-    <meta name="twitter:description" content="Live BTC price, mempool, Fear & Greed, halving countdown and more.">
-    <meta name="twitter:image" content="https://vylex.co.za/assets/images/sats-og-image.png"> <!-- Same image as OG -->
+    <meta property="og:image" content="https://vylex.co.za/assets/images/sats-og-image.png">
 
     <!-- Fonts & Scripts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=Share+Tech+Mono&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Charts CDNs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.0/dist/chartjs-chart-financial.min.js"></script>
@@ -35,25 +34,39 @@
 
     <div class="scanline"></div>
 
-    <!-- HEADER -->
+    <!-- ===== HEADER ===== -->
     <header class="header">
-        <div class="logo">
+        <a href="#/sats" class="logo">
             <div class="logo-icon">₿</div>
-            <div>
-                SATS
-                <span class="logo-sub">Bitcoin Terminal</span>
+            <div class="logo-text-wrap">
+                <span class="logo-text">VYLEX SUITE</span>
+                <span class="logo-sub">Hybrid Terminal</span>
             </div>
-        </div>
-        <div class="header-center">
-            <span class="header-stat">DOMINANCE <strong id="hDominance">—</strong></span>
-            <span class="header-stat">FEAR&amp;GREED <strong id="hFG">—</strong></span>
-            <span class="header-stat">BLOCK <strong id="hBlock">—</strong></span>
-            <span class="header-stat">HALVING <strong id="hHalving">—</strong></span>
-        </div>
+        </a>
+
+        <!-- Routing Tabs Switcher -->
+        <nav class="header-nav">
+            <button class="nav-tab-btn active" data-view="sats">₿ SATS Terminal</button>
+            <button class="nav-tab-btn" data-view="global">🌐 Global Market</button>
+            <button class="nav-tab-btn" data-view="tools">🎛️ Terminal Tools</button>
+        </nav>
+
         <div class="header-right">
-            <div class="live-dot">LIVE</div>
+            <div class="header-meta-clocks">
+                <span class="header-stat">DOMINANCE <strong id="hDominance">—</strong></span>
+                <span class="header-stat">FEAR&amp;GREED <strong id="hFG">—</strong></span>
+                <span class="header-stat">BLOCK <strong id="hBlock">—</strong></span>
+                <span class="header-stat">HALVING <strong id="hHalving">—</strong></span>
+                <span id="clock">00:00:00</span>
+            </div>
+            
+            <div class="live-dot-wrap">
+                <div class="live-dot"></div>
+                <span style="font-size:9.5px;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;font-weight:bold;">LIVE</span>
+            </div>
+
             <select class="currency-select" id="currencySelect">
-                <option value="usd">USD</option>
+                <option value="usd" selected>USD</option>
                 <option value="eur">EUR</option>
                 <option value="gbp">GBP</option>
                 <option value="jpy">JPY</option>
@@ -62,328 +75,611 @@
         </div>
     </header>
 
+    <!-- ===== WISDOM ticker banner ===== -->
+    <div class="quotes-banner">
+        <span class="quote-icon">💡</span>
+        <span class="quote-text" id="quoteText">Loading terminal wisdom...</span>
+    </div>
+
+    <!-- ===== PRIMARY MAIN VIEW AREA ===== -->
     <main class="main">
 
-        <!-- PRICE HERO -->
-        <div class="price-hero">
-            <div class="price-main">
-                <div class="label">Bitcoin / <span id="heroCurrency">USD</span></div>
-                <div class="price" id="heroPrice">Loading…</div>
-                <div id="heroChange" class="change up">—</div>
-            </div>
-            <div class="price-stats">
-                <div class="price-stat">
-                    <div class="sl">24h High</div>
-                    <div class="sv" id="heroHigh">—</div>
+        <!-- ============================================= -->
+        <!-- VIEW 1: SATS BITCOIN TERMINAL                 -->
+        <!-- ============================================= -->
+        <div id="view-sats" class="view-container">
+            <!-- PRICE HERO -->
+            <div class="price-hero">
+                <div class="price-main">
+                    <div class="label">Bitcoin / <span id="heroCurrency">USD</span></div>
+                    <div class="price" id="heroPrice">Loading…</div>
+                    <div id="heroChange" class="change up">—</div>
                 </div>
-                <div class="price-stat">
-                    <div class="sl">24h Low</div>
-                    <div class="sv" id="heroLow">—</div>
-                </div>
-                <div class="price-stat">
-                    <div class="sl">Market Cap</div>
-                    <div class="sv" id="heroMcap">—</div>
-                </div>
-                <div class="price-stat">
-                    <div class="sl">24h Volume</div>
-                    <div class="sv" id="heroVol">—</div>
-                </div>
-            </div>
-            <div class="price-meta">
-                <div class="last-update" id="heroUpdated">Waiting for data…</div>
-                <button class="refresh-btn" id="refreshBtn">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
-                    </svg>
-                    Refresh
-                </button>
-                <label class="auto-toggle">
-                    <div class="toggle-input">
-                        <input type="checkbox" id="autoRefresh" checked>
-                        <div class="toggle-slider"></div>
+                <div class="price-stats">
+                    <div class="price-stat">
+                        <div class="sl">24h High</div>
+                        <div class="sv" id="heroHigh">—</div>
                     </div>
-                    Auto 30s
-                </label>
+                    <div class="price-stat">
+                        <div class="sl">24h Low</div>
+                        <div class="sv" id="heroLow">—</div>
+                    </div>
+                    <div class="price-stat">
+                        <div class="sl">Market Cap</div>
+                        <div class="sv" id="heroMcap">—</div>
+                    </div>
+                    <div class="price-stat">
+                        <div class="sl">24h Volume</div>
+                        <div class="sv" id="heroVol">—</div>
+                    </div>
+                </div>
+                <div class="price-meta">
+                    <div class="last-update" id="heroUpdated">Waiting for data…</div>
+                    <button class="refresh-btn" id="refreshBtn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+                        </svg>
+                        Refresh
+                    </button>
+                    <label class="auto-toggle">
+                        <div class="toggle-input">
+                            <input type="checkbox" id="autoRefresh" checked>
+                            <div class="toggle-slider"></div>
+                        </div>
+                        Auto 30s
+                    </label>
+                </div>
+            </div>
+
+            <!-- GRID -->
+            <div class="grid">
+                <!-- CHART (full width) -->
+                <div class="card grid-full">
+                    <div class="card-header">
+                        <div class="card-title">Bitcoin Live Chart</div>
+                        <div class="chart-controls">
+                            <div class="tf-group" id="tfButtons">
+                                <button class="tf-btn active" data-tf="1H">1H</button>
+                                <button class="tf-btn" data-tf="4H">4H</button>
+                                <button class="tf-btn" data-tf="1D">1D</button>
+                                <button class="tf-btn" data-tf="1W">1W</button>
+                            </div>
+                            <button class="chart-type-btn" id="chartTypeBtn">Candles OFF</button>
+                            <div class="card-badge orange" id="chartStatus">Loading</div>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="priceChart"></canvas>
+                        <div class="chart-spinner" id="chartSpinner">
+                            <div class="spinner-ring"></div>
+                        </div>
+                    </div>
+                    <div class="status-bar">
+                        <span class="status-text" id="statusMsg">Initializing…</span>
+                        <span id="lastUpdatedTime">—</span>
+                    </div>
+                </div>
+
+                <!-- MARKET STATS -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Bitcoin Market Stats</div>
+                        <div class="card-badge orange">CoinGecko</div>
+                    </div>
+                    <div class="card-body" id="marketStatsBody">
+                        <div class="metric">
+                            <span class="metric-label">BTC Dominance</span>
+                            <span class="metric-value" id="mDominance">—</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Circulating Supply</span>
+                            <span class="metric-value orange" id="mCirc">—</span>
+                        </div>
+                        <div class="metric" style="flex-direction:column; align-items:stretch; gap:6px;">
+                            <div style="display:flex;justify-content:space-between;">
+                                <span class="metric-label">Supply Mined</span>
+                                <span class="metric-value" id="mSupplyPct">—</span>
+                            </div>
+                            <div class="supply-bar">
+                                <div class="supply-fill" id="supplyFill"></div>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">All-Time High</span>
+                            <span class="metric-value orange" id="mATH">—</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">From ATH</span>
+                            <span class="metric-value" id="mATHPct">—</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">7d Change</span>
+                            <span class="metric-value" id="m7d">—</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">30d Change</span>
+                            <span class="metric-value" id="m30d">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NETWORK STATS -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Bitcoin Network</div>
+                        <div class="card-badge blue">mempool.space</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric">
+                            <span class="metric-label">Hash Rate</span>
+                            <span class="metric-value" id="nHash">—</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Difficulty</span>
+                            <span class="metric-value" id="nDiff">—</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Next Adj.</span>
+                            <span class="metric-value" id="nNextDiff">—</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Block Height</span>
+                            <span class="metric-value orange" id="nBlockHeight">—</span>
+                        </div>
+                        <div style="margin-top:16px;">
+                            <div class="halving-display">
+                                <div class="halving-blocks" id="halvingBlocks">—</div>
+                                <div class="halving-sub">blocks until halving</div>
+                                <div style="margin-top:6px; font-size:0.68rem; color:var(--text3);" id="halvingDays">estimating…</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FEAR & GREED -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Fear &amp; Greed</div>
+                        <div class="card-badge green">Alternative.me</div>
+                    </div>
+                    <div class="card-body" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height: 200px;">
+                        <div class="fg-gauge-wrap" style="width:200px; height:110px; position:relative;">
+                            <canvas id="fearGreedGauge" width="200" height="110"></canvas>
+                        </div>
+                        <div class="fg-value" id="fgValue" style="font-family:var(--font-mono); font-size:24px; font-weight:bold; margin-top:10px;">—</div>
+                        <div class="fg-label" id="fgLabel" style="font-weight:bold; margin-top:2px;">Loading…</div>
+                        <div class="fg-update" id="fgUpdate" style="font-size:9px; color:var(--muted); margin-top:6px;">—</div>
+                    </div>
+                </div>
+
+                <!-- MEMPOOL FEES -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Mempool Fees</div>
+                        <div class="card-badge blue">mempool.space</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="fee-grid">
+                            <div class="fee-item">
+                                <div class="fee-label">Fast</div>
+                                <div class="fee-value" id="feeHigh">—</div>
+                                <div class="fee-unit">sat/vB</div>
+                            </div>
+                            <div class="fee-item">
+                                <div class="fee-label">Medium</div>
+                                <div class="fee-value" id="feeMed">—</div>
+                                <div class="fee-unit">sat/vB</div>
+                            </div>
+                            <div class="fee-item">
+                                <div class="fee-label">Slow</div>
+                                <div class="fee-value" id="feeLow">—</div>
+                                <div class="fee-unit">sat/vB</div>
+                            </div>
+                        </div>
+                        <div class="metric" style="margin-top:12px;">
+                            <span class="metric-label">Mempool Size</span>
+                            <span class="metric-value" id="mempoolSize">—</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Pending Txs</span>
+                            <span class="metric-value" id="mempoolTxs">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RECENT BLOCKS -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Recent Blocks</div>
+                        <div class="card-badge blue">mempool.space</div>
+                    </div>
+                    <div class="card-body" id="recentBlocksBody">
+                        <div class="skeleton"></div>
+                        <div class="skeleton" style="width:80%"></div>
+                        <div class="skeleton"></div>
+                        <div class="skeleton" style="width:90%"></div>
+                    </div>
+                </div>
+
+                <!-- MARKET OVERVIEW -->
+                <div class="card grid-2col">
+                    <div class="card-header">
+                        <div class="card-title">Market Overview</div>
+                        <div class="card-badge orange">Top Coins</div>
+                    </div>
+                    <div class="card-body" id="marketOverviewBody" style="max-height: 250px; overflow-y: auto;">
+                        <div class="skeleton"></div>
+                        <div class="skeleton"></div>
+                        <div class="skeleton"></div>
+                    </div>
+                </div>
+
+                <!-- NEWS FEED (full width) -->
+                <div class="card grid-full">
+                    <div class="card-header">
+                        <div class="card-title">Crypto News Feed</div>
+                        <div class="news-tabs" id="newsTabs">
+                            <button class="news-tab active" data-src="all_crypto">All Crypto</button>
+                            <button class="news-tab" data-src="bitcoin">Bitcoin</button>
+                            <button class="news-tab" data-src="ethereum">Ethereum</button>
+                            <button class="news-tab" data-src="altcoins">Altcoins</button>
+                            <button class="news-tab" data-src="defi">DeFi</button>
+                            <button class="news-tab" data-src="nfts">NFTs</button>
+                        </div>
+                    </div>
+                    <div class="news-grid" id="newsGrid">
+                        <div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text3); font-size:0.8rem; letter-spacing:0.1em;">LOADING NEWS…</div>
+                    </div>
+                </div>
+            </div><!-- end .grid -->
+        </div>
+
+        <!-- ============================================= -->
+        <!-- VIEW 2: GLOBAL HYBRID STOCKS & CRYPTO VIEW     -->
+        <!-- ============================================= -->
+        <div id="view-global" class="view-container">
+            <!-- Tickers stats row -->
+            <div class="stats-row" id="statsRow">
+                <div class="stat-card">
+                    <div class="stat-label">Bitcoin (BTC Price)</div>
+                    <div class="stat-value" id="btcPrice"><div class="skeleton"></div></div>
+                    <div class="stat-change" id="btcChange"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Ethereum (ETH Price)</div>
+                    <div class="stat-value" id="ethPrice"><div class="skeleton"></div></div>
+                    <div class="stat-change" id="ethChange"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">S&P 500 ETF (SPY)</div>
+                    <div class="stat-value" id="spyPrice"><div class="skeleton"></div></div>
+                    <div class="stat-change" id="spyChange"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">NASDAQ 100 ETF (QQQ)</div>
+                    <div class="stat-value" id="qqqPrice"><div class="skeleton"></div></div>
+                    <div class="stat-change" id="qqqChange"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Combined Cap Value</div>
+                    <div class="stat-value" id="totalCap"><div class="skeleton"></div></div>
+                    <div class="stat-change" id="totalCapChange"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Global Market Sentiment</div>
+                    <div class="stat-value" id="vixSentiment"><div class="skeleton"></div></div>
+                    <div class="stat-change" id="vixValue">Multi-Asset Index</div>
+                </div>
+            </div>
+
+            <!-- MAIN GRID -->
+            <div class="main-grid">
+                <!-- Left Column (TradingView and Leaderboard) -->
+                <div style="display:flex;flex-direction:column;gap:16px;min-width:0;">
+                    <!-- TradingView Panel -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Stocks &amp; Crypto Interactive Chart</span>
+                            <span class="card-badge">TradingView Interactive</span>
+                        </div>
+                        <div class="chart-wrap">
+                            <!-- TradingView Widget BEGIN -->
+                            <div class="tradingview-widget-container" style="height:100%;">
+                                <div class="tradingview-widget-container__widget"></div>
+                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+                                {
+                                    "lineWidth": 2,
+                                    "lineType": 0,
+                                    "chartType": "area",
+                                    "fontColor": "rgb(130, 154, 177)",
+                                    "gridLineColor": "rgba(30, 41, 93, 0.15)",
+                                    "volumeUpColor": "rgba(16, 185, 129, 0.4)",
+                                    "volumeDownColor": "rgba(239, 68, 68, 0.4)",
+                                    "backgroundColor": "#0d1127",
+                                    "widgetFontColor": "#f1f5f9",
+                                    "upColor": "#10b981",
+                                    "downColor": "#ef4444",
+                                    "borderUpColor": "#10b981",
+                                    "borderDownColor": "#ef4444",
+                                    "wickUpColor": "#10b981",
+                                    "wickDownColor": "#ef4444",
+                                    "colorTheme": "dark",
+                                    "isTransparent": false,
+                                    "locale": "en",
+                                    "chartOnly": false,
+                                    "scalePosition": "right",
+                                    "scaleMode": "Normal",
+                                    "fontFamily": "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif",
+                                    "valuesTracking": "1",
+                                    "changeMode": "price-and-percent",
+                                    "symbols": [
+                                        ["Bitcoin (BTCUSD)", "COINBASE:BTCUSD|1D"],
+                                        ["Ethereum (ETHUSD)", "COINBASE:ETHUSD|1D"],
+                                        ["NVIDIA (NVDA)", "NASDAQ:NVDA|1D"],
+                                        ["Alphabet (GOOGL)", "NASDAQ:GOOGL|1D"],
+                                        ["SpaceX (SPCX)", "NASDAQ:SPCX|1D"],
+                                        ["Apple (AAPL)", "NASDAQ:AAPL|1D"],
+                                        ["Microsoft (MSFT)", "NASDAQ:MSFT|1D"],
+                                        ["Amazon (AMZN)", "NASDAQ:AMZN|1D"],
+                                        ["TSMC (TSM)", "NYSE:TSM|1D"],
+                                        ["Broadcom (AVGO)", "NASDAQ:AVGO|1D"],
+                                        ["Saudi Aramco (2222)", "TADAWUL:2222|1D"],
+                                        ["Meta (META)", "NASDAQ:META|1D"],
+                                        ["Tesla (TSLA)", "NASDAQ:TSLA|1D"]
+                                    ],
+                                    "dateRanges": ["1d|1", "1m|30", "3m|60", "12m|1D", "60m|1W", "all|1M"],
+                                    "fontSize": "10",
+                                    "headerFontSize": "medium",
+                                    "autosize": true,
+                                    "width": "100%",
+                                    "height": "100%",
+                                    "noTimeScale": false,
+                                    "hideDateRanges": false,
+                                    "hideMarketStatus": false,
+                                    "hideSymbolLogo": false
+                                }
+                                </script>
+                            </div>
+                            <!-- TradingView Widget END -->
+                        </div>
+                    </div>
+
+                    <!-- Asset Leaderboard Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Combined Global Asset Leaderboard</span>
+                            <span class="card-badge">Live Market Feed</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="stocks-table">
+                                <thead>
+                                    <tr>
+                                        <th>Rank &amp; Name</th>
+                                        <th class="hide-mobile">Exchange</th>
+                                        <th class="num-col">Price</th>
+                                        <th class="num-col">24h %</th>
+                                        <th class="num-col hide-mobile">Market Cap</th>
+                                        <th class="num-col hide-tablet">Target Range / Classification</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stocksTableBody">
+                                    <!-- Dynamic rows loaded from state -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Reddit discussion board -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Asset Sentiment &amp; News Feeds</span>
+                            <span class="card-badge">Reddit Discussions</span>
+                        </div>
+                        <div class="tab-row-container">
+                            <div class="tab-row" id="feedTabs">
+                                <button class="tab-btn active" data-feed="stocks">r/stocks</button>
+                                <button class="tab-btn" data-feed="Bitcoin">r/Bitcoin</button>
+                                <button class="tab-btn" data-feed="ethereum">r/ethereum</button>
+                                <button class="tab-btn" data-feed="CryptoCurrency">r/CryptoCurrency</button>
+                                <button class="tab-btn" data-feed="wallstreetbets">r/wallstreetbets</button>
+                            </div>
+                        </div>
+                        <ul class="feed-list" id="feedList">
+                            <li style="padding:24px;text-align:center;"><div class="spinner"></div></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right sidebar (SVG Dial and Hours indicators) -->
+                <aside class="sidebar">
+                    <!-- Sentiment Gauge -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Fear &amp; Greed (VIX Sentiment)</span>
+                            <span class="card-badge" id="sentimentBadge">Neutral</span>
+                        </div>
+                        <div class="sentiment-dial-wrap">
+                            <div class="fng-dial">
+                                <svg viewBox="0 0 130 80" class="fng-arc-bg">
+                                    <path d="M 15 75 A 50 50 0 0 1 115 75" fill="none" stroke="#1e295d" stroke-width="10" stroke-linecap="round" />
+                                </svg>
+                                <svg viewBox="0 0 130 80" class="fng-arc">
+                                    <path id="sentimentArc" d="M 15 75 A 50 50 0 0 1 115 75" fill="none" stroke="var(--accent-crypto)" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 157" />
+                                </svg>
+                                <div class="fng-score" id="sentimentScore">50</div>
+                            </div>
+                            <div class="fng-label" id="sentimentLabel">Balanced Markets</div>
+                            <div style="margin-top:10px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:500;">
+                                <span style="color:var(--down);">Extreme Fear</span>
+                                <span style="color:var(--accent);">Extreme Greed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Session & Network Status Clocks -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Session &amp; Networks Status</span>
+                            <span class="card-badge">Trading Hours</span>
+                        </div>
+                        <div class="metric-rows" id="marketHoursBody">
+                            <div class="metric-row">
+                                <span class="metric-key"><span class="market-dot market-open"></span> Bitcoin Network</span>
+                                <span class="metric-val" style="color: var(--accent);">24/7 ACTIVE</span>
+                            </div>
+                            <div class="metric-row" id="btcBlockFeeRow" style="display: none;">
+                                <span class="metric-key">BTC Next Block Fee</span>
+                                <span class="metric-val" id="btcBlockFeeVal" style="color: var(--accent-crypto);">-- sat/vB</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-key"><span class="market-dot" id="nyDot"></span> New York (NYSE)</span>
+                                <span class="metric-val" id="nyTime">09:30 - 16:00 EDT</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-key"><span class="market-dot" id="riDot"></span> Riyadh (Tadawul)</span>
+                                <span class="metric-val" id="riTime">10:00 - 15:00 AST</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-key"><span class="market-dot" id="taDot"></span> Taipei (TWSE)</span>
+                                <span class="metric-val" id="taTime">09:00 - 13:30 NST</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Global Multi-Asset stats -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Global Multi-Asset Statistics</span>
+                            <span class="card-badge">Stats</span>
+                        </div>
+                        <div class="metric-rows">
+                            <div class="metric-row">
+                                <span class="metric-key">Weighted P/E Ratio</span>
+                                <span class="metric-val">34.18x</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-key">Combined Assets Value</span>
+                                <span class="metric-val" id="combinedValCard">$0.00T</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-key">Equity Index Weight</span>
+                                <span class="metric-val">38.45%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-key">Crypto Dominance (BTC)</span>
+                                <span class="metric-val" id="cryptoDom">--%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-key">VIX Volatility Index</span>
+                                <span class="metric-val" id="vixRawValue" style="color: var(--accent);">14.20</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
 
-        <!-- MAIN GRID -->
-        <div class="grid">
-
-            <!-- CHART (full width) -->
-            <div class="card grid-full">
-                <div class="card-header">
-                    <div class="card-title">Price Chart</div>
-                    <div class="chart-controls">
-                        <div class="tf-group" id="tfButtons">
-                            <button class="tf-btn active" data-tf="1H">1H</button>
-                            <button class="tf-btn" data-tf="4H">4H</button>
-                            <button class="tf-btn" data-tf="1D">1D</button>
-                            <button class="tf-btn" data-tf="1W">1W</button>
+        <!-- ============================================= -->
+        <!-- VIEW 3: TERMINAL TOOLS & GLOSSARY VIEW        -->
+        <!-- ============================================= -->
+        <div id="view-tools" class="view-container">
+            <div class="tools-grid">
+                <!-- Fiat / Crypto Calculator -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Unified Currency Converter</div>
+                        <div class="card-badge green">Live Rates</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="converter-grid">
+                            <div class="conv-field">
+                                <label>Amount</label>
+                                <input class="conv-input" type="number" id="convAmount" value="1" step="any" min="0">
+                            </div>
+                            <div class="conv-arrow">→</div>
+                            <div class="conv-field">
+                                <label>To</label>
+                                <select class="conv-select" id="convTo">
+                                    <option value="BTC">BTC</option>
+                                    <option value="USD" selected>USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="GBP">GBP</option>
+                                    <option value="JPY">JPY</option>
+                                    <option value="ZAR">ZAR</option>
+                                </select>
+                            </div>
                         </div>
-                        <button class="chart-type-btn" id="chartTypeBtn">Candles OFF</button>
-                        <div class="card-badge orange" id="chartStatus">Loading</div>
-                    </div>
-                </div>
-                <div class="chart-wrapper">
-                    <canvas id="priceChart"></canvas>
-                    <div class="chart-spinner" id="chartSpinner">
-                        <div class="spinner-ring"></div>
-                    </div>
-                </div>
-                <div class="status-bar">
-                    <span class="status-text" id="statusMsg">Initializing…</span>
-                    <span id="lastUpdatedTime">—</span>
-                </div>
-            </div>
-
-            <!-- MARKET STATS -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Market Stats</div>
-                    <div class="card-badge orange">CoinGecko</div>
-                </div>
-                <div class="card-body" id="marketStatsBody">
-                    <div class="metric">
-                        <span class="metric-label">BTC Dominance</span>
-                        <span class="metric-value" id="mDominance">—</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">Circulating Supply</span>
-                        <span class="metric-value orange" id="mCirc">—</span>
-                    </div>
-                    <div class="metric" style="flex-direction:column; align-items:stretch; gap:6px;">
-                        <div style="display:flex;justify-content:space-between;">
-                            <span class="metric-label">Supply Mined</span>
-                            <span class="metric-value" id="mSupplyPct">—</span>
-                        </div>
-                        <div class="supply-bar">
-                            <div class="supply-fill" id="supplyFill"></div>
-                        </div>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">All-Time High</span>
-                        <span class="metric-value orange" id="mATH">—</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">From ATH</span>
-                        <span class="metric-value" id="mATHPct">—</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">7d Change</span>
-                        <span class="metric-value" id="m7d">—</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">30d Change</span>
-                        <span class="metric-value" id="m30d">—</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- NETWORK STATS -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Network</div>
-                    <div class="card-badge blue">mempool.space</div>
-                </div>
-                <div class="card-body">
-                    <div class="metric">
-                        <span class="metric-label">Hash Rate</span>
-                        <span class="metric-value" id="nHash">—</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">Difficulty</span>
-                        <span class="metric-value" id="nDiff">—</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">Next Adj.</span>
-                        <span class="metric-value" id="nNextDiff">—</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">Block Height</span>
-                        <span class="metric-value orange" id="nBlockHeight">—</span>
-                    </div>
-                    <div style="margin-top:16px;">
-                        <div class="halving-display">
-                            <div class="halving-blocks" id="halvingBlocks">—</div>
-                            <div class="halving-sub">blocks until halving</div>
-                            <div style="margin-top:6px; font-size:0.68rem; color:var(--text3);" id="halvingDays">
-                                estimating…</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FEAR & GREED -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Fear &amp; Greed</div>
-                    <div class="card-badge green">Alternative.me</div>
-                </div>
-                <div class="fg-container">
-                    <div class="fg-gauge-wrap">
-                        <canvas id="fearGreedGauge" width="200" height="110"></canvas>
-                    </div>
-                    <div class="fg-value" id="fgValue">—</div>
-                    <div class="fg-label" id="fgLabel">Loading…</div>
-                    <div class="fg-update" id="fgUpdate">—</div>
-                </div>
-            </div>
-
-            <!-- MEMPOOL FEES -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Mempool Fees</div>
-                    <div class="card-badge blue">mempool.space</div>
-                </div>
-                <div class="card-body">
-                    <div class="fee-grid">
-                        <div class="fee-item">
-                            <div class="fee-label">Fast</div>
-                            <div class="fee-value" id="feeHigh">—</div>
-                            <div class="fee-unit">sat/vB</div>
-                        </div>
-                        <div class="fee-item">
-                            <div class="fee-label">Medium</div>
-                            <div class="fee-value" id="feeMed">—</div>
-                            <div class="fee-unit">sat/vB</div>
-                        </div>
-                        <div class="fee-item">
-                            <div class="fee-label">Slow</div>
-                            <div class="fee-value" id="feeLow">—</div>
-                            <div class="fee-unit">sat/vB</div>
-                        </div>
-                    </div>
-                    <div class="metric" style="margin-top:12px;">
-                        <span class="metric-label">Mempool Size</span>
-                        <span class="metric-value" id="mempoolSize">—</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">Pending Txs</span>
-                        <span class="metric-value" id="mempoolTxs">—</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RECENT BLOCKS -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Recent Blocks</div>
-                    <div class="card-badge blue">mempool.space</div>
-                </div>
-                <div class="card-body" id="recentBlocksBody">
-                    <div class="skeleton"></div>
-                    <div class="skeleton" style="width:80%"></div>
-                    <div class="skeleton"></div>
-                    <div class="skeleton" style="width:90%"></div>
-                </div>
-            </div>
-
-            <!-- MARKET OVERVIEW -->
-            <div class="card grid-2col">
-                <div class="card-header">
-                    <div class="card-title">Market Overview</div>
-                    <div class="card-badge orange">Top Coins</div>
-                </div>
-                <div class="card-body" id="marketOverviewBody">
-                    <div class="skeleton"></div>
-                    <div class="skeleton"></div>
-                    <div class="skeleton"></div>
-                </div>
-            </div>
-
-            <!-- CONVERTER -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Converter</div>
-                    <div class="card-badge orange">Live Rates</div>
-                </div>
-                <div class="card-body">
-                    <div class="converter-grid">
-                        <div class="conv-field">
-                            <label>Amount</label>
-                            <input class="conv-input" type="number" id="convAmount" value="1" step="any" min="0">
-                        </div>
-                        <div class="conv-arrow">→</div>
-                        <div class="conv-field">
-                            <label>To</label>
-                            <select class="conv-select" id="convTo">
-                                <option value="BTC">BTC</option>
-                                <option value="USD" selected>USD</option>
+                        <div class="conv-field" style="margin-bottom:12px;">
+                            <label>From</label>
+                            <select class="conv-select" id="convFrom" style="width:100%">
+                                <option value="BTC" selected>BTC</option>
+                                <option value="USD">USD</option>
                                 <option value="EUR">EUR</option>
                                 <option value="GBP">GBP</option>
                                 <option value="JPY">JPY</option>
                                 <option value="ZAR">ZAR</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="conv-field" style="margin-bottom:10px;">
-                        <label>From</label>
-                        <select class="conv-select" id="convFrom" style="width:100%">
-                            <option value="BTC" selected>BTC</option>
-                            <option value="USD">USD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="GBP">GBP</option>
-                            <option value="JPY">JPY</option>
-                            <option value="ZAR">ZAR</option>
-                        </select>
-                    </div>
-                    <button class="conv-btn" id="convBtn">Convert</button>
-                    <div class="conv-result" id="convResult">Enter amount and click Convert</div>
-                </div>
-            </div>
-
-            <!-- CRYPTO TERM -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Terminology</div>
-                </div>
-                <div class="card-body" style="display:flex;flex-direction:column;">
-                    <div class="term-word" id="termWord">Loading…</div>
-                    <div class="term-def" id="termDef">—</div>
-                    <button class="card-action" id="newTermBtn">→ New Term</button>
-                </div>
-            </div>
-
-            <!-- CRYPTO QUOTE -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Wisdom</div>
-                </div>
-                <div class="card-body" style="display:flex;flex-direction:column;">
-                    <div class="quote-text" id="quoteText">Loading…</div>
-                    <button class="card-action" id="newQuoteBtn">→ New Quote</button>
-                </div>
-            </div>
-
-            <!-- NEWS FEED (full width) -->
-            <div class="card grid-full">
-                <div class="card-header">
-                    <div class="card-title">News Feed</div>
-                    <div class="news-tabs" id="newsTabs">
-                        <button class="news-tab active" data-src="all_crypto">All Crypto</button>
-                        <button class="news-tab" data-src="bitcoin">Bitcoin</button>
-                        <button class="news-tab" data-src="ethereum">Ethereum</button>
-                        <button class="news-tab" data-src="altcoins">Altcoins</button>
-                        <button class="news-tab" data-src="defi">DeFi</button>
-                        <button class="news-tab" data-src="nfts">NFTs</button>
+                        <button class="conv-btn" id="convBtn">Convert Values</button>
+                        <div class="conv-result" id="convResult">Enter amount and click Convert</div>
                     </div>
                 </div>
-                <div class="news-grid" id="newsGrid">
-                    <div
-                        style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text3); font-size:0.8rem; letter-spacing:0.1em;">
-                        LOADING NEWS…</div>
+
+                <!-- Wisdom and random definitions card -->
+                <div style="display:flex; flex-direction:column; gap:16px;">
+                    <!-- Terminology Explorer Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Random Term Definition</div>
+                        </div>
+                        <div class="card-body" style="display:flex;flex-direction:column;">
+                            <div class="term-word" id="termWord">Loading…</div>
+                            <div class="term-def" id="termDef">—</div>
+                            <button class="card-action" id="newTermBtn">→ New Term</button>
+                        </div>
+                    </div>
+
+                    <!-- Wisdom quotes card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Terminal Wisdom</div>
+                        </div>
+                        <div class="card-body" style="display:flex;flex-direction:column;">
+                            <div class="term-word" id="satsQuoteText" style="border-left-color: var(--accent2);">Loading…</div>
+                            <button class="card-action" id="newQuoteBtn">→ New Quote</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-        </div><!-- end .grid -->
+            <!-- Glossary List search panel -->
+            <div class="card" style="margin-top: 16px;">
+                <div class="card-header">
+                    <span class="card-title">Searchable Terminal Glossary</span>
+                    <span class="card-badge">Dictionary</span>
+                </div>
+                <div class="card-body glossary-card">
+                    <input type="text" id="glossarySearch" class="glossary-search" placeholder="Search terms (e.g. HODL, VIX, P/E, DeFi, Satoshi)..." />
+                    <div class="glossary-list" id="glossaryList">
+                        <!-- Dynamic glossary terms -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
+    <!-- Site Footer -->
     <footer class="site-footer">
-        <p>by <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer">vylex</a></p>
+        <p>© 2026 Platform Suite by <a href="https://vylex.co.za" target="_blank" rel="noopener noreferrer">vylex</a></p>
     </footer>
 
+    <!-- App Modular scripts load -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
 </body>
 

@@ -106,61 +106,65 @@
                         <!-- TradingView Widget BEGIN -->
                         <div class="tradingview-widget-container" style="height:100%;">
                             <div class="tradingview-widget-container__widget"></div>
-                            <script type="text/javascript"
-                                src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js"
-                                async>
-                                    {
-                                        "lineWidth": 2,
-                                        "lineType": 0,
-                                        "chartType": "area",
-                                        "fontColor": "rgb(130, 154, 177)",
-                                        "gridLineColor": "rgba(30, 41, 93, 0.15)",
-                                        "volumeUpColor": "rgba(16, 185, 129, 0.4)",
-                                        "volumeDownColor": "rgba(239, 68, 68, 0.4)",
-                                        "backgroundColor": "#0d1127",
-                                        "widgetFontColor": "#f1f5f9",
-                                        "upColor": "#10b981",
-                                        "downColor": "#ef4444",
-                                        "borderUpColor": "#10b981",
-                                        "borderDownColor": "#ef4444",
-                                        "wickUpColor": "#10b981",
-                                        "wickDownColor": "#ef4444",
-                                        "colorTheme": "dark",
-                                        "isTransparent": false,
-                                        "locale": "en",
-                                        "chartOnly": false,
-                                        "scalePosition": "right",
-                                        "scaleMode": "Normal",
-                                        "fontFamily": "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif",
-                                        "valuesTracking": "1",
-                                        "changeMode": "price-and-percent",
-                                        "symbols": [
-                                            ["Bitcoin (BTCUSD)", "COINBASE:BTCUSD|1D"],
-                                            ["Ethereum (ETHUSD)", "COINBASE:ETHUSD|1D"],
-                                            ["NVIDIA (NVDA)", "NASDAQ:NVDA|1D"],
-                                            ["Alphabet (GOOGL)", "NASDAQ:GOOGL|1D"],
-                                            ["SpaceX (SPCX)", "NASDAQ:SPCX|1D"],
-                                            ["Apple (AAPL)", "NASDAQ:AAPL|1D"],
-                                            ["Microsoft (MSFT)", "NASDAQ:MSFT|1D"],
-                                            ["Amazon (AMZN)", "NASDAQ:AMZN|1D"],
-                                            ["TSMC (TSM)", "NYSE:TSM|1D"],
-                                            ["Broadcom (AVGO)", "NASDAQ:AVGO|1D"],
-                                            ["Saudi Aramco (2222)", "TADAWUL:2222|1D"],
-                                            ["Meta (META)", "NASDAQ:META|1D"],
-                                            ["Tesla (TSLA)", "NASDAQ:TSLA|1D"]
-                                        ],
-                                        "dateRanges": ["1d|1", "1m|30", "3m|60", "12m|1D", "60m|1W", "all|1M"],
-                                        "fontSize": "10",
-                                        "headerFontSize": "medium",
-                                        "autosize": true,
-                                        "width": "100%",
-                                        "height": "100%",
-                                        "noTimeScale": false,
-                                        "hideDateRanges": false,
-                                        "hideMarketStatus": false,
-                                        "hideSymbolLogo": false
-                                    }
-                                </script>
+                            <script type="text/javascript">
+                                const container = document.currentScript.parentElement;
+                                const script = document.createElement('script');
+                                script.type = 'text/javascript';
+                                script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js';
+                                script.async = true;
+                                script.textContent = JSON.stringify({
+                                    "lineWidth": 2,
+                                    "lineType": 0,
+                                    "chartType": "area",
+                                    "fontColor": "rgb(130, 154, 177)",
+                                    "gridLineColor": "rgba(30, 41, 93, 0.15)",
+                                    "volumeUpColor": "rgba(16, 185, 129, 0.4)",
+                                    "volumeDownColor": "rgba(239, 68, 68, 0.4)",
+                                    "backgroundColor": "#0d1127",
+                                    "widgetFontColor": "#f1f5f9",
+                                    "upColor": "#10b981",
+                                    "downColor": "#ef4444",
+                                    "borderUpColor": "#10b981",
+                                    "borderDownColor": "#ef4444",
+                                    "wickUpColor": "#10b981",
+                                    "wickDownColor": "#ef4444",
+                                    "colorTheme": "dark",
+                                    "isTransparent": false,
+                                    "locale": "en",
+                                    "chartOnly": false,
+                                    "scalePosition": "right",
+                                    "scaleMode": "Normal",
+                                    "fontFamily": "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif",
+                                    "valuesTracking": "1",
+                                    "changeMode": "price-and-percent",
+                                    "symbols": [
+                                        ["Bitcoin (BTCUSD)", "COINBASE:BTCUSD|1D"],
+                                        ["Ethereum (ETHUSD)", "COINBASE:ETHUSD|1D"],
+                                        ["NVIDIA (NVDA)", "NASDAQ:NVDA|1D"],
+                                        ["Alphabet (GOOGL)", "NASDAQ:GOOGL|1D"],
+                                        ["SpaceX (SPCX)", "NASDAQ:SPCX|1D"],
+                                        ["Apple (AAPL)", "NASDAQ:AAPL|1D"],
+                                        ["Microsoft (MSFT)", "NASDAQ:MSFT|1D"],
+                                        ["Amazon (AMZN)", "NASDAQ:AMZN|1D"],
+                                        ["TSMC (TSM)", "NYSE:TSM|1D"],
+                                        ["Broadcom (AVGO)", "NASDAQ:AVGO|1D"],
+                                        ["Saudi Aramco (2222)", "TADAWUL:2222|1D"],
+                                        ["Meta (META)", "NASDAQ:META|1D"],
+                                        ["Tesla (TSLA)", "NASDAQ:TSLA|1D"]
+                                    ],
+                                    "dateRanges": ["1d|1", "1m|30", "3m|60", "12m|1D", "60m|1W", "all|1M"],
+                                    "fontSize": "10",
+                                    "headerFontSize": "medium",
+                                    "autosize": true,
+                                    "width": "100%",
+                                    "height": "100%",
+                                    "noTimeScale": false,
+                                    "hideDateRanges": false,
+                                    "hideMarketStatus": false,
+                                    "hideSymbolLogo": false
+                                });
+                                container.appendChild(script);
+                            </script>
                         </div>
                         <!-- TradingView Widget END -->
                     </div>
@@ -260,7 +264,8 @@
                         <!-- Dynamic fee loaded from Mempool Space -->
                         <div class="metric-row" id="btcBlockFeeRow" style="display: none;">
                             <span class="metric-key">BTC Next Block Fee</span>
-                            <span class="metric-val" id="btcBlockFeeVal" style="color: var(--accent-crypto);">-- sat/vB</span>
+                            <span class="metric-val" id="btcBlockFeeVal" style="color: var(--accent-crypto);">--
+                                sat/vB</span>
                         </div>
                         <div class="metric-row">
                             <span class="metric-key"><span class="market-dot" id="nyDot"></span> New York (NYSE)</span>
@@ -284,7 +289,8 @@
                         <span class="card-badge">Dictionary</span>
                     </div>
                     <div class="glossary-card">
-                        <input type="text" id="glossarySearch" class="glossary-search" placeholder="Search terms (e.g. HODL, DeFi)..." />
+                        <input type="text" id="glossarySearch" class="glossary-search"
+                            placeholder="Search terms (e.g. HODL, DeFi)..." />
                         <div class="glossary-list" id="glossaryList">
                             <!-- Populated dynamically -->
                         </div>

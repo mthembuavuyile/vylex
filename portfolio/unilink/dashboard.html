@@ -101,8 +101,8 @@
         isSidebarOpen: false,
         activeTab: 'institutions',
         modals: { profileSection: null, applicationSubmit: false },
-        searchQuery: { institutions: '', funding: '' },
-        filters: { institutions: { type: 'all' }, funding: { type: 'all', field: 'all' } },
+        searchQuery: { institutions: '' },
+        filters: { institutions: { type: 'all' } },
         selectedInstitutions: new Set(),
         universalProfile: {
           personal: { name: 'Alex', surname: 'Student', idNumber: '0102031234089', email: 'student@wits.ac.za', phone: '0821234567', address: '123 Main St, JHB', nextOfKin: 'Jane Student', nextOfKinContact: '0831234567' },
@@ -129,18 +129,16 @@
         applications: [
           { institution: 'University of Cape Town', date: '2025-10-28T10:00:00Z', status: 'Under Review' }
         ],
-        shortlist: { institutions: new Set(), funding: new Set() },
+        shortlist: { institutions: new Set() },
         qrCodeValue: `unilink-ID-ST12345678-${Date.now()}`,
       };
 
       const constants = {
         navItems: [
           { id: 'dashboard', label: 'Dashboard', icon: 'fa-solid fa-house' },
-          { id: 'digital-id', label: 'SA Student Pass', icon: 'fa-solid fa-id-card' },
-          { id: 'unilink-campus', label: 'unilink Campus', icon: 'fa-solid fa-school' },
           { id: 'profile', label: 'Universal Profile', icon: 'fa-solid fa-user-pen' },
           { id: 'apply', label: 'Institutions', icon: 'fa-solid fa-building-columns' },
-          { id: 'funding', label: 'Funding', icon: 'fa-solid fa-sack-dollar' },
+          { id: 'digital-id', label: 'SA Student Pass', icon: 'fa-solid fa-id-card' },
           { id: 'shortlist', label: 'My Shortlist', icon: 'fa-solid fa-star' },
         ],
         allInstitutions: [
@@ -151,16 +149,7 @@
           { id: "inst5", name: "Cape Peninsula University of Technology", shortName: "CPUT", location: "Western Cape", type: "University of Technology", logo: "laptop-code", fields: ["Applied Sciences", "Business", "Design"], requirements: { aps: 30, nbt: false } },
           { id: "tvet1", name: "False Bay TVET College", shortName: "False Bay", location: "Western Cape", type: "TVET College", logo: "tools", fields: ["Hospitality", "Business Studies", "Engineering"], requirements: { aps: 0, nbt: false } },
         ],
-        fundingOpportunities: [
-          { id: "fund1", name: "NSFAS Funding", provider: "DHET", type: "Grant", value: "Full Cost of Study", eligibility: "SA Citizen, income < R350k/yr", closingDate: "2025-11-30", field: "All" },
-          { id: "fund2", name: "Funza Lushaka Bursary", provider: "Department of Education", type: "Bursary", value: "Full tuition + allowance", eligibility: "Intending to teach, 60%+ in matric", closingDate: "2026-02-28", field: "Education" },
-          { id: "fund3", name: "Vodacom Bursary", provider: "Vodacom", type: "Bursary", value: "Full tuition, books, accommodation", eligibility: "Under 25, 70%+ avg in STEM", closingDate: "2026-08-31", field: "STEM" },
-          { id: "fund4", name: "Sasol Bursary", provider: "Sasol", type: "Bursary", value: "Full tuition + allowance", eligibility: "Engineering/Chemistry, SA citizen", closingDate: "2026-06-15", field: "Engineering" },
-          { id: "fund5", name: "Allan Gray Orbis Fellowship", provider: "Allan Gray", type: "Scholarship", value: "Full tuition + mentorship", eligibility: "Grade 12, leadership potential", closingDate: "2026-05-30", field: "Commerce" },
-        ],
-        fieldsOfStudy: ['all', 'STEM', 'Commerce', 'Humanities', 'Health Sciences', 'Engineering', 'Education', 'Law', 'Arts', 'IT'],
         institutionTypes: ['all', 'Public University', 'University of Technology', 'TVET College'],
-        fundingTypes: ['all', 'Bursary', 'Grant', 'Scholarship'],
       };
 
       const appContainer = document.getElementById('app');
@@ -292,8 +281,8 @@
                 <h2 class="text-xl font-bold text-neutral-800 mb-4">Quick Actions</h2>
                 <div class="grid grid-cols-2 gap-3">
                   ${createButton({ text: 'Student Pass', action: 'navigate:digital-id', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-id-card' })}
-                  ${createButton({ text: 'Campus', action: 'navigate:unilink-campus', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-school' })}
                   ${createButton({ text: 'Profile', action: 'navigate:profile', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-user-pen' })}
+                  ${createButton({ text: 'Institutions', action: 'navigate:apply', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-building-columns' })}
                   ${createButton({ text: 'Shortlist', action: 'navigate:shortlist', variant: 'secondary', size: 'sm', className:'w-full !justify-start', iconLeft: 'fa-solid fa-star' })}
                 </div>
               </div>
@@ -346,37 +335,6 @@
                 <h3 class="text-xl font-bold text-neutral-800">Works Offline</h3>
                 <p class="text-neutral-600 mt-2 text-sm">Your pass works without an internet connection. Just open the app.</p>
               </div>
-            </div>
-          </div>`;
-      };
-
-      const renderunilinkCampusView = () => {
-        return `
-          ${createViewHeader('unilink Digital Campus', 'Your unified academic and social hub.')}
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
-              <h3 class="text-xl font-bold text-neutral-800 mb-3">Personal Dashboard</h3>
-              <p class="text-neutral-600">Assignments, events, deadlines, and study group summaries will be displayed here.</p>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
-              <h3 class="text-xl font-bold text-neutral-800 mb-3">Course Channels</h3>
-              <p class="text-neutral-600">Threaded discussions by course and topic.</p>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
-              <h3 class="text-xl font-bold text-neutral-800 mb-3">Community Spaces</h3>
-              <p class="text-neutral-600">University-wide and cross-institutional communities.</p>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
-              <h3 class="text-xl font-bold text-neutral-800 mb-3">Collaborative Tools</h3>
-              <p class="text-neutral-600">File sharing and real-time document editing.</p>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
-              <h3 class="text-xl font-bold text-neutral-800 mb-3">Mentorship</h3>
-              <p class="text-neutral-600">Connect with verified mentors based on interests.</p>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-card border border-neutral-200">
-              <h3 class="text-xl font-bold text-neutral-800 mb-3">Wellness & Gamification</h3>
-              <p class="text-neutral-600">Mood tracking and study streak rewards.</p>
             </div>
           </div>`;
       };
@@ -438,32 +396,6 @@
           </div>`;
       };
 
-      const renderFundingCard = (fund) => {
-        const isShortlisted = state.shortlist.funding.has(fund.id);
-        const daysLeft = Math.ceil((new Date(fund.closingDate) - new Date()) / 86400000);
-        const status = daysLeft <= 0 ? 'Closed' : daysLeft <= 14 ? 'Closing Soon' : 'Open';
-        return `
-          <div class="bg-white rounded-2xl border-2 ${isShortlisted ? 'border-primary' : 'border-neutral-200'} overflow-hidden transition-all duration-300 group shadow-card hover:shadow-card-hover hover:-translate-y-1 flex flex-col h-full">
-            <div class="p-5 flex flex-col h-full">
-              <div class="flex justify-between items-start mb-3">
-                <h3 class="font-bold text-lg text-neutral-800 group-hover:text-primary transition-colors flex-grow pr-4">${fund.name}</h3>
-                <button data-action="toggle-shortlist:funding:${fund.id}" class="w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isShortlisted ? 'text-yellow-400 bg-yellow-400/10' : 'text-neutral-400 hover:bg-neutral-100'}">
-                  ${createIcon(`fa-${isShortlisted ? 'solid' : 'regular'} fa-star`, 'text-xl')}
-                </button>
-              </div>
-              <p class="text-sm text-neutral-500 font-medium mb-3">${fund.provider}</p>
-              <div class="flex-grow space-y-2 text-sm text-neutral-600 mb-4">
-                <p><strong class="font-semibold text-neutral-700">Value:</strong> ${fund.value}</p>
-                <p><strong class="font-semibold text-neutral-700">Field:</strong> ${fund.field}</p>
-              </div>
-              <div class="mt-4 pt-4 border-t border-neutral-200 flex justify-between items-center text-sm">
-                ${createTag(status, status === 'Open' ? 'success' : status === 'Closing Soon' ? 'warning' : 'neutral')}
-                <span class="text-neutral-500 font-medium">${daysLeft > 0 ? `${daysLeft} days left` : 'Closed'}</span>
-              </div>
-            </div>
-          </div>`;
-      };
-
       const renderApplyView = () => {
         const filteredInstitutions = constants.allInstitutions
           .filter(inst => state.searchQuery.institutions === '' || inst.name.toLowerCase().includes(state.searchQuery.institutions.toLowerCase()))
@@ -482,45 +414,13 @@
           </div>`;
       };
 
-      const renderFundingView = () => {
-        const filteredFunding = constants.fundingOpportunities
-          .filter(fund => state.searchQuery.funding === '' || fund.name.toLowerCase().includes(state.searchQuery.funding.toLowerCase()))
-          .filter(fund => state.filters.funding.type === 'all' || fund.type === state.filters.funding.type)
-          .filter(fund => state.filters.funding.field === 'all' || fund.field === state.filters.funding.field);
-        return `
-          ${createViewHeader('Funding Opportunities', 'Discover bursaries, grants, and scholarships.')}
-          <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-card border border-neutral-200 mb-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              ${createSearchBar('Search funding...', state.searchQuery.funding, 'search:funding')}
-              ${createFilterDropdown('Type', constants.fundingTypes.map(t => ({ label: t === 'all' ? 'All Types' : t, value: t })), state.filters.funding.type, 'filter:funding:type')}
-              ${createFilterDropdown('Field', constants.fieldsOfStudy.map(f => ({ label: f, value: f })), state.filters.funding.field, 'filter:funding:field')}
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            ${filteredFunding.length ? filteredFunding.map(renderFundingCard).join('') : createEmptyState('fa-solid fa-sack-dollar', 'No funding found', 'Try adjusting your search or filters.')}
-          </div>`;
-      };
-
       const renderShortlistView = () => {
         const instShortlist = Array.from(state.shortlist.institutions).map(id => constants.allInstitutions.find(i => i.id === id)).filter(Boolean);
-        const fundShortlist = Array.from(state.shortlist.funding).map(id => constants.fundingOpportunities.find(f => f.id === id)).filter(Boolean);
         return `
-          ${createViewHeader('My Shortlist', "Review your saved items.")}
-          <div class="tab-list mb-6 overflow-x-auto">
-            <button class="tab-trigger" data-state="${state.activeTab === 'institutions' ? 'active' : 'inactive'}" data-action="switch-tab:institutions">
-              ${createIcon('fa-solid fa-building-columns', 'mr-2')} Institutions
-            </button>
-            <button class="tab-trigger" data-state="${state.activeTab === 'funding' ? 'active' : 'inactive'}" data-action="switch-tab:funding">
-              ${createIcon('fa-solid fa-sack-dollar', 'mr-2')} Funding
-            </button>
-          </div>
-          ${state.activeTab === 'institutions' ? `
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              ${instShortlist.length ? instShortlist.map(renderInstitutionCard).join('') : createEmptyState('fa-solid fa-star', 'No institutions shortlisted', 'Browse the Institutions page to save your favorites.')}
-            </div>` : `
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              ${fundShortlist.length ? fundShortlist.map(renderFundingCard).join('') : createEmptyState('fa-solid fa-star', 'No funding shortlisted', 'Explore the Funding page to find opportunities.')}
-            </div>`}`;
+          ${createViewHeader('My Shortlist', "Institutions you've saved.")}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            ${instShortlist.length ? instShortlist.map(renderInstitutionCard).join('') : createEmptyState('fa-solid fa-star', 'No institutions shortlisted', 'Browse the Institutions page to save your favorites.')}
+          </div>`;
       };
 
       // =================================================================================
@@ -619,10 +519,8 @@
         const viewRenderers = { 
           dashboard: renderDashboardView, 
           'digital-id': renderDigitalIdView, 
-          'unilink-campus': renderunilinkCampusView,
           profile: renderProfileView, 
           apply: renderApplyView, 
-          funding: renderFundingView, 
           shortlist: renderShortlistView 
         };
         const viewContent = viewRenderers[state.activeView] ? viewRenderers[state.activeView]() : `<h2>Not Found</h2>`;
