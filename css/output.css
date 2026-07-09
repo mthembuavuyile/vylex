@@ -225,7 +225,7 @@
     --color-vylex-navy: #051b38;
     --color-vylex-orange: #fba919;
     --background-image-grid-pattern: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-    --shadow-glow: 0 0 20px rgba(251, 169, 25, 0.15);
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --animate-float: float 6s ease-in-out infinite;
   }
 }
@@ -1848,9 +1848,6 @@
   }
   .border-gray-300 {
     border-color: var(--color-gray-300);
-  }
-  .border-gray-600 {
-    border-color: var(--color-gray-600);
   }
   .border-gray-700 {
     border-color: var(--color-gray-700);
@@ -3562,6 +3559,12 @@
       --tw-shadow-color: color-mix(in oklab, color-mix(in oklab, var(--color-red-600) 40%, transparent) var(--tw-shadow-alpha), transparent);
     }
   }
+  .shadow-vylex-orange\/20 {
+    --tw-shadow-color: color-mix(in srgb, #fba919 20%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-shadow-color: color-mix(in oklab, color-mix(in oklab, var(--color-vylex-orange) 20%, transparent) var(--tw-shadow-alpha), transparent);
+    }
+  }
   .shadow-yellow-400\/25 {
     --tw-shadow-color: color-mix(in srgb, oklch(85.2% 0.199 91.936) 25%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -4056,13 +4059,6 @@
       }
     }
   }
-  .hover\:border-vylex-orange {
-    &:hover {
-      @media (hover: hover) {
-        border-color: var(--color-vylex-orange);
-      }
-    }
-  }
   .hover\:border-yellow-400 {
     &:hover {
       @media (hover: hover) {
@@ -4535,13 +4531,6 @@
       }
     }
   }
-  .hover\:text-vylex-orange {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-vylex-orange);
-      }
-    }
-  }
   .hover\:text-white {
     &:hover {
       @media (hover: hover) {
@@ -4837,6 +4826,30 @@
   .focus\:ring-sky-500 {
     &:focus {
       --tw-ring-color: var(--color-sky-500);
+    }
+  }
+  .focus\:ring-vylex-navy\/10 {
+    &:focus {
+      --tw-ring-color: color-mix(in srgb, #051b38 10%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--color-vylex-navy) 10%, transparent);
+      }
+    }
+  }
+  .focus\:ring-vylex-navy\/50 {
+    &:focus {
+      --tw-ring-color: color-mix(in srgb, #051b38 50%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--color-vylex-navy) 50%, transparent);
+      }
+    }
+  }
+  .focus\:ring-vylex-orange\/50 {
+    &:focus {
+      --tw-ring-color: color-mix(in srgb, #fba919 50%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--color-vylex-orange) 50%, transparent);
+      }
     }
   }
   .focus\:ring-white\/50 {
