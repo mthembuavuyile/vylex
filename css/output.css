@@ -4531,6 +4531,13 @@
       }
     }
   }
+  .hover\:text-vylex-orange {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-vylex-orange);
+      }
+    }
+  }
   .hover\:text-white {
     &:hover {
       @media (hover: hover) {
