@@ -132,3 +132,101 @@ body.menu-open {
 #mobile-menu-btn[aria-expanded="true"] .hamburger-bar-3 {
     transform: translateY(-8px) rotate(-45deg);
 }
+
+/* ── CLIENT MARQUEE STYLES ── */
+.marquee-container {
+    overflow: hidden;
+    user-select: none;
+    display: flex;
+    gap: 2.5rem;
+    position: relative;
+    width: 100%;
+}
+
+/* Gradients on the sides for a smooth fade-in/fade-out shadow look */
+.marquee-container::before,
+.marquee-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.marquee-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.marquee-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.marquee-content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    min-width: 100%;
+    gap: 2.5rem;
+    align-items: center;
+    animation: scroll-marquee 35s linear infinite;
+}
+
+@keyframes scroll-marquee {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Pause animation on hover */
+.marquee-container:hover .marquee-content {
+    animation-play-state: paused;
+}
+
+/* Gray to color hover effect for logos */
+.marquee-logo {
+    filter: grayscale(100%);
+    opacity: 0.55;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 2.25rem; /* ~36px */
+    width: auto;
+}
+
+.marquee-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Styling for text fallback brand badges */
+.marquee-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #475569;
+    white-space: nowrap;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.marquee-badge:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    color: #051b38;
+    border-color: #fba919;
+    background-color: #fffbeb;
+    transform: scale(1.05);
+}
