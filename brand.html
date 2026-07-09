@@ -26,9 +26,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);lin
 .cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px;}
 .cover-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 50%,rgba(251,169,25,.07) 0%,transparent 70%);}
 .cover-inner{position:relative;z-index:1;max-width:860px;}
-.cover-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(251,169,25,.12);border:1px solid rgba(251,169,25,.3);border-radius:100px;padding:7px 18px;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:40px;}
-.cover-pill-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:blink 2s infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .cover-mark{margin-bottom:44px;}
 .cover-mark svg{width:72px;height:auto;fill:var(--orange);filter:drop-shadow(0 0 28px rgba(251,169,25,.35));}
 .cover-title{font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:700;color:#fff;letter-spacing:-2px;line-height:1.08;margin-bottom:22px;}
@@ -184,12 +181,13 @@ footer{background:var(--navy);padding:56px 40px;text-align:center;}
   <div class="cover-grid"></div>
   <div class="cover-glow"></div>
   <div class="cover-inner">
-    <div class="cover-pill"><span class="cover-pill-dot"></span>Brand Identity System</div>
     <div class="cover-mark">
-      <svg width="72" height="72" viewBox="0 0 100 100">
-        <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
-        <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
-      </svg>
+      <a href="index.html">
+        <svg width="72" height="72" viewBox="0 0 100 100">
+          <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
+          <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
+        </svg>
+      </a>
     </div>
     <h1 class="cover-title">Vylex Brand<br><span>Guidelines</span></h1>
     <p class="cover-sub">The official visual identity standards for Vylex (Pty) Ltd t/a Vylex Technologies — governing logo use, colour, typography, spacing, and interface components.</p>
