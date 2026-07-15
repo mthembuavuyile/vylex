@@ -42,7 +42,7 @@
       <a href="/ops/" class="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-900 decoration-none">
         VYLEX<span class="text-[#0284c7]">OPS</span>
       </a>
-      <span class="bg-[#e0f2fe] text-[#0369a1] border border-blue-200 text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded">
+      <span class="bg-[#e0f2fe] text-[#0369a1] border border-blue-200 text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded-none">
         Prototype v1
       </span>
     </div>
@@ -57,7 +57,7 @@
       </button>
       
       <button onclick="switchView('billing')" id="nav-billing" class="nav-btn">
-        <i class="fa-solid fa-file-invoice-dollar"></i>
+        <i class="fa-solid fa-file-invoice-dollar mr-2"></i>
         <span>Quotes & Invoices</span>
       </button>
 
@@ -87,7 +87,7 @@
     <!-- Bottom Account Status -->
     <div class="vylex-ops-user-footer">
       <div class="flex items-center gap-2">
-        <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+        <i class="fa-solid fa-user-circle text-emerald-500"></i>
         <span>User: Avuyile</span>
       </div>
       <button onclick="resetPrototypeData()" class="text-slate-500 hover:text-amber-600 transition-colors" title="Reset Prototype Data">
@@ -281,8 +281,8 @@
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="form-label mb-0">Line Items</span>
-              <button type="button" onclick="addQuoteRow()" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 px-3 py-1.5 rounded-lg transition-colors">
-                <i class="fa-solid fa-plus mr-1"></i> Add Row
+              <button type="button" onclick="addQuoteRow()" class="text-xs bg-slate-800 hover:bg-slate-700 text-white font-medium shadow-sm border border-slate-700 px-3 py-1.5 rounded-md transition-colors flex items-center">
+                <i class="fa-solid fa-plus mr-1.5"></i> Add Row
               </button>
             </div>
 
@@ -536,8 +536,8 @@
           <div>
             <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3">
               <h3 class="font-bold text-slate-900 text-sm">Line Items</h3>
-              <button type="button" onclick="addMakerRow()" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 px-3 py-1.5 rounded-lg transition-colors">
-                <i class="fa-solid fa-plus mr-1"></i> Add Row
+              <button type="button" onclick="addMakerRow()" class="text-xs bg-slate-800 hover:bg-slate-700 text-white font-medium shadow-sm border border-slate-700 px-3 py-1.5 rounded-md transition-colors flex items-center">
+                <i class="fa-solid fa-plus mr-1.5"></i> Add Row
               </button>
             </div>
             
@@ -774,11 +774,11 @@
           </div>
           <div>
             <span class="text-slate-400 font-bold uppercase tracking-wider block mb-2">Bill To</span>
-            <div class="font-bold text-[#051b38] text-sm mb-1 sim-accent-text" id="sim-client-name">Luxury Shutters & Blinds</div>
+            <div class="font-bold text-[#051b38] text-sm mb-1 sim-accent-text" id="sim-client-name">Contoso Ltd</div>
             <div class="text-slate-600 space-y-0.5">
-              <p id="sim-client-contact">Sicelo Meyiwa (Owner)</p>
-              <p id="sim-client-phone">+27 71 926 8316</p>
-              <p id="sim-client-email">info@luxuryshuttersandblinds.co.za</p>
+              <p id="sim-client-contact">Jane Smith (Owner)</p>
+              <p id="sim-client-phone">+27 64 878 4287</p>
+              <p id="sim-client-email">jane.smith@contoso.com</p>
               <p id="sim-client-address">42 Bank Terrace, Westridge, Durban, 4091</p>
             </div>
           </div>

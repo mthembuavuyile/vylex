@@ -1,8 +1,8 @@
 // ================= INITIAL SEED DATA =================
 const DEFAULT_CLIENTS = [
-  { id: "c-1", name: "Makhaswa Holdings", prefix: "MH", email: "lucas@makhaswa.co.za", contact_name: "Lucas (Owner)", phone: "+27 64 878 4287", address: "12 Marine Drive, Durban, 4001" },
-  { id: "c-2", name: "Luxury Shutters & Blinds", prefix: "LSB", email: "info@luxuryshuttersandblinds.co.za", contact_name: "Sicelo Meyiwa (Owner)", phone: "+27 71 926 8316", address: "42 Bank Terrace, Westridge, Durban, 4091" },
-  { id: "c-3", name: "Tokyo Creative Studio", prefix: "TC", email: "hello@tokyocreative.co.za", contact_name: "Kenji Tokyo (Director)", phone: "+27 83 222 1111", address: "44 Sandton Drive, Sandton, Johannesburg, 2196" }
+  { id: "c-1", name: "Acme Corp", prefix: "AC", email: "john.doe@acmecorp.com", contact_name: "John Doe (Owner)", phone: "+27 64 878 4287", address: "12 Marine Drive, Durban, 4001" },
+  { id: "c-2", name: "Contoso Ltd", prefix: "CL", email: "jane.smith@contoso.com", contact_name: "Jane Smith (Owner)", phone: "+27 64 878 4287", address: "42 Bank Terrace, Westridge, Durban, 4091" },
+  { id: "c-3", name: "Example Inc", prefix: "EI", email: "foo.bar@exampleinc.com", contact_name: "Foo Bar (Director)", phone: "+27 64 878 4287", address: "44 Sandton Drive, Sandton, Johannesburg, 2196" }
 ];
 
 const DEFAULT_QUOTES = [
@@ -15,7 +15,7 @@ const DEFAULT_QUOTES = [
     expires_at: "2026-07-24",
     line_items: [
       { 
-        description: "Homepage UI/UX Redesign - Tokyo Creative Portal", 
+        description: "Homepage UI/UX Redesign - Example Inc Portal", 
         qty: 1, 
         rate: 9500.00,
         details: [
@@ -29,7 +29,7 @@ const DEFAULT_QUOTES = [
     subtotal: 9500.00,
     vat: 0,
     total: 9500.00,
-    notes: "Requires assets to be delivered by Tokyo team."
+    notes: "Requires assets to be delivered by Example Inc team."
   },
   {
     id: "q-2",
@@ -215,33 +215,33 @@ function initData() {
     // Automatically migrate/enrich old client data from local storage if properties are missing
     let migrated = false;
     clients.forEach(c => {
-      // Fix name mappings: change Apex -> Makhaswa, Elite -> Luxury Shutters & Blinds
+      // Fix name mappings: change Apex -> Acme Corp, Elite -> Contoso Ltd
       if (c.name.includes("Apex")) {
-        c.name = "Makhaswa Holdings";
-        c.prefix = "MH";
-        c.email = "lucas@makhaswa.co.za";
+        c.name = "Acme Corp";
+        c.prefix = "AC";
+        c.email = "john.doe@acmecorp.com";
         migrated = true;
       }
-      if (c.name.includes("Elite") || c.name.includes("Shutters")) {
-        c.name = "Luxury Shutters & Blinds";
-        c.prefix = "LSB";
-        c.email = "info@luxuryshuttersandblinds.co.za";
+      if (c.name.includes("Elite") || c.name.includes("Contoso")) {
+        c.name = "Contoso Ltd";
+        c.prefix = "CL";
+        c.email = "jane.smith@contoso.com";
         migrated = true;
       }
       
       if (!c.contact_name) {
         migrated = true;
-        if (c.name.includes("Makhaswa")) {
-          c.contact_name = "Lucas (Owner)";
+        if (c.name.includes("Acme")) {
+          c.contact_name = "John Doe (Owner)";
           c.phone = "+27 64 878 4287";
           c.address = "12 Marine Drive, Durban, 4001";
-        } else if (c.name.includes("Shutters")) {
-          c.contact_name = "Sicelo Meyiwa (Owner)";
-          c.phone = "+27 71 926 8316";
+        } else if (c.name.includes("Contoso")) {
+          c.contact_name = "Jane Smith (Owner)";
+          c.phone = "+27 64 878 4287";
           c.address = "42 Bank Terrace, Westridge, Durban, 4091";
-        } else if (c.name.includes("Tokyo")) {
-          c.contact_name = "Kenji Tokyo (Director)";
-          c.phone = "+27 83 222 1111";
+        } else if (c.name.includes("Example")) {
+          c.contact_name = "Foo Bar (Director)";
+          c.phone = "+27 64 878 4287";
           c.address = "44 Sandton Drive, Sandton, Johannesburg, 2196";
         }
       }
