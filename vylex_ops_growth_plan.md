@@ -6,8 +6,8 @@ Based on the actual codebase:
 
 | Asset | Current State | Architecture | Data |
 |---|---|---|---|
-| **Vylex Ops** ([app.js](file:///c:/Users/mthem/OneDrive/Desktop/vylex/portfolio/ops/app.js)) | Working prototype with dashboard, quote builder, billing log, client portal simulation | Static HTML/JS, localStorage | Clients, Quotes, Invoices (linked by `client_id`, `quote_id`) |
-| **Invoice Maker** ([index.html](file:///c:/Users/mthem/OneDrive/Desktop/vylex/portfolio/invoice-maker/index.html)) | Standalone free tool, generates PDFs | Static HTML/JS, no persistence | One-off invoice data, no client relationship |
+| **Vylex Ops** ([app.js](file:///c:/Users/mthem/OneDrive/Desktop/vylex/ops/app.js)) | Working prototype with dashboard, quote builder, billing log, client portal simulation | Static HTML/JS, localStorage | Clients, Quotes, Invoices (linked by `client_id`, `quote_id`) |
+| **Invoice Maker** (Absorbed) | Standalone free tool, absorbed into Ops billing module | Static HTML/JS, no persistence | One-off invoice data, no client relationship |
 | **ComplyOS** (comply.vylex.co.za) | Separate compliance platform | Own domain, has backend | CIPC, SARS, B-BBEE compliance tracking |
 
 Your Ops prototype already has the right **data model** — clients, quotes, invoices, and the flow between them. The foundation is solid. What's missing is persistence (database), auth (users), and the transition from "demo" to "real tool people depend on daily."

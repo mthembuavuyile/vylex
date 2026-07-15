@@ -162,8 +162,17 @@ document.addEventListener("DOMContentLoaded", () => {
   updateQuoteNumberLabel();
   resetQuoteRows();
   
-  // Load initial view & compute stats
-  switchView("dashboard");
+  // Initialize integrated Invoice Maker
+  initQuickInvoiceMaker();
+  
+  // Load initial view & compute stats (support URL parameter ?view=invoice-maker)
+  const urlParams = new URLSearchParams(window.location.search);
+  const viewParam = urlParams.get("view");
+  if (viewParam === "invoice-maker") {
+    switchView("invoice-maker");
+  } else {
+    switchView("dashboard");
+  }
 });
 
 // ================= DATA LOGIC =================
@@ -375,6 +384,10 @@ function switchView(viewId) {
   document.getElementById("view-billing").classList.add("hidden");
   document.getElementById("view-builder").classList.add("hidden");
   document.getElementById("view-client").classList.add("hidden");
+  
+  const viewInvoiceMakerEl = document.getElementById("view-invoice-maker");
+  if (viewInvoiceMakerEl) viewInvoiceMakerEl.classList.add("hidden");
+  
   const viewSettingsEl = document.getElementById("view-settings");
   if (viewSettingsEl) viewSettingsEl.classList.add("hidden");
 
@@ -383,6 +396,10 @@ function switchView(viewId) {
   document.getElementById("nav-billing").classList.remove("active");
   document.getElementById("nav-builder").classList.remove("active");
   document.getElementById("nav-client").classList.remove("active");
+  
+  const navInvoiceMakerEl = document.getElementById("nav-invoice-maker");
+  if (navInvoiceMakerEl) navInvoiceMakerEl.classList.remove("active");
+  
   const navSettingsEl = document.getElementById("nav-settings");
   if (navSettingsEl) navSettingsEl.classList.remove("active");
 
@@ -997,6 +1014,16 @@ function generateOpsPdf() {
   const el = document.getElementById('client-invoice-card');
   if (!el) return;
 
+  if (typeof html2canvas === 'undefined') {
+    showToast("❌ PDF library (html2canvas) not loaded. Check internet connection.");
+    return;
+  }
+  const jsPDFClass = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+  if (!jsPDFClass) {
+    showToast("❌ PDF library (jsPDF) not loaded. Check internet connection.");
+    return;
+  }
+
   // Temporarily hide elements with 'print-hide' class for the PDF capture
   const hiddenElements = el.querySelectorAll('.print-hide');
   hiddenElements.forEach(element => element.style.display = 'none');
@@ -1006,12 +1033,12 @@ function generateOpsPdf() {
   // We need to wait for a tick so the display:none is applied before html2canvas runs
   setTimeout(() => {
     html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p', 'mm', 'a4');
       const imgData = canvas.toDataURL('image/png');
       const w = 210;
       const h = (canvas.height * w) / canvas.width;
       
+      // Use dynamic height to prevent content cutoff if it exceeds A4 height (297mm)
+      const pdf = new jsPDFClass('p', 'mm', [w, Math.max(297, h)]);
       pdf.addImage(imgData, 'PNG', 0, 0, w, h);
       
       // Determine file name from document number
@@ -1134,3 +1161,225 @@ function shareViaWhatsApp(type, id) {
   window.open(waUrl, "_blank");
   showToast(`💬 Generated WhatsApp share link for ${docNum}!`);
 }
+
+// ================= INTEGRATED INVOICE MAKER CONTROLLER =================
+let makerCurrencySymbol = 'R';
+
+function initQuickInvoiceMaker() {
+  // Setup default dates
+  const today = new Date();
+  const due = new Date(); due.setDate(today.getDate() + 14);
+  
+  const dateInput = document.getElementById('maker-invoice-date');
+  const dueInput = document.getElementById('maker-due-date');
+  if (dateInput) dateInput.valueAsDate = today;
+  if (dueInput) dueInput.valueAsDate = due;
+
+  // Bind inputs to re-trigger preview update
+  const inputIds = [
+    'maker-company-name', 'maker-company-address', 'maker-client-name', 'maker-client-address',
+    'maker-invoice-number', 'maker-invoice-date', 'maker-due-date',
+    'maker-bank-name', 'maker-account-name', 'maker-account-number', 'maker-branch-code',
+    'maker-currency', 'maker-accent-color'
+  ];
+
+  inputIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', updateQuickInvoicePreview);
+      el.addEventListener('change', updateQuickInvoicePreview);
+    }
+  });
+
+  // Init default rows
+  const itemsBody = document.getElementById('maker-items-body');
+  if (itemsBody) {
+    itemsBody.innerHTML = '';
+    addMakerRow('Mobile App Development (Android)', 6500);
+    addMakerRow('Database Maintenance & Backup', 1250);
+    addMakerRow('Domain Registration (1 Year)', 200);
+  }
+
+  updateQuickInvoicePreview();
+}
+
+function updateQuickInvoicePreview() {
+  const companyNameVal = document.getElementById('maker-company-name').value || 'Company Name';
+  const companyAddrVal = document.getElementById('maker-company-address').value || '';
+  const clientNameVal = document.getElementById('maker-client-name').value || 'Client Name';
+  const clientAddrVal = document.getElementById('maker-client-address').value || '';
+  const invNumVal = document.getElementById('maker-invoice-number').value || 'INV-2026-001';
+  const invDateVal = document.getElementById('maker-invoice-date').value || '';
+  const dueDateVal = document.getElementById('maker-due-date').value || '';
+  const currencyVal = document.getElementById('maker-currency').value || 'R';
+  const accentColorVal = document.getElementById('maker-accent-color').value || '#051b38';
+
+  makerCurrencySymbol = currencyVal;
+
+  // Update preview fields
+  document.getElementById('maker-prev-logo-text').textContent = companyNameVal.toUpperCase();
+  document.getElementById('maker-prev-logo-text').style.color = accentColorVal;
+  document.getElementById('maker-prev-type-title').style.color = accentColorVal;
+  document.getElementById('maker-prev-payment-title').style.color = accentColorVal;
+  document.getElementById('maker-prev-accent-line').style.backgroundColor = accentColorVal;
+
+  document.getElementById('maker-prev-company-name').textContent = companyNameVal;
+  document.getElementById('maker-prev-company-addr').innerHTML = companyAddrVal.replace(/\n/g, '<br>');
+  document.getElementById('maker-prev-client-name').textContent = clientNameVal;
+  document.getElementById('maker-prev-client-addr').innerHTML = clientAddrVal.replace(/\n/g, '<br>');
+  document.getElementById('maker-prev-inv-num').textContent = invNumVal;
+  document.getElementById('maker-prev-ref').textContent = invNumVal;
+
+  // Format Dates
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const formatDateStr = (dateStr) => {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    const year = parts[0];
+    const monthIdx = parseInt(parts[1]) - 1;
+    const day = parseInt(parts[2]);
+    return `${day} ${months[monthIdx]} ${year}`;
+  };
+
+  document.getElementById('maker-prev-inv-date').textContent = formatDateStr(invDateVal);
+  document.getElementById('maker-prev-due-date').textContent = formatDateStr(dueDateVal);
+
+  let currencyName = 'ZAR (R)';
+  if (currencyVal === '$') currencyName = 'USD ($)';
+  else if (currencyVal === '£') currencyName = 'GBP (£)';
+  else if (currencyVal === '€') currencyName = 'EUR (€)';
+  document.getElementById('maker-prev-currency-label').textContent = currencyName;
+
+  // Bank Info
+  const bankNameVal = document.getElementById('maker-bank-name').value || '';
+  const acNameVal = document.getElementById('maker-account-name').value || '';
+  const acNumVal = document.getElementById('maker-account-number').value || '';
+  const branchVal = document.getElementById('maker-branch-code').value || '';
+
+  document.getElementById('maker-prev-bank').textContent = bankNameVal;
+  document.getElementById('maker-prev-acname').textContent = acNameVal;
+  document.getElementById('maker-prev-acnum').textContent = acNumVal;
+  document.getElementById('maker-prev-branch').textContent = branchVal;
+
+  const paymentSection = document.getElementById('maker-prev-payment-section');
+  if (paymentSection) {
+    paymentSection.style.display = (bankNameVal || acNameVal || acNumVal) ? '' : 'none';
+  }
+
+  // Items and Totals
+  let total = 0;
+  const itemsContainer = document.getElementById('maker-prev-items');
+  itemsContainer.innerHTML = '';
+
+  const rows = document.querySelectorAll('#maker-items-body tr');
+  rows.forEach(row => {
+    const descInput = row.querySelector('.maker-item-desc');
+    const amtInput = row.querySelector('.maker-item-amt');
+    
+    if (descInput && amtInput) {
+      const desc = descInput.value || '';
+      const amt = parseFloat(amtInput.value) || 0;
+      total += amt;
+      
+      const tr = document.createElement('tr');
+      tr.className = 'border-b border-gray-100 text-slate-700 align-top';
+      tr.innerHTML = `
+        <td class="py-3 pr-4 font-bold text-slate-800">${desc || '—'}</td>
+        <td class="py-3 text-right font-mono font-bold text-slate-900">${currencyVal} ${amt.toFixed(2)}</td>
+      `;
+      itemsContainer.appendChild(tr);
+    }
+  });
+
+  document.getElementById('maker-prev-total-currency').textContent = currencyVal;
+  document.getElementById('maker-prev-total').textContent = total.toLocaleString("en-ZA", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function addMakerRow(desc = '', amt = '') {
+  const tbody = document.getElementById('maker-items-body');
+  if (!tbody) return;
+
+  const rowIndex = tbody.children.length;
+  const row = document.createElement('tr');
+  row.className = 'hover:bg-slate-50 transition-colors';
+  row.id = `maker-row-${rowIndex}`;
+
+  row.innerHTML = `
+    <td class="py-2 pr-2">
+      <input type="text" value="${desc}" placeholder="Item description" class="form-input maker-item-desc text-xs font-sans py-1.5 px-2.5" required />
+    </td>
+    <td class="py-2 px-2 text-right">
+      <input type="number" value="${amt}" placeholder="0.00" step="0.01" min="0" oninput="updateQuickInvoicePreview()" class="form-input maker-item-amt text-right font-mono text-xs py-1.5 px-2.5" required />
+    </td>
+    <td class="py-2 pl-2 text-center">
+      <button type="button" onclick="deleteMakerRow('${rowIndex}')" class="text-rose-600 hover:text-rose-800 transition" title="Delete Row">
+        <i class="fa-solid fa-trash-can"></i>
+      </button>
+    </td>
+  `;
+
+  tbody.appendChild(row);
+
+  const descEl = row.querySelector('.maker-item-desc');
+  if (descEl) {
+    descEl.addEventListener('input', updateQuickInvoicePreview);
+  }
+
+  updateQuickInvoicePreview();
+}
+
+function deleteMakerRow(index) {
+  const row = document.getElementById(`maker-row-${index}`);
+  if (row) {
+    const tbody = document.getElementById('maker-items-body');
+    if (tbody && tbody.children.length > 1) {
+      row.remove();
+      updateQuickInvoicePreview();
+    } else {
+      showToast("⚠️ Quick Invoice must contain at least one line item.");
+    }
+  }
+}
+
+function generateMakerPdf() {
+  const el = document.getElementById('maker-invoice-preview');
+  if (!el) return;
+
+  if (typeof html2canvas === 'undefined') {
+    showToast("❌ PDF library (html2canvas) not loaded. Check internet connection.");
+    return;
+  }
+  const jsPDFClass = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+  if (!jsPDFClass) {
+    showToast("❌ PDF library (jsPDF) not loaded. Check internet connection.");
+    return;
+  }
+
+  showToast("⏳ Generating PDF... Please wait.");
+
+  // Delay capture slightly to ensure formatting is complete
+  setTimeout(() => {
+    html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const w = 210;
+      const h = (canvas.height * w) / canvas.width;
+      
+      // Use dynamic height to prevent content cutoff if it exceeds A4 height (297mm)
+      const pdf = new jsPDFClass('p', 'mm', [w, Math.max(297, h)]);
+      pdf.addImage(imgData, 'PNG', 0, 0, w, h);
+      
+      const fileNum = document.getElementById('maker-invoice-number').value || 'Invoice';
+      pdf.save(`${fileNum}.pdf`);
+      
+      showToast(`📄 PDF generated successfully for ${fileNum}.`);
+    }).catch(err => {
+      console.error("PDF generation failed:", err);
+      showToast("❌ Failed to generate PDF.");
+    });
+  }, 100);
+}
+
