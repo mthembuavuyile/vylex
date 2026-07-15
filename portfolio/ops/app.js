@@ -151,6 +151,7 @@ let clients = [];
 let quotes = [];
 let invoices = [];
 let activeClientSimQuoteId = "";
+let settings = {};
 
 // ================= RUNTIME APP START =================
 document.addEventListener("DOMContentLoaded", () => {
@@ -170,6 +171,30 @@ function initData() {
   const localClients = localStorage.getItem("vylex_ops_clients");
   const localQuotes = localStorage.getItem("vylex_ops_quotes");
   const localInvoices = localStorage.getItem("vylex_ops_invoices");
+  const localSettings = localStorage.getItem("vylex_ops_settings");
+
+  if (!localSettings) {
+    settings = {
+      company_name: "Vylex",
+      company_address: "Durban, South Africa",
+      contact_name: "Avuyile Mthembu",
+      phone: "+27 64 878 4287",
+      email: "info@vylex.co.za",
+      website: "vylex.co.za",
+      bank_name: "Standard Bank",
+      account_name: "Vylex",
+      account_number: "1017 126 3314",
+      branch_code: "7654",
+      payshap_id: "064 878 4287",
+      accent_color: "#051b38",
+      currency: "R"
+    };
+    localStorage.setItem("vylex_ops_settings", JSON.stringify(settings));
+  } else {
+    settings = JSON.parse(localSettings);
+  }
+
+  applyBrandingStyles();
 
   if (!localClients || !localQuotes || !localInvoices) {
     resetPrototypeData();
@@ -307,13 +332,30 @@ function saveDataToLocalStorage() {
   localStorage.setItem("vylex_ops_clients", JSON.stringify(clients));
   localStorage.setItem("vylex_ops_quotes", JSON.stringify(quotes));
   localStorage.setItem("vylex_ops_invoices", JSON.stringify(invoices));
+  localStorage.setItem("vylex_ops_settings", JSON.stringify(settings));
 }
 
 function resetPrototypeData() {
   clients = [...DEFAULT_CLIENTS];
   quotes = [...DEFAULT_QUOTES];
   invoices = [...DEFAULT_INVOICES];
+  settings = {
+    company_name: "Vylex",
+    company_address: "Durban, South Africa",
+    contact_name: "Avuyile Mthembu",
+    phone: "+27 64 878 4287",
+    email: "info@vylex.co.za",
+    website: "vylex.co.za",
+    bank_name: "Standard Bank",
+    account_name: "Vylex",
+    account_number: "1017 126 3314",
+    branch_code: "7654",
+    payshap_id: "064 878 4287",
+    accent_color: "#051b38",
+    currency: "R"
+  };
   saveDataToLocalStorage();
+  applyBrandingStyles();
   
   showToast("🔄 Prototype state reset to default mock values.");
   
@@ -333,12 +375,16 @@ function switchView(viewId) {
   document.getElementById("view-billing").classList.add("hidden");
   document.getElementById("view-builder").classList.add("hidden");
   document.getElementById("view-client").classList.add("hidden");
+  const viewSettingsEl = document.getElementById("view-settings");
+  if (viewSettingsEl) viewSettingsEl.classList.add("hidden");
 
   // Deactivate all nav buttons
   document.getElementById("nav-dashboard").classList.remove("active");
   document.getElementById("nav-billing").classList.remove("active");
   document.getElementById("nav-builder").classList.remove("active");
   document.getElementById("nav-client").classList.remove("active");
+  const navSettingsEl = document.getElementById("nav-settings");
+  if (navSettingsEl) navSettingsEl.classList.remove("active");
 
   // Show selected section
   document.getElementById(`view-${viewId}`).classList.remove("hidden");
@@ -354,6 +400,8 @@ function switchView(viewId) {
     loadQuotesAndInvoicesLogs();
   } else if (viewId === "builder") {
     updateQuoteNumberLabel();
+  } else if (viewId === "settings") {
+    loadSettingsToForm();
   }
 }
 
@@ -493,9 +541,14 @@ function loadQuotesAndInvoicesLogs() {
           <span class="badge ${statusClass}">${q.status}</span>
         </td>
         <td class="p-4 text-center">
-          <button onclick="simQuoteLink('${q.id}')" class="text-[11px] bg-amber-50 text-amber-700 border border-amber-200/60 px-2 py-1 rounded-md hover:bg-amber-600 hover:text-white transition">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open
-          </button>
+          <div class="flex items-center justify-center gap-1.5">
+            <button onclick="simQuoteLink('${q.id}')" class="text-[11px] bg-amber-50 text-amber-700 border border-amber-200/60 px-2 py-1 rounded-md hover:bg-amber-600 hover:text-white transition" title="Open Portal Preview">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Open
+            </button>
+            <button onclick="shareViaWhatsApp('quote', '${q.id}')" class="text-[11px] bg-[#e0f2fe] text-[#0369a1] border border-blue-200 px-2 py-1 rounded-md hover:bg-[#0284c7] hover:text-white transition" title="Share via WhatsApp">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+            </button>
+          </div>
         </td>
       </tr>
     `;
@@ -529,7 +582,12 @@ function loadQuotesAndInvoicesLogs() {
           <span class="badge ${statusClass}">${inv.status}</span>
         </td>
         <td class="p-4 text-center">
-          ${actionBtn}
+          <div class="flex items-center justify-center gap-1.5">
+            ${actionBtn}
+            <button onclick="shareViaWhatsApp('invoice', '${inv.id}')" class="text-[11px] bg-[#e0f2fe] text-[#0369a1] border border-blue-200 px-2 py-1 rounded-md hover:bg-[#0284c7] hover:text-white transition" title="Share via WhatsApp">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+            </button>
+          </div>
         </td>
       </tr>
     `;
@@ -736,10 +794,26 @@ function loadSimulatedQuote() {
 
   const client = clients.find(c => c.id === quote.client_id) || { name: "Unknown" };
 
-  // Set fields
+  // Set fields dynamically from settings
+  document.getElementById("sim-logo-text").textContent = (settings.company_name || "VYLEX").toUpperCase();
+  document.getElementById("sim-logo-website").textContent = settings.website || "vylex.co.za";
+  document.getElementById("sim-from-company").textContent = settings.company_name || "Vylex";
+  document.getElementById("sim-from-contact").textContent = settings.contact_name || "";
+  document.getElementById("sim-from-email").textContent = settings.email || "";
+  document.getElementById("sim-from-phone").textContent = settings.phone || "";
+  document.getElementById("sim-from-address").textContent = settings.company_address || "";
+
   document.getElementById("sim-doc-number").textContent = quote.quote_number;
   document.getElementById("sim-doc-date").textContent = formatDateLabel(quote.issued_at);
   document.getElementById("sim-doc-expiry").textContent = formatDateLabel(quote.expires_at || quote.due_at);
+  
+  // Set currency
+  let currencyLabel = "ZAR";
+  if (settings.currency === "$") currencyLabel = "USD";
+  else if (settings.currency === "£") currencyLabel = "GBP";
+  else if (settings.currency === "€") currencyLabel = "EUR";
+  document.getElementById("sim-doc-currency").textContent = currencyLabel;
+
   document.getElementById("sim-client-name").textContent = client.name;
   document.getElementById("sim-client-contact").textContent = client.contact_name || "";
   document.getElementById("sim-client-phone").textContent = client.phone || "";
@@ -763,7 +837,7 @@ function loadSimulatedQuote() {
     tbody.innerHTML += `
       <tr class="border-b border-gray-100 text-slate-700 align-top">
         <td class="py-4 pr-4">
-          <div class="font-bold text-[#051b38]">${item.description}</div>
+          <div class="font-bold text-[#051b38] sim-accent-text">${item.description}</div>
           ${bulletsHtml}
         </td>
         <td class="py-4 text-center font-mono text-slate-600">${item.qty}</td>
@@ -792,6 +866,22 @@ function loadSimulatedQuote() {
     // Hide controls, show bank details
     interactiveBlock.classList.add("hidden");
     paymentDetails.classList.remove("hidden");
+    
+    // Populate payment details dynamically
+    document.getElementById("sim-bank-name").textContent = settings.bank_name || "";
+    document.getElementById("sim-bank-holder").textContent = settings.account_name || "";
+    document.getElementById("sim-bank-account").textContent = settings.account_number || "";
+    document.getElementById("sim-bank-branch").textContent = settings.branch_code || "";
+    
+    const payshapWrap = document.getElementById("sim-payshap-wrapper");
+    if (payshapWrap) {
+      if (settings.payshap_id) {
+        payshapWrap.classList.remove("hidden");
+        document.getElementById("sim-payshap-id").textContent = settings.payshap_id;
+      } else {
+        payshapWrap.classList.add("hidden");
+      }
+    }
     
     // Find matching invoice reference number
     const inv = invoices.find(i => i.quote_id === quote.id);
@@ -858,10 +948,15 @@ function simulateClientAccept() {
   invoices.push(newInvoice);
   saveDataToLocalStorage();
 
-  showToast(`🎉 Project Accepted! Invoice ${invoiceNum} generated. EFT details populated.`);
+  showToast(`🎉 Project Accepted! Invoice ${invoiceNum} generated. PDF automatic download initiated.`);
   
   // Reload Simulator Presentation
   loadSimulatedQuote();
+
+  // Automatically generate and download PDF after rendering
+  setTimeout(() => {
+    generateOpsPdf();
+  }, 1200);
 }
 
 function simulateClientDecline() {
@@ -879,7 +974,8 @@ function simulateClientDecline() {
 
 // ================= FORMAT UTILITIES =================
 function formatZAR(value) {
-  return "R " + parseFloat(value).toLocaleString("en-ZA", {
+  const curSymbol = settings.currency || "R";
+  return curSymbol + " " + parseFloat(value).toLocaleString("en-ZA", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
@@ -894,4 +990,147 @@ function formatDateLabel(dateStr) {
   const day = parseInt(parts[2]);
   const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   return `${day} ${months[monthIdx]} ${year}`;
+}
+
+// ================= PDF GENERATION (Absorbed from Invoice Maker) =================
+function generateOpsPdf() {
+  const el = document.getElementById('client-invoice-card');
+  if (!el) return;
+
+  // Temporarily hide elements with 'print-hide' class for the PDF capture
+  const hiddenElements = el.querySelectorAll('.print-hide');
+  hiddenElements.forEach(element => element.style.display = 'none');
+
+  showToast("⏳ Generating PDF... Please wait.");
+
+  // We need to wait for a tick so the display:none is applied before html2canvas runs
+  setTimeout(() => {
+    html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgData = canvas.toDataURL('image/png');
+      const w = 210;
+      const h = (canvas.height * w) / canvas.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, w, h);
+      
+      // Determine file name from document number
+      const docNumStr = document.getElementById('sim-doc-number').textContent || 'Invoice';
+      pdf.save(`${docNumStr}.pdf`);
+      
+      // Restore hidden elements
+      hiddenElements.forEach(element => element.style.display = '');
+      showToast(`📄 PDF generated successfully for ${docNumStr}.`);
+    }).catch(err => {
+      console.error("PDF generation failed:", err);
+      hiddenElements.forEach(element => element.style.display = '');
+      showToast("❌ Failed to generate PDF.");
+    });
+  }, 100);
+}
+
+// ================= SETTINGS CONTROLLER =================
+function loadSettingsToForm() {
+  document.getElementById("settings-company-name").value = settings.company_name || "";
+  document.getElementById("settings-company-address").value = settings.company_address || "";
+  document.getElementById("settings-contact-name").value = settings.contact_name || "";
+  document.getElementById("settings-phone").value = settings.phone || "";
+  document.getElementById("settings-email").value = settings.email || "";
+  document.getElementById("settings-website").value = settings.website || "";
+  document.getElementById("settings-bank-name").value = settings.bank_name || "";
+  document.getElementById("settings-account-name").value = settings.account_name || "";
+  document.getElementById("settings-account-number").value = settings.account_number || "";
+  document.getElementById("settings-branch-code").value = settings.branch_code || "";
+  document.getElementById("settings-payshap-id").value = settings.payshap_id || "";
+  document.getElementById("settings-accent-color").value = settings.accent_color || "#051b38";
+  document.getElementById("accent-hex-label").textContent = settings.accent_color || "#051b38";
+  document.getElementById("settings-currency").value = settings.currency || "R";
+}
+
+function handleSettingsSubmit(e) {
+  e.preventDefault();
+  
+  settings.company_name = document.getElementById("settings-company-name").value;
+  settings.company_address = document.getElementById("settings-company-address").value;
+  settings.contact_name = document.getElementById("settings-contact-name").value;
+  settings.phone = document.getElementById("settings-phone").value;
+  settings.email = document.getElementById("settings-email").value;
+  settings.website = document.getElementById("settings-website").value;
+  settings.bank_name = document.getElementById("settings-bank-name").value;
+  settings.account_name = document.getElementById("settings-account-name").value;
+  settings.account_number = document.getElementById("settings-account-number").value;
+  settings.branch_code = document.getElementById("settings-branch-code").value;
+  settings.payshap_id = document.getElementById("settings-payshap-id").value;
+  settings.accent_color = document.getElementById("settings-accent-color").value;
+  settings.currency = document.getElementById("settings-currency").value;
+  
+  saveDataToLocalStorage();
+  applyBrandingStyles();
+  showToast("⚙️ Settings saved and branding updated successfully!");
+  
+  switchView("dashboard");
+}
+
+function applyBrandingStyles() {
+  if (settings && settings.accent_color) {
+    document.documentElement.style.setProperty('--doc-accent-color', settings.accent_color);
+  }
+}
+
+// ================= WHATSAPP SHARE CONTROLLER =================
+function shareActiveDocWhatsApp() {
+  if (!activeClientSimQuoteId) return;
+  const quote = quotes.find(q => q.id === activeClientSimQuoteId);
+  if (!quote) return;
+  
+  // If the quote is accepted, it's an invoice. Check if invoice exists
+  const inv = invoices.find(i => i.quote_id === quote.id);
+  if (quote.status === "accepted" && inv) {
+    shareViaWhatsApp("invoice", inv.id);
+  } else {
+    shareViaWhatsApp("quote", quote.id);
+  }
+}
+
+function shareViaWhatsApp(type, id) {
+  let docNum = "";
+  let clientName = "";
+  let totalAmt = 0;
+  let clientPhone = "";
+  
+  const companyName = settings.company_name || "Our Company";
+  const currencySymbol = settings.currency || "R";
+
+  if (type === "quote") {
+    const quote = quotes.find(q => q.id === id);
+    if (!quote) return;
+    const client = clients.find(c => c.id === quote.client_id) || {};
+    docNum = quote.quote_number;
+    clientName = client.contact_name || client.name || "Client";
+    totalAmt = quote.total;
+    clientPhone = client.phone || "";
+  } else {
+    const inv = invoices.find(i => i.id === id);
+    if (!inv) return;
+    const client = clients.find(c => c.id === inv.client_id) || {};
+    docNum = inv.invoice_number;
+    clientName = client.contact_name || client.name || "Client";
+    totalAmt = inv.total;
+    clientPhone = client.phone || "";
+  }
+
+  const formattedAmount = `${currencySymbol} ${totalAmt.toFixed(2)}`;
+  
+  // Build a generic simulated URL for the portal link
+  const cleanDocNum = docNum.replace(/[^a-zA-Z0-9-]/g, "");
+  const portalUrl = `https://ops.vylex.co.za/portal/${type}/${cleanDocNum}`;
+  
+  const textMsg = `Hi ${clientName},\n\nHere is the link to review your ${type} ${docNum} (total: ${formattedAmount}) from ${companyName}:\n\n${portalUrl}\n\nKind regards,\n${companyName}`;
+  
+  // Clean phone number: remove spaces and non-numeric except plus
+  const cleanPhone = clientPhone.replace(/[^\d+]/g, "");
+  
+  const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(textMsg)}`;
+  window.open(waUrl, "_blank");
+  showToast(`💬 Generated WhatsApp share link for ${docNum}!`);
 }
