@@ -330,27 +330,37 @@
     .icon-lab {
       background: linear-gradient(135deg, #f43f5e, #ec4899);
     }
+
     .icon-calc {
       background: linear-gradient(135deg, #fba919, #ea580c);
     }
+
     .icon-solver {
       background: linear-gradient(135deg, #3b82f6, #1d4ed8);
     }
+
     .icon-lexico {
       background: linear-gradient(135deg, #10b981, #047857);
     }
 
     /* Micro-animations on Hover */
-    .app-launcher-btn:hover .mini-app-icon:nth-child(1) {
+    .app-launcher-btn:hover .mini-app-icon:nth-child(1),
+    .product-card:hover .mini-app-icon:nth-child(1) {
       transform: scale(1.15) rotate(-8deg) translateY(-2px);
     }
-    .app-launcher-btn:hover .mini-app-icon:nth-child(2) {
+
+    .app-launcher-btn:hover .mini-app-icon:nth-child(2),
+    .product-card:hover .mini-app-icon:nth-child(2) {
       transform: scale(1.15) rotate(8deg) translateY(-2px);
     }
-    .app-launcher-btn:hover .mini-app-icon:nth-child(3) {
+
+    .app-launcher-btn:hover .mini-app-icon:nth-child(3),
+    .product-card:hover .mini-app-icon:nth-child(3) {
       transform: scale(1.15) rotate(8deg) translateY(2px);
     }
-    .app-launcher-btn:hover .mini-app-icon:nth-child(4) {
+
+    .app-launcher-btn:hover .mini-app-icon:nth-child(4),
+    .product-card:hover .mini-app-icon:nth-child(4) {
       transform: scale(1.15) rotate(-8deg) translateY(2px);
     }
 
@@ -426,9 +436,11 @@
         padding: 1.25rem;
         gap: 1rem;
       }
+
       .app-grid-preview {
         grid-template-columns: repeat(4, 1fr);
       }
+
       .app-launcher-arrow {
         align-self: flex-end;
         margin-top: -0.5rem;
@@ -500,7 +512,8 @@
       VYLEX<span>.</span>
     </a>
     <div style="display: flex; gap: 0.75rem;">
-      <a href="/portfolio/" class="back-btn" style="background: rgba(251, 169, 25, 0.1); border-color: rgba(251, 169, 25, 0.3); color: var(--orange);">
+      <a href="/portfolio/" class="back-btn"
+        style="background: rgba(251, 169, 25, 0.1); border-color: rgba(251, 169, 25, 0.3); color: var(--orange);">
         <i class="fa-solid fa-briefcase"></i> Portfolio
       </a>
       <a href="/" class="back-btn">
@@ -535,7 +548,8 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <a href="https://vylab.vylexnexys.co.za/" class="product-card" style="--i: 3" target="_blank" rel="noopener noreferrer">
+      <a href="https://vylab.vylexnexys.co.za/" class="product-card" style="--i: 3" target="_blank"
+        rel="noopener noreferrer">
         <div class="product-icon"><i class="fa-solid fa-flask"></i></div>
         <div class="product-info">
           <h3>VyLab</h3>
@@ -544,7 +558,8 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
 
-      <a href="https://comply.vylex.co.za/" class="product-card" style="--i: 4" target="_blank" rel="noopener noreferrer">
+      <a href="https://comply.vylex.co.za/" class="product-card" style="--i: 4" target="_blank"
+        rel="noopener noreferrer">
         <div class="product-icon"><i class="fa-solid fa-file-shield"></i></div>
         <div class="product-info">
           <h3>ComplyOS</h3>
@@ -553,6 +568,34 @@
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
     </div>
+
+    <!-- Extended Tools Section -->
+    <section class="tools-section">
+      <div class="tools-header">
+        <span class="badge">Ecosystem</span>
+        <h2>Tools for Thinking, Building, and Learning</h2>
+      </div>
+
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <a href="https://vylexnexys.co.za/" class="app-launcher-btn" target="_blank" rel="noopener noreferrer">
+          <div class="app-grid-preview">
+            <div class="mini-app-icon icon-lab"><i class="fa-solid fa-flask"></i></div>
+            <div class="mini-app-icon icon-calc"><i class="fa-solid fa-calculator"></i></div>
+            <div class="mini-app-icon icon-solver"><i class="fa-solid fa-square-root-variable"></i></div>
+            <div class="mini-app-icon icon-lexico"><i class="fa-solid fa-book"></i></div>
+          </div>
+          <div class="app-launcher-content">
+            <span class="app-launcher-badge">Vylex Nexys</span>
+            <h3 class="app-launcher-title">Explore the Full Tools Suite</h3>
+            <p class="app-launcher-desc">Access 20+ math solvers, virtual laboratories, & interactive learning tools.
+            </p>
+          </div>
+          <div class="app-launcher-arrow">
+            <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </a>
+      </div>
+    </section>
   </main>
 
   <footer>
