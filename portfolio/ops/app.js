@@ -1,8 +1,8 @@
 // ================= INITIAL SEED DATA =================
 const DEFAULT_CLIENTS = [
-  { id: "c-1", name: "Makhaswa Holdings", prefix: "MH", email: "lucas@makhaswa.co.za", address: "12 Marine Drive, Durban" },
-  { id: "c-2", name: "Luxury Shutters & Blinds", prefix: "LS", email: "info@luxuryshutters.co.za", address: "6 Main Road, Cape Town" },
-  { id: "c-3", name: "Tokyo Designs", prefix: "TD", email: "hello@tokyodesigns.co.za", address: "44 Sandton Drive, Johannesburg" }
+  { id: "c-1", name: "Makhaswa Holdings", prefix: "MH", email: "lucas@makhaswa.co.za", contact_name: "Lucas (Owner)", phone: "+27 64 878 4287", address: "12 Marine Drive, Durban, 4001" },
+  { id: "c-2", name: "Luxury Shutters & Blinds", prefix: "LSB", email: "info@luxuryshuttersandblinds.co.za", contact_name: "Sicelo Meyiwa (Owner)", phone: "+27 71 926 8316", address: "42 Bank Terrace, Westridge, Durban, 4091" },
+  { id: "c-3", name: "Tokyo Creative Studio", prefix: "TC", email: "hello@tokyocreative.co.za", contact_name: "Kenji Tokyo (Director)", phone: "+27 83 222 1111", address: "44 Sandton Drive, Sandton, Johannesburg, 2196" }
 ];
 
 const DEFAULT_QUOTES = [
@@ -14,7 +14,17 @@ const DEFAULT_QUOTES = [
     issued_at: "2026-07-10",
     expires_at: "2026-07-24",
     line_items: [
-      { description: "Homepage UI/UX Redesign - Tokyo Designs Portal", qty: 1, rate: 9500.00 }
+      { 
+        description: "Homepage UI/UX Redesign - Tokyo Creative Portal", 
+        qty: 1, 
+        rate: 9500.00,
+        details: [
+          "Modernised interface using Inter typography & custom grid layouts",
+          "Centralised, dynamic banner management",
+          "Dynamic filter engine for creative portfolio projects",
+          "SEO preserved via metadata & clean semantic HTML"
+        ]
+      }
     ],
     subtotal: 9500.00,
     vat: 0,
@@ -26,15 +36,25 @@ const DEFAULT_QUOTES = [
     client_id: "c-2",
     quote_number: "Q-2026-002",
     status: "accepted",
-    issued_at: "2026-07-02",
-    expires_at: "2026-07-16",
+    issued_at: "2026-07-11",
+    expires_at: "2026-07-25",
     line_items: [
-      { description: "Secure domain migration, DNS set up & Google Workspace config", qty: 1, rate: 4800.00 }
+      { 
+        description: "Website V2 Redesign & Code Architecture Refactoring", 
+        qty: 1, 
+        rate: 800.00,
+        details: [
+          "Modernised site using Montserrat typography and custom grid layouts",
+          "Centralised, dynamic header/footer component loading",
+          "Dynamic product engine with category filtering and image lightbox",
+          "SEO preserved via canonical URLs, schema markup, and custom metadata"
+        ]
+      }
     ],
-    subtotal: 4800.00,
+    subtotal: 800.00,
     vat: 0,
-    total: 4800.00,
-    notes: "General DNS migration terms apply."
+    total: 800.00,
+    notes: "Enhancements for print-ready invoice layouts."
   },
   {
     id: "q-3",
@@ -44,8 +64,24 @@ const DEFAULT_QUOTES = [
     issued_at: "2026-07-15",
     expires_at: "2026-07-29",
     line_items: [
-      { description: "Update gallery page & optimize construction project images", qty: 1, rate: 1500.00 },
-      { description: "Develop custom operational team portal login", qty: 1, rate: 12000.00 }
+      { 
+        description: "Update gallery page & optimize construction project images", 
+        qty: 1, 
+        rate: 1500.00,
+        details: [
+          "Optimized 50+ high-res portfolio images for fast web delivery",
+          "Integrated smooth lightbox viewer gallery component"
+        ]
+      },
+      { 
+        description: "Develop custom operational team portal login", 
+        qty: 1, 
+        rate: 12000.00,
+        details: [
+          "Secure single-tenant auth gate with role-based access",
+          "Connected database schemas for real-time client records"
+        ]
+      }
     ],
     subtotal: 13500.00,
     vat: 0,
@@ -59,18 +95,28 @@ const DEFAULT_INVOICES = [
     id: "inv-1",
     client_id: "c-2",
     quote_id: "q-2",
-    invoice_number: "LS-2026-001",
+    invoice_number: "LSB-2026-001",
     status: "paid",
-    issued_at: "2026-07-03",
-    due_at: "2026-07-17",
+    issued_at: "2026-07-11",
+    due_at: "2026-07-18",
     line_items: [
-      { description: "Secure domain migration, DNS set up & Google Workspace config", qty: 1, rate: 4800.00 }
+      { 
+        description: "Website V2 Redesign & Code Architecture Refactoring", 
+        qty: 1, 
+        rate: 800.00,
+        details: [
+          "Modernised site using Montserrat typography and custom grid layouts",
+          "Centralised, dynamic header/footer component loading",
+          "Dynamic product engine with category filtering and image lightbox",
+          "SEO preserved via canonical URLs, schema markup, and custom metadata"
+        ]
+      }
     ],
-    subtotal: 4800.00,
+    subtotal: 800.00,
     vat: 0,
-    total: 4800.00,
-    notes: "Sattled via EFT on 2026-07-04.",
-    paid_at: "2026-07-04"
+    total: 800.00,
+    notes: "Settled via EFT on 2026-07-12.",
+    paid_at: "2026-07-12"
   },
   {
     id: "inv-2",
@@ -81,7 +127,16 @@ const DEFAULT_INVOICES = [
     issued_at: "2026-07-01",
     due_at: "2026-07-15", // Due today (unpaid -> overdue)
     line_items: [
-      { description: "Emergency server repair & DNS routing recovery", qty: 1, rate: 8500.00 }
+      { 
+        description: "Emergency server repair & DNS routing recovery", 
+        qty: 1, 
+        rate: 8500.00,
+        details: [
+          "Investigated core VM failure on cloud hosting platform",
+          "Restored standard database backups and verified schema integrity",
+          "Reconfigured Cloudflare proxy routing for fast SSL recovery"
+        ]
+      }
     ],
     subtotal: 8500.00,
     vat: 0,
@@ -122,6 +177,129 @@ function initData() {
     clients = JSON.parse(localClients);
     quotes = JSON.parse(localQuotes);
     invoices = JSON.parse(localInvoices);
+    
+    // Automatically migrate/enrich old client data from local storage if properties are missing
+    let migrated = false;
+    clients.forEach(c => {
+      // Fix name mappings: change Apex -> Makhaswa, Elite -> Luxury Shutters & Blinds
+      if (c.name.includes("Apex")) {
+        c.name = "Makhaswa Holdings";
+        c.prefix = "MH";
+        c.email = "lucas@makhaswa.co.za";
+        migrated = true;
+      }
+      if (c.name.includes("Elite") || c.name.includes("Shutters")) {
+        c.name = "Luxury Shutters & Blinds";
+        c.prefix = "LSB";
+        c.email = "info@luxuryshuttersandblinds.co.za";
+        migrated = true;
+      }
+      
+      if (!c.contact_name) {
+        migrated = true;
+        if (c.name.includes("Makhaswa")) {
+          c.contact_name = "Lucas (Owner)";
+          c.phone = "+27 64 878 4287";
+          c.address = "12 Marine Drive, Durban, 4001";
+        } else if (c.name.includes("Shutters")) {
+          c.contact_name = "Sicelo Meyiwa (Owner)";
+          c.phone = "+27 71 926 8316";
+          c.address = "42 Bank Terrace, Westridge, Durban, 4091";
+        } else if (c.name.includes("Tokyo")) {
+          c.contact_name = "Kenji Tokyo (Director)";
+          c.phone = "+27 83 222 1111";
+          c.address = "44 Sandton Drive, Sandton, Johannesburg, 2196";
+        }
+      }
+    });
+    
+    // Also migrate quotes and invoices item details if they are missing or if client names/prefixes changed
+    quotes.forEach(q => {
+      const client = clients.find(c => c.id === q.client_id);
+      if (client) {
+        q.line_items.forEach((item) => {
+          if (!item.details) {
+            migrated = true;
+            if (item.description.includes("Redesign")) {
+              item.details = [
+                "Modernised interface using Inter typography & custom grid layouts",
+                "Centralised, dynamic banner management",
+                "Dynamic filter engine for creative portfolio projects",
+                "SEO preserved via metadata & clean semantic HTML"
+              ];
+            } else if (item.description.includes("domain") || item.description.includes("migration")) {
+              item.details = [
+                "Centralised domain migration with zero email downtime",
+                "Configured SPF, DKIM, and DMARC security protocols",
+                "Set up Google Workspace team accounts and shared drives"
+              ];
+            } else if (item.description.includes("gallery")) {
+              item.details = [
+                "Optimized 50+ high-res portfolio images for fast web delivery",
+                "Integrated smooth lightbox viewer gallery component"
+              ];
+            } else if (item.description.includes("portal")) {
+              item.details = [
+                "Secure single-tenant auth gate with role-based access",
+                "Connected database schemas for real-time client records"
+              ];
+            } else if (item.description.includes("Architecture")) {
+              item.details = [
+                "Modernised site using Montserrat typography and custom grid layouts",
+                "Centralised, dynamic header/footer component loading",
+                "Dynamic product engine with category filtering and image lightbox",
+                "SEO preserved via canonical URLs, schema markup, and custom metadata"
+              ];
+            }
+          }
+        });
+      }
+    });
+
+    invoices.forEach(inv => {
+      const client = clients.find(c => c.id === inv.client_id);
+      if (client) {
+        // Fix invoice numbers prefix to match LSB and MH
+        if (client.prefix === "LSB" && inv.invoice_number.startsWith("ES-")) {
+          inv.invoice_number = inv.invoice_number.replace("ES-", "LSB-");
+          migrated = true;
+        }
+        if (client.prefix === "MH" && inv.invoice_number.startsWith("AP-")) {
+          inv.invoice_number = inv.invoice_number.replace("AP-", "MH-");
+          migrated = true;
+        }
+
+        inv.line_items.forEach(item => {
+          if (!item.details) {
+            migrated = true;
+            if (item.description.includes("Emergency") || item.description.includes("repair")) {
+              item.details = [
+                "Investigated core VM failure on cloud hosting platform",
+                "Restored standard database backups and verified schema integrity",
+                "Reconfigured Cloudflare proxy routing for fast SSL recovery"
+              ];
+            } else if (item.description.includes("domain") || item.description.includes("migration")) {
+              item.details = [
+                "Centralised domain migration with zero email downtime",
+                "Configured SPF, DKIM, and DMARC security protocols",
+                "Set up Google Workspace team accounts and shared drives"
+              ];
+            } else if (item.description.includes("Architecture")) {
+              item.details = [
+                "Modernised site using Montserrat typography and custom grid layouts",
+                "Centralised, dynamic header/footer component loading",
+                "Dynamic product engine with category filtering and image lightbox",
+                "SEO preserved via canonical URLs, schema markup, and custom metadata"
+              ];
+            }
+          }
+        });
+      }
+    });
+
+    if (migrated) {
+      saveDataToLocalStorage();
+    }
   }
 }
 
@@ -262,14 +440,14 @@ function updateDashboardData() {
         : `<span class="badge badge-unpaid"><i class="fa-solid fa-clock"></i> Unpaid</span>`;
 
       tbody.innerHTML += `
-        <tr class="hover:bg-slate-900/30 transition-colors">
-          <td class="p-4 font-mono font-bold text-white text-xs">${inv.invoice_number}</td>
-          <td class="p-4 text-xs font-semibold text-slate-300">${client.name}</td>
-          <td class="p-4 text-xs text-slate-400 font-mono">${inv.due_at}</td>
-          <td class="p-4 text-xs text-right font-bold text-white font-mono">${formatZAR(inv.total)}</td>
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="p-4 font-mono font-bold text-slate-900 text-xs">${inv.invoice_number}</td>
+          <td class="p-4 text-xs font-semibold text-slate-700">${client.name}</td>
+          <td class="p-4 text-xs text-slate-500 font-mono">${inv.due_at}</td>
+          <td class="p-4 text-xs text-right font-bold text-slate-900 font-mono">${formatZAR(inv.total)}</td>
           <td class="p-4">${statusHtml}</td>
           <td class="p-4 text-center">
-            <button onclick="markInvoiceAsPaid('${inv.id}')" class="text-xs bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white px-2.5 py-1.5 rounded-lg border border-emerald-500/20 transition-all">
+            <button onclick="markInvoiceAsPaid('${inv.id}')" class="text-xs bg-emerald-600/10 hover:bg-emerald-600 text-emerald-600 hover:text-white px-2.5 py-1.5 rounded-lg border border-emerald-500/20 transition-all">
               <i class="fa-solid fa-circle-check"></i> Mark Paid
             </button>
           </td>
@@ -285,10 +463,10 @@ function updateDashboardData() {
     clientListDiv.innerHTML += `
       <div class="flex items-center justify-between py-2.5">
         <div>
-          <span class="font-bold text-white text-sm">${c.name}</span>
+          <span class="font-bold text-slate-900 text-sm">${c.name}</span>
           <span class="block text-[10px] text-slate-500 font-mono mt-0.5">${c.email}</span>
         </div>
-        <span class="text-xs bg-slate-800 text-[#fba919] font-mono font-bold px-2 py-0.5 rounded border border-slate-700">
+        <span class="text-xs bg-amber-50 text-amber-700 font-mono font-bold px-2 py-0.5 rounded border border-amber-200/60">
           Prefix: ${c.prefix}
         </span>
       </div>
@@ -307,15 +485,15 @@ function loadQuotesAndInvoicesLogs() {
     if (q.status === "accepted") statusClass = "badge-accepted";
 
     quoteBody.innerHTML += `
-      <tr class="hover:bg-slate-900/30 transition-colors">
-        <td class="p-4 font-mono font-bold text-white text-xs">${q.quote_number}</td>
-        <td class="p-4 text-xs font-semibold text-slate-300">${client.name}</td>
-        <td class="p-4 text-xs text-right font-bold text-white font-mono">${formatZAR(q.total)}</td>
+      <tr class="hover:bg-slate-50 transition-colors">
+        <td class="p-4 font-mono font-bold text-slate-900 text-xs">${q.quote_number}</td>
+        <td class="p-4 text-xs font-semibold text-slate-700">${client.name}</td>
+        <td class="p-4 text-xs text-right font-bold text-slate-900 font-mono">${formatZAR(q.total)}</td>
         <td class="p-4">
           <span class="badge ${statusClass}">${q.status}</span>
         </td>
         <td class="p-4 text-center">
-          <button onclick="simQuoteLink('${q.id}')" class="text-[11px] bg-[#fba919]/10 text-[#fba919] border border-amber-500/20 px-2 py-1 rounded-md hover:bg-[#fba919] hover:text-slate-950 transition">
+          <button onclick="simQuoteLink('${q.id}')" class="text-[11px] bg-amber-50 text-amber-700 border border-amber-200/60 px-2 py-1 rounded-md hover:bg-amber-600 hover:text-white transition">
             <i class="fa-solid fa-arrow-up-right-from-square"></i> Open
           </button>
         </td>
@@ -343,10 +521,10 @@ function loadQuotesAndInvoicesLogs() {
     }
 
     invoiceBody.innerHTML += `
-      <tr class="hover:bg-slate-900/30 transition-colors">
-        <td class="p-4 font-mono font-bold text-white text-xs">${inv.invoice_number}</td>
-        <td class="p-4 text-xs font-semibold text-slate-300">${client.name}</td>
-        <td class="p-4 text-xs text-right font-bold text-white font-mono">${formatZAR(inv.total)}</td>
+      <tr class="hover:bg-slate-50 transition-colors">
+        <td class="p-4 font-mono font-bold text-slate-900 text-xs">${inv.invoice_number}</td>
+        <td class="p-4 text-xs font-semibold text-slate-700">${client.name}</td>
+        <td class="p-4 text-xs text-right font-bold text-slate-900 font-mono">${formatZAR(inv.total)}</td>
         <td class="p-4">
           <span class="badge ${statusClass}">${inv.status}</span>
         </td>
@@ -402,12 +580,12 @@ function addQuoteRow() {
   const rowIndex = container.children.length;
 
   const row = document.createElement("div");
-  row.className = "row-grid bg-slate-950/20 p-3 md:p-0 rounded-xl md:bg-transparent border border-slate-800 md:border-none";
+  row.className = "row-grid bg-slate-50 p-3 md:p-0 rounded-xl md:bg-transparent border border-slate-200 md:border-none";
   row.id = `row-${rowIndex}`;
 
   row.innerHTML = `
     <div class="col-span-8" data-label="Description">
-      <input type="text" placeholder="e.g. Website layout redesign & mobile updates" class="form-input row-desc" required />
+      <textarea placeholder="e.g. Website V2 Redesign&#10;- Bullet point 1&#10;- Bullet point 2" class="form-input row-desc font-sans" rows="2" required></textarea>
     </div>
     <div class="col-span-1 text-center" data-label="Qty">
       <input type="number" value="1" min="1" oninput="calculateQuoteTotal()" class="form-input row-qty text-center" required />
@@ -475,11 +653,16 @@ function handleQuoteSubmit(e) {
   let subtotal = 0;
 
   for (let row of container.children) {
-    const desc = row.querySelector(".row-desc").value;
+    const descInputVal = row.querySelector(".row-desc").value;
     const qty = parseFloat(row.querySelector(".row-qty").value) || 1;
     const rate = parseFloat(row.querySelector(".row-rate").value) || 0;
     
-    line_items.push({ description: desc, qty, rate });
+    // Parse text area lines: first line is description, subsequent lines are details/sub-bullets
+    const lines = descInputVal.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+    const description = lines[0] || "";
+    const details = lines.slice(1).map(l => l.replace(/^[-*•]\s*/, ""));
+    
+    line_items.push({ description, qty, rate, details });
     subtotal += qty * rate;
   }
 
@@ -555,9 +738,11 @@ function loadSimulatedQuote() {
 
   // Set fields
   document.getElementById("sim-doc-number").textContent = quote.quote_number;
-  document.getElementById("sim-doc-date").textContent = `Issued: ${quote.issued_at}`;
-  document.getElementById("sim-doc-expiry").textContent = `Expires: ${quote.expires_at}`;
+  document.getElementById("sim-doc-date").textContent = formatDateLabel(quote.issued_at);
+  document.getElementById("sim-doc-expiry").textContent = formatDateLabel(quote.expires_at || quote.due_at);
   document.getElementById("sim-client-name").textContent = client.name;
+  document.getElementById("sim-client-contact").textContent = client.contact_name || "";
+  document.getElementById("sim-client-phone").textContent = client.phone || "";
   document.getElementById("sim-client-email").textContent = client.email;
   document.getElementById("sim-client-address").textContent = client.address || "South Africa";
 
@@ -567,11 +752,21 @@ function loadSimulatedQuote() {
 
   quote.line_items.forEach(item => {
     const total = item.qty * item.rate;
+    let bulletsHtml = "";
+    if (item.details && item.details.length > 0) {
+      bulletsHtml = `
+        <ul class="list-disc pl-4 mt-1.5 space-y-0.5 text-xs text-slate-500 font-light">
+          ${item.details.map(bullet => `<li>${bullet}</li>`).join("")}
+        </ul>
+      `;
+    }
     tbody.innerHTML += `
-      <tr class="border-b border-gray-100 text-slate-700">
-        <td class="py-4 font-medium">${item.description}</td>
-        <td class="py-4 text-center font-mono">${item.qty}</td>
-        <td class="py-4 text-right font-mono">${formatZAR(item.rate)}</td>
+      <tr class="border-b border-gray-100 text-slate-700 align-top">
+        <td class="py-4 pr-4">
+          <div class="font-bold text-[#051b38]">${item.description}</div>
+          ${bulletsHtml}
+        </td>
+        <td class="py-4 text-center font-mono text-slate-600">${item.qty}</td>
         <td class="py-4 text-right font-mono font-bold text-slate-900">${formatZAR(total)}</td>
       </tr>
     `;
@@ -590,8 +785,9 @@ function loadSimulatedQuote() {
     // Show watermark
     watermark.classList.remove("hidden");
     // Show invoice header instead of quote
-    document.getElementById("sim-type-title").textContent = "Tax Invoice";
-    document.getElementById("sim-total-label").textContent = "Total Settleable:";
+    document.getElementById("sim-type-title").textContent = "Invoice";
+    document.getElementById("sim-doc-expiry-label").textContent = "Due Date";
+    document.getElementById("sim-total-label").textContent = "Total Due";
     
     // Hide controls, show bank details
     interactiveBlock.classList.add("hidden");
@@ -600,14 +796,17 @@ function loadSimulatedQuote() {
     // Find matching invoice reference number
     const inv = invoices.find(i => i.quote_id === quote.id);
     if (inv) {
-      document.getElementById("sim-bank-ref").textContent = inv.invoice_number;
+      document.getElementById("sim-bank-ref").textContent = `*${inv.invoice_number}*`;
       document.getElementById("sim-doc-number").textContent = inv.invoice_number;
+      document.getElementById("sim-doc-date").textContent = formatDateLabel(inv.issued_at);
+      document.getElementById("sim-doc-expiry").textContent = formatDateLabel(inv.due_at);
     }
   } else {
     // Default quote controls
     watermark.classList.add("hidden");
     document.getElementById("sim-type-title").textContent = "Project Quote";
-    document.getElementById("sim-total-label").textContent = "Grand Total:";
+    document.getElementById("sim-doc-expiry-label").textContent = "Expiry Date";
+    document.getElementById("sim-total-label").textContent = "Total Due";
     
     interactiveBlock.classList.remove("hidden");
     paymentDetails.classList.add("hidden");
@@ -684,4 +883,15 @@ function formatZAR(value) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
+}
+
+function formatDateLabel(dateStr) {
+  if (!dateStr) return "";
+  const parts = dateStr.split("-");
+  if (parts.length !== 3) return dateStr;
+  const year = parts[0];
+  const monthIdx = parseInt(parts[1]) - 1;
+  const day = parseInt(parts[2]);
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  return `${day} ${months[monthIdx]} ${year}`;
 }

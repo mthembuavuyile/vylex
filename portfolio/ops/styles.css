@@ -577,3 +577,62 @@ select.form-input {
     margin-top: 0.5rem;
   }
 }
+
+/* ================= PRINT STYLES ================= */
+@media print {
+  .print-hide,
+  .vylex-ops-sidebar,
+  #toast-banner,
+  #view-client > div:first-child,
+  #sim-interactive-block,
+  select,
+  button {
+    display: none !important;
+  }
+
+  body, .vylex-ops-body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .vylex-ops-main {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+    max-width: 100% !important;
+    display: block !important;
+  }
+  
+  #client-invoice-card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-radius: 0 !important;
+  }
+
+  /* Ensure text colors are printed as is (for colored badges / lines) */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Specific structure adjustments for printing */
+  #sim-line-items tr {
+    page-break-inside: avoid;
+  }
+}
+@page {
+  size: A4;
+  margin: 15mm;
+}
