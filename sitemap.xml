@@ -53,11 +53,6 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://vylex.co.za/games/</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
   <loc>https://vylex.co.za/services/mobile/</loc>
   <lastmod>2026-07-09T10:40:53+00:00</lastmod>
   <priority>0.64</priority>
@@ -204,61 +199,6 @@
 </url>
 <url>
   <loc>https://vylex.co.za/portfolio/kasi-gig/</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/mr-racer-ultimate.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/zombie-shooter.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/zombie-shooterv2.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/bitcoin-adventure.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/memory-match.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/outbreak-protocol/index.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/sa-quiz-challenge.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/car-racing.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/slither.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/30-seconds.html</loc>
-  <lastmod>2026-07-09T10:40:53+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://vylex.co.za/games/3dportfolio.html</loc>
   <lastmod>2026-07-09T10:40:53+00:00</lastmod>
   <priority>0.64</priority>
 </url>

@@ -78,7 +78,7 @@
             </div>
         </header>
 
-        <section class="relative -mt-12 z-10 px-4 sm:px-6 lg:px-8">
+        <section id="featured-article" data-category="business-strategy" class="relative -mt-12 z-10 px-4 sm:px-6 lg:px-8">
             <div class="max-w-7xl mx-auto">
                 <a href="/blog/future-of-hybrid-tech.html"
                     class="group block bg-white rounded-3xl shadow-xl shadow-brand-navy/10 border border-gray-100 overflow-hidden hover:border-brand-orange/50 transition-all duration-300">
@@ -110,7 +110,7 @@
 
                             <div class="flex items-center gap-3">
                                 <div
-                                    class="w-8 h-8 rounded-full bg-brand-navy flex items-center justify-center text-white text-xs">
+                                    class="w-8 h-8 rounded-full bg-brand-navy flex items-center justify-center text-white text-xs font-bold">
                                     AM</div>
                                 <span class="text-sm font-bold text-brand-navy">Avuyile Mthembu</span>
                                 <span class="mx-2 text-gray-300">|</span>
@@ -125,31 +125,23 @@
         <section class="py-20 bg-brand-surface">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <nav class="flex flex-wrap gap-2 mb-12 border-b border-gray-200 pb-4" aria-label="Article categories">
-                    <button class="px-4 py-2 rounded-full bg-brand-navy text-white text-sm font-bold shadow-md">All
-                        Posts</button>
-                    <button
-                        class="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">Engineering</button>
-                    <button
-                        class="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">Business
-                        Strategy</button>
-                    <button
-                        class="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">Security</button>
-                    <button
-                        class="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">Vylex
-                        News</button>
+                <nav id="category-nav" class="flex flex-wrap gap-2 mb-12 border-b border-gray-200 pb-4" aria-label="Article categories">
+                    <button data-cat="all" class="cat-btn px-4 py-2 rounded-full bg-brand-orange text-brand-navy font-bold shadow-md border border-brand-orange text-sm transition-all duration-200">All Posts</button>
+                    <button data-cat="business-strategy" class="cat-btn px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-all duration-200">Business Strategy</button>
+                    <button data-cat="engineering" class="cat-btn px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-all duration-200">Engineering</button>
+                    <button data-cat="cybersecurity" class="cat-btn px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-all duration-200">Cybersecurity</button>
+                    <button data-cat="ai-automation" class="cat-btn px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-brand-orange hover:text-brand-navy transition-all duration-200">AI & Automation</button>
                 </nav>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
 
                     <!-- Card 1 -->
-                    <a href="/blog/coding-in-2026-guide.html"
-                        class="flex flex-col group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <a href="/blog/coding-in-2026-guide.html" data-category="engineering"
+                        class="article-card flex flex-col group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                         <div class="h-48 overflow-hidden relative">
                             <div class="absolute top-4 left-4 z-10">
                                 <span
-                                    class="px-2 py-1 rounded bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-brand-navy">Career
-                                    Strategy</span>
+                                    class="px-2 py-1 rounded bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-brand-navy">Engineering</span>
                             </div>
                             <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=1000&auto=format&fit=crop"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
@@ -173,8 +165,8 @@
                     </a>
 
                     <!-- Card 2 -->
-                    <a href="/blog/popia-cybersecurity-sme-guide.html"
-                        class="flex flex-col group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <a href="/blog/popia-cybersecurity-sme-guide.html" data-category="cybersecurity"
+                        class="article-card flex flex-col group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                         <div class="h-48 overflow-hidden relative">
                             <div class="absolute top-4 left-4 z-10">
                                 <span
@@ -201,26 +193,62 @@
                         </div>
                     </a>
 
+                    <!-- Card 3 (NEW 2026 INSIGHT) -->
+                    <a href="/blog/ai-ops-automation-sme-guide.html" data-category="ai-automation"
+                        class="article-card flex flex-col group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="h-48 overflow-hidden relative">
+                            <div class="absolute top-4 left-4 z-10">
+                                <span
+                                    class="px-2 py-1 rounded bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-brand-navy">AI & Automation</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                alt="AI Workflows and SME Automation">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="text-xs font-mono text-gray-400 mb-2">Jul 23, 2026</div>
+                            <h3
+                                class="text-xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                                AI Ops & Workflow Automation: The 2026 SA SME Playbook
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">How South African SMEs are deploying local AI agents and operational workflows to cut manual admin by 40% while keeping POPIA compliance.</p>
+                            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+                                <span class="text-xs font-bold text-brand-navy">Read Article</span>
+                                <i
+                                    class="fa-solid fa-arrow-right text-brand-orange text-sm transform group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Card 4 -->
+                    <a href="/blog/future-of-hybrid-tech.html" data-category="business-strategy"
+                        class="article-card flex flex-col group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="h-48 overflow-hidden relative">
+                            <div class="absolute top-4 left-4 z-10">
+                                <span
+                                    class="px-2 py-1 rounded bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-brand-navy">Business Strategy</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                                alt="Hybrid Agency Model in African Tech">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="text-xs font-mono text-gray-400 mb-2">Feb 25, 2026</div>
+                            <h3
+                                class="text-xl font-bold text-brand-navy mb-3 group-hover:text-brand-orange transition-colors">
+                                Why the "Hybrid Model" is the Future of African Tech
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">We stopped choosing between service work and product building. Here is how dual-engine engineering creates better software.</p>
+                            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+                                <span class="text-xs font-bold text-brand-navy">Read Article</span>
+                                <i
+                                    class="fa-solid fa-arrow-right text-brand-orange text-sm transform group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                    </a>
+
                 </div>
 
-                <div class="mt-16 flex justify-center">
-                    <nav class="flex items-center gap-2" aria-label="Pagination Navigation">
-                        <a href="#"
-                            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-brand-navy hover:text-brand-navy transition-colors"
-                            aria-label="Previous Page"><i class="fa-solid fa-chevron-left"></i></a>
-                        <span
-                            class="w-10 h-10 flex items-center justify-center rounded-lg bg-brand-navy text-white font-bold"
-                            aria-current="page">1</span>
-                        <a href="#"
-                            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">2</a>
-                        <a href="#"
-                            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 font-medium hover:border-brand-orange hover:text-brand-navy transition-colors">3</a>
-                        <span class="text-gray-400" aria-hidden="true">...</span>
-                        <a href="#"
-                            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:border-brand-navy hover:text-brand-navy transition-colors"
-                            aria-label="Next Page"><i class="fa-solid fa-chevron-right"></i></a>
-                    </nav>
-                </div>
             </div>
         </section>
 
@@ -242,6 +270,53 @@
                 <p class="text-xs text-gray-400 mt-4">We respect your privacy. Unsubscribe at any time.</p>
             </div>
         </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const buttons = document.querySelectorAll('#category-nav .cat-btn');
+                const cards = document.querySelectorAll('.article-card');
+                const featured = document.getElementById('featured-article');
+
+                const activeClasses = ['bg-brand-orange', 'text-brand-navy', 'font-bold', 'shadow-md', 'border-brand-orange'];
+                const inactiveClasses = ['bg-white', 'border-gray-200', 'text-gray-600', 'font-medium'];
+
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const category = btn.getAttribute('data-cat');
+
+                        // Reset all buttons to inactive state
+                        buttons.forEach(b => {
+                            activeClasses.forEach(c => b.classList.remove(c));
+                            inactiveClasses.forEach(c => b.classList.add(c));
+                        });
+
+                        // Activate selected button
+                        inactiveClasses.forEach(c => btn.classList.remove(c));
+                        activeClasses.forEach(c => btn.classList.add(c));
+
+                        // Filter featured post
+                        if (featured) {
+                            const featCat = featured.getAttribute('data-category');
+                            if (category === 'all' || category === featCat) {
+                                featured.style.display = 'block';
+                            } else {
+                                featured.style.display = 'none';
+                            }
+                        }
+
+                        // Filter grid article cards
+                        cards.forEach(card => {
+                            const cardCat = card.getAttribute('data-category');
+                            if (category === 'all' || category === cardCat) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
 
     </main>
 
