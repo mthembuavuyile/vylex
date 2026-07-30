@@ -14,6 +14,7 @@
     :root {
       --navy:      #051B38;
       --orange:    #FBA919;
+      --orange-dark:#D97706;
       --lnavy:     #0A2E5C;
       --slate:     #E2E8F0;
       --sdark:     #64748B;
@@ -31,14 +32,16 @@
       -webkit-font-smoothing: antialiased;
     }
     
-    /* Header */
+    /* Header (Half Light Mode) */
     .global-header {
-      background: var(--navy);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 14px 32px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 14px 24px;
       position: sticky;
       top: 0;
       z-index: 1000;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 10px rgba(5, 27, 56, 0.03);
     }
     .header-inner {
       max-width: 1200px;
@@ -47,65 +50,81 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 16px;
     }
     .brand-logo {
       display: flex;
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      color: #fff;
+      color: var(--navy);
       font-weight: 800;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
     }
-    .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    
+    .mobile-toggle {
+      display: none;
+      background: var(--navy);
+      color: var(--orange);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-nav { display: flex; align-items: center; gap: 8px; }
     .h-link {
-      color: rgba(255, 255, 255, 0.75);
+      color: var(--sdark);
       font-size: 0.83rem;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 8px;
+      padding: 9px 16px;
+      border-radius: 10px;
       transition: all 0.2s;
     }
-    .h-link:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
-    .h-link.active { color: var(--orange); background: rgba(251, 169, 25, 0.12); border: 1px solid rgba(251, 169, 25, 0.3); }
+    .h-link:hover { color: var(--navy); background: rgba(5, 27, 56, 0.05); }
+    .h-link.active { color: var(--navy); background: #FFF7ED; border: 1px solid #FFEDD5; }
+    .h-link.active i { color: var(--orange-dark); }
 
-    /* Hero */
+    /* Hero (Half Light Mode) */
     .page-hero {
-      background: var(--navy);
-      color: #fff;
-      padding: 70px 32px;
-      position: relative;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 60%, #EEF2F6 100%);
+      color: var(--navy);
+      padding: 56px 24px 70px;
+      border-bottom: 1px solid var(--slate);
     }
     .hero-container { max-width: 1200px; margin: 0 auto; }
     .badge {
       display: inline-block;
-      background: rgba(251, 169, 25, 0.15);
-      color: var(--orange);
-      font-size: 0.75rem;
+      background: #FFF7ED;
+      color: var(--orange-dark);
+      border: 1px solid #FFEDD5;
+      font-size: 0.72rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 2px;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 100px;
       margin-bottom: 16px;
     }
-    .page-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
-    .page-desc { font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); max-width: 700px; }
+    .page-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; color: var(--navy); }
+    .page-desc { font-size: 1.05rem; color: var(--sdark); max-width: 700px; }
 
     /* Layout */
-    .container { max-width: 1200px; margin: 0 auto; padding: 60px 32px 100px; }
-    .sec { margin-bottom: 70px; }
-    .sec-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--orange); margin-bottom: 8px; }
-    .sec-title { font-size: 1.8rem; font-weight: 800; color: var(--navy); margin-bottom: 16px; }
-    .sec-body { font-size: 1rem; color: var(--sdark); max-width: 750px; margin-bottom: 28px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 50px 24px 100px; }
+    .sec { margin-bottom: 60px; }
+    .sec-tag { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--orange-dark); margin-bottom: 8px; }
+    .sec-title { font-size: 1.8rem; font-weight: 800; color: var(--navy); margin-bottom: 14px; }
+    .sec-body { font-size: 0.98rem; color: var(--sdark); max-width: 750px; margin-bottom: 24px; }
 
     /* Code Block */
     .code-block {
       background: #0F172A;
       color: #F8FAFC;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 24px;
       font-family: 'Fira Code', monospace;
       font-size: 0.85rem;
@@ -116,7 +135,7 @@
     }
 
     .code-title {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: #94A3B8;
       text-transform: uppercase;
@@ -132,30 +151,41 @@
       background: #fff;
       border: 1px solid var(--slate);
       border-radius: 16px;
-      padding: 32px;
+      padding: 28px;
       margin-bottom: 20px;
     }
 
-    .preview-box.dark {
-      background: var(--navy);
-      color: #fff;
-    }
-
-    /* Utility Cards */
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
     
     .card {
       background: #fff;
       border: 1px solid var(--slate);
       border-radius: 16px;
-      padding: 28px;
+      padding: 24px;
     }
 
     .check-list { list-style: none; }
-    .check-list li { margin-bottom: 12px; display: flex; gap: 12px; font-size: 0.92rem; }
-    .check-list i { color: #10B981; margin-top: 4px; }
+    .check-list li { margin-bottom: 10px; display: flex; gap: 10px; font-size: 0.9rem; }
+    .check-list i { color: #10B981; margin-top: 3px; }
 
-    footer { background: var(--navy); color: #fff; padding: 40px 32px; text-align: center; font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+    footer { background: var(--navy); color: #fff; padding: 40px 24px; text-align: center; font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+
+    @media (max-width: 768px) {
+      .global-header { padding: 12px 16px; }
+      .mobile-toggle { display: flex; }
+      .header-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--slate);
+        gap: 8px;
+      }
+      .header-nav.open { display: flex; }
+      .h-link { width: 100%; padding: 10px 14px; }
+      .container { padding: 32px 16px 80px; }
+    }
   </style>
 </head>
 <body>
@@ -164,13 +194,18 @@
   <header class="global-header">
     <div class="header-inner">
       <a href="/brand/index.html" class="brand-logo">
-        <svg width="28" height="28" viewBox="0 0 100 100">
+        <svg width="26" height="26" viewBox="0 0 100 100">
           <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
           <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
         </svg>
         <span>vylex<em style="color:var(--orange);font-style:normal;">.</em></span>
       </a>
-      <nav class="header-nav">
+
+      <button class="mobile-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="header-nav" id="header-nav">
         <a href="/brand/index.html" class="h-link"><i class="fa-solid fa-compass"></i> Brand Hub</a>
         <a href="/brand/website.html" class="h-link active"><i class="fa-solid fa-globe"></i> Website Guide</a>
         <a href="/brand/projects.html" class="h-link"><i class="fa-solid fa-code"></i> Projects &amp; Software</a>
@@ -217,7 +252,7 @@
 &lt;/head&gt;
 &lt;body class="bg-gray-50 text-brand-navy font-sans antialiased"&gt;
 
-  &lt;!-- 1. Global Navigation Header (Dynamically loaded via /components/header.html) --&gt;
+  &lt;!-- 1. Global Navigation Header --&gt;
   &lt;div id="header-placeholder"&gt;&lt;/div&gt;
 
   &lt;!-- 2. Hero Section --&gt;
@@ -251,7 +286,7 @@
 
       <div class="grid-2">
         <div class="card">
-          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:12px;color:var(--navy);">Color Tokens</h3>
+          <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:12px;color:var(--navy);">Color Tokens</h3>
           <ul class="check-list">
             <li><i class="fa-solid fa-check"></i> <code>bg-brand-navy</code> (#051B38) — Main dark headers &amp; hero sections</li>
             <li><i class="fa-solid fa-check"></i> <code>bg-brand-orange</code> (#FBA919) — High priority CTA buttons &amp; badges</li>
@@ -261,7 +296,7 @@
         </div>
 
         <div class="card">
-          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:12px;color:var(--navy);">UI &amp; Utility Tokens</h3>
+          <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:12px;color:var(--navy);">UI &amp; Utility Tokens</h3>
           <ul class="check-list">
             <li><i class="fa-solid fa-check"></i> <code>rounded-2xl</code> (16px - 18px) — Card corners</li>
             <li><i class="fa-solid fa-check"></i> <code>shadow-xl hover:-translate-y-1</code> — Hover lift animation for cards</li>
@@ -281,9 +316,9 @@
       </p>
 
       <!-- Component 1: Primary Action Button -->
-      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:12px;">Primary CTA Button</h3>
+      <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:12px;">Primary CTA Button</h3>
       <div class="preview-box">
-        <button style="background:#FBA919;color:#051B38;font-weight:800;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;font-size:0.95rem;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 20px rgba(251,169,25,0.25);">
+        <button style="background:#FBA919;color:#051B38;font-weight:800;padding:14px 28px;border-radius:12px;border:none;cursor:pointer;font-size:0.92rem;display:inline-flex;align-items:center;gap:10px;box-shadow:0 10px 20px rgba(251,169,25,0.25);">
           Schedule Free Strategy Call <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
@@ -296,14 +331,14 @@
       </div>
 
       <!-- Component 2: Feature Card -->
-      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:12px;margin-top:32px;">Feature Grid Card</h3>
+      <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:12px;margin-top:28px;">Feature Grid Card</h3>
       <div class="preview-box">
-        <div style="background:#fff;border:1px solid #E2E8F0;border-radius:18px;padding:32px;max-width:380px;box-shadow:0 10px 24px rgba(5,27,56,0.06);">
-          <div style="width:48px;height:48px;border-radius:12px;background:#051B38;color:#FBA919;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:20px;">
+        <div style="background:#fff;border:1px solid #E2E8F0;border-radius:18px;padding:28px;max-width:380px;box-shadow:0 10px 24px rgba(5,27,56,0.06);">
+          <div style="width:48px;height:48px;border-radius:12px;background:#051B38;color:#FBA919;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:18px;">
             <i class="fa-solid fa-gears"></i>
           </div>
-          <h4 style="font-size:1.2rem;font-weight:800;color:#051B38;margin-bottom:8px;">Workflow Automation</h4>
-          <p style="font-size:0.9rem;color:#64748B;line-height:1.6;">Eliminate repetitive manual tasks with custom software integration tailored to your operations.</p>
+          <h4 style="font-size:1.15rem;font-weight:800;color:#051B38;margin-bottom:8px;">Workflow Automation</h4>
+          <p style="font-size:0.88rem;color:#64748B;line-height:1.6;">Eliminate repetitive manual tasks with custom software integration tailored to your operations.</p>
         </div>
       </div>
 
@@ -339,6 +374,21 @@
   <footer>
     © 2026 Vylex (Pty) Ltd t/a Vylex Technologies — Website Guidelines
   </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const headerNav = document.getElementById('header-nav');
+
+    if (menuToggle && headerNav) {
+      menuToggle.addEventListener('click', () => {
+        headerNav.classList.toggle('open');
+        const icon = menuToggle.querySelector('i');
+        if (icon) {
+          icon.className = headerNav.classList.contains('open') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+      });
+    }
+  </script>
 
 </body>
 </html>

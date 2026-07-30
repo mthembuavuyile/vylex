@@ -14,6 +14,7 @@
     :root {
       --navy:   #051B38;
       --orange: #FBA919;
+      --orange-dark:#D97706;
       --lnavy:  #0A2E5C;
       --slate:  #E2E8F0;
       --sdark:  #64748B;
@@ -34,12 +35,14 @@
     }
     
     .global-header {
-      background: var(--navy);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 14px 32px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 14px 24px;
       position: sticky;
       top: 0;
       z-index: 1000;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 10px rgba(5, 27, 56, 0.03);
     }
     .header-inner {
       max-width: 1200px;
@@ -48,72 +51,88 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 16px;
     }
     .brand-logo {
       display: flex;
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      color: #fff;
+      color: var(--navy);
       font-weight: 800;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
     }
-    .header-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .mobile-toggle {
+      display: none;
+      background: var(--navy);
+      color: var(--orange);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-nav { display: flex; align-items: center; gap: 8px; }
     .h-link {
-      color: rgba(255, 255, 255, 0.75);
+      color: var(--sdark);
       font-size: 0.83rem;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 8px;
+      padding: 9px 16px;
+      border-radius: 10px;
       transition: all 0.2s;
     }
-    .h-link:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
-    .h-link.active { color: var(--orange); background: rgba(251, 169, 25, 0.12); border: 1px solid rgba(251, 169, 25, 0.3); }
+    .h-link:hover { color: var(--navy); background: rgba(5, 27, 56, 0.05); }
+    .h-link.active { color: var(--navy); background: #FFF7ED; border: 1px solid #FFEDD5; }
+    .h-link.active i { color: var(--orange-dark); }
 
     .page-hero {
-      background: var(--navy);
-      color: #fff;
-      padding: 70px 32px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 60%, #EEF2F6 100%);
+      color: var(--navy);
+      padding: 56px 24px 70px;
+      border-bottom: 1px solid var(--slate);
     }
     .hero-container { max-width: 1200px; margin: 0 auto; }
     .badge {
       display: inline-block;
-      background: rgba(251, 169, 25, 0.15);
-      color: var(--orange);
-      font-size: 0.75rem;
+      background: #FFF7ED;
+      color: var(--orange-dark);
+      border: 1px solid #FFEDD5;
+      font-size: 0.72rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 2px;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 100px;
       margin-bottom: 16px;
     }
-    .page-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
-    .page-desc { font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); max-width: 700px; }
+    .page-title { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; color: var(--navy); }
+    .page-desc { font-size: 1.05rem; color: var(--sdark); max-width: 700px; }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 60px 32px 100px; }
-    .sec { margin-bottom: 70px; scroll-margin-top: 100px; }
-    .sec-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--orange); margin-bottom: 8px; }
-    .sec-title { font-size: 1.8rem; font-weight: 800; color: var(--navy); margin-bottom: 16px; }
-    .sec-body { font-size: 1rem; color: var(--sdark); max-width: 750px; margin-bottom: 28px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 50px 24px 100px; }
+    .sec { margin-bottom: 60px; scroll-margin-top: 100px; }
+    .sec-tag { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--orange-dark); margin-bottom: 8px; }
+    .sec-title { font-size: 1.8rem; font-weight: 800; color: var(--navy); margin-bottom: 14px; }
+    .sec-body { font-size: 0.98rem; color: var(--sdark); max-width: 750px; margin-bottom: 24px; }
 
     .card {
       background: #fff;
       border: 1px solid var(--slate);
       border-radius: var(--r);
-      padding: 32px;
-      margin-bottom: 24px;
+      padding: 28px;
+      margin-bottom: 20px;
     }
 
-    /* Buttons Component */
-    .btn-group { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-bottom: 20px; }
+    .btn-group { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
     .btn {
       font-family: 'DM Sans', sans-serif;
       font-weight: 700;
       font-size: 0.88rem;
-      padding: 12px 22px;
+      padding: 12px 20px;
       border-radius: 10px;
       border: none;
       cursor: pointer;
@@ -131,7 +150,6 @@
     .btn-danger { background: #FEF2F2; color: var(--red); border: 1px solid #FCA5A5; }
     .btn-danger:hover { background: var(--red); color: #fff; }
 
-    /* Badges */
     .badge-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
     .p-badge {
       display: inline-flex;
@@ -154,24 +172,22 @@
     .b-navy { background: rgba(5, 27, 56, 0.08); color: var(--navy); }
     .b-navy .p-badge-dot { background: var(--navy); }
 
-    /* Alerts */
     .alert {
-      padding: 16px 20px;
+      padding: 14px 18px;
       border-radius: 12px;
       display: flex;
       align-items: flex-start;
-      gap: 14px;
-      font-size: 0.9rem;
-      margin-bottom: 14px;
+      gap: 12px;
+      font-size: 0.88rem;
+      margin-bottom: 12px;
     }
-    .alert-icon { font-size: 1.1rem; }
+    .alert-icon { font-size: 1rem; }
     .a-info { background: #F0F9FF; border: 1px solid #BAE6FD; color: #0369A1; }
     .a-success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #047857; }
     .a-warning { background: #FFFBEB; border: 1px solid #FDE68A; color: #B45309; }
     .a-error { background: #FEF2F2; border: 1px solid #FCA5A5; color: #B91C1C; }
 
-    /* Inputs */
-    .form-group { margin-bottom: 18px; max-width: 440px; }
+    .form-group { margin-bottom: 16px; max-width: 440px; }
     .form-label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
     .form-input {
       width: 100%;
@@ -179,26 +195,42 @@
       border-radius: 10px;
       border: 1px solid var(--slate);
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
       transition: border 0.2s;
     }
     .form-input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(251, 169, 25, 0.2); }
     .form-hint { font-size: 0.75rem; color: var(--sdark); margin-top: 4px; }
 
-    /* Motion Grid */
-    .motion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .motion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
     .m-card {
       background: var(--bg);
       border: 1px solid var(--slate);
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px;
     }
-    .m-title { font-size: 0.85rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-    .m-val { font-family: 'Fira Code', monospace; font-size: 0.8rem; color: #B47300; margin-bottom: 6px; }
-    .m-desc { font-size: 0.78rem; color: var(--sdark); }
+    .m-title { font-size: 0.82rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .m-val { font-family: 'Fira Code', monospace; font-size: 0.78rem; color: var(--orange-dark); margin-bottom: 6px; }
+    .m-desc { font-size: 0.76rem; color: var(--sdark); }
 
-    footer { background: var(--navy); color: #fff; padding: 40px 32px; text-align: center; font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+    footer { background: var(--navy); color: #fff; padding: 40px 24px; text-align: center; font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+
+    @media (max-width: 768px) {
+      .global-header { padding: 12px 16px; }
+      .mobile-toggle { display: flex; }
+      .header-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--slate);
+        gap: 8px;
+      }
+      .header-nav.open { display: flex; }
+      .h-link { width: 100%; padding: 10px 14px; }
+      .container { padding: 32px 16px 80px; }
+    }
   </style>
 </head>
 <body>
@@ -206,13 +238,18 @@
   <header class="global-header">
     <div class="header-inner">
       <a href="/brand/index.html" class="brand-logo">
-        <svg width="28" height="28" viewBox="0 0 100 100">
+        <svg width="26" height="26" viewBox="0 0 100 100">
           <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
           <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
         </svg>
         <span>vylex<em style="color:var(--orange);font-style:normal;">.</em></span>
       </a>
-      <nav class="header-nav">
+
+      <button class="mobile-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <nav class="header-nav" id="header-nav">
         <a href="/brand/index.html" class="h-link"><i class="fa-solid fa-compass"></i> Brand Hub</a>
         <a href="/brand/website.html" class="h-link"><i class="fa-solid fa-globe"></i> Website Guide</a>
         <a href="/brand/projects.html" class="h-link active"><i class="fa-solid fa-code"></i> Projects &amp; Software</a>
@@ -261,9 +298,8 @@
       <div class="sec-tag">02 — UI Library</div>
       <h2 class="sec-title">Standard Application Components</h2>
 
-      <!-- Buttons -->
       <div class="card">
-        <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:16px;">1. Button System</h3>
+        <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:14px;">1. Button System</h3>
         <div class="btn-group">
           <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Execute Process</button>
           <button class="btn btn-navy"><i class="fa-solid fa-plus"></i> New Project</button>
@@ -272,9 +308,8 @@
         </div>
       </div>
 
-      <!-- Badges -->
       <div class="card">
-        <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:16px;">2. Status Badges</h3>
+        <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:14px;">2. Status Badges</h3>
         <div class="badge-group">
           <span class="p-badge b-green"><span class="p-badge-dot"></span> System Live</span>
           <span class="p-badge b-orange"><span class="p-badge-dot"></span> In Progress</span>
@@ -284,9 +319,8 @@
         </div>
       </div>
 
-      <!-- System Alerts -->
       <div class="card">
-        <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:16px;">3. Application Alerts</h3>
+        <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:14px;">3. Application Alerts</h3>
         <div class="alert a-info">
           <div class="alert-icon"><i class="fa-solid fa-circle-info"></i></div>
           <div><strong>Scheduled Maintenance:</strong> Server maintenance scheduled for Sunday at 02:00 SAST.</div>
@@ -305,9 +339,8 @@
         </div>
       </div>
 
-      <!-- Form Controls -->
       <div class="card">
-        <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:16px;">4. Form Inputs &amp; Validation</h3>
+        <h3 style="font-size:1.05rem;font-weight:800;margin-bottom:14px;">4. Form Inputs &amp; Validation</h3>
         <div class="form-group">
           <label class="form-label">Client API Endpoint</label>
           <input type="text" class="form-input" value="https://api.vylex.co.za/v1/projects">
@@ -353,6 +386,21 @@
   <footer>
     © 2026 Vylex (Pty) Ltd t/a Vylex Technologies — Project &amp; SaaS Guidelines
   </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const headerNav = document.getElementById('header-nav');
+
+    if (menuToggle && headerNav) {
+      menuToggle.addEventListener('click', () => {
+        headerNav.classList.toggle('open');
+        const icon = menuToggle.querySelector('i');
+        if (icon) {
+          icon.className = headerNav.classList.contains('open') ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+      });
+    }
+  </script>
 
 </body>
 </html>

@@ -14,6 +14,7 @@
     :root {
       --navy:      #051B38;
       --orange:    #FBA919;
+      --orange-dark: #D97706;
       --lnavy:     #0A2E5C;
       --slate:     #E2E8F0;
       --sdark:     #64748B;
@@ -22,9 +23,9 @@
       --red:       #EF4444;
       --green:     #10B981;
       --card-r:    18px;
-      --shadow-sm: 0 4px 12px rgba(5, 27, 56, 0.05);
-      --shadow-md: 0 12px 32px rgba(5, 27, 56, 0.08);
-      --shadow-lg: 0 20px 48px rgba(5, 27, 56, 0.12);
+      --shadow-sm: 0 4px 12px rgba(5, 27, 56, 0.04);
+      --shadow-md: 0 12px 32px rgba(5, 27, 56, 0.06);
+      --shadow-lg: 0 20px 48px rgba(5, 27, 56, 0.1);
     }
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,15 +40,16 @@
       -webkit-font-smoothing: antialiased;
     }
     
-    /* ── GLOBAL HEADER ── */
+    /* ── GLOBAL HEADER (HALF LIGHT MODE) ── */
     .global-header {
-      background: var(--navy);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 14px 32px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 14px 24px;
       position: sticky;
       top: 0;
       z-index: 1000;
       backdrop-filter: blur(12px);
+      box-shadow: 0 2px 10px rgba(5, 27, 56, 0.03);
     }
     
     .header-inner {
@@ -57,7 +59,6 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 16px;
     }
     
     .brand-logo {
@@ -65,9 +66,9 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      color: #fff;
+      color: var(--navy);
       font-weight: 800;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       letter-spacing: -0.5px;
     }
     
@@ -75,21 +76,40 @@
       color: var(--orange);
       font-style: normal;
     }
+
+    /* Mobile Hamburger Toggle */
+    .mobile-toggle {
+      display: none;
+      background: var(--navy);
+      color: var(--orange);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    
+    .mobile-toggle:hover {
+      background: var(--lnavy);
+    }
     
     .header-nav {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
     }
     
     .h-link {
-      color: rgba(255, 255, 255, 0.75);
+      color: var(--sdark);
       font-size: 0.83rem;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 8px;
+      padding: 9px 16px;
+      border-radius: 10px;
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
@@ -97,54 +117,60 @@
     }
     
     .h-link:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
+      color: var(--navy);
+      background: rgba(5, 27, 56, 0.05);
     }
     
     .h-link.active {
-      color: var(--orange);
-      background: rgba(251, 169, 25, 0.12);
-      border: 1px solid rgba(251, 169, 25, 0.3);
+      color: var(--navy);
+      background: #FFF7ED;
+      border: 1px solid #FFEDD5;
+    }
+
+    .h-link.active i {
+      color: var(--orange-dark);
     }
     
     .btn-back {
-      background: rgba(255, 255, 255, 0.12);
+      background: var(--navy);
       color: #fff;
-      padding: 7px 16px;
-      border-radius: 8px;
+      padding: 9px 18px;
+      border-radius: 10px;
       font-size: 0.8rem;
       font-weight: 700;
       text-decoration: none;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
     
     .btn-back:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--orange);
+      color: var(--navy);
     }
 
-    /* ── HERO COVER ── */
+    /* ── HERO COVER (HALF LIGHT MODE) ── */
     .hero {
-      background: var(--navy);
-      color: #fff;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 60%, #EEF2F6 100%);
+      color: var(--navy);
       position: relative;
       overflow: hidden;
-      padding: 90px 32px 100px;
+      padding: 60px 24px 80px;
       text-align: center;
+      border-bottom: 1px solid var(--slate);
     }
     
     .hero-grid-bg {
       position: absolute;
       inset: 0;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-      background-size: 50px 50px;
+      background-image: linear-gradient(rgba(5, 27, 56, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(5, 27, 56, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
       pointer-events: none;
     }
     
     .hero-glow {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(251, 169, 25, 0.15) 0%, transparent 65%);
+      background: radial-gradient(circle at 50% 20%, rgba(251, 169, 25, 0.12) 0%, transparent 60%);
       pointer-events: none;
     }
     
@@ -159,80 +185,91 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(251, 169, 25, 0.12);
-      border: 1px solid rgba(251, 169, 25, 0.35);
+      background: #FFF7ED;
+      border: 1px solid #FFEDD5;
       border-radius: 100px;
       padding: 6px 18px;
-      font-size: 0.75rem;
-      font-weight: 700;
+      font-size: 0.72rem;
+      font-weight: 800;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 28px;
+      color: var(--orange-dark);
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(251, 169, 25, 0.1);
     }
     
     .hero-badge-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--orange);
-      box-shadow: 0 0 10px var(--orange);
+      background: var(--orange-dark);
+      box-shadow: 0 0 8px var(--orange);
       animation: pulse 2s infinite;
     }
     
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
     
     .hero-title {
-      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
       font-weight: 800;
-      line-height: 1.1;
+      line-height: 1.12;
       letter-spacing: -1.5px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      color: var(--navy);
     }
     
-    .hero-title span { color: var(--orange); }
+    .hero-title span {
+      background: linear-gradient(135deg, #FBA919 0%, #D97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
     
     .hero-subtitle {
-      font-size: 1.15rem;
-      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+      color: var(--sdark);
       max-width: 680px;
-      margin: 0 auto 40px;
-      font-weight: 300;
-      line-height: 1.7;
+      margin: 0 auto 36px;
+      font-weight: 400;
+      line-height: 1.65;
     }
     
     .hero-meta {
+      background: #FFFFFF;
+      border: 1px solid var(--slate);
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
       display: flex;
-      justify-content: center;
-      gap: 36px;
+      justify-content: space-around;
+      gap: 20px;
       flex-wrap: wrap;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding-top: 28px;
+      padding: 20px 28px;
+      max-width: 780px;
+      margin: 0 auto;
     }
     
     .meta-box .lbl {
       font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--sdark);
       margin-bottom: 4px;
-      font-weight: 700;
+      font-weight: 800;
     }
     
     .meta-box .val {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--navy);
     }
 
     /* ── STICKY SUB-NAV ── */
     .subnav {
-      background: #fff;
+      background: #FFFFFF;
       border-bottom: 1px solid var(--slate);
       position: sticky;
-      top: 60px;
+      top: 70px;
       z-index: 900;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
     }
     
     .subnav-inner {
@@ -240,16 +277,16 @@
       margin: 0 auto;
       display: flex;
       overflow-x: auto;
-      padding: 0 32px;
+      padding: 0 24px;
       scrollbar-width: none;
     }
     
     .subnav-inner::-webkit-scrollbar { display: none; }
     
     .sn-link {
-      padding: 16px 20px;
-      font-size: 0.78rem;
-      font-weight: 700;
+      padding: 14px 18px;
+      font-size: 0.76rem;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       color: var(--sdark);
@@ -264,15 +301,15 @@
       border-bottom-color: var(--orange);
     }
 
-    /* ── MAIN CONTENT ── */
+    /* ── MAIN CONTAINER ── */
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 60px 32px 100px;
+      padding: 50px 24px 100px;
     }
     
     .section {
-      margin-bottom: 80px;
+      margin-bottom: 70px;
       scroll-margin-top: 130px;
     }
     
@@ -281,10 +318,10 @@
       align-items: center;
       gap: 8px;
       font-size: 0.72rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 2.5px;
       text-transform: uppercase;
-      color: var(--orange);
+      color: var(--orange-dark);
       margin-bottom: 8px;
     }
     
@@ -296,67 +333,69 @@
     }
     
     .sec-heading {
-      font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+      font-size: clamp(1.7rem, 3.5vw, 2.2rem);
       font-weight: 800;
       letter-spacing: -0.8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--navy);
     }
     
     .sec-description {
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: var(--sdark);
       max-width: 720px;
-      line-height: 1.7;
-      margin-bottom: 36px;
+      line-height: 1.65;
+      margin-bottom: 32px;
     }
 
     /* ── THREE PILLARS CARDS GRID ── */
     .pillar-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
     }
     
     .pillar-card {
       background: #fff;
       border-radius: var(--card-r);
       border: 1px solid var(--slate);
-      padding: 36px;
+      padding: 32px 28px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
       overflow: hidden;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
     }
     
     .pillar-card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-6px);
       box-shadow: var(--shadow-lg);
       border-color: var(--orange);
     }
     
     .pillar-icon {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       border-radius: 14px;
       background: var(--navy);
       color: var(--orange);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 24px;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
     }
     
     .pillar-badge {
       position: absolute;
-      top: 24px;
-      right: 24px;
-      background: rgba(251, 169, 25, 0.12);
-      color: #B47300;
-      font-size: 0.68rem;
+      top: 20px;
+      right: 20px;
+      background: #FFF7ED;
+      color: var(--orange-dark);
+      border: 1px solid #FFEDD5;
+      font-size: 0.65rem;
       font-weight: 800;
       padding: 4px 10px;
       border-radius: 6px;
@@ -365,26 +404,26 @@
     }
     
     .pillar-title {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 800;
       color: var(--navy);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     
     .pillar-desc {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--sdark);
-      line-height: 1.65;
-      margin-bottom: 28px;
+      line-height: 1.6;
+      margin-bottom: 24px;
     }
     
     .pillar-features {
       list-style: none;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     
     .pillar-features li {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--navy);
       font-weight: 600;
       margin-bottom: 8px;
@@ -395,7 +434,7 @@
     
     .pillar-features li i {
       color: var(--green);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
     
     .pillar-btn {
@@ -406,11 +445,12 @@
       background: var(--navy);
       color: #fff;
       text-decoration: none;
-      padding: 14px 24px;
+      padding: 13px 20px;
       border-radius: 12px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       transition: all 0.2s;
+      width: 100%;
     }
     
     .pillar-btn:hover {
@@ -421,8 +461,8 @@
     /* ── LOGO SYSTEM ── */
     .logo-showcase {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
       margin-bottom: 32px;
     }
     
@@ -434,11 +474,11 @@
     }
     
     .l-preview {
-      height: 160px;
+      height: 150px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 32px;
+      padding: 24px;
     }
     
     .l-preview.bg-light { background: #FFFFFF; }
@@ -447,7 +487,7 @@
     .l-preview.bg-dark { background: #0F172A; }
     
     .l-meta {
-      padding: 14px 18px;
+      padding: 12px 16px;
       background: #F8FAFC;
       border-top: 1px solid var(--slate);
       display: flex;
@@ -455,14 +495,14 @@
       justify-content: space-between;
     }
     
-    .l-name { font-size: 0.8rem; font-weight: 700; color: var(--navy); }
-    .l-tag { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--sdark); background: var(--slate); padding: 2px 8px; border-radius: 4px; }
+    .l-name { font-size: 0.78rem; font-weight: 800; color: var(--navy); }
+    .l-tag { font-family: 'Fira Code', monospace; font-size: 0.68rem; color: var(--sdark); background: var(--slate); padding: 2px 8px; border-radius: 4px; }
 
     /* ── COLOR PALETTE ── */
     .color-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
       margin-bottom: 24px;
     }
     
@@ -475,8 +515,8 @@
     }
     
     .c-swatch {
-      height: 120px;
-      padding: 16px;
+      height: 110px;
+      padding: 14px;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -484,7 +524,7 @@
     
     .c-hex {
       font-family: 'Fira Code', monospace;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       color: #fff;
     }
@@ -492,11 +532,11 @@
     .c-swatch.light-text .c-hex { color: var(--navy); }
     
     .c-info {
-      padding: 18px;
+      padding: 16px;
     }
     
-    .c-name { font-size: 0.9rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
-    .c-use { font-size: 0.78rem; color: var(--sdark); line-height: 1.4; }
+    .c-name { font-size: 0.88rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+    .c-use { font-size: 0.76rem; color: var(--sdark); line-height: 1.4; }
 
     /* ── TYPOGRAPHY TABLE ── */
     .type-card {
@@ -507,29 +547,29 @@
     }
     
     .type-row {
-      padding: 28px 36px;
+      padding: 24px 28px;
       border-bottom: 1px solid var(--slate);
       display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 32px;
+      grid-template-columns: 200px 1fr;
+      gap: 24px;
       align-items: center;
     }
     
     .type-row:last-child { border-bottom: none; }
     
     .t-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--sdark); margin-bottom: 4px; }
-    .t-spec { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: #B47300; }
+    .t-spec { font-family: 'Fira Code', monospace; font-size: 0.72rem; color: var(--orange-dark); }
     
-    .t-preview-d1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; color: var(--navy); }
-    .t-preview-d2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px; color: var(--navy); }
-    .t-preview-body { font-size: 1rem; color: var(--navy); line-height: 1.7; max-width: 650px; }
-    .t-preview-code { font-family: 'Fira Code', monospace; font-size: 0.9rem; color: var(--navy); background: var(--bg); padding: 10px 16px; border-radius: 8px; display: inline-block; }
+    .t-preview-d1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -1px; line-height: 1.1; color: var(--navy); }
+    .t-preview-d2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; color: var(--navy); }
+    .t-preview-body { font-size: 0.95rem; color: var(--navy); line-height: 1.65; max-width: 650px; }
+    .t-preview-code { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--navy); background: var(--bg); padding: 8px 14px; border-radius: 8px; display: inline-block; word-break: break-all; }
 
     /* ── DO'S AND DONT'S ── */
     .rules-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
     }
     
     .rule-card {
@@ -540,8 +580,8 @@
     }
     
     .rule-header {
-      padding: 12px 18px;
-      font-size: 0.78rem;
+      padding: 12px 16px;
+      font-size: 0.75rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -551,26 +591,26 @@
     .rule-card.dont .rule-header { background: #FEF2F2; color: #991B1B; border-bottom: 1px solid #FCA5A5; }
     
     .rule-body {
-      padding: 32px 20px;
+      padding: 28px 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 140px;
+      min-height: 130px;
       background: #FAFAFA;
     }
     
     .rule-footer {
-      padding: 14px 18px;
-      font-size: 0.8rem;
+      padding: 12px 16px;
+      font-size: 0.78rem;
       color: var(--sdark);
       border-top: 1px solid var(--slate);
     }
 
-    /* ── FOOTER ── */
+    /* ── FOOTER (HALF LIGHT MODE INTEGRATION) ── */
     .brand-footer {
       background: var(--navy);
       color: #fff;
-      padding: 60px 32px;
+      padding: 50px 24px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
     
@@ -581,36 +621,87 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 24px;
+      gap: 20px;
     }
     
     .foot-text {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: rgba(255, 255, 255, 0.6);
       line-height: 1.6;
     }
 
+    /* ── MOBILE MEDIA QUERIES ── */
     @media (max-width: 768px) {
-      .type-row { grid-template-columns: 1fr; gap: 12px; }
-      .global-header { padding: 14px 16px; }
-      .container { padding: 40px 16px; }
-      .hero { padding: 60px 16px; }
+      .global-header { padding: 12px 16px; }
+      
+      .mobile-toggle { display: flex; }
+      
+      .header-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--slate);
+        gap: 8px;
+      }
+      
+      .header-nav.open {
+        display: flex;
+      }
+      
+      .h-link {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+      }
+      
+      .btn-back {
+        width: 100%;
+        text-align: center;
+        padding: 10px 14px;
+        margin-top: 4px;
+      }
+      
+      .hero { padding: 44px 16px 60px; }
+      .hero-title { font-size: 2.1rem; }
+      .hero-subtitle { font-size: 0.98rem; }
+      
+      .hero-meta {
+        grid-template-columns: 1fr 1fr;
+        display: grid;
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .subnav { top: 66px; }
+      .container { padding: 36px 16px 80px; }
+      
+      .type-row { grid-template-columns: 1fr; gap: 10px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══ GLOBAL BRAND HEADER ═══ -->
+  <!-- ═══ GLOBAL HEADER (HALF LIGHT MODE) ═══ -->
   <header class="global-header">
     <div class="header-inner">
       <a href="/brand/index.html" class="brand-logo">
-        <svg width="28" height="28" viewBox="0 0 100 100">
+        <svg width="26" height="26" viewBox="0 0 100 100">
           <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
           <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
         </svg>
         <span>vylex<em>.</em></span>
       </a>
-      <nav class="header-nav">
+
+      <!-- Mobile Hamburger Button -->
+      <button class="mobile-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Collapsible Navigation -->
+      <nav class="header-nav" id="header-nav">
         <a href="/brand/index.html" class="h-link active"><i class="fa-solid fa-compass"></i> Brand Hub</a>
         <a href="/brand/website.html" class="h-link"><i class="fa-solid fa-globe"></i> Website Guide</a>
         <a href="/brand/projects.html" class="h-link"><i class="fa-solid fa-code"></i> Projects &amp; Software</a>
@@ -620,7 +711,7 @@
     </div>
   </header>
 
-  <!-- ═══ HERO COVER ═══ -->
+  <!-- ═══ HERO COVER (HALF LIGHT MODE) ═══ -->
   <section class="hero">
     <div class="hero-grid-bg"></div>
     <div class="hero-glow"></div>
@@ -637,8 +728,8 @@
       <div class="hero-meta">
         <div class="meta-box"><div class="lbl">Version</div><div class="val">2.0 Master</div></div>
         <div class="meta-box"><div class="lbl">Updated</div><div class="val">2026</div></div>
-        <div class="meta-box"><div class="lbl">Entity</div><div class="val">Vylex Technologies (Pty) Ltd</div></div>
-        <div class="meta-box"><div class="lbl">Primary Focus</div><div class="val">Web · Software · Creative</div></div>
+        <div class="meta-box"><div class="lbl">Entity</div><div class="val">Vylex Technologies</div></div>
+        <div class="meta-box"><div class="lbl">Focus</div><div class="val">Web · Software · Creative</div></div>
       </div>
     </div>
   </section>
@@ -746,9 +837,9 @@
         
         <div class="l-card">
           <div class="l-preview bg-light">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <svg width="44" height="44" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
-              <span style="font-size:30px;font-weight:800;letter-spacing:-1.5px;color:#051B38;">vylex<span style="color:#FBA919;">.</span></span>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <svg width="38" height="38" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:26px;font-weight:800;letter-spacing:-1.5px;color:#051B38;">vylex<span style="color:#FBA919;">.</span></span>
             </div>
           </div>
           <div class="l-meta"><span class="l-name">Primary Lockup</span><span class="l-tag">Light BG</span></div>
@@ -756,9 +847,9 @@
 
         <div class="l-card">
           <div class="l-preview bg-navy">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <svg width="44" height="44" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
-              <span style="font-size:30px;font-weight:800;letter-spacing:-1.5px;color:#FFFFFF;">vylex<span style="color:#FBA919;">.</span></span>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <svg width="38" height="38" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:26px;font-weight:800;letter-spacing:-1.5px;color:#FFFFFF;">vylex<span style="color:#FBA919;">.</span></span>
             </div>
           </div>
           <div class="l-meta"><span class="l-name">Reverse Lockup</span><span class="l-tag">Navy BG</span></div>
@@ -766,9 +857,9 @@
 
         <div class="l-card">
           <div class="l-preview bg-orange">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <svg width="44" height="44" viewBox="0 0 100 100"><path fill="#051B38" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#051B38" x="42" y="10" width="16" height="30"/></svg>
-              <span style="font-size:30px;font-weight:800;letter-spacing:-1.5px;color:#051B38;">vylex<span style="color:#FFFFFF;">.</span></span>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <svg width="38" height="38" viewBox="0 0 100 100"><path fill="#051B38" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#051B38" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:26px;font-weight:800;letter-spacing:-1.5px;color:#051B38;">vylex<span style="color:#FFFFFF;">.</span></span>
             </div>
           </div>
           <div class="l-meta"><span class="l-name">On Brand Orange</span><span class="l-tag">Orange BG</span></div>
@@ -776,7 +867,7 @@
 
         <div class="l-card">
           <div class="l-preview bg-light">
-            <svg width="60" height="60" viewBox="0 0 100 100">
+            <svg width="52" height="52" viewBox="0 0 100 100">
               <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
               <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
             </svg>
@@ -852,7 +943,7 @@
         <div class="type-row">
           <div>
             <div class="t-label">Display Heading</div>
-            <div class="t-spec">DM Sans 800 · 44px</div>
+            <div class="t-spec">DM Sans 800 · 40px</div>
           </div>
           <div class="t-preview-d1">Engineered for Scale.</div>
         </div>
@@ -860,7 +951,7 @@
         <div class="type-row">
           <div>
             <div class="t-label">Section Title</div>
-            <div class="t-spec">DM Sans 700 · 28px</div>
+            <div class="t-spec">DM Sans 700 · 26px</div>
           </div>
           <div class="t-preview-d2">Custom Business Systems &amp; Software</div>
         </div>
@@ -868,7 +959,7 @@
         <div class="type-row">
           <div>
             <div class="t-label">Body Text</div>
-            <div class="t-spec">DM Sans 400 · 16px · 1.7 line-height</div>
+            <div class="t-spec">DM Sans 400 · 16px · 1.65 line-height</div>
           </div>
           <div class="t-preview-body">
             Vylex Technologies builds custom enterprise software, workflow automation, and vertical SaaS solutions designed to optimize operations and drive sustainable growth.
@@ -892,17 +983,17 @@
       <div class="sec-tag">05 — Brand Voice</div>
       <h2 class="sec-heading">Tone &amp; Messaging Principles</h2>
       <div class="pillar-grid">
-        <div class="pillar-card" style="padding:28px;">
-          <div style="font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px;">1. Authoritative &amp; Direct</div>
-          <p style="font-size:0.88rem;color:var(--sdark);">We state facts without fluff. Focus on clear ROI, performance numbers, and concrete technological advantages.</p>
+        <div class="pillar-card" style="padding:24px;">
+          <div style="font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:8px;">1. Authoritative &amp; Direct</div>
+          <p style="font-size:0.86rem;color:var(--sdark);">We state facts without fluff. Focus on clear ROI, performance numbers, and concrete technological advantages.</p>
         </div>
-        <div class="pillar-card" style="padding:28px;">
-          <div style="font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px;">2. Modern &amp; Futuristic</div>
-          <p style="font-size:0.88rem;color:var(--sdark);">Use clean software and architectural terminology. Avoid outdated jargon or overly casual slang.</p>
+        <div class="pillar-card" style="padding:24px;">
+          <div style="font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:8px;">2. Modern &amp; Futuristic</div>
+          <p style="font-size:0.86rem;color:var(--sdark);">Use clean software and architectural terminology. Avoid outdated jargon or overly casual slang.</p>
         </div>
-        <div class="pillar-card" style="padding:28px;">
-          <div style="font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px;">3. Human-Centric &amp; Helpful</div>
-          <p style="font-size:0.88rem;color:var(--sdark);">Even in technical contexts, frame features around solving real business pain points and saving human effort.</p>
+        <div class="pillar-card" style="padding:24px;">
+          <div style="font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:8px;">3. Human-Centric &amp; Helpful</div>
+          <p style="font-size:0.86rem;color:var(--sdark);">Even in technical contexts, frame features around solving real business pain points and saving human effort.</p>
         </div>
       </div>
     </section>
@@ -919,9 +1010,9 @@
         <div class="rule-card do">
           <div class="rule-header">✓ Approved — Clear Space</div>
           <div class="rule-body">
-            <div style="border:1.5px dashed var(--orange);padding:24px;background:#fff;border-radius:8px;display:flex;align-items:center;gap:8px;">
-              <svg width="32" height="32" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
-              <span style="font-size:20px;font-weight:800;color:var(--navy);">vylex<span style="color:var(--orange);">.</span></span>
+            <div style="border:1.5px dashed var(--orange);padding:18px 22px;background:#fff;border-radius:8px;display:flex;align-items:center;gap:8px;">
+              <svg width="28" height="28" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:18px;font-weight:800;color:var(--navy);">vylex<span style="color:var(--orange);">.</span></span>
             </div>
           </div>
           <div class="rule-footer">Maintain minimum padding equal to the mark height on all sides.</div>
@@ -931,8 +1022,8 @@
           <div class="rule-header">✕ Unapproved — Recolor</div>
           <div class="rule-body">
             <div style="display:flex;align-items:center;gap:8px;">
-              <svg width="32" height="32" viewBox="0 0 100 100"><path fill="#EF4444" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#EF4444" x="42" y="10" width="16" height="30"/></svg>
-              <span style="font-size:20px;font-weight:800;color:#EF4444;">vylex<span style="color:#051B38;">.</span></span>
+              <svg width="28" height="28" viewBox="0 0 100 100"><path fill="#EF4444" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#EF4444" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:18px;font-weight:800;color:#EF4444;">vylex<span style="color:#051B38;">.</span></span>
             </div>
           </div>
           <div class="rule-footer">Never recolor the mark or wordmark using unapproved colors.</div>
@@ -941,9 +1032,9 @@
         <div class="rule-card dont">
           <div class="rule-header">✕ Unapproved — Distort</div>
           <div class="rule-body">
-            <div style="display:flex;align-items:center;gap:8px;transform:scaleX(1.6);">
-              <svg width="32" height="32" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
-              <span style="font-size:20px;font-weight:800;color:var(--navy);">vylex<span style="color:var(--orange);">.</span></span>
+            <div style="display:flex;align-items:center;gap:8px;transform:scaleX(1.5);">
+              <svg width="28" height="28" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:18px;font-weight:800;color:var(--navy);">vylex<span style="color:var(--orange);">.</span></span>
             </div>
           </div>
           <div class="rule-footer">Never stretch, squeeze, or rotate logo proportions.</div>
@@ -956,8 +1047,8 @@
   <!-- ═══ FOOTER ═══ -->
   <footer class="brand-footer">
     <div class="footer-inner">
-      <a href="/brand/index.html" class="brand-logo">
-        <svg width="32" height="32" viewBox="0 0 100 100">
+      <a href="/brand/index.html" class="brand-logo" style="color:#fff;">
+        <svg width="28" height="28" viewBox="0 0 100 100">
           <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
           <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
         </svg>
@@ -969,6 +1060,26 @@
       </div>
     </div>
   </footer>
+
+  <!-- ═══ JAVASCRIPT FOR MOBILE HAMBURGER MENU ═══ -->
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const headerNav = document.getElementById('header-nav');
+
+    if (menuToggle && headerNav) {
+      menuToggle.addEventListener('click', () => {
+        headerNav.classList.toggle('open');
+        const icon = menuToggle.querySelector('i');
+        if (icon) {
+          if (headerNav.classList.contains('open')) {
+            icon.className = 'fa-solid fa-xmark';
+          } else {
+            icon.className = 'fa-solid fa-bars';
+          }
+        }
+      });
+    }
+  </script>
 
 </body>
 </html>
