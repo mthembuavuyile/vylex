@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vylex Brand Identity System | Master Brand Hub</title>
+  <meta name="description" content="The official master brand identity system for Vylex Technologies — governing logos, color palettes, typography, brand voice, and guidelines for Web, Projects, and Creative designs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --navy:      #051B38;
+      --orange:    #FBA919;
+      --lnavy:     #0A2E5C;
+      --slate:     #E2E8F0;
+      --sdark:     #64748B;
+      --white:     #FFFFFF;
+      --bg:        #F8FAFC;
+      --red:       #EF4444;
+      --green:     #10B981;
+      --card-r:    18px;
+      --shadow-sm: 0 4px 12px rgba(5, 27, 56, 0.05);
+      --shadow-md: 0 12px 32px rgba(5, 27, 56, 0.08);
+      --shadow-lg: 0 20px 48px rgba(5, 27, 56, 0.12);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* ── GLOBAL HEADER ── */
+    .global-header {
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+    }
+    
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -0.5px;
+    }
+    
+    .brand-logo span em {
+      color: var(--orange);
+      font-style: normal;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .h-link {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.83rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .h-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .h-link.active {
+      color: var(--orange);
+      background: rgba(251, 169, 25, 0.12);
+      border: 1px solid rgba(251, 169, 25, 0.3);
+    }
+    
+    .btn-back {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* ── HERO COVER ── */
+    .hero {
+      background: var(--navy);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      padding: 90px 32px 100px;
+      text-align: center;
+    }
+    
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+    
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(251, 169, 25, 0.15) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    
+    .hero-container {
+      position: relative;
+      z-index: 2;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(251, 169, 25, 0.12);
+      border: 1px solid rgba(251, 169, 25, 0.35);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 28px;
+    }
+    
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 10px var(--orange);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+    
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+    
+    .hero-title span { color: var(--orange); }
+    
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 680px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 28px;
+    }
+    
+    .meta-box .lbl {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+    
+    .meta-box .val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* ── STICKY SUB-NAV ── */
+    .subnav {
+      background: #fff;
+      border-bottom: 1px solid var(--slate);
+      position: sticky;
+      top: 60px;
+      z-index: 900;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    
+    .subnav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      overflow-x: auto;
+      padding: 0 32px;
+      scrollbar-width: none;
+    }
+    
+    .subnav-inner::-webkit-scrollbar { display: none; }
+    
+    .sn-link {
+      padding: 16px 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--sdark);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    
+    .sn-link:hover {
+      color: var(--navy);
+      border-bottom-color: var(--orange);
+    }
+
+    /* ── MAIN CONTENT ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 32px 100px;
+    }
+    
+    .section {
+      margin-bottom: 80px;
+      scroll-margin-top: 130px;
+    }
+    
+    .sec-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+    
+    .sec-tag::before {
+      content: '';
+      width: 18px;
+      height: 2px;
+      background: var(--orange);
+    }
+    
+    .sec-heading {
+      font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 12px;
+      color: var(--navy);
+    }
+    
+    .sec-description {
+      font-size: 1.05rem;
+      color: var(--sdark);
+      max-width: 720px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    /* ── THREE PILLARS CARDS GRID ── */
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    
+    .pillar-card {
+      background: #fff;
+      border-radius: var(--card-r);
+      border: 1px solid var(--slate);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+    }
+    
+    .pillar-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--orange);
+    }
+    
+    .pillar-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: var(--navy);
+      color: var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+    }
+    
+    .pillar-badge {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(251, 169, 25, 0.12);
+      color: #B47300;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .pillar-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    
+    .pillar-desc {
+      font-size: 0.92rem;
+      color: var(--sdark);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+    
+    .pillar-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    
+    .pillar-features li {
+      font-size: 0.85rem;
+      color: var(--navy);
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .pillar-features li i {
+      color: var(--green);
+      font-size: 0.9rem;
+    }
+    
+    .pillar-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--navy);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    
+    .pillar-btn:hover {
+      background: var(--orange);
+      color: var(--navy);
+    }
+
+    /* ── LOGO SYSTEM ── */
+    .logo-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .l-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--slate);
+      overflow: hidden;
+    }
+    
+    .l-preview {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+    
+    .l-preview.bg-light { background: #FFFFFF; }
+    .l-preview.bg-navy { background: #051B38; }
+    .l-preview.bg-orange { background: #FBA919; }
+    .l-preview.bg-dark { background: #0F172A; }
+    
+    .l-meta {
+      padding: 14px 18px;
+      background: #F8FAFC;
+      border-top: 1px solid var(--slate);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .l-name { font-size: 0.8rem; font-weight: 700; color: var(--navy); }
+    .l-tag { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--sdark); background: var(--slate); padding: 2px 8px; border-radius: 4px; }
+
+    /* ── COLOR PALETTE ── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .c-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--slate);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .c-swatch {
+      height: 120px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    
+    .c-hex {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    
+    .c-swatch.light-text .c-hex { color: var(--navy); }
+    
+    .c-info {
+      padding: 18px;
+    }
+    
+    .c-name { font-size: 0.9rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+    .c-use { font-size: 0.78rem; color: var(--sdark); line-height: 1.4; }
+
+    /* ── TYPOGRAPHY TABLE ── */
+    .type-card {
+      background: #fff;
+      border-radius: var(--card-r);
+      border: 1px solid var(--slate);
+      overflow: hidden;
+    }
+    
+    .type-row {
+      padding: 28px 36px;
+      border-bottom: 1px solid var(--slate);
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    
+    .type-row:last-child { border-bottom: none; }
+    
+    .t-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--sdark); margin-bottom: 4px; }
+    .t-spec { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: #B47300; }
+    
+    .t-preview-d1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; color: var(--navy); }
+    .t-preview-d2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px; color: var(--navy); }
+    .t-preview-body { font-size: 1rem; color: var(--navy); line-height: 1.7; max-width: 650px; }
+    .t-preview-code { font-family: 'Fira Code', monospace; font-size: 0.9rem; color: var(--navy); background: var(--bg); padding: 10px 16px; border-radius: 8px; display: inline-block; }
+
+    /* ── DO'S AND DONT'S ── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .rule-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--slate);
+      overflow: hidden;
+    }
+    
+    .rule-header {
+      padding: 12px 18px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .rule-card.do .rule-header { background: #ECFDF5; color: #065F46; border-bottom: 1px solid #A7F3D0; }
+    .rule-card.dont .rule-header { background: #FEF2F2; color: #991B1B; border-bottom: 1px solid #FCA5A5; }
+    
+    .rule-body {
+      padding: 32px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+      background: #FAFAFA;
+    }
+    
+    .rule-footer {
+      padding: 14px 18px;
+      font-size: 0.8rem;
+      color: var(--sdark);
+      border-top: 1px solid var(--slate);
+    }
+
+    /* ── FOOTER ── */
+    .brand-footer {
+      background: var(--navy);
+      color: #fff;
+      padding: 60px 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+    
+    .foot-text {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .type-row { grid-template-columns: 1fr; gap: 12px; }
+      .global-header { padding: 14px 16px; }
+      .container { padding: 40px 16px; }
+      .hero { padding: 60px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ GLOBAL BRAND HEADER ═══ -->
+  <header class="global-header">
+    <div class="header-inner">
+      <a href="/brand/index.html" class="brand-logo">
+        <svg width="28" height="28" viewBox="0 0 100 100">
+          <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
+          <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
+        </svg>
+        <span>vylex<em>.</em></span>
+      </a>
+      <nav class="header-nav">
+        <a href="/brand/index.html" class="h-link active"><i class="fa-solid fa-compass"></i> Brand Hub</a>
+        <a href="/brand/website.html" class="h-link"><i class="fa-solid fa-globe"></i> Website Guide</a>
+        <a href="/brand/projects.html" class="h-link"><i class="fa-solid fa-code"></i> Projects &amp; Software</a>
+        <a href="/brand/creative.html" class="h-link"><i class="fa-solid fa-palette"></i> Creative &amp; Social</a>
+        <a href="/" class="btn-back">← Back to Main Site</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══ HERO COVER ═══ -->
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-container">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Master Brand Identity System
+      </div>
+      <h1 class="hero-title">Engineering Identity.<br><span>Building Scalable Futures.</span></h1>
+      <p class="hero-subtitle">
+        The definitive brand guidelines for Vylex Technologies. Tailored standards for building web pages, engineering software products, and designing creative marketing assets.
+      </p>
+      
+      <div class="hero-meta">
+        <div class="meta-box"><div class="lbl">Version</div><div class="val">2.0 Master</div></div>
+        <div class="meta-box"><div class="lbl">Updated</div><div class="val">2026</div></div>
+        <div class="meta-box"><div class="lbl">Entity</div><div class="val">Vylex Technologies (Pty) Ltd</div></div>
+        <div class="meta-box"><div class="lbl">Primary Focus</div><div class="val">Web · Software · Creative</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STICKY SUB-NAV ═══ -->
+  <nav class="subnav">
+    <div class="subnav-inner">
+      <a href="#pillars" class="sn-link">01 — Guidance Pillars</a>
+      <a href="#logo-system" class="sn-link">02 — Logo System</a>
+      <a href="#color-palette" class="sn-link">03 — Colour System</a>
+      <a href="#typography" class="sn-link">04 — Typography</a>
+      <a href="#brand-voice" class="sn-link">05 — Brand Voice</a>
+      <a href="#usage-rules" class="sn-link">06 — Do's &amp; Don'ts</a>
+    </div>
+  </nav>
+
+  <!-- ═══ MAIN CONTAINER ═══ -->
+  <main class="container">
+
+    <!-- 01 THREE PILLARS GUIDANCE -->
+    <section class="section" id="pillars">
+      <div class="sec-tag">01 — Guidance Pillars</div>
+      <h2 class="sec-heading">How Are You Working With Vylex Today?</h2>
+      <p class="sec-description">
+        Choose your exact workflow below to get explicit, step-by-step guidance tailored specifically to your project requirements.
+      </p>
+
+      <div class="pillar-grid">
+        
+        <!-- Pillar 1: Website -->
+        <div class="pillar-card">
+          <div>
+            <div class="pillar-badge">Web Development</div>
+            <div class="pillar-icon"><i class="fa-solid fa-globe"></i></div>
+            <h3 class="pillar-title">Website &amp; Page Building</h3>
+            <p class="pillar-desc">
+              Building new landing pages, updating existing sections, or adding components to <strong>vylex.co.za</strong>.
+            </p>
+            <ul class="pillar-features">
+              <li><i class="fa-solid fa-circle-check"></i> Standard HTML5 &amp; CSS structure</li>
+              <li><i class="fa-solid fa-circle-check"></i> Header, Footer &amp; Nav integration</li>
+              <li><i class="fa-solid fa-circle-check"></i> Pre-built Tailwind utility classes</li>
+              <li><i class="fa-solid fa-circle-check"></i> SEO &amp; WCAG AA accessibility specs</li>
+            </ul>
+          </div>
+          <a href="/brand/website.html" class="pillar-btn">
+            Open Website Guide <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Pillar 2: Software & Projects -->
+        <div class="pillar-card">
+          <div>
+            <div class="pillar-badge">Software Engineering</div>
+            <div class="pillar-icon"><i class="fa-solid fa-code"></i></div>
+            <h3 class="pillar-title">Projects &amp; SaaS Products</h3>
+            <p class="pillar-desc">
+              Designing UI dashboards, building web apps, custom client tools, micro-services, and enterprise platforms.
+            </p>
+            <ul class="pillar-features">
+              <li><i class="fa-solid fa-circle-check"></i> Design Tokens &amp; CSS Variables</li>
+              <li><i class="fa-solid fa-circle-check"></i> Data tables, inputs &amp; form states</li>
+              <li><i class="fa-solid fa-circle-check"></i> Status badges &amp; system alerts</li>
+              <li><i class="fa-solid fa-circle-check"></i> Motion curves &amp; UX micro-copy</li>
+            </ul>
+          </div>
+          <a href="/brand/projects.html" class="pillar-btn">
+            Open Project Guide <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Pillar 3: Creative & Social -->
+        <div class="pillar-card">
+          <div>
+            <div class="pillar-badge">Creative &amp; Design</div>
+            <div class="pillar-icon"><i class="fa-solid fa-palette"></i></div>
+            <h3 class="pillar-title">Creative &amp; Social Media</h3>
+            <p class="pillar-desc">
+              Creating social posts (LinkedIn, Instagram, X), promotional banners, QR codes, print media, or pitch decks.
+            </p>
+            <ul class="pillar-features">
+              <li><i class="fa-solid fa-circle-check"></i> Social post layout blueprints</li>
+              <li><i class="fa-solid fa-circle-check"></i> 1:1, 4:5, 16:9 aspect ratio specs</li>
+              <li><i class="fa-solid fa-circle-check"></i> Branded QR Code generator rules</li>
+              <li><i class="fa-solid fa-circle-check"></i> Vector assets &amp; export standards</li>
+            </ul>
+          </div>
+          <a href="/brand/creative.html" class="pillar-btn">
+            Open Creative Guide <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 02 LOGO SYSTEM -->
+    <section class="section" id="logo-system">
+      <div class="sec-tag">02 — Logo System</div>
+      <h2 class="sec-heading">Logomark &amp; Wordmark Rules</h2>
+      <p class="sec-description">
+        The Vylex logo combines a geometric "V" icon with a clean, lowercase wordmark and an orange full-stop signature (<code>.</code>).
+      </p>
+
+      <div class="logo-showcase">
+        
+        <div class="l-card">
+          <div class="l-preview bg-light">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <svg width="44" height="44" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:30px;font-weight:800;letter-spacing:-1.5px;color:#051B38;">vylex<span style="color:#FBA919;">.</span></span>
+            </div>
+          </div>
+          <div class="l-meta"><span class="l-name">Primary Lockup</span><span class="l-tag">Light BG</span></div>
+        </div>
+
+        <div class="l-card">
+          <div class="l-preview bg-navy">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <svg width="44" height="44" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:30px;font-weight:800;letter-spacing:-1.5px;color:#FFFFFF;">vylex<span style="color:#FBA919;">.</span></span>
+            </div>
+          </div>
+          <div class="l-meta"><span class="l-name">Reverse Lockup</span><span class="l-tag">Navy BG</span></div>
+        </div>
+
+        <div class="l-card">
+          <div class="l-preview bg-orange">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <svg width="44" height="44" viewBox="0 0 100 100"><path fill="#051B38" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#051B38" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:30px;font-weight:800;letter-spacing:-1.5px;color:#051B38;">vylex<span style="color:#FFFFFF;">.</span></span>
+            </div>
+          </div>
+          <div class="l-meta"><span class="l-name">On Brand Orange</span><span class="l-tag">Orange BG</span></div>
+        </div>
+
+        <div class="l-card">
+          <div class="l-preview bg-light">
+            <svg width="60" height="60" viewBox="0 0 100 100">
+              <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
+              <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
+            </svg>
+          </div>
+          <div class="l-meta"><span class="l-name">Standalone Mark</span><span class="l-tag">Icon / Favicon</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 03 COLOR PALETTE -->
+    <section class="section" id="color-palette">
+      <div class="sec-tag">03 — Palette &amp; Contrast</div>
+      <h2 class="sec-heading">Color Harmony</h2>
+      <p class="sec-description">
+        Vylex Navy anchors our technology products in authority, while Vylex Orange injects energy into critical CTAs and highlights.
+      </p>
+
+      <div class="color-grid">
+        
+        <div class="c-card">
+          <div class="c-swatch" style="background:#051B38;">
+            <span class="c-hex">#051B38</span>
+          </div>
+          <div class="c-info">
+            <div class="c-name">Vylex Navy</div>
+            <div class="c-use">Primary brand anchor, headers, hero backgrounds, high contrast text.</div>
+          </div>
+        </div>
+
+        <div class="c-card">
+          <div class="c-swatch light-text" style="background:#FBA919;">
+            <span class="c-hex">#FBA919</span>
+          </div>
+          <div class="c-info">
+            <div class="c-name">Vylex Orange</div>
+            <div class="c-use">Primary CTAs, active highlights, key brand accents, logo full-stop.</div>
+          </div>
+        </div>
+
+        <div class="c-card">
+          <div class="c-swatch" style="background:#0A2E5C;">
+            <span class="c-hex">#0A2E5C</span>
+          </div>
+          <div class="c-info">
+            <div class="c-name">Light Navy</div>
+            <div class="c-use">Secondary dark surfaces, card borders in dark mode, hover states.</div>
+          </div>
+        </div>
+
+        <div class="c-card">
+          <div class="c-swatch light-text" style="background:#E2E8F0;">
+            <span class="c-hex">#E2E8F0</span>
+          </div>
+          <div class="c-info">
+            <div class="c-name">Slate Gray</div>
+            <div class="c-use">Borders, light section dividers, input outlines, subtle frames.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 04 TYPOGRAPHY -->
+    <section class="section" id="typography">
+      <div class="sec-tag">04 — Typography</div>
+      <h2 class="sec-heading">Type Scale</h2>
+      <p class="sec-description">
+        We pair <strong>DM Sans</strong> for human warmth and readability with <strong>Fira Code</strong> for modern technical clarity.
+      </p>
+
+      <div class="type-card">
+        <div class="type-row">
+          <div>
+            <div class="t-label">Display Heading</div>
+            <div class="t-spec">DM Sans 800 · 44px</div>
+          </div>
+          <div class="t-preview-d1">Engineered for Scale.</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="t-label">Section Title</div>
+            <div class="t-spec">DM Sans 700 · 28px</div>
+          </div>
+          <div class="t-preview-d2">Custom Business Systems &amp; Software</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="t-label">Body Text</div>
+            <div class="t-spec">DM Sans 400 · 16px · 1.7 line-height</div>
+          </div>
+          <div class="t-preview-body">
+            Vylex Technologies builds custom enterprise software, workflow automation, and vertical SaaS solutions designed to optimize operations and drive sustainable growth.
+          </div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="t-label">Monospace / Code</div>
+            <div class="t-spec">Fira Code 500 · 14px</div>
+          </div>
+          <div>
+            <span class="t-preview-code">const systemState = await vylex.initialize({ mode: 'production' });</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 BRAND VOICE -->
+    <section class="section" id="brand-voice">
+      <div class="sec-tag">05 — Brand Voice</div>
+      <h2 class="sec-heading">Tone &amp; Messaging Principles</h2>
+      <div class="pillar-grid">
+        <div class="pillar-card" style="padding:28px;">
+          <div style="font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px;">1. Authoritative &amp; Direct</div>
+          <p style="font-size:0.88rem;color:var(--sdark);">We state facts without fluff. Focus on clear ROI, performance numbers, and concrete technological advantages.</p>
+        </div>
+        <div class="pillar-card" style="padding:28px;">
+          <div style="font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px;">2. Modern &amp; Futuristic</div>
+          <p style="font-size:0.88rem;color:var(--sdark);">Use clean software and architectural terminology. Avoid outdated jargon or overly casual slang.</p>
+        </div>
+        <div class="pillar-card" style="padding:28px;">
+          <div style="font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px;">3. Human-Centric &amp; Helpful</div>
+          <p style="font-size:0.88rem;color:var(--sdark);">Even in technical contexts, frame features around solving real business pain points and saving human effort.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 USAGE RULES -->
+    <section class="section" id="usage-rules">
+      <div class="sec-tag">06 — Brand Integrity</div>
+      <h2 class="sec-heading">Logo Clear Space &amp; Misuse Rules</h2>
+      <p class="sec-description">
+        Always maintain brand integrity. Never alter logo proportions, recolor using unapproved shades, or place on clashing backgrounds.
+      </p>
+
+      <div class="rules-grid">
+        <div class="rule-card do">
+          <div class="rule-header">✓ Approved — Clear Space</div>
+          <div class="rule-body">
+            <div style="border:1.5px dashed var(--orange);padding:24px;background:#fff;border-radius:8px;display:flex;align-items:center;gap:8px;">
+              <svg width="32" height="32" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:20px;font-weight:800;color:var(--navy);">vylex<span style="color:var(--orange);">.</span></span>
+            </div>
+          </div>
+          <div class="rule-footer">Maintain minimum padding equal to the mark height on all sides.</div>
+        </div>
+
+        <div class="rule-card dont">
+          <div class="rule-header">✕ Unapproved — Recolor</div>
+          <div class="rule-body">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <svg width="32" height="32" viewBox="0 0 100 100"><path fill="#EF4444" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#EF4444" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:20px;font-weight:800;color:#EF4444;">vylex<span style="color:#051B38;">.</span></span>
+            </div>
+          </div>
+          <div class="rule-footer">Never recolor the mark or wordmark using unapproved colors.</div>
+        </div>
+
+        <div class="rule-card dont">
+          <div class="rule-header">✕ Unapproved — Distort</div>
+          <div class="rule-body">
+            <div style="display:flex;align-items:center;gap:8px;transform:scaleX(1.6);">
+              <svg width="32" height="32" viewBox="0 0 100 100"><path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/><rect fill="#FBA919" x="42" y="10" width="16" height="30"/></svg>
+              <span style="font-size:20px;font-weight:800;color:var(--navy);">vylex<span style="color:var(--orange);">.</span></span>
+            </div>
+          </div>
+          <div class="rule-footer">Never stretch, squeeze, or rotate logo proportions.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="brand-footer">
+    <div class="footer-inner">
+      <a href="/brand/index.html" class="brand-logo">
+        <svg width="32" height="32" viewBox="0 0 100 100">
+          <path fill="#FBA919" d="M20 10 L50 70 L80 10 L100 10 L50 100 L0 10 Z"/>
+          <rect fill="#FBA919" x="42" y="10" width="16" height="30"/>
+        </svg>
+        <span>vylex<span style="color:#FBA919;">.</span></span>
+      </a>
+      <div class="foot-text">
+        © 2026 Vylex (Pty) Ltd t/a Vylex Technologies. All rights reserved.<br>
+        Brand System &amp; Design Architecture inquiries: <strong>brand@vylex.co.za</strong>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
