@@ -21,40 +21,40 @@
        <priority>0.8000</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/pricing/business-systems.html</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
+       <loc>https://vylex.co.za/pricing/</loc>
+       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
+       <changefreq>weekly</changefreq>
+       <priority>0.8500</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/pricing/mobile-apps.html</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
+       <loc>https://vylex.co.za/pricing/business-systems.html</loc>
+       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
+       <changefreq>weekly</changefreq>
+       <priority>0.8500</priority>
+  </url>
+  <url>
+       <loc>https://vylex.co.za/pricing/web-development.html</loc>
+       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
+       <changefreq>weekly</changefreq>
+       <priority>0.8500</priority>
   </url>
   <url>
        <loc>https://vylex.co.za/ops/</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
+       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
+       <changefreq>weekly</changefreq>
        <priority>0.8000</priority>
   </url>
   <url>
        <loc>https://vylex.co.za/portfolio/</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
+       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
+       <changefreq>weekly</changefreq>
        <priority>0.8000</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/services/mobile/</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.6400</priority>
-  </url>
-  <url>
-       <loc>https://vylex.co.za/pricing/web-development.html</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.6400</priority>
+       <loc>https://vylex.co.za/about/</loc>
+       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
+       <changefreq>weekly</changefreq>
+       <priority>0.7000</priority>
   </url>
   <url>
        <loc>https://vylex.co.za/case-studies.html</loc>
