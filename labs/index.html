@@ -26,7 +26,7 @@
   <script src="/js/menu.js" defer></script>
 </head>
 
-<body class="bg-gray-50 text-slate-700 antialiased flex flex-col min-h-screen" data-subtitle="Labs">
+<body class="bg-gray-50 text-slate-700 antialiased flex flex-col min-h-screen selection:bg-brand-orange/30 selection:text-white" data-subtitle="Labs">
 
   <a class="sr-only focus:not-sr-only absolute z-[100] left-3 top-3 bg-white text-brand-navy px-4 py-2 rounded-xl shadow-lg border-2 border-brand-orange"
     href="#main">Skip to content</a>
@@ -35,126 +35,163 @@
 
   <main id="main" class="flex-grow">
     <!-- Hero Section -->
-    <header class="pt-32 pb-20 lg:pt-48 lg:pb-32 bg-gradient-to-br from-brand-navy to-brand-lightNavy text-white relative overflow-hidden">
-      <div id="particles-js" class="absolute inset-0 z-0 pointer-events-none"></div>
-      <div class="absolute inset-0 hero-pattern pointer-events-none" aria-hidden="true"></div>
-
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center lg:text-left">
-        <div class="max-w-3xl mx-auto lg:mx-0">
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-5 drop-shadow-md">
-            Labs AI &amp;
-            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-yellow-200">
-              Emerging Technology
-            </span>
-          </h1>
-          <p class="text-lg text-gray-200 mb-8 font-light max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-            We explore cutting-edge technologies, build experimental software, and push the boundaries of what's possible with artificial intelligence at Vylex.
-          </p>
-        </div>
+    <section class="bg-gradient-to-br from-brand-navy to-brand-lightNavy text-white pt-32 pb-20 lg:pt-48 lg:pb-32 relative overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 opacity-10"
+        style="background-image: radial-gradient(#fba919 1px, transparent 1px); background-size: 30px 30px;"></div>
+      <div
+        class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-orange/5 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none">
       </div>
-    </header>
 
-    <!-- Focus Areas Section -->
-    <section class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <h2 class="text-brand-orange font-extrabold tracking-widest uppercase text-sm mb-2">Capabilities</h2>
-          <h3 class="text-3xl font-extrabold text-brand-navy">Our Focus Areas</h3>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-            <div class="w-14 h-14 bg-brand-orange/10 text-brand-orange rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-orange group-hover:text-white transition-colors duration-300">
-              <i class="fa-solid fa-brain"></i>
-            </div>
-            <h3 class="text-xl font-bold text-brand-navy mb-3">Generative AI</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Experimenting with Large Language Models, orchestration frameworks, and cognitive agents to solve complex, real-world problems.
-            </p>
-          </div>
-
-          <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-            <div class="w-14 h-14 bg-brand-orange/10 text-brand-orange rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-orange group-hover:text-white transition-colors duration-300">
-              <i class="fa-solid fa-code"></i>
-            </div>
-            <h3 class="text-xl font-bold text-brand-navy mb-3">Developer Tools</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Building specialized internal tooling, intelligent automation, and advanced proxy architectures that empower engineering teams.
-            </p>
-          </div>
-
-          <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-            <div class="w-14 h-14 bg-brand-orange/10 text-brand-orange rounded-xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-orange group-hover:text-white transition-colors duration-300">
-              <i class="fa-solid fa-server"></i>
-            </div>
-            <h3 class="text-xl font-bold text-brand-navy mb-3">Systems Architecture</h3>
-            <p class="text-gray-600 leading-relaxed">
-              Designing high-availability, scalable systems and exploring new paradigms in distributed computing and edge technologies.
-            </p>
-          </div>
-        </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+          Build with <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-yellow-200">Intelligence.</span>
+        </h1>
+        <p class="text-lg text-gray-200 mb-8 font-light max-w-2xl mx-auto leading-relaxed">
+          We integrate powerful <strong class="text-white font-medium">open-weight and closed LLMs</strong> into intuitive web applications. Specialized tools that solve real business problems, crafted with precision prompt engineering.
+        </p>
       </div>
     </section>
 
-    <!-- Active Projects Section -->
-    <section class="py-20 bg-gray-50 border-t border-gray-200">
+    <!-- Bento Grid Showcase -->
+    <section class="py-24 relative z-10 border-t border-gray-100 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
         <div class="text-center mb-16">
-          <h2 class="text-brand-orange font-extrabold tracking-widest uppercase text-sm mb-2">Showcase</h2>
-          <h3 class="text-3xl font-extrabold text-brand-navy">Active Projects</h3>
+          <h2 class="text-brand-orange font-extrabold tracking-widest uppercase text-sm mb-2">Philosophy</h2>
+          <h3 class="text-3xl md:text-4xl font-extrabold text-brand-navy">Built to Work, Not to Impress.</h3>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden flex flex-col lg:flex-row items-center transition-all duration-300 hover:shadow-xl hover:border-brand-orange/30">
-          <div class="p-10 lg:p-16 lg:w-3/5">
-            <span class="inline-block text-brand-orange font-bold text-sm tracking-widest uppercase mb-4">Featured Platform</span>
-            <h3 class="text-3xl lg:text-4xl font-extrabold text-brand-navy mb-6">Atlas: AI Engineering Workspace</h3>
-            <p class="text-gray-600 text-lg mb-4 leading-relaxed">
-              An experimental AI workspace designed for deep technical workflows. Atlas combines multi-model orchestration, live tool execution, streaming, and rich code artifacts into a structured AI environment.
-            </p>
-            <p class="text-gray-600 text-lg mb-8 leading-relaxed">
-              Far more than a simple chat interface, it acts as a highly advanced orchestration proxy for OpenRouter, providing zero-cost high availability and domain-specific cognitive prompt injections.
-            </p>
-            <a href="https://atlas.vylex.co.za" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-8 py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-brand-orangeDark transition-all duration-300 shadow-lg hover:-translate-y-1">
-              Explore Atlas <i class="fa-solid fa-arrow-right"></i>
-            </a>
-          </div>
-          <div class="p-10 lg:p-16 lg:w-2/5 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-gray-100 min-h-[300px] w-full">
-            <div class="w-40 h-40 bg-white rounded-3xl shadow-xl flex items-center justify-center text-7xl text-brand-orange border border-gray-100 animate-[bounce_3s_ease-in-out_infinite]">
-              <i class="fa-solid fa-microchip"></i>
+        <!-- Grid Container -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[340px]">
+          
+          <!-- Box 1: Large Model Integration -->
+          <div class="md:col-span-2 lg:col-span-2 relative group overflow-hidden rounded-[2rem] bg-white border border-gray-100 hover:border-brand-orange/30 hover:shadow-xl transition-all duration-300 shadow-sm flex flex-col justify-between">
+            <div class="p-8 relative z-10 h-full flex flex-col justify-between">
+              <div class="w-14 h-14 bg-orange-50 text-brand-orange rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-orange group-hover:text-white transition-colors duration-300">
+                <i class="fa-solid fa-code-branch"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-extrabold text-brand-navy mb-3">Model Integration</h3>
+                <p class="text-gray-500 text-sm sm:text-base leading-relaxed">
+                  Seamlessly connecting your platforms with leading AI models to unlock powerful new capabilities without the bloated infrastructure.
+                </p>
+              </div>
+            </div>
+            <!-- Abstract Graphic -->
+            <div class="absolute -bottom-10 -right-10 w-64 h-64 border-[1px] border-brand-navy/5 rounded-full flex items-center justify-center opacity-40 group-hover:opacity-100 group-hover:border-brand-orange/10 transition-all duration-700 pointer-events-none">
+              <div class="w-48 h-48 border-[1px] border-brand-navy/5 rounded-full flex items-center justify-center">
+                <div class="w-32 h-32 border-[1px] border-brand-orange/10 rounded-full"></div>
+              </div>
             </div>
           </div>
+
+          <!-- Box 2: Prompt Engineering -->
+          <div class="md:col-span-1 lg:col-span-2 relative group overflow-hidden rounded-[2rem] bg-white border border-gray-100 hover:border-brand-orange/30 hover:shadow-xl transition-all duration-300 shadow-sm flex flex-col lg:flex-row items-center">
+             <div class="p-8 relative z-10 flex flex-col justify-center w-full lg:w-1/2 h-full">
+              <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-orange group-hover:text-white transition-colors duration-300">
+                <i class="fa-solid fa-terminal"></i>
+              </div>
+              <h3 class="text-2xl font-extrabold text-brand-navy mb-2">Prompt Engineering</h3>
+              <p class="text-gray-500 text-sm sm:text-base leading-relaxed">Crafting specialized context to make standard models excel at highly specific legal, educational, or business tasks.</p>
+            </div>
+            <!-- Mock Terminal -->
+            <div class="hidden lg:flex w-1/2 h-full items-center justify-end pr-10">
+              <div class="w-full max-w-[280px] bg-slate-950 rounded-xl border border-slate-800 p-5 font-mono text-xs text-emerald-400 shadow-lg overflow-hidden relative group-hover:border-brand-orange/20 transition-colors duration-500">
+                <div class="flex gap-2 mb-4">
+                  <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+                </div>
+                <p class="opacity-50">System Prompt Loaded.</p>
+                <p class="mt-2">> Injecting domain context...</p>
+                <p class="mt-1 text-brand-orange group-hover:animate-pulse">> Ready.</p>
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 pointer-events-none"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box 3: Domain Apps -->
+          <div class="md:col-span-1 lg:col-span-1 relative group overflow-hidden rounded-[2rem] bg-brand-orange hover:bg-brand-orange/95 transition-all duration-300 shadow-lg shadow-orange-500/10 flex flex-col justify-between">
+            <div class="p-8 relative z-10 h-full flex flex-col justify-between">
+              <div class="w-14 h-14 bg-white/20 text-white rounded-2xl flex items-center justify-center text-2xl mb-6">
+                <i class="fa-solid fa-layer-group"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-extrabold text-white mb-2">Domain Apps</h3>
+                <p class="text-white/90 font-medium text-sm sm:text-base">Practical tools designed specifically for your industry.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box 4: Active Projects (Atlas) -->
+          <div class="md:col-span-3 lg:col-span-3 relative group overflow-hidden rounded-[2rem] bg-white border border-gray-100 hover:border-brand-orange/30 hover:shadow-xl transition-all duration-300 shadow-sm">
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#051b38 1px, transparent 1px); background-size: 20px 20px;"></div>
+            <div class="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-brand-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            
+            <div class="p-8 relative z-10 h-full flex flex-col lg:flex-row items-center justify-between gap-8">
+              <div class="max-w-xl flex flex-col justify-between h-full py-2">
+                <div>
+                  <div class="inline-flex items-center bg-orange-50 text-brand-orange text-xs font-bold px-3 py-1 rounded-full mb-3">
+                    Featured Project
+                  </div>
+                  <h3 class="text-3xl font-extrabold text-brand-navy mb-3">Atlas: AI Workspace</h3>
+                  <p class="text-gray-500 text-sm sm:text-base mb-5 leading-relaxed">
+                    A centralized web application that allows teams to seamlessly interact with various LLMs using custom-tailored system prompts. Built for efficiency, devoid of clutter.
+                  </p>
+                </div>
+                <div class="mt-auto">
+                  <a href="https://atlas.vylex.co.za" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-navy text-white font-bold rounded-xl hover:bg-brand-orange hover:text-brand-navy hover:-translate-y-0.5 transition-all duration-300 shadow-sm text-sm">
+                    Launch Atlas <i class="fa-solid fa-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Sleek UI Mockup -->
+              <div class="hidden md:flex flex-col w-full max-w-sm h-64 bg-white rounded-2xl border border-gray-200 shadow-2xl overflow-hidden relative transform lg:rotate-[-4deg] group-hover:rotate-0 group-hover:scale-105 transition-all duration-700">
+                <!-- Top bar -->
+                <div class="h-10 border-b border-gray-100 flex items-center px-4 justify-between bg-gray-50">
+                  <div class="flex gap-1.5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200"></div>
+                  </div>
+                  <div class="px-3 py-1 bg-white border border-gray-200/60 rounded-md text-[10px] text-slate-400 font-mono">atlas.vylex.co.za</div>
+                </div>
+                <!-- Interface Body -->
+                <div class="p-5 flex-1 flex flex-col gap-4 relative bg-white">
+                  <!-- Sidebar/Main split -->
+                  <div class="flex gap-4 h-full">
+                    <div class="w-1/4 h-full bg-gray-50 rounded-lg border border-gray-100 p-2 flex flex-col gap-2">
+                      <div class="w-full h-3 bg-gray-200/60 rounded"></div>
+                      <div class="w-4/5 h-3 bg-gray-200/60 rounded"></div>
+                      <div class="w-2/3 h-3 bg-gray-200/60 rounded"></div>
+                    </div>
+                    <div class="w-3/4 flex flex-col gap-3 h-full">
+                      <div class="w-full bg-gray-50 rounded-lg border border-gray-100 p-3">
+                        <div class="w-1/3 h-2.5 bg-brand-orange/30 rounded mb-2"></div>
+                        <div class="w-5/6 h-2 bg-gray-300/40 rounded mb-1.5"></div>
+                        <div class="w-4/6 h-2 bg-gray-300/40 rounded"></div>
+                      </div>
+                      <div class="w-full h-9 bg-white border border-gray-200 rounded-lg mt-auto flex items-center justify-between px-3 shadow-sm">
+                        <span class="text-[10px] text-gray-400">Ask anything...</span>
+                        <div class="w-5 h-5 rounded-md bg-brand-navy flex items-center justify-center text-white text-[9px]"><i class="fa-solid fa-arrow-up"></i></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
-
   </main>
 
   <div id="footer-placeholder"></div>
-
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      if (window.particlesJS) {
-        particlesJS("particles-js", {
-          "particles": {
-            "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
-            "color": { "value": ["#fba919", "#ffffff"] },
-            "shape": { "type": "circle" },
-            "opacity": { "value": 0.4, "random": true },
-            "size": { "value": 3, "random": true },
-            "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.2, "width": 1 },
-            "move": { "enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
-          },
-          "interactivity": {
-            "detect_on": "canvas",
-            "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
-            "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.6 } } }
-          },
-          "retina_detect": true
-        });
-      }
-    });
-  </script>
 </body>
 
 </html>
