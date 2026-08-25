@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Labs AI & Emerging Technology | Vylex</title>
+  <meta name="description"
+    content="We explore emerging technologies, AI systems, developer tools and experimental software that push the boundaries of what we build at Vylex." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --navy: #051b38;
+      --light-navy: #0a2a54;
+      --orange: #fba919;
+      --orange-dark: #d68f14;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-hover: rgba(255, 255, 255, 0.06);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--navy);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ambient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 80% 20%, rgba(251, 169, 25, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(10, 42, 84, 0.5) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(5, 27, 56, 1) 0%, transparent 100%);
+      z-index: -1;
+    }
+
+    header {
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--orange);
+    }
+
+    .back-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-btn:hover {
+      background: var(--glass-hover);
+      transform: translateX(-3px);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+      width: 100%;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 6rem;
+      padding-top: 4rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(251, 169, 25, 0.1);
+      color: var(--orange);
+      border: 1px solid rgba(251, 169, 25, 0.2);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+    }
+
+    .hero-section p {
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Explanation Section */
+    .explanation-section {
+      margin-bottom: 6rem;
+      animation: fadeInUp 1s ease-out 0.2s backwards;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .feature-card:hover {
+      background: var(--glass-hover);
+      border-color: rgba(251, 169, 25, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--orange);
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      background: var(--orange);
+      color: var(--navy);
+      transform: scale(1.1);
+    }
+
+    .feature-card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    /* Projects Section */
+    .projects-section {
+      animation: fadeInUp 1s ease-out 0.4s backwards;
+    }
+
+    .projects-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .project-card {
+      background: linear-gradient(145deg, rgba(10, 42, 84, 0.4) 0%, rgba(5, 27, 56, 0.8) 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 4rem;
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s ease;
+    }
+
+    .project-card:hover {
+      border-color: rgba(251, 169, 25, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top right, rgba(251, 169, 25, 0.1), transparent 50%);
+      pointer-events: none;
+    }
+
+    .project-visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .project-icon-large {
+      width: 160px;
+      height: 160px;
+      background: rgba(251, 169, 25, 0.1);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      color: var(--orange);
+      box-shadow: 0 0 50px rgba(251, 169, 25, 0.2);
+      border: 1px solid rgba(251, 169, 25, 0.2);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .project-info {
+      flex: 1.2;
+      z-index: 1;
+    }
+
+    .project-tag {
+      color: var(--orange);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .project-info h3 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .project-info p {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: var(--orange);
+      color: var(--navy);
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(251, 169, 25, 0.3);
+    }
+
+    footer {
+      padding: 4rem 2rem 2rem;
+      border-top: 1px solid var(--glass-border);
+      margin-top: auto;
+      background: rgba(10, 42, 84, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .footer-brand .logo {
+      margin-bottom: 1.5rem;
+      display: inline-flex;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 300px;
+      line-height: 1.6;
+    }
+
+    .footer-links-grid {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer-col h4 {
+      color: var(--text-main);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-col a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-col a:hover {
+      color: var(--text-main);
+      transform: translateX(3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .footer-bottom a {
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .footer-bottom a:hover {
+      color: var(--text-main);
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: column;
+        gap: 3rem;
+      }
+
+      .footer-links-grid {
+        gap: 2.5rem;
+        flex-direction: column;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (max-width: 992px) {
+      .project-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 3rem 2rem;
+        gap: 3rem;
+      }
+
+      .project-visual {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 3rem;
+      }
+
+      .hero-section {
+        padding-top: 2rem;
+        margin-bottom: 4rem;
+      }
+
+      .feature-card {
+        padding: 2rem;
+      }
+
+      .project-info h3 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ambient-bg"></div>
+
+  <header>
+    <a href="/" class="logo">
+      VYLEX<span>.</span>
+    </a>
+    <div>
+      <a href="/" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Home
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="badge">Innovation Hub</div>
+      <h1>Labs AI & Emerging Technology</h1>
+      <p>We explore cutting-edge technologies, build experimental software, and push the boundaries of what's possible
+        with artificial intelligence at Vylex.</p>
+    </section>
+
+    <section class="explanation-section">
+      <h2 class="section-title">Our Focus Areas</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+          <h3>Generative AI</h3>
+          <p>Experimenting with Large Language Models, orchestration frameworks, and cognitive agents to solve complex,
+            real-world problems.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+          <h3>Developer Tools</h3>
+          <p>Building specialized internal tooling, intelligent automation, and advanced proxy architectures that
+            empower engineering teams.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-server"></i></div>
+          <h3>Systems Architecture</h3>
+          <p>Designing high-availability, scalable systems and exploring new paradigms in distributed computing and edge
+            technologies.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects-section">
+      <div class="projects-header">
+        <h2 class="section-title">Active Projects</h2>
+      </div>
+
+      <div class="project-card">
+        <div class="project-info">
+          <span class="project-tag">Featured Platform</span>
+          <h3>Atlas: AI Engineering Workspace</h3>
+          <p>An experimental AI workspace designed for deep technical workflows. Atlas combines multi-model
+            orchestration, live tool execution, streaming, and rich code artifacts into a structured AI environment.</p>
+          <p>Far more than a simple chat interface, it acts as a highly advanced orchestration proxy for OpenRouter,
+            providing zero-cost high availability and domain-specific cognitive prompt injections.</p>
+          <a href="https://atlas.vylex.co.za" class="btn-primary" target="_blank" rel="noopener noreferrer">
+            Explore Atlas <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="project-visual">
+          <div class="project-icon-large">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          VYLEX<span>.</span>
+        </a>
+        <p>Exploring cutting-edge technologies, building experimental software, and pushing the boundaries of AI.</p>
+        <div class="ecosystem-link" style="margin-top: 2rem;">
+          <span
+            style="display:block; font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:1rem; font-weight:700;">Ecosystem
+            & Initiatives</span>
+          <div style="display:flex; flex-direction:column; gap:1.2rem;">
+            <div>
+              <a href="https://vylexnexys.co.za/" target="_blank" rel="noopener noreferrer"
+                style="color:var(--text-main); font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; background:rgba(255,255,255,0.05); padding:0.5rem 1rem; border-radius:8px; border:1px solid var(--glass-border); transition:all 0.3s ease;"
+                onmouseover="this.style.background='rgba(255,255,255,0.08)'"
+                onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                <i class="fa-solid fa-graduation-cap" style="color:var(--orange);"></i> Vylex Nexys
+              </a>
+              <span
+                style="display:block; font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">STEM
+                Education Platform</span>
+            </div>
+            <div>
+              <a href="/labs/"
+                style="color:var(--text-main); font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:0.5rem; background:rgba(251,169,25,0.1); padding:0.5rem 1rem; border-radius:8px; border:1px solid rgba(251,169,25,0.2); transition:all 0.3s ease;"
+                onmouseover="this.style.background='rgba(251,169,25,0.15)'"
+                onmouseout="this.style.background='rgba(251,169,25,0.1)'">
+                <i class="fa-solid fa-flask" style="color:var(--orange);"></i> Vylex Labs
+              </a>
+              <span
+                style="display:block; font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem; line-height:1.4;">AI
+                & Emerging Tech Research</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h4>Engineering Services</h4>
+          <a href="/pricing/business-systems.html">Custom Business Systems</a>
+          <a href="/pricing/business-systems.html">SaaS Platforms & MVPs</a>
+          <a href="/pricing/business-systems.html">Client Portals & ERP</a>
+          <a href="/pricing/web-development.html">Websites & E-Commerce</a>
+          <a href="/pricing/">Services & Pricing Hub</a>
+        </div>
+        <div class="footer-col">
+          <h4>Platforms & Products</h4>
+          <a href="/ops/">Vylex Ops</a>
+          <a href="https://comply.vylex.co.za/" target="_blank" rel="noopener noreferrer">ComplyOS</a>
+          <a href="/products/">Product Suite</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/about/">About Vylex</a>
+          <a href="/portfolio/">Portfolio</a>
+          <a href="/about/strategy.html">Strategy & Vision</a>
+          <a href="/blog/">Blog & Insights</a>
+          <a href="/case-studies.html">Case Studies</a>
+          <a href="/contact/">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal & Media</h4>
+          <a href="/legal/index.html#privacy">Privacy Policy</a>
+          <a href="/legal/index.html#terms">Terms of Service</a>
+          <a href="/legal/">Compliance</a>
+          <a href="/press/">Press & Media</a>
+          <a href="/brand/">Brand Guidelines</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 <a href="/">Vylex</a> Technologies. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>
