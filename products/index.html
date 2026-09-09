@@ -54,10 +54,12 @@
 
     /* Header */
     header {
-      padding: 2rem;
+      padding: 2rem 2rem 1rem;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      gap: 1.5rem;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -100,7 +102,7 @@
     /* Main Content */
     main {
       max-width: 1200px;
-      margin: 4rem auto;
+      margin: 2rem auto 4rem;
       padding: 0 2rem;
     }
 
@@ -270,7 +272,7 @@
     <a href="/" class="logo">
       VYLEX<span>.</span>
     </a>
-    <div style="display: flex; gap: 0.75rem;">
+    <div style="display: flex; gap: 0.75rem; justify-content: center;">
       <a href="/portfolio/" class="back-btn"
         style="background: rgba(251, 169, 25, 0.1); border-color: rgba(251, 169, 25, 0.3); color: var(--orange);">
         <i class="fa-solid fa-briefcase"></i> Portfolio
@@ -302,6 +304,15 @@
         <div class="product-info">
           <h3>ComplyOS</h3>
           <p>The B-BBEE platform your practice needs. Manage scorecards, supplier verification, and audit evidence from one centralized dashboard. Built for South African firms.</p>
+        </div>
+        <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
+      </a>
+      <a href="https://atlas.vylex.co.za/" class="product-card" style="--i: 3" target="_blank"
+        rel="noopener noreferrer">
+        <div class="product-icon"><i class="fa-solid fa-brain"></i></div>
+        <div class="product-info">
+          <h3>Atlas</h3>
+          <p>Engineering-grade scientific intelligence and technical reasoning AI workspace.</p>
         </div>
         <div class="view-indicator"><i class="fa-solid fa-chevron-right"></i></div>
       </a>
