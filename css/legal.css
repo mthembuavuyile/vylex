@@ -513,6 +513,6 @@ nav {
 }
 
 @media (max-width: 768px) {
-  .logo-subtext { display: none; } /* Hides "Technology Group" on small mobile to save space */
+  .logo-subtext { display: none; } /* Hides "Technologies" on small mobile to save space */
   .logo-separator { display: none; }
 }
