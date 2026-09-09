@@ -8,8 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Inject Footer
     loadComponent('/components/footer.html', 'footer-placeholder', () => {
-        document.getElementById('year').textContent = new Date().getFullYear();
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
     });
+
+    // 3. Initialize Animations (.fade-up elements)
+    initializeScrollAnimations();
+
+    // 4. Initialize FAQ Accordions (if present on page)
+    initializeFaqAccordions();
 });
 
 /**
@@ -124,5 +131,74 @@ function initializeNavbar() {
                 toggleMenu(true);
             }
         }
+    });
+}
+
+/**
+ * Scroll reveal animations for elements with .fade-up
+ */
+function initializeScrollAnimations() {
+    const fadeElements = document.querySelectorAll('.fade-up');
+    if (!fadeElements.length) return;
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.05,
+            rootMargin: '0px 0px 50px 0px'
+        });
+
+        fadeElements.forEach(el => observer.observe(el));
+    } else {
+        // Fallback for browsers without IntersectionObserver
+        fadeElements.forEach(el => el.classList.add('visible'));
+    }
+
+    // Safety fallback: reveal all elements after 1.5 seconds so content is never stuck blank
+    setTimeout(() => {
+        fadeElements.forEach(el => el.classList.add('visible'));
+    }, 1500);
+}
+
+/**
+ * FAQ Accordion logic for pages with .faq-item and .faq-question
+ */
+function initializeFaqAccordions() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    if (!faqQuestions.length) return;
+
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.closest('.faq-item');
+            if (!item) return;
+
+            const isOpen = item.classList.contains('open');
+
+            // Close all other items for a clean accordion experience
+            document.querySelectorAll('.faq-item.open').forEach(openItem => {
+                if (openItem !== item) {
+                    openItem.classList.remove('open');
+                    const answer = openItem.querySelector('.faq-answer');
+                    if (answer) answer.style.maxHeight = null;
+                }
+            });
+
+            // Toggle current item
+            if (isOpen) {
+                item.classList.remove('open');
+                const answer = item.querySelector('.faq-answer');
+                if (answer) answer.style.maxHeight = null;
+            } else {
+                item.classList.add('open');
+                const answer = item.querySelector('.faq-answer');
+                if (answer) answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        });
     });
 }
