@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@source "..";
+
 
 @theme {
   --font-sans: "DM Sans", "Inter", sans-serif;
