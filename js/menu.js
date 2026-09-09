@@ -43,8 +43,8 @@ function loadComponent(path, elementId, callback) {
  */
 function updateBrandIdentity() {
     const subtitleEl = document.getElementById('brand-subtitle');
-    // Default to 'Technology Group' if not specified
-    const currentSubtitle = document.body.getAttribute('data-subtitle') || 'Technology Group';
+    // Default to 'Technologies' if not specified
+    const currentSubtitle = document.body.getAttribute('data-subtitle') || 'Technologies';
     
     if (subtitleEl) {
         subtitleEl.textContent = currentSubtitle;
