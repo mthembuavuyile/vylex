@@ -2,70 +2,142 @@
 <?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
+  <!-- Core Main Pages -->
   <url>
-       <loc>https://vylex.co.za/</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>1.0000</priority>
+    <loc>https://vylex.co.za/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>1.00</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/services/</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
+    <loc>https://vylex.co.za/services/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.90</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/products/</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
+    <loc>https://vylex.co.za/products/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.90</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/pricing/</loc>
-       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
-       <changefreq>weekly</changefreq>
-       <priority>0.8500</priority>
+    <loc>https://vylex.co.za/pricing/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.90</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/pricing/business-systems.html</loc>
-       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
-       <changefreq>weekly</changefreq>
-       <priority>0.8500</priority>
+    <loc>https://vylex.co.za/pricing/web-development.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/pricing/web-development.html</loc>
-       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
-       <changefreq>weekly</changefreq>
-       <priority>0.8500</priority>
+    <loc>https://vylex.co.za/pricing/business-systems.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/ops/</loc>
-       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
-       <changefreq>weekly</changefreq>
-       <priority>0.8000</priority>
+    <loc>https://vylex.co.za/pricing/mobile-apps.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/portfolio/</loc>
-       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
-       <changefreq>weekly</changefreq>
-       <priority>0.8000</priority>
+    <loc>https://vylex.co.za/ops/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.85</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/about/</loc>
-       <lastmod>2026-08-22T10:00:00+00:00</lastmod>
-       <changefreq>weekly</changefreq>
-       <priority>0.7000</priority>
+    <loc>https://vylex.co.za/portfolio/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.80</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/case-studies.html</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.6400</priority>
+    <loc>https://vylex.co.za/case-studies.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.80</priority>
   </url>
   <url>
-       <loc>https://vylex.co.za/pricing/</loc>
-       <lastmod>2026-07-30T10:16:05+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.5120</priority>
+    <loc>https://vylex.co.za/about/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.80</priority>
   </url>
+  <url>
+    <loc>https://vylex.co.za/about/strategy.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/contact/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Service Subpages -->
+  <url>
+    <loc>https://vylex.co.za/services/web/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/services/mobile/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/services/cybersecurity/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Blog & Insights -->
+  <url>
+    <loc>https://vylex.co.za/blog/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/blog/future-of-hybrid-tech.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/blog/coding-in-2026-guide.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/blog/popia-cybersecurity-sme-guide.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/blog/ai-ops-automation-sme-guide.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Labs, Press & Brand -->
+  <url>
+    <loc>https://vylex.co.za/labs/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/press/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/press/vylex-rebrand-notice.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/press/vxnx-treasury.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://vylex.co.za/brand/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <priority>0.60</priority>
+  </url>
+
 </urlset>
