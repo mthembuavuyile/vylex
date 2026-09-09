@@ -211,6 +211,12 @@
 
 
 
+    .product-card:nth-child(3) {
+      grid-column: span 2;
+      justify-self: center;
+      width: calc(50% - 0.75rem);
+    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -259,6 +265,10 @@
 
       .product-grid {
         grid-template-columns: 1fr;
+      }
+      .product-card:nth-child(3) {
+        grid-column: span 1;
+        width: 100%;
       }
     }
   </style>
