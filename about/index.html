@@ -432,14 +432,16 @@
                         <div
                             class="md:w-2/5 bg-brand-navy relative p-10 flex flex-col items-center justify-center text-center">
                             <div
-                                class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none">
+                                class="absolute inset-0 bg-[url('/assets/images/cubes.png')] opacity-10 pointer-events-none">
                             </div>
 
-                            <!-- Ensure you have a fallback image or the correct path here -->
+                            <!-- Founder Profile Photo -->
                             <div
                                 class="relative w-40 h-40 rounded-full p-1 bg-gradient-to-br from-brand-orange to-transparent mb-6">
-                                <img src="https://avuyilemthembu.co.za/assets/images/avuyile2.jpg" alt="Avuyile Mthembu"
-                                    class="w-full h-full object-cover object-center rounded-full border-4 border-brand-navy bg-gray-200" />
+                                <img src="/assets/images/avuyile.jpg" alt="Avuyile Mthembu - Founder & Lead Engineer"
+                                    width="160" height="160" loading="eager" decoding="async"
+                                    class="w-full h-full object-cover object-center rounded-full border-4 border-brand-navy bg-gray-200"
+                                    onerror="if (this.src !== 'https://avuyilemthembu.co.za/assets/images/avuyile2.jpg') { this.src='https://avuyilemthembu.co.za/assets/images/avuyile2.jpg'; } else { this.onerror=null; }" />
                             </div>
 
                             <h3 class="text-white font-bold text-2xl">Avuyile Mthembu</h3>

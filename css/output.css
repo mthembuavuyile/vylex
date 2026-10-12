@@ -43,6 +43,7 @@
     --color-emerald-100: oklch(95% 0.052 163.051);
     --color-emerald-400: oklch(76.5% 0.177 163.223);
     --color-emerald-600: oklch(59.6% 0.145 163.225);
+    --color-emerald-700: oklch(50.8% 0.118 165.612);
     --color-emerald-800: oklch(43.2% 0.095 166.913);
     --color-teal-50: oklch(98.4% 0.014 180.72);
     --color-teal-100: oklch(95.3% 0.051 180.801);
@@ -998,6 +999,9 @@
   .flex-grow {
     flex-grow: 1;
   }
+  .grow {
+    flex-grow: 1;
+  }
   .border-collapse {
     border-collapse: collapse;
   }
@@ -1911,8 +1915,8 @@
   .bg-\[linear-gradient\(to_right\,\#ffffff05_1px\,transparent_1px\)\,linear-gradient\(to_bottom\,\#ffffff05_1px\,transparent_1px\)\] {
     background-image: linear-gradient(to right,#ffffff05 1px,transparent 1px),linear-gradient(to bottom,#ffffff05 1px,transparent 1px);
   }
-  .bg-\[url\(\'https\:\/\/www\.transparenttextures\.com\/patterns\/cubes\.png\'\)\] {
-    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+  .bg-\[url\(\'\/assets\/images\/cubes\.png\'\)\] {
+    background-image: url('/assets/images/cubes.png');
   }
   .bg-grid-pattern {
     background-image: var(--background-image-grid-pattern);
@@ -2415,6 +2419,9 @@
   }
   .text-emerald-600 {
     color: var(--color-emerald-600);
+  }
+  .text-emerald-700 {
+    color: var(--color-emerald-700);
   }
   .text-emerald-800 {
     color: var(--color-emerald-800);
@@ -3847,6 +3854,16 @@
       flex-direction: row;
     }
   }
+  .md\:items-center {
+    @media (width >= 48rem) {
+      align-items: center;
+    }
+  }
+  .md\:items-end {
+    @media (width >= 48rem) {
+      align-items: flex-end;
+    }
+  }
   .md\:gap-6 {
     @media (width >= 48rem) {
       gap: calc(var(--spacing) * 6);
@@ -3873,6 +3890,18 @@
       }
     }
   }
+  .md\:border-t-0 {
+    @media (width >= 48rem) {
+      border-top-style: var(--tw-border-style);
+      border-top-width: 0px;
+    }
+  }
+  .md\:border-l {
+    @media (width >= 48rem) {
+      border-left-style: var(--tw-border-style);
+      border-left-width: 1px;
+    }
+  }
   .md\:p-10 {
     @media (width >= 48rem) {
       padding: calc(var(--spacing) * 10);
@@ -3893,9 +3922,24 @@
       padding-block: calc(var(--spacing) * 16);
     }
   }
+  .md\:pt-0 {
+    @media (width >= 48rem) {
+      padding-top: calc(var(--spacing) * 0);
+    }
+  }
+  .md\:pl-8 {
+    @media (width >= 48rem) {
+      padding-left: calc(var(--spacing) * 8);
+    }
+  }
   .md\:text-left {
     @media (width >= 48rem) {
       text-align: left;
+    }
+  }
+  .md\:text-right {
+    @media (width >= 48rem) {
+      text-align: right;
     }
   }
   .md\:text-4xl {
