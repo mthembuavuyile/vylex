@@ -842,7 +842,7 @@
               <i class="fa-solid fa-paper-plane text-sm"></i>
               <span>Send Message</span>
             </button>
-            <a href="https://wa.me/27648784287?text=Hi%20Vylex%2C%20I%27d%20like%20to%20discuss%20a%20project."
+            <a id="home-whatsapp-btn" href="https://wa.me/27648784287?text=Hi%20Vylex%2C%20I%27d%20like%20to%20discuss%20a%20project."
               target="_blank" rel="noopener noreferrer"
               class="sm:col-span-5 py-4 px-5 bg-gray-50 border border-gray-200 text-brand-navy font-bold rounded-xl hover:border-green-500 hover:bg-green-50/60 hover:text-green-700 transition-all duration-300 inline-flex items-center justify-center gap-2 focus-ring">
               <i class="fa-brands fa-whatsapp text-green-500 text-lg"></i>
@@ -859,6 +859,17 @@
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      const homeWaBtn = document.getElementById("home-whatsapp-btn");
+      if (homeWaBtn) {
+        homeWaBtn.addEventListener("click", function () {
+          const name = document.getElementById("name")?.value.trim();
+          const message = document.getElementById("message")?.value.trim();
+          const parts = [];
+          parts.push(name ? `Hi Vylex, my name is ${name}.` : "Hi Vylex, I'd like to discuss a project.");
+          if (message) parts.push(message);
+          homeWaBtn.href = `https://wa.me/27648784287?text=${encodeURIComponent(parts.join("\n\n"))}`;
+        });
+      }
       if (window.particlesJS) {
         particlesJS("particles-js", {
           "particles": {
