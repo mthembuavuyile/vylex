@@ -764,91 +764,60 @@
     </section>
 
     <section id="contact" class="py-20 bg-gray-50 border-t border-gray-200">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10">
           <h2 class="text-brand-orange font-extrabold tracking-widest uppercase text-sm mb-2">Get in Touch</h2>
-          <h3 class="text-3xl md:text-4xl font-extrabold text-brand-navy">Contact Vylex Directly</h3>
-          <p class="mt-3 text-gray-600 max-w-xl mx-auto">Call or WhatsApp us right away on <a href="tel:+27648784287" class="font-bold text-brand-navy hover:text-brand-orange underline decoration-brand-orange/60">064 878 4287</a>, or drop a quick note below.</p>
+          <h3 class="text-3xl font-extrabold text-brand-navy">Contact Us</h3>
+          <p class="mt-4 text-gray-600">Have a project in mind? We'd love to hear from you.</p>
+          <div class="mt-6 flex flex-wrap justify-center gap-3">
+            <a href="tel:+27648784287"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-brand-navy text-sm font-bold hover:border-brand-orange hover:text-brand-orange transition-colors shadow-sm focus-ring">
+              <i class="fa-solid fa-phone text-brand-orange text-xs"></i>
+              <span>064 878 4287</span>
+            </a>
+            <a href="https://wa.me/27648784287" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-brand-navy text-sm font-bold hover:border-brand-orange hover:text-brand-orange transition-colors shadow-sm focus-ring">
+              <i class="fa-brands fa-whatsapp text-base"></i>
+              <span>WhatsApp</span>
+            </a>
+            <a href="mailto:info@vylex.co.za"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-brand-navy text-sm font-bold hover:border-brand-orange hover:text-brand-orange transition-colors shadow-sm focus-ring">
+              <i class="fa-solid fa-envelope text-brand-orange text-xs"></i>
+              <span>info@vylex.co.za</span>
+            </a>
+          </div>
         </div>
-
-        <!-- Instant Direct Contact Options -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <a href="tel:+27648784287"
-            class="group flex items-center gap-4 p-4 bg-white rounded-2xl border border-gray-200 shadow-sm hover:border-brand-orange hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 focus-ring">
-            <div class="w-11 h-11 rounded-xl bg-orange-50 border border-orange-100 text-brand-orange flex items-center justify-center shrink-0 group-hover:bg-brand-orange group-hover:text-brand-navy transition-colors">
-              <i class="fa-solid fa-phone"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Call Directly</div>
-              <div class="text-sm font-extrabold text-brand-navy truncate">064 878 4287</div>
-            </div>
-          </a>
-
-          <a href="https://wa.me/27648784287?text=Hi%20Vylex%2C%20I%27d%20like%20to%20discuss%20a%20project."
-            target="_blank" rel="noopener noreferrer"
-            class="group flex items-center gap-4 p-4 bg-white rounded-2xl border border-gray-200 shadow-sm hover:border-green-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 focus-ring">
-            <div class="w-11 h-11 rounded-xl bg-green-50 border border-green-100 text-green-600 flex items-center justify-center shrink-0 group-hover:bg-[#25D366] group-hover:text-white transition-colors">
-              <i class="fa-brands fa-whatsapp text-lg"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs font-bold uppercase tracking-wider text-gray-400">WhatsApp Chat</div>
-              <div class="text-sm font-extrabold text-brand-navy truncate">064 878 4287</div>
-            </div>
-          </a>
-
-          <a href="mailto:info@vylex.co.za"
-            class="group flex items-center gap-4 p-4 bg-white rounded-2xl border border-gray-200 shadow-sm hover:border-brand-orange hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 focus-ring">
-            <div class="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 text-brand-navy flex items-center justify-center shrink-0 group-hover:bg-brand-navy group-hover:text-brand-orange transition-colors">
-              <i class="fa-solid fa-envelope"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Email Us</div>
-              <div class="text-sm font-extrabold text-brand-navy truncate">info@vylex.co.za</div>
-            </div>
-          </a>
-        </div>
-
         <form action="https://formspree.io/f/xykadobk" method="POST"
-          class="bg-white p-8 sm:p-10 rounded-2xl shadow-sm border border-gray-200/80 space-y-5">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label for="name" class="block text-sm font-bold text-brand-navy mb-2">Your Name</label>
+              <label for="name" class="block text-sm font-bold text-brand-navy mb-2">Name</label>
               <input type="text" name="name" id="name" required autocomplete="name"
-                class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition"
-                placeholder="Jane Doe">
+                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none"
+                placeholder="Your name">
             </div>
             <div>
-              <label for="phone" class="block text-sm font-bold text-brand-navy mb-2">Phone / WhatsApp <span class="text-xs font-normal text-gray-400">(Optional)</span></label>
+              <label for="phone" class="block text-sm font-bold text-brand-navy mb-2">Phone <span class="text-xs font-normal text-gray-400">(Optional)</span></label>
               <input type="tel" name="phone" id="phone" autocomplete="tel"
-                class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition"
-                placeholder="064 878 4287">
+                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none"
+                placeholder="064 000 0000">
             </div>
           </div>
           <div>
-            <label for="email" class="block text-sm font-bold text-brand-navy mb-2">Email Address</label>
+            <label for="email" class="block text-sm font-bold text-brand-navy mb-2">Email</label>
             <input type="email" name="email" id="email" required autocomplete="email"
-              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition"
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none"
               placeholder="you@example.com">
           </div>
           <div>
             <label for="message" class="block text-sm font-bold text-brand-navy mb-2">Message</label>
             <textarea name="message" id="message" rows="4" required
-              class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition"
-              placeholder="Tell us briefly about your project or inquiry..."></textarea>
+              class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none"
+              placeholder="Your message"></textarea>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-1">
-            <button type="submit"
-              class="sm:col-span-7 py-4 px-6 bg-brand-navy text-white font-extrabold rounded-xl hover:bg-brand-orange hover:text-brand-navy transition-all duration-300 shadow-lg shadow-brand-navy/15 inline-flex items-center justify-center gap-2 focus-ring">
-              <i class="fa-solid fa-paper-plane text-sm"></i>
-              <span>Send Message</span>
-            </button>
-            <a id="home-whatsapp-btn" href="https://wa.me/27648784287?text=Hi%20Vylex%2C%20I%27d%20like%20to%20discuss%20a%20project."
-              target="_blank" rel="noopener noreferrer"
-              class="sm:col-span-5 py-4 px-5 bg-gray-50 border border-gray-200 text-brand-navy font-bold rounded-xl hover:border-green-500 hover:bg-green-50/60 hover:text-green-700 transition-all duration-300 inline-flex items-center justify-center gap-2 focus-ring">
-              <i class="fa-brands fa-whatsapp text-green-500 text-lg"></i>
-              <span>WhatsApp Instead</span>
-            </a>
-          </div>
+          <button type="submit"
+            class="w-full py-4 bg-brand-orange text-white font-bold rounded-xl hover:bg-brand-orangeDark transition-colors duration-300 shadow-lg">Send
+            Message</button>
         </form>
       </div>
     </section>
@@ -859,17 +828,6 @@
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const homeWaBtn = document.getElementById("home-whatsapp-btn");
-      if (homeWaBtn) {
-        homeWaBtn.addEventListener("click", function () {
-          const name = document.getElementById("name")?.value.trim();
-          const message = document.getElementById("message")?.value.trim();
-          const parts = [];
-          parts.push(name ? `Hi Vylex, my name is ${name}.` : "Hi Vylex, I'd like to discuss a project.");
-          if (message) parts.push(message);
-          homeWaBtn.href = `https://wa.me/27648784287?text=${encodeURIComponent(parts.join("\n\n"))}`;
-        });
-      }
       if (window.particlesJS) {
         particlesJS("particles-js", {
           "particles": {
