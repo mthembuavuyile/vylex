@@ -102,6 +102,61 @@
 
     <!-- Components -->
     <script src="/js/menu.js" defer></script>
+
+    <!-- Structured Data: Organization & Founder Contact -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "AboutPage",
+          "@id": "https://vylex.co.za/about/#webpage",
+          "url": "https://vylex.co.za/about/",
+          "name": "About Vylex Software Studio",
+          "mainEntity": {
+            "@id": "https://vylex.co.za/#business"
+          }
+        },
+        {
+          "@type": ["Organization", "ProfessionalService", "LocalBusiness"],
+          "@id": "https://vylex.co.za/#business",
+          "name": "Vylex",
+          "legalName": "Vylex (Pty) Ltd",
+          "url": "https://vylex.co.za/",
+          "telephone": "+27648784287",
+          "email": "info@vylex.co.za",
+          "founder": {
+            "@id": "https://vylex.co.za/#founder"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+27648784287",
+            "email": "info@vylex.co.za",
+            "contactType": "customer support",
+            "url": "https://vylex.co.za/contact/",
+            "areaServed": "ZA",
+            "availableLanguage": ["English", "Zulu"]
+          }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://vylex.co.za/#founder",
+          "name": "Avuyile Mthembu",
+          "jobTitle": "Founder & Lead Engineer",
+          "telephone": "+27648784287",
+          "email": "info@vylex.co.za",
+          "worksFor": {
+            "@id": "https://vylex.co.za/#business"
+          },
+          "sameAs": [
+            "https://www.linkedin.com/in/mthembuavuyile",
+            "https://avuyilemthembu.co.za",
+            "https://wa.me/27648784287"
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body class="bg-brand-surface text-slate-700 antialiased selection:bg-brand-orange selection:text-brand-navy"
@@ -449,16 +504,24 @@
                             <p class="text-brand-orange text-xs font-mono uppercase tracking-widest mt-2">Director &
                                 Lead Engineer</p>
 
-                            <div class="flex gap-4 mt-8 relative z-10">
-                                <a href="https://www.linkedin.com/in/mthembuavuyile" target="_blank"
+                            <div class="flex flex-wrap justify-center gap-3 mt-8 relative z-10">
+                                <a href="tel:+27648784287" aria-label="Call Avuyile Mthembu on 064 878 4287"
+                                    class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-orange hover:text-brand-navy transition-all duration-300">
+                                    <i class="fa-solid fa-phone"></i>
+                                </a>
+                                <a href="https://wa.me/27648784287" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Avuyile Mthembu"
+                                    class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-[#25D366] hover:text-white transition-all duration-300">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/in/mthembuavuyile" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
                                     class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-orange hover:text-brand-navy transition-all duration-300">
                                     <i class="fa-brands fa-linkedin-in"></i>
                                 </a>
-                                <a href="mailto:info@avuyilemthembu.co.za"
+                                <a href="mailto:info@vylex.co.za" aria-label="Email"
                                     class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-orange hover:text-brand-navy transition-all duration-300">
                                     <i class="fa-solid fa-envelope"></i>
                                 </a>
-                                <a href="https://avuyilemthembu.co.za" target="_blank"
+                                <a href="https://avuyilemthembu.co.za" target="_blank" rel="noopener noreferrer" aria-label="Personal Website"
                                     class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-brand-orange hover:text-brand-navy transition-all duration-300">
                                     <i class="fa-solid fa-globe"></i>
                                 </a>
